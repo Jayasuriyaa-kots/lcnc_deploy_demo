@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewChild, computed, inject, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, ViewChild, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { QoIconComponent, QoStatusDotComponent } from '@qo/ui-components';
 import { UiMediaWidgetComponent } from '@builder/features/page-builder/components/widget-showcase/media/ui-media/ui-media-widget.component';
@@ -22,6 +22,7 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
   private readonly facade = inject(DeploymentFacadeService);
   private readonly exportService = inject(DeploymentExportService);
   private readonly router = inject(Router);
+  private readonly ngZone = inject(NgZone);
 
   // ── Facade signals ────────────────────────────────────────────────────────
   readonly mobileLeftHeaderOptions = this.facade.mobileLeftHeaderOptions;
@@ -112,6 +113,11 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
   readonly mobileLeftDrawerOpen = signal(false);
   private lastScrollTop = 0;
   @ViewChild('scrollContainer') private scrollContainerRef?: ElementRef<HTMLElement>;
+  @ViewChild('controlsWrap') private controlsWrapRef?: ElementRef<HTMLElement>;
+  private resizeObs?: ResizeObserver;
+  // Height of the sticky controls chrome — drives sticky table-header offset
+  readonly chromeHeight = signal(0);
+  readonly tableStickyTop = computed(() => this.mobileNavVisible() ? this.chromeHeight() : 0);
   private touchStartX = 0;
   private touchStartY = 0;
   private touchScrollLeft = 0;
@@ -408,21 +414,32 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
   ngAfterViewInit(): void {
-    const el = this.tabsStripRef?.nativeElement;
-    if (!el || el.scrollWidth <= el.clientWidth) return;
-    this.tabsHasRightOverflow.set(true);
-    this.tabsHintTimer = setTimeout(() => {
-      this.tabsNudging = true;
-      el.scrollTo({ left: 15, behavior: 'smooth' });
-      setTimeout(() => {
-        el.scrollTo({ left: 0, behavior: 'smooth' });
-        setTimeout(() => { this.tabsNudging = false; }, 600);
-      }, 500);
-    }, 900);
+    const tabsEl = this.tabsStripRef?.nativeElement;
+    if (tabsEl && tabsEl.scrollWidth > tabsEl.clientWidth) {
+      this.tabsHasRightOverflow.set(true);
+      this.tabsHintTimer = setTimeout(() => {
+        this.tabsNudging = true;
+        tabsEl.scrollTo({ left: 15, behavior: 'smooth' });
+        setTimeout(() => {
+          tabsEl.scrollTo({ left: 0, behavior: 'smooth' });
+          setTimeout(() => { this.tabsNudging = false; }, 600);
+        }, 500);
+      }, 900);
+    }
+
+    const chromeEl = this.controlsWrapRef?.nativeElement;
+    if (chromeEl) {
+      this.chromeHeight.set(chromeEl.offsetHeight);
+      this.resizeObs = new ResizeObserver(() => {
+        this.ngZone.run(() => this.chromeHeight.set(chromeEl.offsetHeight));
+      });
+      this.resizeObs.observe(chromeEl);
+    }
   }
 
   ngOnDestroy(): void {
     clearTimeout(this.tabsHintTimer);
+    this.resizeObs?.disconnect();
   }
 
   onTabsScroll(event: Event): void {
