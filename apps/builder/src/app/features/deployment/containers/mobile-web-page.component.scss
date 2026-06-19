@@ -573,14 +573,11 @@
   left: 0;
   z-index: 100;
   background: var(--qo-color-neutral-0);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 1, 1), opacity 0.22s ease-out;
-
-  &--collapsed {
-    transform: translateY(-100%);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 1, 1), opacity 0.18s ease-in;
-  }
+  // Scroll-linked progressive collapse: transform/opacity are driven inline
+  // from the scroll handler. A short linear transition smooths the discrete
+  // scroll events without lagging behind the finger.
+  transition: transform 0.15s linear, opacity 0.15s linear;
+  will-change: transform;
 }
 
 .mobile-app-controls-inner {
@@ -2603,7 +2600,9 @@
     text-align: left;
     white-space: nowrap;
     text-transform: uppercase;
-    transition: top 0.3s cubic-bezier(0.4, 0, 1, 1);
+    // Matches the chrome's 0.15s linear so the column header tracks the
+    // collapsing chrome in lockstep as it slides up.
+    transition: top 0.15s linear;
   }
 
   td {

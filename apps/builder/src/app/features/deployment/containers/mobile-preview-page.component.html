@@ -1,6 +1,6 @@
 <div class="mobile-preview-page">
   <div #scrollContainer class="mobile-scroll-container" [style.--table-top.px]="tableStickyTop()" (scroll)="onContentScroll($event)" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()" (touchcancel)="onTouchEnd()">
-  <div #controlsWrap class="mobile-app-controls-wrap" [class.mobile-app-controls-wrap--collapsed]="!mobileNavVisible()">
+  <div #controlsWrap class="mobile-app-controls-wrap" [style.transform]="chromeTransform()" [style.opacity]="chromeOpacity()">
   <div class="mobile-app-controls-inner">
   <!-- ── Header ─────────────────────────────────────────────────────────── -->
   <header class="mobile-app-header">
@@ -815,10 +815,9 @@
     </button>
   }
 
-  <!-- ── Bottom nav ────────────────────────────────────────────────────── -->
+  <!-- ── Bottom nav (always visible — kept during chrome collapse) ──────── -->
   <nav
     class="mobile-app-bottom-nav"
-    [class.mobile-app-bottom-nav--hidden]="!mobileNavVisible()"
     aria-label="Primary page selector"
     [style.--mobile-nav-bg]="activeLayoutPayload().layout.theme.sidebarBg"
     [style.--mobile-nav-text]="activeLayoutPayload().layout.theme.sidebarText"

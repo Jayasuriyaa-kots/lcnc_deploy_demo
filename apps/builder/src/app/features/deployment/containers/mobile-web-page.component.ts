@@ -1,5 +1,5 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewChild, computed, inject, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, ViewChild, computed, inject, signal } from '@angular/core';
 import { QoButtonComponent, QoCheckboxComponent, QoIconComponent, QoStatusDotComponent } from '@qo/ui-components';
 import { UiMediaWidgetComponent } from '@builder/features/page-builder/components/widget-showcase/media/ui-media/ui-media-widget.component';
 import { CanvasWidget } from '@builder/features/page-builder/models/page-builder-canvas.model';
@@ -33,6 +33,7 @@ interface MobilePreviewMetric {
 export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   private readonly facade = inject(DeploymentFacadeService);
   private readonly exportService = inject(DeploymentExportService);
+  private readonly ngZone = inject(NgZone);
 
   readonly showPreview = this.facade.showPreview;
   readonly previewFullScreen = this.facade.previewFullScreen;
@@ -186,7 +187,25 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   private readonly searchMode = signal<'contains' | 'exact'>('contains');
   private readonly exactSearchValue = signal('');
   readonly mobileAppSwitcherOpen = signal(false);
-  readonly mobileNavVisible = signal(true);
+  /** Accumulated collapse offset (px) for the top chrome — scroll-linked,
+   *  Gmail-style. Grows as the user scrolls down, shrinks as they scroll up. */
+  readonly chromeOffset = signal(0);
+  // Height of the sticky controls chrome — drives sticky table-header offset
+  readonly chromeHeight = signal(0);
+  /** Inline transform that slides the chrome up progressively with scroll. */
+  readonly chromeTransform = computed(() => `translateY(-${this.chromeOffset()}px)`);
+  /** Subtle fade as the chrome collapses (1 → 0.7), per spec. */
+  readonly chromeOpacity = computed(() => {
+    const h = this.chromeHeight();
+    return h === 0 ? 1 : 1 - Math.min(this.chromeOffset() / h, 1) * 0.3;
+  });
+  /** Sticky column header rides up with the chrome and ends pinned at top:0. */
+  readonly tableStickyTop = computed(() => Math.max(0, this.chromeHeight() - this.chromeOffset()));
+  /** Mostly-expanded gate for secondary chrome (left selector, action panels). */
+  readonly mobileNavVisible = computed(() => {
+    const h = this.chromeHeight();
+    return h === 0 ? true : this.chromeOffset() < h * 0.5;
+  });
   /** Floating scroll-to-top button — appears only after scrolling down a bit */
   readonly showScrollTop = signal(false);
   readonly mobileGlobalSearchOpen = signal(false);
@@ -196,6 +215,8 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   readonly isSignedIn = signal(true);
   private lastScrollTop = 0;
   @ViewChild('scrollContainer') private scrollContainerRef?: ElementRef<HTMLElement>;
+  @ViewChild('controlsWrap') private controlsWrapRef?: ElementRef<HTMLElement>;
+  private resizeObs?: ResizeObserver;
   private touchStartX = 0;
   private touchStartY = 0;
   private touchScrollLeft = 0;
@@ -608,6 +629,16 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    // Measure the collapsible chrome so the sticky column header can track it.
+    const chromeEl = this.controlsWrapRef?.nativeElement;
+    if (chromeEl) {
+      this.chromeHeight.set(chromeEl.offsetHeight);
+      this.resizeObs = new ResizeObserver(() => {
+        this.ngZone.run(() => this.chromeHeight.set(chromeEl.offsetHeight));
+      });
+      this.resizeObs.observe(chromeEl);
+    }
+
     const el = this.tabsStripRef?.nativeElement;
     if (!el || el.scrollWidth <= el.clientWidth) return;
     this.tabsHasRightOverflow.set(true);
@@ -624,6 +655,7 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearTimeout(this.tabsHintTimer);
+    this.resizeObs?.disconnect();
   }
 
   onTabsScroll(event: Event): void {
@@ -636,18 +668,24 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
 
   onContentScroll(event: Event): void {
     const el = event.target as HTMLElement;
-    const scrollTop = el.scrollTop;
-    if (scrollTop > this.lastScrollTop && scrollTop > 180) {
-      if (this.mobileNavVisible()) {
-        this.mobileNavVisible.set(false);
+    const scrollTop = Math.max(0, el.scrollTop);
+    const delta = scrollTop - this.lastScrollTop;
+
+    // Scroll-linked progressive collapse: accumulate the chrome offset with the
+    // scroll delta (clamped 0..chromeHeight). Scrolling down slides the chrome
+    // away gradually; scrolling up brings it back gradually — no thresholds.
+    const max = this.chromeHeight();
+    if (max > 0 && delta !== 0) {
+      const prev = this.chromeOffset();
+      const next = Math.min(Math.max(prev + delta, 0), max);
+      if (next !== prev) this.chromeOffset.set(next);
+      // Close any transient action panel the moment we begin collapsing.
+      if (delta > 0 && prev === 0 && next > 0) {
         this.closeAllActionPanels();
       }
-    } else if (scrollTop < this.lastScrollTop - 30 || scrollTop === 0) {
-      if (!this.mobileNavVisible()) {
-        this.mobileNavVisible.set(true);
-      }
     }
-    this.lastScrollTop = Math.max(0, scrollTop);
+
+    this.lastScrollTop = scrollTop;
     // Minimal scroll-to-top icon: show only after scrolling deep (>1000px),
     // hide again once back near the top (<500px). Hysteresis avoids flicker.
     if (scrollTop > 1000) {
@@ -661,7 +699,7 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
     const el = this.scrollContainerRef?.nativeElement;
     if (!el) return;
     el.scrollTo({ top: 0, behavior: 'smooth' });
-    this.mobileNavVisible.set(true);
+    this.chromeOffset.set(0);
     this.showScrollTop.set(false);
   }
 
