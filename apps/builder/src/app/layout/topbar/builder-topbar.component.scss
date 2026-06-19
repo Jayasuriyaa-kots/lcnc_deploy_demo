@@ -348,3 +348,84 @@
   border-top: 1px solid var(--qo-border-color);
 }
 
+// ── Config applied / success state ──────────────────────────────────────────
+
+.config-loader-modal__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  background: var(--qo-color-success-50, #f0fdf4);
+  border: 1px solid var(--qo-color-success-200, #bbf7d0);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.config-loader-modal__success-icon {
+  font-size: 36px;
+  color: var(--qo-color-success-500, #22c55e);
+}
+
+.config-loader-modal__success-msg {
+  margin: 0;
+  font-size: 13px;
+  color: var(--qo-color-success-800, #166534);
+  line-height: 1.5;
+}
+
+.config-loader-modal__share-row {
+  display: flex;
+  gap: 8px;
+}
+
+.config-loader-modal__share-input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 11px;
+  border: 1px solid var(--qo-border-color-strong);
+  border-radius: 6px;
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-700);
+  outline: none;
+}
+
+.config-loader-modal__copy-btn {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+  transition: background 0.15s;
+
+  &:hover {
+    background: color-mix(in srgb, var(--qo-color-neutral-900) 85%, transparent);
+  }
+
+  .material-symbols-outlined {
+    font-size: 15px;
+  }
+}
+
+.config-loader-modal__share-hint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  font-size: 11px;
+  color: var(--qo-color-neutral-500);
+
+  .material-symbols-outlined {
+    font-size: 14px;
+  }
+}
+

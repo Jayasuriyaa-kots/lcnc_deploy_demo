@@ -1,0 +1,2859 @@
+{
+  "application": {
+    "id": "a9ce71c6-4fb4-49e1-b434-df0746a4f93f",
+    "version": "4.2.0",
+    "name": "SwiftMove TMS",
+    "environment": "production"
+  },
+  "branding": {
+    "companyName": "SwiftMove Logistics",
+    "appName": "SwiftMove TMS",
+    "logoUrl": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMUMxQzFDIi8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNGOTczMTYiPlNNPC90ZXh0Pjwvc3ZnPg==",
+    "faviconUrl": "https://assets.swiftmove.com/logo/favicon-orange.ico",
+    "primaryColor": "#1C1C1C",
+    "secondaryColor": "#F97316",
+    "accentColor": "#EAB308"
+  },
+  "theme": {
+    "headerBg": "#1C1C1C",
+    "headerText": "#FFF7ED",
+    "navBg": "#111111",
+    "navText": "#FB923C",
+    "navActiveBg": "#F97316",
+    "navActiveText": "#FFFFFF",
+    "sidebarBg": "#1C1C1C",
+    "sidebarText": "#FED7AA",
+    "sidebarActiveBg": "#F97316",
+    "sidebarActiveText": "#FFFFFF",
+    "workspaceBg": "#FFF7ED",
+    "footerBg": "#111111",
+    "footerText": "#9CA3AF",
+    "borderColor": "#374151",
+    "hoverBg": "#FEF3C7",
+    "primaryColor": "#1C1C1C",
+    "secondaryColor": "#FFF7ED",
+    "textPrimary": "#1C1C1C",
+    "textSecondary": "#374151"
+  },
+  "navigation": {
+    "primaryPages": [
+      {
+        "id": "1f124a90-0625-455f-89e2-1d7cbc7f197f",
+        "label": "Command Centre",
+        "icon": "dashboard",
+        "tone": "green",
+        "pageTargetId": "page-tms-dashboard",
+        "pageTargetType": "page"
+      },
+      {
+        "id": "821eaeb6-866f-4024-b6ab-7889abc9ec04",
+        "label": "Shipments",
+        "icon": "local_shipping",
+        "tone": "blue",
+        "leftPages": [
+          {
+            "id": "f2143168-deac-4e5c-b285-644fa6b3dab3",
+            "label": "Active Shipments",
+            "icon": "flight_takeoff",
+            "tone": "blue",
+            "subPages": [
+              {
+                "id": "2d49b252-6dea-4ff5-b604-fd866d7a07f7",
+                "label": "All Active",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "e43658bf-3d75-4b48-932a-3fcf1033f829",
+                    "label": "All",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_ac_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "7e58e841-9045-49c8-a2f0-7f1c61b5a7bd",
+                    "label": "International",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_ac_intl",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "6fe8580b-480c-486a-88dd-341d68469d08",
+                    "label": "Domestic",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_ac_dom",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "466c62ca-622a-4272-ac7a-1c1396a3b0c2",
+                    "label": "Express",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_ac_express",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "ecda7bc3-45bc-4414-b8e1-fa12229cf5b6",
+                "label": "International",
+                "icon": "article",
+                "tone": "purple",
+                "pageTargetId": "r_s_intl",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "15bcb3af-90d7-4f90-9a71-dcf5e9ebf661",
+                "label": "Domestic",
+                "icon": "article",
+                "tone": "blue",
+                "pageTargetId": "r_s_dom",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "6e24db3c-6c25-4618-9a7e-f03998be4fdd",
+                "label": "Express",
+                "icon": "article",
+                "tone": "green",
+                "pageTargetId": "r_s_express",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "2f6e0004-053b-4f34-bb1f-535ad632d710",
+            "label": "Delivered",
+            "icon": "flight_land",
+            "tone": "green",
+            "subPages": [
+              {
+                "id": "ea023ab7-202d-4347-a84a-2cb93aa0f1db",
+                "label": "Delivered Today",
+                "icon": "article",
+                "tone": "green",
+                "topTabs": [
+                  {
+                    "id": "6d75504d-9477-4a33-ae3c-fd4f28818bce",
+                    "label": "Today",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_dl_today",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "7f25b344-1071-4f27-bee8-3b6e788a676b",
+                    "label": "This Week",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_dl_week",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "aaee72ca-2e77-4462-a031-cda82add00d5",
+                    "label": "This Month",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_dl_month",
+                    "pageTargetType": "report"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "bfd0599d-c774-40f4-815e-b7fc4af60784",
+            "label": "Customs / Border",
+            "icon": "border_color",
+            "tone": "purple",
+            "pageTargetId": "r_customs",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "515381eb-115f-4f62-96ae-0e6eec75a9c5",
+            "label": "Returns",
+            "icon": "keyboard_return",
+            "tone": "blue",
+            "topTabs": [
+              {
+                "id": "8da6540c-74dc-4857-9db9-eae7a354ed8a",
+                "label": "Pending Return",
+                "icon": "tab",
+                "tone": "purple",
+                "pageTargetId": "r_ret_pending",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "7b5e7e21-29dd-4df2-9289-f453f7cf15cb",
+                "label": "Processed Return",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_ret_processed",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "fa75e7ae-efed-4aae-8aee-56e9517dd630",
+            "label": "Exceptions & Alerts",
+            "icon": "warning",
+            "tone": "blue",
+            "topTabs": [
+              {
+                "id": "98b8138f-ad4d-449c-a898-d503e42a6a25",
+                "label": "Active Issues",
+                "icon": "tab",
+                "tone": "blue",
+                "pageTargetId": "r_exc_active",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "5a4d8f4f-83c3-4480-b2fd-e881818d81b3",
+                "label": "Resolved Issues",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_exc_resolved",
+                "pageTargetType": "report"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "a9ba38f5-7d55-4cda-b809-b4d8058bcb34",
+        "label": "Fleet",
+        "icon": "commute",
+        "tone": "purple",
+        "leftPages": [
+          {
+            "id": "832a62f2-45f1-480a-aeb4-055902cfea8d",
+            "label": "Vehicles",
+            "icon": "local_shipping",
+            "tone": "blue",
+            "subPages": [
+              {
+                "id": "1295fbcb-922d-4399-a828-4513edcaf395",
+                "label": "All Vehicles",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "2a84b181-afdc-443a-9a61-497c6aedd6eb",
+                    "label": "All",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_vh_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "75a1c1c4-de74-4ec7-a71d-925a8c9b233c",
+                    "label": "Trucks",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_vh_trucks",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "b7206dcb-35a2-493e-8bc3-de833619d641",
+                    "label": "Vans",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_vh_vans",
+                    "pageTargetType": "report"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "7ee4eb3f-a2d7-4f85-a809-a3540307174b",
+            "label": "Drivers",
+            "icon": "person",
+            "tone": "blue",
+            "pageTargetId": "r_drivers",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "a5a347b3-95a1-45fd-a27c-d88cf59f340d",
+            "label": "Maintenance",
+            "icon": "build",
+            "tone": "purple",
+            "pageTargetId": "r_maintenance",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "ed36fe5c-1958-4dc8-af7c-317829d491c2",
+            "label": "Live Tracking",
+            "icon": "gps_fixed",
+            "tone": "green",
+            "pageTargetId": "r_tracking",
+            "pageTargetType": "report"
+          }
+        ]
+      },
+      {
+        "id": "16816b71-5bbb-490e-9b2a-b8e346f75735",
+        "label": "Warehouses",
+        "icon": "warehouse",
+        "tone": "blue",
+        "leftPages": [
+          {
+            "id": "fba5be7b-6248-4e7c-b796-8e2a2f3dc5b0",
+            "label": "Inventory",
+            "icon": "inventory_2",
+            "tone": "blue",
+            "subPages": [
+              {
+                "id": "ecab75b3-368a-4a22-82d8-f05cd20119be",
+                "label": "All SKUs",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "dd944207-cd70-4f33-b0f9-30556cc3d16a",
+                    "label": "All Items",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_inv_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "62d3b460-c064-4b84-be82-52e26a6a3a87",
+                    "label": "In Stock",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_inv_instock",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "faccb384-54f4-4aeb-b2e8-3fbbd7cc4218",
+                    "label": "Low Stock",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_inv_low",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "8612fa80-13f2-40c3-ad9b-b724bde8d05f",
+                    "label": "Out of Stock",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_inv_out",
+                    "pageTargetType": "report"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "c6a3b8f5-6ff1-4a40-a8bc-4b730bd56940",
+            "label": "Receiving / GRN",
+            "icon": "move_to_inbox",
+            "tone": "green",
+            "topTabs": [
+              {
+                "id": "b9582a06-61c4-4d8c-b65e-81f09b57855e",
+                "label": "Expected",
+                "icon": "tab",
+                "tone": "blue",
+                "pageTargetId": "r_recv_expected",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "2ee8ed1c-dbbf-40b2-ac50-64f0c2e1dcd7",
+                "label": "Received",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_recv_arrived",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "ee7f2b33-6f0d-47df-b7d4-d00f08829928",
+            "label": "Dispatch / OUT",
+            "icon": "outbox",
+            "tone": "purple",
+            "topTabs": [
+              {
+                "id": "d63008ef-9a09-44fc-9c81-0c0fbec44fce",
+                "label": "Ready to Ship",
+                "icon": "tab",
+                "tone": "purple",
+                "pageTargetId": "r_disp_pending",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "10c9f71e-fbb6-4d41-bd36-b698390471e7",
+                "label": "Dispatched",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_disp_dispatched",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "42ce7c2d-7204-4c7e-9af2-a87a46f9c7a3",
+            "label": "Warehouse Map",
+            "icon": "map",
+            "tone": "blue",
+            "pageTargetId": "r_wh_map",
+            "pageTargetType": "page"
+          }
+        ]
+      },
+      {
+        "id": "93ec7e67-7897-49fb-88e4-14f2aa0f8c74",
+        "label": "Analytics",
+        "icon": "insights",
+        "tone": "green",
+        "leftPages": [
+          {
+            "id": "0ed21bc2-596b-4bc9-9754-3d397a491df3",
+            "label": "KPI Dashboard",
+            "icon": "speed",
+            "tone": "green",
+            "pageTargetId": "r_kpi",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "20a9fa97-ff7c-404f-bf58-ebe8dd1a3b5a",
+            "label": "Route Analytics",
+            "icon": "route",
+            "tone": "blue",
+            "pageTargetId": "r_route",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "9db141c9-b2e1-4cec-a426-5029d02d7865",
+            "label": "Cost Analysis",
+            "icon": "bar_chart",
+            "tone": "purple",
+            "pageTargetId": "r_cost",
+            "pageTargetType": "report"
+          }
+        ]
+      }
+    ]
+  },
+  "pageTargets": {
+    "1f124a90-0625-455f-89e2-1d7cbc7f197f": {
+      "assetId": "page-tms-dashboard",
+      "assetType": "page"
+    },
+    "e43658bf-3d75-4b48-932a-3fcf1033f829": {
+      "assetId": "r_ac_all",
+      "assetType": "report"
+    },
+    "7e58e841-9045-49c8-a2f0-7f1c61b5a7bd": {
+      "assetId": "r_ac_intl",
+      "assetType": "report"
+    },
+    "6fe8580b-480c-486a-88dd-341d68469d08": {
+      "assetId": "r_ac_dom",
+      "assetType": "report"
+    },
+    "466c62ca-622a-4272-ac7a-1c1396a3b0c2": {
+      "assetId": "r_ac_express",
+      "assetType": "report"
+    },
+    "ecda7bc3-45bc-4414-b8e1-fa12229cf5b6": {
+      "assetId": "r_s_intl",
+      "assetType": "report"
+    },
+    "15bcb3af-90d7-4f90-9a71-dcf5e9ebf661": {
+      "assetId": "r_s_dom",
+      "assetType": "report"
+    },
+    "6e24db3c-6c25-4618-9a7e-f03998be4fdd": {
+      "assetId": "r_s_express",
+      "assetType": "report"
+    },
+    "6d75504d-9477-4a33-ae3c-fd4f28818bce": {
+      "assetId": "r_dl_today",
+      "assetType": "report"
+    },
+    "7f25b344-1071-4f27-bee8-3b6e788a676b": {
+      "assetId": "r_dl_week",
+      "assetType": "report"
+    },
+    "aaee72ca-2e77-4462-a031-cda82add00d5": {
+      "assetId": "r_dl_month",
+      "assetType": "report"
+    },
+    "bfd0599d-c774-40f4-815e-b7fc4af60784": {
+      "assetId": "r_customs",
+      "assetType": "report"
+    },
+    "8da6540c-74dc-4857-9db9-eae7a354ed8a": {
+      "assetId": "r_ret_pending",
+      "assetType": "report"
+    },
+    "7b5e7e21-29dd-4df2-9289-f453f7cf15cb": {
+      "assetId": "r_ret_processed",
+      "assetType": "report"
+    },
+    "98b8138f-ad4d-449c-a898-d503e42a6a25": {
+      "assetId": "r_exc_active",
+      "assetType": "report"
+    },
+    "5a4d8f4f-83c3-4480-b2fd-e881818d81b3": {
+      "assetId": "r_exc_resolved",
+      "assetType": "report"
+    },
+    "2a84b181-afdc-443a-9a61-497c6aedd6eb": {
+      "assetId": "r_vh_all",
+      "assetType": "report"
+    },
+    "75a1c1c4-de74-4ec7-a71d-925a8c9b233c": {
+      "assetId": "r_vh_trucks",
+      "assetType": "report"
+    },
+    "b7206dcb-35a2-493e-8bc3-de833619d641": {
+      "assetId": "r_vh_vans",
+      "assetType": "report"
+    },
+    "7ee4eb3f-a2d7-4f85-a809-a3540307174b": {
+      "assetId": "r_drivers",
+      "assetType": "report"
+    },
+    "a5a347b3-95a1-45fd-a27c-d88cf59f340d": {
+      "assetId": "r_maintenance",
+      "assetType": "report"
+    },
+    "ed36fe5c-1958-4dc8-af7c-317829d491c2": {
+      "assetId": "r_tracking",
+      "assetType": "report"
+    },
+    "dd944207-cd70-4f33-b0f9-30556cc3d16a": {
+      "assetId": "r_inv_all",
+      "assetType": "report"
+    },
+    "62d3b460-c064-4b84-be82-52e26a6a3a87": {
+      "assetId": "r_inv_instock",
+      "assetType": "report"
+    },
+    "faccb384-54f4-4aeb-b2e8-3fbbd7cc4218": {
+      "assetId": "r_inv_low",
+      "assetType": "report"
+    },
+    "8612fa80-13f2-40c3-ad9b-b724bde8d05f": {
+      "assetId": "r_inv_out",
+      "assetType": "report"
+    },
+    "b9582a06-61c4-4d8c-b65e-81f09b57855e": {
+      "assetId": "r_recv_expected",
+      "assetType": "report"
+    },
+    "2ee8ed1c-dbbf-40b2-ac50-64f0c2e1dcd7": {
+      "assetId": "r_recv_arrived",
+      "assetType": "report"
+    },
+    "d63008ef-9a09-44fc-9c81-0c0fbec44fce": {
+      "assetId": "r_disp_pending",
+      "assetType": "report"
+    },
+    "10c9f71e-fbb6-4d41-bd36-b698390471e7": {
+      "assetId": "r_disp_dispatched",
+      "assetType": "report"
+    },
+    "42ce7c2d-7204-4c7e-9af2-a87a46f9c7a3": {
+      "assetId": "r_wh_map",
+      "assetType": "page"
+    },
+    "0ed21bc2-596b-4bc9-9754-3d397a491df3": {
+      "assetId": "r_kpi",
+      "assetType": "report"
+    },
+    "20a9fa97-ff7c-404f-bf58-ebe8dd1a3b5a": {
+      "assetId": "r_route",
+      "assetType": "report"
+    },
+    "9db141c9-b2e1-4cec-a426-5029d02d7865": {
+      "assetId": "r_cost",
+      "assetType": "report"
+    }
+  },
+  "datasources": [
+    {
+      "id": "ds-shipments",
+      "name": "Shipment Registry",
+      "type": "mock",
+      "entity": "shipments"
+    },
+    {
+      "id": "ds-vehicles",
+      "name": "Vehicle Fleet",
+      "type": "mock",
+      "entity": "vehicles"
+    },
+    {
+      "id": "ds-drivers",
+      "name": "Driver Registry",
+      "type": "mock",
+      "entity": "drivers"
+    },
+    {
+      "id": "ds-inventory",
+      "name": "Warehouse Inventory",
+      "type": "mock",
+      "entity": "inventory"
+    },
+    {
+      "id": "ds-routes",
+      "name": "Route Master",
+      "type": "mock",
+      "entity": "routes"
+    },
+    {
+      "id": "ds-customers",
+      "name": "Customer Registry",
+      "type": "mock",
+      "entity": "customers"
+    },
+    {
+      "id": "ds-exceptions",
+      "name": "Exception Log",
+      "type": "mock",
+      "entity": "exceptions"
+    },
+    {
+      "id": "ds-maintenance",
+      "name": "Maintenance Records",
+      "type": "mock",
+      "entity": "maintenanceRecords"
+    },
+    {
+      "id": "ds-grn",
+      "name": "GRN Records",
+      "type": "mock",
+      "entity": "grnRecords"
+    },
+    {
+      "id": "ds-pods",
+      "name": "Proof of Delivery",
+      "type": "mock",
+      "entity": "pods"
+    }
+  ],
+  "forms": [
+    {
+      "id": "form-shipment-booking",
+      "name": "Shipment Booking",
+      "icon": "local_shipping",
+      "description": "Book a new outbound shipment",
+      "datasourceEntity": "shipments",
+      "submitLabel": "Book Shipment",
+      "sections": [
+        {
+          "id": "shipper",
+          "title": "Shipper & Consignee",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "shipmentType",
+              "type": "select",
+              "label": "Shipment Type",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "b2b",
+                  "label": "B2B"
+                },
+                {
+                  "value": "b2c",
+                  "label": "B2C"
+                },
+                {
+                  "value": "d2c",
+                  "label": "D2C"
+                },
+                {
+                  "value": "return",
+                  "label": "Return"
+                }
+              ]
+            },
+            {
+              "id": "serviceType",
+              "type": "select",
+              "label": "Service Type",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "express",
+                  "label": "Express (24h)"
+                },
+                {
+                  "value": "standard",
+                  "label": "Standard (3-5d)"
+                },
+                {
+                  "value": "economy",
+                  "label": "Economy (7-10d)"
+                },
+                {
+                  "value": "freight",
+                  "label": "Full Truck Load"
+                }
+              ]
+            },
+            {
+              "id": "shipperName",
+              "type": "text",
+              "label": "Shipper Name",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "shipperPhone",
+              "type": "phone",
+              "label": "Shipper Phone",
+              "width": "half"
+            },
+            {
+              "id": "origin",
+              "type": "text",
+              "label": "Origin City",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "originPin",
+              "type": "text",
+              "label": "Origin PIN",
+              "width": "half"
+            },
+            {
+              "id": "consigneeName",
+              "type": "text",
+              "label": "Consignee Name",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "consigneePhone",
+              "type": "phone",
+              "label": "Consignee Phone",
+              "width": "half"
+            },
+            {
+              "id": "destination",
+              "type": "text",
+              "label": "Destination City",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "destPin",
+              "type": "text",
+              "label": "Destination PIN",
+              "width": "half"
+            },
+            {
+              "id": "consigneeAddress",
+              "type": "textarea",
+              "label": "Delivery Address",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "package",
+          "title": "Package Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "packageType",
+              "type": "select",
+              "label": "Package Type",
+              "width": "half",
+              "options": [
+                {
+                  "value": "parcel",
+                  "label": "Parcel"
+                },
+                {
+                  "value": "pallet",
+                  "label": "Pallet"
+                },
+                {
+                  "value": "full_container",
+                  "label": "Full Container"
+                },
+                {
+                  "value": "bulk",
+                  "label": "Bulk"
+                }
+              ]
+            },
+            {
+              "id": "quantity",
+              "type": "number",
+              "label": "No. of Packages",
+              "width": "half",
+              "validation": {
+                "required": true,
+                "min": 1
+              }
+            },
+            {
+              "id": "weightKg",
+              "type": "number",
+              "label": "Total Weight (kg)",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "lengthCm",
+              "type": "number",
+              "label": "Length (cm)",
+              "width": "half"
+            },
+            {
+              "id": "widthCm",
+              "type": "number",
+              "label": "Width (cm)",
+              "width": "half"
+            },
+            {
+              "id": "heightCm",
+              "type": "number",
+              "label": "Height (cm)",
+              "width": "half"
+            },
+            {
+              "id": "goodsValue",
+              "type": "number",
+              "label": "Declared Value (₹)",
+              "width": "half"
+            },
+            {
+              "id": "goodsDesc",
+              "type": "textarea",
+              "label": "Goods Description",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "dangerous",
+              "type": "toggle",
+              "label": "Dangerous Goods",
+              "width": "half"
+            },
+            {
+              "id": "fragile",
+              "type": "toggle",
+              "label": "Fragile",
+              "width": "half"
+            },
+            {
+              "id": "pickupDate",
+              "type": "date",
+              "label": "Pickup Date",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "deliveryInstructions",
+              "type": "textarea",
+              "label": "Delivery Instructions",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-driver-assignment",
+      "name": "Driver Assignment",
+      "icon": "person",
+      "description": "Assign a driver to a shipment route",
+      "datasourceEntity": "drivers",
+      "submitLabel": "Assign Driver",
+      "sections": [
+        {
+          "id": "assignment",
+          "title": "Assignment Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "shipmentId",
+              "type": "text",
+              "label": "Shipment ID",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "vehicleNumber",
+              "type": "text",
+              "label": "Vehicle Number",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "driverId",
+              "type": "text",
+              "label": "Driver ID",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "driverName",
+              "type": "text",
+              "label": "Driver Name",
+              "width": "half"
+            },
+            {
+              "id": "route",
+              "type": "text",
+              "label": "Route",
+              "width": "half"
+            },
+            {
+              "id": "departureDate",
+              "type": "date",
+              "label": "Departure Date",
+              "width": "half"
+            },
+            {
+              "id": "departureTime",
+              "type": "time",
+              "label": "Departure Time",
+              "width": "half"
+            },
+            {
+              "id": "estimatedArr",
+              "type": "date",
+              "label": "ETA",
+              "width": "half"
+            },
+            {
+              "id": "fuelIssued",
+              "type": "number",
+              "label": "Fuel Issued (L)",
+              "width": "half"
+            },
+            {
+              "id": "loadingInstructions",
+              "type": "textarea",
+              "label": "Loading Instructions",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-grn",
+      "name": "Goods Receipt Note",
+      "icon": "move_to_inbox",
+      "description": "Record inbound goods receipt",
+      "datasourceEntity": "grnRecords",
+      "submitLabel": "Submit GRN",
+      "sections": [
+        {
+          "id": "grn-details",
+          "title": "GRN Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "poNumber",
+              "type": "text",
+              "label": "PO Number",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "supplierName",
+              "type": "text",
+              "label": "Supplier Name",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "warehouseId",
+              "type": "select",
+              "label": "Warehouse",
+              "width": "half",
+              "options": [
+                {
+                  "value": "wh01",
+                  "label": "WH-01 Mumbai"
+                },
+                {
+                  "value": "wh02",
+                  "label": "WH-02 Delhi"
+                },
+                {
+                  "value": "wh03",
+                  "label": "WH-03 Bangalore"
+                },
+                {
+                  "value": "wh04",
+                  "label": "WH-04 Chennai"
+                },
+                {
+                  "value": "wh05",
+                  "label": "WH-05 Hyderabad"
+                }
+              ]
+            },
+            {
+              "id": "receivedDate",
+              "type": "date",
+              "label": "Receipt Date",
+              "width": "half"
+            },
+            {
+              "id": "vehicleNo",
+              "type": "text",
+              "label": "Vehicle Number",
+              "width": "half"
+            },
+            {
+              "id": "driverName",
+              "type": "text",
+              "label": "Driver Name",
+              "width": "half"
+            },
+            {
+              "id": "expectedQty",
+              "type": "number",
+              "label": "Expected Qty",
+              "width": "half"
+            },
+            {
+              "id": "receivedQty",
+              "type": "number",
+              "label": "Received Qty",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "damagedQty",
+              "type": "number",
+              "label": "Damaged Qty",
+              "width": "half"
+            },
+            {
+              "id": "condition",
+              "type": "select",
+              "label": "Condition",
+              "width": "half",
+              "options": [
+                {
+                  "value": "good",
+                  "label": "Good"
+                },
+                {
+                  "value": "damaged",
+                  "label": "Damaged"
+                },
+                {
+                  "value": "partial",
+                  "label": "Partial"
+                }
+              ]
+            },
+            {
+              "id": "grnNotes",
+              "type": "textarea",
+              "label": "Remarks",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-vehicle-maintenance",
+      "name": "Vehicle Maintenance",
+      "icon": "build",
+      "description": "Log a vehicle maintenance or service request",
+      "datasourceEntity": "maintenanceRecords",
+      "submitLabel": "Log Maintenance",
+      "sections": [
+        {
+          "id": "maint-details",
+          "title": "Maintenance Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "vehicleId",
+              "type": "text",
+              "label": "Vehicle ID",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "vehicleNo",
+              "type": "text",
+              "label": "Vehicle Number",
+              "width": "half"
+            },
+            {
+              "id": "maintenanceType",
+              "type": "select",
+              "label": "Maintenance Type",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "scheduled",
+                  "label": "Scheduled Service"
+                },
+                {
+                  "value": "breakdown",
+                  "label": "Breakdown Repair"
+                },
+                {
+                  "value": "tyre",
+                  "label": "Tyre Change"
+                },
+                {
+                  "value": "oil",
+                  "label": "Oil Change"
+                },
+                {
+                  "value": "body",
+                  "label": "Body Repair"
+                },
+                {
+                  "value": "accident",
+                  "label": "Accident Damage"
+                }
+              ]
+            },
+            {
+              "id": "odometer",
+              "type": "number",
+              "label": "Odometer (km)",
+              "width": "half"
+            },
+            {
+              "id": "serviceDate",
+              "type": "date",
+              "label": "Service Date",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "garage",
+              "type": "text",
+              "label": "Garage / Vendor",
+              "width": "half"
+            },
+            {
+              "id": "estimatedCost",
+              "type": "number",
+              "label": "Estimated Cost (₹)",
+              "width": "half"
+            },
+            {
+              "id": "actualCost",
+              "type": "number",
+              "label": "Actual Cost (₹)",
+              "width": "half"
+            },
+            {
+              "id": "downtime",
+              "type": "number",
+              "label": "Downtime (hours)",
+              "width": "half"
+            },
+            {
+              "id": "nextService",
+              "type": "date",
+              "label": "Next Service Due",
+              "width": "half"
+            },
+            {
+              "id": "description",
+              "type": "textarea",
+              "label": "Work Description",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-exception-report",
+      "name": "Exception / Incident Report",
+      "icon": "warning",
+      "description": "Report a shipment exception or operational incident",
+      "datasourceEntity": "exceptions",
+      "submitLabel": "Report Exception",
+      "sections": [
+        {
+          "id": "exception-details",
+          "title": "Exception Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "shipmentId",
+              "type": "text",
+              "label": "Shipment ID",
+              "width": "half"
+            },
+            {
+              "id": "vehicleNo",
+              "type": "text",
+              "label": "Vehicle Number",
+              "width": "half"
+            },
+            {
+              "id": "exceptionType",
+              "type": "select",
+              "label": "Exception Type",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "delay",
+                  "label": "Delivery Delay"
+                },
+                {
+                  "value": "damaged",
+                  "label": "Goods Damaged"
+                },
+                {
+                  "value": "lost",
+                  "label": "Shipment Lost"
+                },
+                {
+                  "value": "wrong_delivery",
+                  "label": "Wrong Address"
+                },
+                {
+                  "value": "refused",
+                  "label": "Refused Delivery"
+                },
+                {
+                  "value": "accident",
+                  "label": "Vehicle Accident"
+                },
+                {
+                  "value": "theft",
+                  "label": "Theft"
+                },
+                {
+                  "value": "weather",
+                  "label": "Weather Delay"
+                }
+              ]
+            },
+            {
+              "id": "severity",
+              "type": "select",
+              "label": "Severity",
+              "width": "half",
+              "options": [
+                {
+                  "value": "low",
+                  "label": "Low"
+                },
+                {
+                  "value": "medium",
+                  "label": "Medium"
+                },
+                {
+                  "value": "high",
+                  "label": "High"
+                },
+                {
+                  "value": "critical",
+                  "label": "Critical"
+                }
+              ]
+            },
+            {
+              "id": "location",
+              "type": "text",
+              "label": "Location",
+              "width": "half"
+            },
+            {
+              "id": "reportedDate",
+              "type": "date",
+              "label": "Date Reported",
+              "width": "half"
+            },
+            {
+              "id": "description",
+              "type": "textarea",
+              "label": "Description",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "photos",
+              "type": "file",
+              "label": "Upload Photos",
+              "width": "half"
+            },
+            {
+              "id": "resolution",
+              "type": "textarea",
+              "label": "Resolution Plan",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-pod",
+      "name": "Proof of Delivery",
+      "icon": "fact_check",
+      "description": "Record delivery confirmation",
+      "datasourceEntity": "pods",
+      "submitLabel": "Confirm Delivery",
+      "sections": [
+        {
+          "id": "pod-details",
+          "title": "Delivery Confirmation",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "shipmentId",
+              "type": "text",
+              "label": "Shipment ID",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "deliveryDate",
+              "type": "date",
+              "label": "Delivery Date",
+              "width": "half"
+            },
+            {
+              "id": "deliveryTime",
+              "type": "time",
+              "label": "Delivery Time",
+              "width": "half"
+            },
+            {
+              "id": "receiverName",
+              "type": "text",
+              "label": "Received By",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "receiverRelation",
+              "type": "text",
+              "label": "Relation to Consignee",
+              "width": "half"
+            },
+            {
+              "id": "deliveryStatus",
+              "type": "select",
+              "label": "Delivery Status",
+              "width": "half",
+              "options": [
+                {
+                  "value": "delivered",
+                  "label": "Delivered"
+                },
+                {
+                  "value": "partial",
+                  "label": "Partial Delivery"
+                },
+                {
+                  "value": "rto",
+                  "label": "Return to Origin"
+                },
+                {
+                  "value": "attempted",
+                  "label": "Delivery Attempted"
+                }
+              ]
+            },
+            {
+              "id": "signature",
+              "type": "file",
+              "label": "Receiver Signature",
+              "width": "half"
+            },
+            {
+              "id": "photo",
+              "type": "file",
+              "label": "Delivery Photo",
+              "width": "half"
+            },
+            {
+              "id": "deliveryNotes",
+              "type": "textarea",
+              "label": "Delivery Notes",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dataframes": [
+    {
+      "id": "df-shipments",
+      "name": "Shipment Registry",
+      "entity": "shipments",
+      "searchable": true,
+      "searchFields": [
+        "shipmentId",
+        "consigneeName",
+        "origin",
+        "destination",
+        "trackingNo"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "bookingDate",
+        "direction": "desc"
+      },
+      "pageSize": 100,
+      "addFormId": "form-shipment-booking",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "shipmentId",
+          "header": "Shipment ID",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c2",
+          "field": "trackingNo",
+          "header": "Tracking No",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "bookingDate",
+          "header": "Booked",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c4",
+          "field": "origin",
+          "header": "Origin",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c5",
+          "field": "destination",
+          "header": "Destination",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c6",
+          "field": "serviceType",
+          "header": "Service",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Express",
+              "label": "Express",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Standard",
+              "label": "Standard",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Economy",
+              "label": "Economy",
+              "color": "#6b7280"
+            },
+            {
+              "value": "Freight",
+              "label": "Freight",
+              "color": "#7c3aed"
+            }
+          ]
+        },
+        {
+          "id": "c7",
+          "field": "weightKg",
+          "header": "Weight (kg)",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c8",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Booked",
+              "label": "Booked",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Picked Up",
+              "label": "Picked Up",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "In Transit",
+              "label": "In Transit",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Out for Delivery",
+              "label": "Out for Delivery",
+              "color": "#d97706"
+            },
+            {
+              "value": "Delivered",
+              "label": "Delivered",
+              "color": "#059669"
+            },
+            {
+              "value": "Exception",
+              "label": "Exception",
+              "color": "#dc2626"
+            },
+            {
+              "value": "RTO",
+              "label": "RTO",
+              "color": "#6b7280"
+            }
+          ]
+        },
+        {
+          "id": "c9",
+          "field": "eta",
+          "header": "ETA",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c10",
+          "field": "consigneeName",
+          "header": "Consignee",
+          "type": "text"
+        },
+        {
+          "id": "c11",
+          "field": "driver",
+          "header": "Driver",
+          "type": "text"
+        },
+        {
+          "id": "c12",
+          "field": "vehicleNo",
+          "header": "Vehicle",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "id": "df-vehicles",
+      "name": "Vehicle Fleet",
+      "entity": "vehicles",
+      "searchable": true,
+      "searchFields": [
+        "vehicleNo",
+        "driverName",
+        "vehicleType",
+        "route"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "vehicleNo",
+        "direction": "asc"
+      },
+      "pageSize": 50,
+      "addFormId": "form-vehicle-maintenance",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "vehicleId",
+          "header": "Vehicle ID",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "vehicleNo",
+          "header": "Reg Number",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "vehicleType",
+          "header": "Type",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Truck",
+              "label": "Truck",
+              "color": "#1c1c1c"
+            },
+            {
+              "value": "Van",
+              "label": "Van",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Bike",
+              "label": "Bike",
+              "color": "#f97316"
+            },
+            {
+              "value": "Container",
+              "label": "Container",
+              "color": "#7c3aed"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "field": "capacityKg",
+          "header": "Capacity (kg)",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c5",
+          "field": "currentDriver",
+          "header": "Driver",
+          "type": "text"
+        },
+        {
+          "id": "c6",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Available",
+              "label": "Available",
+              "color": "#059669"
+            },
+            {
+              "value": "On Route",
+              "label": "On Route",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Loading",
+              "label": "Loading",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Maintenance",
+              "label": "Maintenance",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Idle",
+              "label": "Idle",
+              "color": "#6b7280"
+            }
+          ]
+        },
+        {
+          "id": "c7",
+          "field": "odometer",
+          "header": "Odometer",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c8",
+          "field": "lastService",
+          "header": "Last Service",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c9",
+          "field": "nextService",
+          "header": "Next Service",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c10",
+          "field": "location",
+          "header": "Location",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "id": "df-drivers",
+      "name": "Driver Registry",
+      "entity": "drivers",
+      "searchable": true,
+      "searchFields": [
+        "driverId",
+        "name",
+        "phone",
+        "license"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "name",
+        "direction": "asc"
+      },
+      "pageSize": 50,
+      "columns": [
+        {
+          "id": "c1",
+          "field": "driverId",
+          "header": "Driver ID",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "name",
+          "header": "Name",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "phone",
+          "header": "Phone",
+          "type": "text"
+        },
+        {
+          "id": "c4",
+          "field": "licenseType",
+          "header": "License",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "LMV",
+              "label": "LMV",
+              "color": "#2563eb"
+            },
+            {
+              "value": "HMV",
+              "label": "HMV",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "HTV",
+              "label": "HTV",
+              "color": "#d97706"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "field": "licenseExpiry",
+          "header": "License Exp",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c6",
+          "field": "totalTrips",
+          "header": "Trips",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "rating",
+          "header": "Rating",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c8",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Available",
+              "label": "Available",
+              "color": "#059669"
+            },
+            {
+              "value": "On Duty",
+              "label": "On Duty",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "On Leave",
+              "label": "On Leave",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Suspended",
+              "label": "Suspended",
+              "color": "#dc2626"
+            }
+          ]
+        },
+        {
+          "id": "c9",
+          "field": "assignedVehicle",
+          "header": "Vehicle",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "id": "df-inventory",
+      "name": "Warehouse Inventory",
+      "entity": "inventory",
+      "searchable": true,
+      "searchFields": [
+        "sku",
+        "productName",
+        "category",
+        "warehouseId"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "productName",
+        "direction": "asc"
+      },
+      "pageSize": 100,
+      "columns": [
+        {
+          "id": "c1",
+          "field": "sku",
+          "header": "SKU",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c2",
+          "field": "productName",
+          "header": "Product",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "category",
+          "header": "Category",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c4",
+          "field": "warehouseId",
+          "header": "Warehouse",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c5",
+          "field": "zone",
+          "header": "Zone / Rack",
+          "type": "text"
+        },
+        {
+          "id": "c6",
+          "field": "quantityOnHand",
+          "header": "On Hand",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "reorderLevel",
+          "header": "Reorder Lvl",
+          "type": "number"
+        },
+        {
+          "id": "c8",
+          "field": "unitCost",
+          "header": "Unit Cost",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c9",
+          "field": "stockStatus",
+          "header": "Stock Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "In Stock",
+              "label": "In Stock",
+              "color": "#059669"
+            },
+            {
+              "value": "Low Stock",
+              "label": "Low Stock",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Out of Stock",
+              "label": "Out of Stock",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Over Stock",
+              "label": "Over Stock",
+              "color": "#2563eb"
+            }
+          ]
+        },
+        {
+          "id": "c10",
+          "field": "lastReceived",
+          "header": "Last Received",
+          "type": "date",
+          "sortable": true
+        }
+      ]
+    },
+    {
+      "id": "df-exceptions",
+      "name": "Exception Log",
+      "entity": "exceptions",
+      "searchable": true,
+      "searchFields": [
+        "shipmentId",
+        "description",
+        "location"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "reportedDate",
+        "direction": "desc"
+      },
+      "pageSize": 50,
+      "addFormId": "form-exception-report",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "exceptionId",
+          "header": "Exception ID",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "reportedDate",
+          "header": "Reported",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "shipmentId",
+          "header": "Shipment ID",
+          "type": "text"
+        },
+        {
+          "id": "c4",
+          "field": "exceptionType",
+          "header": "Type",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Delay",
+              "label": "Delay",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Damaged",
+              "label": "Damaged",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Lost",
+              "label": "Lost",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "Refused",
+              "label": "Refused",
+              "color": "#6b7280"
+            },
+            {
+              "value": "Accident",
+              "label": "Accident",
+              "color": "#dc2626"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "field": "severity",
+          "header": "Severity",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Critical",
+              "label": "Critical",
+              "color": "#dc2626"
+            },
+            {
+              "value": "High",
+              "label": "High",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Medium",
+              "label": "Medium",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Low",
+              "label": "Low",
+              "color": "#6b7280"
+            }
+          ]
+        },
+        {
+          "id": "c6",
+          "field": "location",
+          "header": "Location",
+          "type": "text"
+        },
+        {
+          "id": "c7",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Open",
+              "label": "Open",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Under Review",
+              "label": "Under Review",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Resolved",
+              "label": "Resolved",
+              "color": "#059669"
+            },
+            {
+              "value": "Escalated",
+              "label": "Escalated",
+              "color": "#7c3aed"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "page-tms-dashboard",
+      "name": "SwiftMove Command Centre",
+      "widgets": [
+        {
+          "id": "w1",
+          "type": "kpi",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Active Shipments",
+            "entity": "shipments",
+            "metric": "count",
+            "filter": {
+              "status": "In Transit"
+            },
+            "icon": "local_shipping",
+            "color": "#F97316"
+          }
+        },
+        {
+          "id": "w2",
+          "type": "kpi",
+          "layout": {
+            "x": 2,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Delivered Today",
+            "entity": "pods",
+            "metric": "count",
+            "filter": {
+              "date": "today",
+              "deliveryStatus": "Delivered"
+            },
+            "icon": "check_circle",
+            "color": "#059669"
+          }
+        },
+        {
+          "id": "w3",
+          "type": "kpi",
+          "layout": {
+            "x": 4,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Fleet On Road",
+            "entity": "vehicles",
+            "metric": "count",
+            "filter": {
+              "status": "On Route"
+            },
+            "icon": "commute",
+            "color": "#2563eb"
+          }
+        },
+        {
+          "id": "w4",
+          "type": "kpi",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Open Exceptions",
+            "entity": "exceptions",
+            "metric": "count",
+            "filter": {
+              "status": "Open"
+            },
+            "icon": "warning",
+            "color": "#dc2626"
+          }
+        },
+        {
+          "id": "w5",
+          "type": "kpi",
+          "layout": {
+            "x": 8,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Low Stock SKUs",
+            "entity": "inventory",
+            "metric": "count",
+            "filter": {
+              "stockStatus": "Low Stock"
+            },
+            "icon": "inventory_2",
+            "color": "#f59e0b"
+          }
+        },
+        {
+          "id": "w6",
+          "type": "kpi",
+          "layout": {
+            "x": 10,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Pending GRNs",
+            "entity": "grnRecords",
+            "metric": "count",
+            "filter": {
+              "status": "Pending"
+            },
+            "icon": "move_to_inbox",
+            "color": "#7c3aed"
+          }
+        },
+        {
+          "id": "w7",
+          "type": "chart",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 4
+          },
+          "config": {
+            "title": "Shipments by Status",
+            "chartType": "bar",
+            "entity": "shipments",
+            "groupByField": "status",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w8",
+          "type": "chart",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 6,
+            "h": 4
+          },
+          "config": {
+            "title": "Daily Shipment Volume (30 days)",
+            "chartType": "area",
+            "entity": "shipments",
+            "groupByField": "bookingDate",
+            "aggregation": "count",
+            "limit": 30
+          }
+        },
+        {
+          "id": "w9",
+          "type": "chart",
+          "layout": {
+            "x": 0,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Service Type Distribution",
+            "chartType": "donut",
+            "entity": "shipments",
+            "groupByField": "serviceType",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w10",
+          "type": "chart",
+          "layout": {
+            "x": 4,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Top 10 Destination Cities",
+            "chartType": "bar",
+            "entity": "shipments",
+            "groupByField": "destination",
+            "aggregation": "count",
+            "limit": 10
+          }
+        },
+        {
+          "id": "w11",
+          "type": "chart",
+          "layout": {
+            "x": 8,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Exception Types",
+            "chartType": "pie",
+            "entity": "exceptions",
+            "groupByField": "exceptionType",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w12",
+          "type": "dataframe",
+          "layout": {
+            "x": 0,
+            "y": 10,
+            "w": 12,
+            "h": 5
+          },
+          "config": {
+            "title": "Active Shipments",
+            "dataframeId": "df-shipments",
+            "pageSize": 10,
+            "showSearch": false
+          }
+        }
+      ]
+    }
+  ],
+  "workflows": [
+    {
+      "id": "wf-shipment-dispatch",
+      "name": "Shipment Dispatch Flow",
+      "category": "Operations",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Shipment Booked",
+        "config": {
+          "formId": "form-shipment-booking",
+          "event": "submit"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Generate AWB",
+          "config": {
+            "endpoint": "/api/shipments/generate-awb",
+            "method": "POST"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "api",
+          "name": "Assign Pickup Slot",
+          "config": {
+            "endpoint": "/api/routes/assign-pickup",
+            "method": "POST"
+          },
+          "nextStepId": "s3"
+        },
+        {
+          "id": "s3",
+          "type": "notification",
+          "name": "Notify Shipper",
+          "config": {
+            "channel": "sms",
+            "template": "pickup-scheduled",
+            "to": "{{shipper.phone}}"
+          },
+          "nextStepId": "s4"
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Booking Confirmation",
+          "config": {
+            "channel": "email",
+            "template": "booking-confirmation",
+            "to": "{{shipper.email}}"
+          },
+          "nextStepId": "s5"
+        },
+        {
+          "id": "s5",
+          "type": "notification",
+          "name": "Notify Consignee",
+          "config": {
+            "channel": "sms",
+            "template": "shipment-booked",
+            "to": "{{consignee.phone}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-exception-handling",
+      "name": "Exception Handling",
+      "category": "Operations",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Exception Reported",
+        "config": {
+          "formId": "form-exception-report",
+          "event": "submit"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "condition",
+          "name": "Severity Check",
+          "config": {
+            "condition": "severity == critical OR severity == high",
+            "branches": [
+              "s2",
+              "s3"
+            ]
+          }
+        },
+        {
+          "id": "s2",
+          "type": "notification",
+          "name": "Alert Operations Manager",
+          "config": {
+            "channel": "sms",
+            "template": "critical-exception",
+            "to": "ops.manager@swiftmove.com"
+          },
+          "nextStepId": "s4"
+        },
+        {
+          "id": "s3",
+          "type": "api",
+          "name": "Log Exception",
+          "config": {
+            "endpoint": "/api/exceptions/log",
+            "method": "POST"
+          },
+          "nextStepId": "s5"
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Notify Customer",
+          "config": {
+            "channel": "email",
+            "template": "shipment-exception",
+            "to": "{{customer.email}}"
+          },
+          "nextStepId": "s5"
+        },
+        {
+          "id": "s5",
+          "type": "notification",
+          "name": "Driver Alert",
+          "config": {
+            "channel": "sms",
+            "template": "driver-instructions",
+            "to": "{{driver.phone}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-delivery-confirmation",
+      "name": "Delivery Confirmation",
+      "category": "Last Mile",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "POD Submitted",
+        "config": {
+          "formId": "form-pod",
+          "event": "submit",
+          "condition": "deliveryStatus == Delivered"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Update Shipment Status",
+          "config": {
+            "endpoint": "/api/shipments/mark-delivered",
+            "method": "PUT"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "notification",
+          "name": "Delivery Notification to Customer",
+          "config": {
+            "channel": "email",
+            "template": "delivered",
+            "to": "{{customer.email}}"
+          },
+          "nextStepId": "s3"
+        },
+        {
+          "id": "s3",
+          "type": "notification",
+          "name": "SMS Delivery Alert",
+          "config": {
+            "channel": "sms",
+            "template": "delivered-sms",
+            "to": "{{customer.phone}}"
+          },
+          "nextStepId": "s4"
+        },
+        {
+          "id": "s4",
+          "type": "api",
+          "name": "Trigger Invoice",
+          "config": {
+            "endpoint": "/api/billing/generate-invoice",
+            "method": "POST"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-maintenance-alert",
+      "name": "Maintenance Due Alert",
+      "category": "Fleet",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Service Due in 500km",
+        "config": {
+          "entity": "vehicles",
+          "event": "update",
+          "condition": "nextServiceKm - odometer <= 500"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "notification",
+          "name": "Alert Fleet Manager",
+          "config": {
+            "channel": "email",
+            "template": "maintenance-due",
+            "to": "fleet.manager@swiftmove.com"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "notification",
+          "name": "Alert Driver",
+          "config": {
+            "channel": "sms",
+            "template": "maintenance-reminder",
+            "to": "{{driver.phone}}"
+          },
+          "nextStepId": "s3"
+        },
+        {
+          "id": "s3",
+          "type": "api",
+          "name": "Book Service Slot",
+          "config": {
+            "endpoint": "/api/maintenance/auto-book",
+            "method": "POST"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-low-stock-reorder",
+      "name": "Low Stock Reorder",
+      "category": "Warehouse",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Stock Below Reorder Level",
+        "config": {
+          "entity": "inventory",
+          "event": "update",
+          "condition": "quantityOnHand <= reorderLevel"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "notification",
+          "name": "Alert Warehouse Manager",
+          "config": {
+            "channel": "email",
+            "template": "low-stock",
+            "to": "warehouse.manager@swiftmove.com"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "api",
+          "name": "Auto-generate PO",
+          "config": {
+            "endpoint": "/api/procurement/auto-po",
+            "method": "POST"
+          },
+          "nextStepId": "s3"
+        },
+        {
+          "id": "s3",
+          "type": "notification",
+          "name": "PO Created Notification",
+          "config": {
+            "channel": "email",
+            "template": "po-created",
+            "to": "procurement@swiftmove.com"
+          }
+        }
+      ]
+    }
+  ],
+  "desktop": {
+    "primaryClickBehaviour": "selectors",
+    "topDependencySource": "left",
+    "headerOptions": {
+      "left": [
+        {
+          "id": "logo",
+          "label": "Show Logo",
+          "checked": true
+        },
+        {
+          "id": "app-name",
+          "label": "Show App Name",
+          "checked": true
+        },
+        {
+          "id": "switcher",
+          "label": "Application Switcher",
+          "checked": true
+        }
+      ],
+      "right": [
+        {
+          "id": "add-button",
+          "label": "+ New Shipment",
+          "checked": true
+        },
+        {
+          "id": "global-search",
+          "label": "Track Shipment",
+          "checked": true
+        },
+        {
+          "id": "knowledge-base",
+          "label": "Help Center",
+          "checked": true
+        },
+        {
+          "id": "notifications",
+          "label": "Alerts",
+          "checked": true
+        },
+        {
+          "id": "app-settings",
+          "label": "Settings",
+          "checked": true
+        },
+        {
+          "id": "account-settings",
+          "label": "My Account",
+          "checked": true
+        }
+      ]
+    },
+    "footerOptions": [
+      {
+        "id": "records",
+        "label": "Total Records",
+        "checked": true
+      },
+      {
+        "id": "pagination",
+        "label": "Pagination",
+        "checked": true
+      },
+      {
+        "id": "columns",
+        "label": "Column Dropdown",
+        "checked": true
+      },
+      {
+        "id": "function-type",
+        "label": "Function Type",
+        "checked": true
+      },
+      {
+        "id": "last-updated",
+        "label": "Last Updated",
+        "checked": true
+      }
+    ],
+    "environments": [
+      {
+        "id": "5b95e739-98f6-41d9-b93f-89de9a342862",
+        "name": "Production",
+        "url": "tms.swiftmove.com",
+        "status": "Live",
+        "users": "12,500 users"
+      },
+      {
+        "id": "a08135c7-56cf-492c-b59e-834ed1dc8d44",
+        "name": "Staging",
+        "url": "staging.tms.swiftmove.com",
+        "status": "Testing",
+        "users": "80 users"
+      },
+      {
+        "id": "c1c9de8e-4be4-4457-913a-18d278b7bbc5",
+        "name": "Development",
+        "url": "dev.tms.swiftmove.com",
+        "status": "In Progress",
+        "users": "25 users"
+      }
+    ]
+  },
+  "mobile": {
+    "primaryClickBehaviour": "selectors",
+    "topDependencySource": "left",
+    "headerOptions": {
+      "left": [
+        {
+          "id": "logo",
+          "label": "Show Logo",
+          "checked": true
+        },
+        {
+          "id": "app-name",
+          "label": "Show App Name",
+          "checked": true
+        },
+        {
+          "id": "switcher",
+          "label": "Application Switcher",
+          "checked": false
+        }
+      ],
+      "right": [
+        {
+          "id": "add-button",
+          "label": "+ New",
+          "checked": true
+        },
+        {
+          "id": "global-search",
+          "label": "Track",
+          "checked": true
+        },
+        {
+          "id": "notifications",
+          "label": "Alerts",
+          "checked": true
+        },
+        {
+          "id": "account-settings",
+          "label": "Account",
+          "checked": true
+        }
+      ]
+    },
+    "bottomNavItems": [
+      {
+        "id": "dashboard",
+        "label": "Home",
+        "icon": "dashboard"
+      },
+      {
+        "id": "shipments",
+        "label": "Shipments",
+        "icon": "local_shipping"
+      },
+      {
+        "id": "fleet",
+        "label": "Fleet",
+        "icon": "commute"
+      },
+      {
+        "id": "warehouse",
+        "label": "Warehouse",
+        "icon": "warehouse"
+      },
+      {
+        "id": "more",
+        "label": "More",
+        "icon": "more_horiz"
+      }
+    ],
+    "environments": [
+      {
+        "id": "fc08a7e2-26d7-4583-8f3a-020a279a77bf",
+        "name": "Production",
+        "url": "m.tms.swiftmove.com",
+        "status": "Live",
+        "users": "8,200 users"
+      }
+    ]
+  },
+  "mockData": {
+    "seed": 31,
+    "entities": [
+      "shipments",
+      "vehicles",
+      "drivers",
+      "inventory",
+      "routes",
+      "customers",
+      "exceptions",
+      "maintenanceRecords",
+      "grnRecords",
+      "pods"
+    ],
+    "recordCounts": {
+      "shipments": 200000,
+      "vehicles": 5000,
+      "drivers": 8000,
+      "inventory": 500000,
+      "routes": 50000,
+      "customers": 30000,
+      "exceptions": 15000,
+      "maintenanceRecords": 8000,
+      "grnRecords": 40000,
+      "pods": 180000
+    }
+  }
+}

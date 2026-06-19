@@ -1,0 +1,2907 @@
+{
+  "application": {
+    "id": "ad39c676-57b6-4815-9941-e9b59790e3eb",
+    "version": "1.5.0",
+    "name": "Kingsford University",
+    "environment": "production"
+  },
+  "branding": {
+    "companyName": "Kingsford University",
+    "appName": "EduCore ERP",
+    "logoUrl": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMUUxQjRCIi8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNGNTlFMEIiPktVPC90ZXh0Pjwvc3ZnPg==",
+    "faviconUrl": "https://assets.kingsford.edu/logo/favicon.ico",
+    "primaryColor": "#1E1B4B",
+    "secondaryColor": "#7C3AED",
+    "accentColor": "#F59E0B"
+  },
+  "theme": {
+    "headerBg": "#1E1B4B",
+    "headerText": "#EDE9FE",
+    "navBg": "#13104A",
+    "navText": "#C4B5FD",
+    "navActiveBg": "#7C3AED",
+    "navActiveText": "#FFFFFF",
+    "sidebarBg": "#1E1B4B",
+    "sidebarText": "#DDD6FE",
+    "sidebarActiveBg": "#7C3AED",
+    "sidebarActiveText": "#FFFFFF",
+    "workspaceBg": "#F5F3FF",
+    "footerBg": "#13104A",
+    "footerText": "#A78BFA",
+    "borderColor": "#C4B5FD",
+    "hoverBg": "#EDE9FE",
+    "primaryColor": "#1E1B4B",
+    "secondaryColor": "#F5F3FF",
+    "textPrimary": "#1E1B4B",
+    "textSecondary": "#4C1D95"
+  },
+  "navigation": {
+    "primaryPages": [
+      {
+        "id": "4c41035f-93e4-4fcc-b783-fcfddf5bb030",
+        "label": "Dashboard",
+        "icon": "school",
+        "tone": "purple",
+        "pageTargetId": "page-uni-dashboard",
+        "pageTargetType": "page"
+      },
+      {
+        "id": "e611db11-89e1-4daa-9863-f65ebbf39b62",
+        "label": "Students",
+        "icon": "groups",
+        "tone": "blue",
+        "leftPages": [
+          {
+            "id": "0a08f8fb-c3ca-4d95-91d7-3826e73a85d7",
+            "label": "Enrollment",
+            "icon": "how_to_reg",
+            "tone": "blue",
+            "subPages": [
+              {
+                "id": "5dbbc74b-2cba-4ae8-98a8-f19523052bd2",
+                "label": "All Students",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "718ab2c0-c544-4078-873c-0b50eacb34cf",
+                    "label": "All",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_en_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "fa366841-b7c2-4885-b6f5-8d034b4cb5dc",
+                    "label": "Undergraduate",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_en_ug",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "a2819a48-c156-4944-b372-f336ce5d0f8d",
+                    "label": "Postgraduate",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_en_pg",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "0ca9a65b-53a7-463c-bd00-d66500a99104",
+                    "label": "PhD",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_en_phd",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "dac82835-6dcf-4bbd-b369-0e1d150f52b3",
+                "label": "UG Programs",
+                "icon": "article",
+                "tone": "blue",
+                "pageTargetId": "r_s_ug",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "cf76ec7a-6e3f-4010-a8ee-9b00a6e2f4a0",
+                "label": "PG Programs",
+                "icon": "article",
+                "tone": "purple",
+                "pageTargetId": "r_s_pg",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "bcf48093-0b2e-4d71-a3e4-7ad2fb85014e",
+                "label": "PhD Programs",
+                "icon": "article",
+                "tone": "green",
+                "pageTargetId": "r_s_phd",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "44e8074e-2a4e-4f92-a08a-7be53c1dd896",
+            "label": "Grades & Results",
+            "icon": "grade",
+            "tone": "purple",
+            "subPages": [
+              {
+                "id": "cffe24b6-375b-4864-add8-38191f66a6be",
+                "label": "Current Semester",
+                "icon": "article",
+                "tone": "purple",
+                "topTabs": [
+                  {
+                    "id": "4ec180e4-93b3-4060-9755-3ea4fdbc0ef7",
+                    "label": "Grade Sheet",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_gr_curr",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "5e36210d-dc25-4a72-bf74-63628fe509fc",
+                    "label": "Previous Sem",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_gr_prev",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "0a5e0f54-cf7a-42ff-9707-f8ab0d94368e",
+                    "label": "CGPA Report",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_gr_cgpa",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "eca451b1-e294-43e8-a04e-e9d5d73f582e",
+                "label": "Backlog",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "926669c1-84e4-4621-8f9c-668d7641b3e5",
+                    "label": "Active Backlog",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_backlog_active",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "c4a2fe9e-340f-4bf1-bffb-11913ce4a813",
+                    "label": "Cleared Backlog",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_backlog_cleared",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "81005774-fddd-4bc2-bc12-16cc135cefc7",
+                "label": "Academic History",
+                "icon": "article",
+                "tone": "blue",
+                "pageTargetId": "r_gr_history",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "80ee2ecf-4468-40f8-8782-d130d5047302",
+            "label": "Attendance",
+            "icon": "event_available",
+            "tone": "green",
+            "pageTargetId": "r_attendance",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "65e54cbf-df76-4c38-93a2-e34219a237ed",
+            "label": "Hostel",
+            "icon": "apartment",
+            "tone": "blue",
+            "pageTargetId": "r_hostel",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "3d33f0d3-2504-4cff-bd33-81e12467d96d",
+            "label": "Counseling",
+            "icon": "psychology",
+            "tone": "purple",
+            "pageTargetId": "r_counseling",
+            "pageTargetType": "report"
+          }
+        ]
+      },
+      {
+        "id": "eee6bd04-6542-4569-bb95-a805dfcfe2ff",
+        "label": "Faculty",
+        "icon": "person_education",
+        "tone": "green",
+        "leftPages": [
+          {
+            "id": "ddae815f-5632-4bbd-a448-3689c5995f1f",
+            "label": "Faculty Directory",
+            "icon": "badge",
+            "tone": "blue",
+            "pageTargetId": "r_fac_dir",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "81e44ece-f426-4473-889c-fe0cce8ac24b",
+            "label": "Courses",
+            "icon": "menu_book",
+            "tone": "purple",
+            "subPages": [
+              {
+                "id": "8649b58c-1b4a-43f1-ba02-0870c28e5584",
+                "label": "Active Courses",
+                "icon": "article",
+                "tone": "purple",
+                "topTabs": [
+                  {
+                    "id": "d54509b9-8f87-4d49-9ad7-278eabbe30b2",
+                    "label": "All Courses",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_co_active_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "063eed9f-3e12-4f42-a6f1-9f3282189901",
+                    "label": "Core",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_co_active_core",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "d76e553e-b484-420f-a12b-34c235df2c94",
+                    "label": "Elective",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_co_active_elective",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "1cf35306-17eb-439c-9bb1-792bfc63459b",
+                "label": "Upcoming Courses",
+                "icon": "article",
+                "tone": "blue",
+                "pageTargetId": "r_co_upcoming",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "aeb12b69-b9cb-4048-83a6-ba3fa8301697",
+            "label": "Research",
+            "icon": "biotech",
+            "tone": "green",
+            "pageTargetId": "r_research",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "6ee8f776-3b20-40fc-b66f-b0d146fe6e8e",
+            "label": "Leave Register",
+            "icon": "event_busy",
+            "tone": "blue",
+            "pageTargetId": "r_fac_leave",
+            "pageTargetType": "report"
+          }
+        ]
+      },
+      {
+        "id": "81b42c4c-a377-479f-b939-a76069598e08",
+        "label": "Academics",
+        "icon": "auto_stories",
+        "tone": "purple",
+        "leftPages": [
+          {
+            "id": "fa2a72b6-04c7-46c6-990b-f7a73fcd1bd7",
+            "label": "Curriculum",
+            "icon": "list_alt",
+            "tone": "blue",
+            "pageTargetId": "r_curriculum",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "5fed2c5c-4018-447a-a294-fcabf92b057f",
+            "label": "Examinations",
+            "icon": "quiz",
+            "tone": "purple",
+            "subPages": [
+              {
+                "id": "99ae9000-395e-46df-b837-aedf274d6c51",
+                "label": "Scheduled",
+                "icon": "article",
+                "tone": "purple",
+                "topTabs": [
+                  {
+                    "id": "2bbf5ead-ae91-41c7-823a-bbf532579a3d",
+                    "label": "Mid-Term",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_ex_mid",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "b521a94b-7b6f-4562-9f84-6b0b6f058212",
+                    "label": "End-Term",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_ex_end",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "e78132bb-b174-47d8-8152-833a854df70a",
+                    "label": "Supplemental",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_ex_supp",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "2be3d4dd-506d-4003-be70-3e1fd73bcf58",
+                "label": "Ongoing",
+                "icon": "article",
+                "tone": "blue",
+                "pageTargetId": "r_ex_ongoing",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "853c850d-1558-4b00-9e36-cd83390e8f33",
+                "label": "Completed",
+                "icon": "article",
+                "tone": "green",
+                "pageTargetId": "r_ex_completed",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "e03e0ddc-b647-4362-8d1c-598284f38cf1",
+            "label": "Results",
+            "icon": "analytics",
+            "tone": "green",
+            "pageTargetId": "r_results",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "fa0862bb-db5e-4584-9c9d-2c1850b71eee",
+            "label": "Timetable",
+            "icon": "calendar_view_week",
+            "tone": "blue",
+            "pageTargetId": "r_timetable",
+            "pageTargetType": "report"
+          }
+        ]
+      },
+      {
+        "id": "66aab76f-cf44-47e0-b350-0f08fae15048",
+        "label": "Administration",
+        "icon": "admin_panel_settings",
+        "tone": "blue",
+        "leftPages": [
+          {
+            "id": "54bbb188-1465-43eb-8070-55530a730c1f",
+            "label": "Fee Management",
+            "icon": "payments",
+            "tone": "green",
+            "subPages": [
+              {
+                "id": "a8c9e98f-9017-4342-8ad6-3e518783879c",
+                "label": "Pending Fees",
+                "icon": "article",
+                "tone": "purple",
+                "topTabs": [
+                  {
+                    "id": "5fa4d192-ae5a-4848-9f62-e6b53ef4dae2",
+                    "label": "Current Due",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_fe_pen_curr",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "0658e558-e488-4acc-bd68-13b1f1f37daf",
+                    "label": "Arrears",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_fe_pen_arr",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "c3c702bb-c556-4ed3-bc5f-b96c08f4318a",
+                "label": "Paid Fees",
+                "icon": "article",
+                "tone": "green",
+                "topTabs": [
+                  {
+                    "id": "a300733f-a356-46fe-aa83-e47959a01106",
+                    "label": "Recent",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_fe_paid_recent",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "644c5d79-b1dc-4c03-a727-53b9984b3215",
+                    "label": "Receipts",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_fe_paid_receipt",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "083eafc1-75e1-4b48-bb6c-33c221551454",
+                "label": "Overdue",
+                "icon": "article",
+                "tone": "blue",
+                "pageTargetId": "r_fe_overdue",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "704433cd-4050-4da8-9baf-25881f9aab0b",
+            "label": "Library",
+            "icon": "local_library",
+            "tone": "blue",
+            "pageTargetId": "r_library",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "232c06c4-709a-4c26-bee1-3c1bbdd6d9d9",
+            "label": "Transport",
+            "icon": "directions_bus",
+            "tone": "purple",
+            "pageTargetId": "r_transport",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "abf6e0ba-9017-4ae9-8b14-6a22bfc9763c",
+            "label": "Events",
+            "icon": "celebration",
+            "tone": "green",
+            "pageTargetId": "r_events",
+            "pageTargetType": "report"
+          }
+        ]
+      }
+    ]
+  },
+  "pageTargets": {
+    "4c41035f-93e4-4fcc-b783-fcfddf5bb030": {
+      "assetId": "page-uni-dashboard",
+      "assetType": "page"
+    },
+    "718ab2c0-c544-4078-873c-0b50eacb34cf": {
+      "assetId": "r_en_all",
+      "assetType": "report"
+    },
+    "fa366841-b7c2-4885-b6f5-8d034b4cb5dc": {
+      "assetId": "r_en_ug",
+      "assetType": "report"
+    },
+    "a2819a48-c156-4944-b372-f336ce5d0f8d": {
+      "assetId": "r_en_pg",
+      "assetType": "report"
+    },
+    "0ca9a65b-53a7-463c-bd00-d66500a99104": {
+      "assetId": "r_en_phd",
+      "assetType": "report"
+    },
+    "dac82835-6dcf-4bbd-b369-0e1d150f52b3": {
+      "assetId": "r_s_ug",
+      "assetType": "report"
+    },
+    "cf76ec7a-6e3f-4010-a8ee-9b00a6e2f4a0": {
+      "assetId": "r_s_pg",
+      "assetType": "report"
+    },
+    "bcf48093-0b2e-4d71-a3e4-7ad2fb85014e": {
+      "assetId": "r_s_phd",
+      "assetType": "report"
+    },
+    "4ec180e4-93b3-4060-9755-3ea4fdbc0ef7": {
+      "assetId": "r_gr_curr",
+      "assetType": "report"
+    },
+    "5e36210d-dc25-4a72-bf74-63628fe509fc": {
+      "assetId": "r_gr_prev",
+      "assetType": "report"
+    },
+    "0a5e0f54-cf7a-42ff-9707-f8ab0d94368e": {
+      "assetId": "r_gr_cgpa",
+      "assetType": "report"
+    },
+    "926669c1-84e4-4621-8f9c-668d7641b3e5": {
+      "assetId": "r_backlog_active",
+      "assetType": "report"
+    },
+    "c4a2fe9e-340f-4bf1-bffb-11913ce4a813": {
+      "assetId": "r_backlog_cleared",
+      "assetType": "report"
+    },
+    "81005774-fddd-4bc2-bc12-16cc135cefc7": {
+      "assetId": "r_gr_history",
+      "assetType": "report"
+    },
+    "80ee2ecf-4468-40f8-8782-d130d5047302": {
+      "assetId": "r_attendance",
+      "assetType": "report"
+    },
+    "65e54cbf-df76-4c38-93a2-e34219a237ed": {
+      "assetId": "r_hostel",
+      "assetType": "report"
+    },
+    "3d33f0d3-2504-4cff-bd33-81e12467d96d": {
+      "assetId": "r_counseling",
+      "assetType": "report"
+    },
+    "ddae815f-5632-4bbd-a448-3689c5995f1f": {
+      "assetId": "r_fac_dir",
+      "assetType": "report"
+    },
+    "d54509b9-8f87-4d49-9ad7-278eabbe30b2": {
+      "assetId": "r_co_active_all",
+      "assetType": "report"
+    },
+    "063eed9f-3e12-4f42-a6f1-9f3282189901": {
+      "assetId": "r_co_active_core",
+      "assetType": "report"
+    },
+    "d76e553e-b484-420f-a12b-34c235df2c94": {
+      "assetId": "r_co_active_elective",
+      "assetType": "report"
+    },
+    "1cf35306-17eb-439c-9bb1-792bfc63459b": {
+      "assetId": "r_co_upcoming",
+      "assetType": "report"
+    },
+    "aeb12b69-b9cb-4048-83a6-ba3fa8301697": {
+      "assetId": "r_research",
+      "assetType": "report"
+    },
+    "6ee8f776-3b20-40fc-b66f-b0d146fe6e8e": {
+      "assetId": "r_fac_leave",
+      "assetType": "report"
+    },
+    "fa2a72b6-04c7-46c6-990b-f7a73fcd1bd7": {
+      "assetId": "r_curriculum",
+      "assetType": "report"
+    },
+    "2bbf5ead-ae91-41c7-823a-bbf532579a3d": {
+      "assetId": "r_ex_mid",
+      "assetType": "report"
+    },
+    "b521a94b-7b6f-4562-9f84-6b0b6f058212": {
+      "assetId": "r_ex_end",
+      "assetType": "report"
+    },
+    "e78132bb-b174-47d8-8152-833a854df70a": {
+      "assetId": "r_ex_supp",
+      "assetType": "report"
+    },
+    "2be3d4dd-506d-4003-be70-3e1fd73bcf58": {
+      "assetId": "r_ex_ongoing",
+      "assetType": "report"
+    },
+    "853c850d-1558-4b00-9e36-cd83390e8f33": {
+      "assetId": "r_ex_completed",
+      "assetType": "report"
+    },
+    "e03e0ddc-b647-4362-8d1c-598284f38cf1": {
+      "assetId": "r_results",
+      "assetType": "report"
+    },
+    "fa0862bb-db5e-4584-9c9d-2c1850b71eee": {
+      "assetId": "r_timetable",
+      "assetType": "report"
+    },
+    "5fa4d192-ae5a-4848-9f62-e6b53ef4dae2": {
+      "assetId": "r_fe_pen_curr",
+      "assetType": "report"
+    },
+    "0658e558-e488-4acc-bd68-13b1f1f37daf": {
+      "assetId": "r_fe_pen_arr",
+      "assetType": "report"
+    },
+    "a300733f-a356-46fe-aa83-e47959a01106": {
+      "assetId": "r_fe_paid_recent",
+      "assetType": "report"
+    },
+    "644c5d79-b1dc-4c03-a727-53b9984b3215": {
+      "assetId": "r_fe_paid_receipt",
+      "assetType": "report"
+    },
+    "083eafc1-75e1-4b48-bb6c-33c221551454": {
+      "assetId": "r_fe_overdue",
+      "assetType": "report"
+    },
+    "704433cd-4050-4da8-9baf-25881f9aab0b": {
+      "assetId": "r_library",
+      "assetType": "report"
+    },
+    "232c06c4-709a-4c26-bee1-3c1bbdd6d9d9": {
+      "assetId": "r_transport",
+      "assetType": "report"
+    },
+    "abf6e0ba-9017-4ae9-8b14-6a22bfc9763c": {
+      "assetId": "r_events",
+      "assetType": "report"
+    }
+  },
+  "datasources": [
+    {
+      "id": "ds-students",
+      "name": "Student Registry",
+      "type": "mock",
+      "entity": "students"
+    },
+    {
+      "id": "ds-faculty",
+      "name": "Faculty Directory",
+      "type": "mock",
+      "entity": "faculty"
+    },
+    {
+      "id": "ds-courses",
+      "name": "Course Catalog",
+      "type": "mock",
+      "entity": "courses"
+    },
+    {
+      "id": "ds-grades",
+      "name": "Grade Records",
+      "type": "mock",
+      "entity": "grades"
+    },
+    {
+      "id": "ds-attendance",
+      "name": "Attendance Register",
+      "type": "mock",
+      "entity": "attendanceRecords"
+    },
+    {
+      "id": "ds-exams",
+      "name": "Exam Schedule",
+      "type": "mock",
+      "entity": "exams"
+    },
+    {
+      "id": "ds-fees",
+      "name": "Fee Records",
+      "type": "mock",
+      "entity": "feeRecords"
+    },
+    {
+      "id": "ds-library",
+      "name": "Library Catalog",
+      "type": "mock",
+      "entity": "libraryBooks"
+    },
+    {
+      "id": "ds-hostel",
+      "name": "Hostel Rooms",
+      "type": "mock",
+      "entity": "hostelRooms"
+    },
+    {
+      "id": "ds-research",
+      "name": "Research Projects",
+      "type": "mock",
+      "entity": "researchProjects"
+    }
+  ],
+  "forms": [
+    {
+      "id": "form-student-admission",
+      "name": "Student Admission",
+      "icon": "how_to_reg",
+      "description": "Register a new student for admission",
+      "datasourceEntity": "students",
+      "submitLabel": "Submit Application",
+      "sections": [
+        {
+          "id": "personal",
+          "title": "Personal Information",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "studentId",
+              "type": "text",
+              "label": "Application No",
+              "width": "half",
+              "readonly": true
+            },
+            {
+              "id": "firstName",
+              "type": "text",
+              "label": "First Name",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "lastName",
+              "type": "text",
+              "label": "Last Name",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "dob",
+              "type": "date",
+              "label": "Date of Birth",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "gender",
+              "type": "select",
+              "label": "Gender",
+              "width": "half",
+              "options": [
+                {
+                  "value": "male",
+                  "label": "Male"
+                },
+                {
+                  "value": "female",
+                  "label": "Female"
+                },
+                {
+                  "value": "other",
+                  "label": "Other"
+                }
+              ]
+            },
+            {
+              "id": "category",
+              "type": "select",
+              "label": "Category",
+              "width": "half",
+              "options": [
+                {
+                  "value": "general",
+                  "label": "General"
+                },
+                {
+                  "value": "obc",
+                  "label": "OBC"
+                },
+                {
+                  "value": "sc",
+                  "label": "SC"
+                },
+                {
+                  "value": "st",
+                  "label": "ST"
+                },
+                {
+                  "value": "ews",
+                  "label": "EWS"
+                }
+              ]
+            },
+            {
+              "id": "aadharNo",
+              "type": "text",
+              "label": "Aadhaar Number",
+              "width": "half"
+            },
+            {
+              "id": "phone",
+              "type": "phone",
+              "label": "Mobile Number",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "email",
+              "type": "email",
+              "label": "Email Address",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "address",
+              "type": "textarea",
+              "label": "Permanent Address",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "parentName",
+              "type": "text",
+              "label": "Father / Guardian Name",
+              "width": "half"
+            },
+            {
+              "id": "parentPhone",
+              "type": "phone",
+              "label": "Guardian Mobile",
+              "width": "half"
+            }
+          ]
+        },
+        {
+          "id": "academic",
+          "title": "Academic Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "program",
+              "type": "select",
+              "label": "Program",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "btech",
+                  "label": "B.Tech"
+                },
+                {
+                  "value": "bsc",
+                  "label": "B.Sc"
+                },
+                {
+                  "value": "bba",
+                  "label": "BBA"
+                },
+                {
+                  "value": "mtech",
+                  "label": "M.Tech"
+                },
+                {
+                  "value": "mba",
+                  "label": "MBA"
+                },
+                {
+                  "value": "msc",
+                  "label": "M.Sc"
+                },
+                {
+                  "value": "phd",
+                  "label": "PhD"
+                }
+              ]
+            },
+            {
+              "id": "department",
+              "type": "select",
+              "label": "Department",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "cse",
+                  "label": "Computer Science"
+                },
+                {
+                  "value": "ece",
+                  "label": "Electronics"
+                },
+                {
+                  "value": "mech",
+                  "label": "Mechanical"
+                },
+                {
+                  "value": "civil",
+                  "label": "Civil"
+                },
+                {
+                  "value": "mgmt",
+                  "label": "Management"
+                },
+                {
+                  "value": "physics",
+                  "label": "Physics"
+                },
+                {
+                  "value": "maths",
+                  "label": "Mathematics"
+                },
+                {
+                  "value": "chem",
+                  "label": "Chemistry"
+                }
+              ]
+            },
+            {
+              "id": "batch",
+              "type": "text",
+              "label": "Batch Year",
+              "width": "half"
+            },
+            {
+              "id": "entranceScore",
+              "type": "number",
+              "label": "Entrance Score",
+              "width": "half"
+            },
+            {
+              "id": "twelfthPct",
+              "type": "number",
+              "label": "12th Percentage",
+              "width": "half",
+              "validation": {
+                "max": 100
+              }
+            },
+            {
+              "id": "tenthPct",
+              "type": "number",
+              "label": "10th Percentage",
+              "width": "half",
+              "validation": {
+                "max": 100
+              }
+            },
+            {
+              "id": "scholarship",
+              "type": "select",
+              "label": "Scholarship",
+              "width": "half",
+              "options": [
+                {
+                  "value": "none",
+                  "label": "None"
+                },
+                {
+                  "value": "merit",
+                  "label": "Merit"
+                },
+                {
+                  "value": "need",
+                  "label": "Need-based"
+                },
+                {
+                  "value": "sports",
+                  "label": "Sports"
+                },
+                {
+                  "value": "govt",
+                  "label": "Government"
+                }
+              ]
+            },
+            {
+              "id": "hostelRequired",
+              "type": "toggle",
+              "label": "Hostel Required",
+              "width": "half"
+            },
+            {
+              "id": "documents",
+              "type": "file",
+              "label": "Upload Documents",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-course-registration",
+      "name": "Course Registration",
+      "icon": "menu_book",
+      "description": "Student course registration for a semester",
+      "datasourceEntity": "courses",
+      "submitLabel": "Register Courses",
+      "sections": [
+        {
+          "id": "course-reg",
+          "title": "Semester Course Selection",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "studentId",
+              "type": "text",
+              "label": "Student ID",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "semester",
+              "type": "select",
+              "label": "Semester",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "1",
+                  "label": "Semester 1"
+                },
+                {
+                  "value": "2",
+                  "label": "Semester 2"
+                },
+                {
+                  "value": "3",
+                  "label": "Semester 3"
+                },
+                {
+                  "value": "4",
+                  "label": "Semester 4"
+                },
+                {
+                  "value": "5",
+                  "label": "Semester 5"
+                },
+                {
+                  "value": "6",
+                  "label": "Semester 6"
+                },
+                {
+                  "value": "7",
+                  "label": "Semester 7"
+                },
+                {
+                  "value": "8",
+                  "label": "Semester 8"
+                }
+              ]
+            },
+            {
+              "id": "academicYear",
+              "type": "text",
+              "label": "Academic Year",
+              "width": "half"
+            },
+            {
+              "id": "coreSubjects",
+              "type": "multiselect",
+              "label": "Core Subjects",
+              "width": "full",
+              "options": [
+                {
+                  "value": "cs301",
+                  "label": "CS301 - Data Structures"
+                },
+                {
+                  "value": "cs302",
+                  "label": "CS302 - Operating Systems"
+                },
+                {
+                  "value": "cs303",
+                  "label": "CS303 - DBMS"
+                },
+                {
+                  "value": "cs304",
+                  "label": "CS304 - Computer Networks"
+                },
+                {
+                  "value": "cs305",
+                  "label": "CS305 - Software Engineering"
+                }
+              ]
+            },
+            {
+              "id": "electives",
+              "type": "multiselect",
+              "label": "Electives (max 2)",
+              "width": "full",
+              "options": [
+                {
+                  "value": "cs401",
+                  "label": "CS401 - Machine Learning"
+                },
+                {
+                  "value": "cs402",
+                  "label": "CS402 - Cloud Computing"
+                },
+                {
+                  "value": "cs403",
+                  "label": "CS403 - IoT"
+                },
+                {
+                  "value": "cs404",
+                  "label": "CS404 - Cybersecurity"
+                },
+                {
+                  "value": "cs405",
+                  "label": "CS405 - Blockchain"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-faculty-leave",
+      "name": "Faculty Leave Request",
+      "icon": "event_busy",
+      "description": "Faculty member leave application",
+      "datasourceEntity": "faculty",
+      "submitLabel": "Apply for Leave",
+      "sections": [
+        {
+          "id": "leave-details",
+          "title": "Leave Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "facultyId",
+              "type": "text",
+              "label": "Faculty ID",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "leaveType",
+              "type": "select",
+              "label": "Leave Type",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "casual",
+                  "label": "Casual Leave"
+                },
+                {
+                  "value": "medical",
+                  "label": "Medical Leave"
+                },
+                {
+                  "value": "earned",
+                  "label": "Earned Leave"
+                },
+                {
+                  "value": "academic",
+                  "label": "Academic Leave"
+                },
+                {
+                  "value": "conference",
+                  "label": "Conference"
+                },
+                {
+                  "value": "maternity",
+                  "label": "Maternity / Paternity"
+                }
+              ]
+            },
+            {
+              "id": "startDate",
+              "type": "date",
+              "label": "From Date",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "endDate",
+              "type": "date",
+              "label": "To Date",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "alternateArrangement",
+              "type": "textarea",
+              "label": "Alternate Lecture Arrangement",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "reason",
+              "type": "textarea",
+              "label": "Reason",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "supportingDoc",
+              "type": "file",
+              "label": "Supporting Document",
+              "width": "half"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-fee-payment",
+      "name": "Fee Payment",
+      "icon": "payments",
+      "description": "Record student fee payment",
+      "datasourceEntity": "feeRecords",
+      "submitLabel": "Record Payment",
+      "sections": [
+        {
+          "id": "fee-details",
+          "title": "Fee Payment Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "studentId",
+              "type": "text",
+              "label": "Student ID",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "studentName",
+              "type": "text",
+              "label": "Student Name",
+              "width": "half"
+            },
+            {
+              "id": "feeType",
+              "type": "select",
+              "label": "Fee Category",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "tuition",
+                  "label": "Tuition Fee"
+                },
+                {
+                  "value": "hostel",
+                  "label": "Hostel Fee"
+                },
+                {
+                  "value": "exam",
+                  "label": "Exam Fee"
+                },
+                {
+                  "value": "library",
+                  "label": "Library Fee"
+                },
+                {
+                  "value": "sports",
+                  "label": "Sports Fee"
+                },
+                {
+                  "value": "misc",
+                  "label": "Miscellaneous"
+                }
+              ]
+            },
+            {
+              "id": "amount",
+              "type": "number",
+              "label": "Amount (₹)",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "paymentMode",
+              "type": "select",
+              "label": "Payment Mode",
+              "width": "half",
+              "options": [
+                {
+                  "value": "online",
+                  "label": "Online Transfer"
+                },
+                {
+                  "value": "dd",
+                  "label": "Demand Draft"
+                },
+                {
+                  "value": "cash",
+                  "label": "Cash"
+                },
+                {
+                  "value": "upi",
+                  "label": "UPI"
+                }
+              ]
+            },
+            {
+              "id": "transactionId",
+              "type": "text",
+              "label": "Transaction / DD No.",
+              "width": "half"
+            },
+            {
+              "id": "paymentDate",
+              "type": "date",
+              "label": "Payment Date",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "semester",
+              "type": "text",
+              "label": "For Semester",
+              "width": "half"
+            },
+            {
+              "id": "receipt",
+              "type": "file",
+              "label": "Payment Receipt",
+              "width": "half"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-exam-schedule",
+      "name": "Exam Schedule",
+      "icon": "quiz",
+      "description": "Create an examination schedule entry",
+      "datasourceEntity": "exams",
+      "submitLabel": "Create Schedule",
+      "sections": [
+        {
+          "id": "exam-details",
+          "title": "Examination Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "examType",
+              "type": "select",
+              "label": "Exam Type",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "midterm",
+                  "label": "Mid-Term"
+                },
+                {
+                  "value": "endterm",
+                  "label": "End-Term"
+                },
+                {
+                  "value": "supplemental",
+                  "label": "Supplemental"
+                },
+                {
+                  "value": "practical",
+                  "label": "Practical"
+                }
+              ]
+            },
+            {
+              "id": "subjectCode",
+              "type": "text",
+              "label": "Subject Code",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "subjectName",
+              "type": "text",
+              "label": "Subject Name",
+              "width": "half"
+            },
+            {
+              "id": "department",
+              "type": "text",
+              "label": "Department",
+              "width": "half"
+            },
+            {
+              "id": "semester",
+              "type": "text",
+              "label": "Semester",
+              "width": "half"
+            },
+            {
+              "id": "examDate",
+              "type": "date",
+              "label": "Exam Date",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "startTime",
+              "type": "time",
+              "label": "Start Time",
+              "width": "half"
+            },
+            {
+              "id": "duration",
+              "type": "number",
+              "label": "Duration (mins)",
+              "width": "half"
+            },
+            {
+              "id": "hallNumber",
+              "type": "text",
+              "label": "Hall / Room Number",
+              "width": "half"
+            },
+            {
+              "id": "maxMarks",
+              "type": "number",
+              "label": "Maximum Marks",
+              "width": "half"
+            },
+            {
+              "id": "invigilators",
+              "type": "textarea",
+              "label": "Invigilators",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-research-proposal",
+      "name": "Research Proposal",
+      "icon": "biotech",
+      "description": "Submit a new research project proposal",
+      "datasourceEntity": "researchProjects",
+      "submitLabel": "Submit Proposal",
+      "sections": [
+        {
+          "id": "research-details",
+          "title": "Research Proposal Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "title",
+              "type": "text",
+              "label": "Research Title",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "principalInvestigator",
+              "type": "text",
+              "label": "Principal Investigator",
+              "width": "half"
+            },
+            {
+              "id": "department",
+              "type": "text",
+              "label": "Department",
+              "width": "half"
+            },
+            {
+              "id": "fundingSource",
+              "type": "select",
+              "label": "Funding Source",
+              "width": "half",
+              "options": [
+                {
+                  "value": "ugc",
+                  "label": "UGC"
+                },
+                {
+                  "value": "dst",
+                  "label": "DST"
+                },
+                {
+                  "value": "csir",
+                  "label": "CSIR"
+                },
+                {
+                  "value": "icmr",
+                  "label": "ICMR"
+                },
+                {
+                  "value": "internal",
+                  "label": "Internal"
+                },
+                {
+                  "value": "industry",
+                  "label": "Industry Sponsored"
+                }
+              ]
+            },
+            {
+              "id": "budgetRequested",
+              "type": "number",
+              "label": "Budget Requested (₹)",
+              "width": "half"
+            },
+            {
+              "id": "startDate",
+              "type": "date",
+              "label": "Proposed Start",
+              "width": "half"
+            },
+            {
+              "id": "endDate",
+              "type": "date",
+              "label": "Proposed End",
+              "width": "half"
+            },
+            {
+              "id": "abstract",
+              "type": "richtext",
+              "label": "Abstract",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "document",
+              "type": "file",
+              "label": "Full Proposal Document",
+              "width": "half"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dataframes": [
+    {
+      "id": "df-students",
+      "name": "Student Directory",
+      "entity": "students",
+      "searchable": true,
+      "searchFields": [
+        "studentId",
+        "firstName",
+        "lastName",
+        "email",
+        "department",
+        "program"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "firstName",
+        "direction": "asc"
+      },
+      "pageSize": 75,
+      "addFormId": "form-student-admission",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "studentId",
+          "header": "Student ID",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c2",
+          "field": "fullName",
+          "header": "Name",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "program",
+          "header": "Program",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "B.Tech",
+              "label": "B.Tech",
+              "color": "#2563eb"
+            },
+            {
+              "value": "M.Tech",
+              "label": "M.Tech",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "MBA",
+              "label": "MBA",
+              "color": "#059669"
+            },
+            {
+              "value": "PhD",
+              "label": "PhD",
+              "color": "#d97706"
+            },
+            {
+              "value": "B.Sc",
+              "label": "B.Sc",
+              "color": "#0891b2"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "field": "department",
+          "header": "Department",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c5",
+          "field": "semester",
+          "header": "Semester",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c6",
+          "field": "cgpa",
+          "header": "CGPA",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "attendance",
+          "header": "Attendance%",
+          "type": "percentage",
+          "sortable": true
+        },
+        {
+          "id": "c8",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Active",
+              "label": "Active",
+              "color": "#059669"
+            },
+            {
+              "value": "On Hold",
+              "label": "On Hold",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Graduated",
+              "label": "Graduated",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Dropout",
+              "label": "Dropout",
+              "color": "#dc2626"
+            }
+          ]
+        },
+        {
+          "id": "c9",
+          "field": "hostel",
+          "header": "Hostel",
+          "type": "boolean"
+        },
+        {
+          "id": "c10",
+          "field": "batch",
+          "header": "Batch",
+          "type": "text",
+          "filterable": true
+        }
+      ]
+    },
+    {
+      "id": "df-faculty",
+      "name": "Faculty Directory",
+      "entity": "faculty",
+      "searchable": true,
+      "searchFields": [
+        "facultyId",
+        "name",
+        "department",
+        "designation",
+        "email"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "name",
+        "direction": "asc"
+      },
+      "pageSize": 50,
+      "addFormId": "form-faculty-leave",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "facultyId",
+          "header": "Faculty ID",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "name",
+          "header": "Name",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "designation",
+          "header": "Designation",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Professor",
+              "label": "Professor",
+              "color": "#1e1b4b"
+            },
+            {
+              "value": "Associate Prof",
+              "label": "Assoc Prof",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "Assistant Prof",
+              "label": "Asst Prof",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Lecturer",
+              "label": "Lecturer",
+              "color": "#059669"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "field": "department",
+          "header": "Department",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c5",
+          "field": "specialization",
+          "header": "Specialization",
+          "type": "text"
+        },
+        {
+          "id": "c6",
+          "field": "experience",
+          "header": "Exp (yrs)",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "publications",
+          "header": "Publications",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c8",
+          "field": "email",
+          "header": "Email",
+          "type": "link"
+        }
+      ]
+    },
+    {
+      "id": "df-grades",
+      "name": "Grade Records",
+      "entity": "grades",
+      "searchable": true,
+      "searchFields": [
+        "studentId",
+        "studentName",
+        "subjectCode",
+        "subjectName"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "semester",
+        "direction": "desc"
+      },
+      "pageSize": 100,
+      "columns": [
+        {
+          "id": "c1",
+          "field": "studentId",
+          "header": "Student ID",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "studentName",
+          "header": "Student",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "subjectCode",
+          "header": "Subject Code",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c4",
+          "field": "subjectName",
+          "header": "Subject",
+          "type": "text"
+        },
+        {
+          "id": "c5",
+          "field": "semester",
+          "header": "Semester",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c6",
+          "field": "internalMarks",
+          "header": "Internal",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "externalMarks",
+          "header": "External",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c8",
+          "field": "totalMarks",
+          "header": "Total",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c9",
+          "field": "grade",
+          "header": "Grade",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "O",
+              "label": "O",
+              "color": "#059669"
+            },
+            {
+              "value": "A+",
+              "label": "A+",
+              "color": "#2563eb"
+            },
+            {
+              "value": "A",
+              "label": "A",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "B+",
+              "label": "B+",
+              "color": "#d97706"
+            },
+            {
+              "value": "B",
+              "label": "B",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "C",
+              "label": "C",
+              "color": "#6b7280"
+            },
+            {
+              "value": "F",
+              "label": "F",
+              "color": "#dc2626"
+            }
+          ]
+        },
+        {
+          "id": "c10",
+          "field": "credits",
+          "header": "Credits",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "id": "df-feerecords",
+      "name": "Fee Records",
+      "entity": "feeRecords",
+      "searchable": true,
+      "searchFields": [
+        "studentId",
+        "studentName"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "dueDate",
+        "direction": "asc"
+      },
+      "pageSize": 50,
+      "addFormId": "form-fee-payment",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "receiptNo",
+          "header": "Receipt No",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "studentId",
+          "header": "Student ID",
+          "type": "text"
+        },
+        {
+          "id": "c3",
+          "field": "studentName",
+          "header": "Student",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c4",
+          "field": "feeType",
+          "header": "Fee Type",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c5",
+          "field": "amount",
+          "header": "Amount",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c6",
+          "field": "dueDate",
+          "header": "Due Date",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "paidDate",
+          "header": "Paid Date",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c8",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Paid",
+              "label": "Paid",
+              "color": "#059669"
+            },
+            {
+              "value": "Pending",
+              "label": "Pending",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Overdue",
+              "label": "Overdue",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Waived",
+              "label": "Waived",
+              "color": "#6b7280"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "df-exams",
+      "name": "Exam Schedule",
+      "entity": "exams",
+      "searchable": true,
+      "searchFields": [
+        "subjectCode",
+        "subjectName",
+        "department"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "examDate",
+        "direction": "asc"
+      },
+      "pageSize": 50,
+      "addFormId": "form-exam-schedule",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "subjectCode",
+          "header": "Subject Code",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "subjectName",
+          "header": "Subject",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "examType",
+          "header": "Type",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Mid-Term",
+              "label": "Mid-Term",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "End-Term",
+              "label": "End-Term",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Practical",
+              "label": "Practical",
+              "color": "#059669"
+            },
+            {
+              "value": "Supplemental",
+              "label": "Supplemental",
+              "color": "#f59e0b"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "field": "department",
+          "header": "Department",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c5",
+          "field": "semester",
+          "header": "Semester",
+          "type": "text"
+        },
+        {
+          "id": "c6",
+          "field": "examDate",
+          "header": "Date",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "startTime",
+          "header": "Time",
+          "type": "text"
+        },
+        {
+          "id": "c8",
+          "field": "hallNumber",
+          "header": "Hall",
+          "type": "text"
+        },
+        {
+          "id": "c9",
+          "field": "maxMarks",
+          "header": "Max Marks",
+          "type": "number"
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "page-uni-dashboard",
+      "name": "University Command Centre",
+      "widgets": [
+        {
+          "id": "w1",
+          "type": "kpi",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Total Students",
+            "entity": "students",
+            "metric": "count",
+            "icon": "groups",
+            "color": "#7C3AED"
+          }
+        },
+        {
+          "id": "w2",
+          "type": "kpi",
+          "layout": {
+            "x": 2,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Faculty Members",
+            "entity": "faculty",
+            "metric": "count",
+            "icon": "school",
+            "color": "#1E1B4B"
+          }
+        },
+        {
+          "id": "w3",
+          "type": "kpi",
+          "layout": {
+            "x": 4,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Active Courses",
+            "entity": "courses",
+            "metric": "count",
+            "icon": "menu_book",
+            "color": "#059669"
+          }
+        },
+        {
+          "id": "w4",
+          "type": "kpi",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Pending Fees",
+            "entity": "feeRecords",
+            "metric": "sum",
+            "field": "amount",
+            "filter": {
+              "status": "Pending"
+            },
+            "icon": "payments",
+            "color": "#dc2626",
+            "prefix": "₹"
+          }
+        },
+        {
+          "id": "w5",
+          "type": "kpi",
+          "layout": {
+            "x": 8,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Exams This Week",
+            "entity": "exams",
+            "metric": "count",
+            "icon": "quiz",
+            "color": "#d97706"
+          }
+        },
+        {
+          "id": "w6",
+          "type": "kpi",
+          "layout": {
+            "x": 10,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Research Projects",
+            "entity": "researchProjects",
+            "metric": "count",
+            "icon": "biotech",
+            "color": "#0891b2"
+          }
+        },
+        {
+          "id": "w7",
+          "type": "chart",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 4
+          },
+          "config": {
+            "title": "Students by Department",
+            "chartType": "bar",
+            "entity": "students",
+            "groupByField": "department",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w8",
+          "type": "chart",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 6,
+            "h": 4
+          },
+          "config": {
+            "title": "Program Enrollment Distribution",
+            "chartType": "donut",
+            "entity": "students",
+            "groupByField": "program",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w9",
+          "type": "chart",
+          "layout": {
+            "x": 0,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Grade Distribution",
+            "chartType": "pie",
+            "entity": "grades",
+            "groupByField": "grade",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w10",
+          "type": "chart",
+          "layout": {
+            "x": 4,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Attendance Trend",
+            "chartType": "area",
+            "entity": "attendanceRecords",
+            "groupByField": "date",
+            "aggregation": "count",
+            "limit": 30
+          }
+        },
+        {
+          "id": "w11",
+          "type": "chart",
+          "layout": {
+            "x": 8,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Fee Collection by Month",
+            "chartType": "bar",
+            "entity": "feeRecords",
+            "groupByField": "paidMonth",
+            "aggregation": "sum",
+            "aggregateField": "amount"
+          }
+        },
+        {
+          "id": "w12",
+          "type": "dataframe",
+          "layout": {
+            "x": 0,
+            "y": 10,
+            "w": 12,
+            "h": 5
+          },
+          "config": {
+            "title": "Recent Admissions",
+            "dataframeId": "df-students",
+            "pageSize": 10,
+            "showSearch": false
+          }
+        }
+      ]
+    }
+  ],
+  "workflows": [
+    {
+      "id": "wf-admission",
+      "name": "Student Admission Process",
+      "category": "Student Management",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Admission Form Submitted",
+        "config": {
+          "formId": "form-student-admission",
+          "event": "submit"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Verify Eligibility",
+          "config": {
+            "endpoint": "/api/admission/verify",
+            "method": "POST"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "condition",
+          "name": "Eligible?",
+          "config": {
+            "condition": "eligible == true",
+            "branches": [
+              "s3",
+              "s4"
+            ]
+          }
+        },
+        {
+          "id": "s3",
+          "type": "api",
+          "name": "Generate Student ID",
+          "config": {
+            "endpoint": "/api/students/create",
+            "method": "POST"
+          },
+          "nextStepId": "s5"
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Rejection Notice",
+          "config": {
+            "channel": "email",
+            "template": "admission-rejected",
+            "to": "{{applicant.email}}"
+          }
+        },
+        {
+          "id": "s5",
+          "type": "notification",
+          "name": "Admission Confirmation",
+          "config": {
+            "channel": "email",
+            "template": "admission-confirmed",
+            "to": "{{applicant.email}}"
+          },
+          "nextStepId": "s6"
+        },
+        {
+          "id": "s6",
+          "type": "notification",
+          "name": "Fee Payment Reminder",
+          "config": {
+            "channel": "email",
+            "template": "fee-due",
+            "to": "{{applicant.email}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-faculty-leave",
+      "name": "Faculty Leave Approval",
+      "category": "HR",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Leave Applied",
+        "config": {
+          "formId": "form-faculty-leave",
+          "event": "submit"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "condition",
+          "name": "Lecture Covered?",
+          "config": {
+            "condition": "alternateArrangement != empty",
+            "branches": [
+              "s2",
+              "s3"
+            ]
+          }
+        },
+        {
+          "id": "s2",
+          "type": "approval",
+          "name": "HOD Approval",
+          "config": {
+            "approver": "hod",
+            "deadline": "24h"
+          },
+          "onApprove": "s4",
+          "onReject": "s5"
+        },
+        {
+          "id": "s3",
+          "type": "notification",
+          "name": "Request Arrangement",
+          "config": {
+            "channel": "email",
+            "template": "no-coverage",
+            "to": "{{faculty.email}}"
+          }
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Leave Approved",
+          "config": {
+            "channel": "email",
+            "template": "leave-approved",
+            "to": "{{faculty.email}}"
+          }
+        },
+        {
+          "id": "s5",
+          "type": "notification",
+          "name": "Leave Rejected",
+          "config": {
+            "channel": "email",
+            "template": "leave-rejected",
+            "to": "{{faculty.email}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-exam-results",
+      "name": "Exam Results Publication",
+      "category": "Academics",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Results Uploaded",
+        "config": {
+          "entity": "grades",
+          "event": "bulk-create"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Calculate CGPA",
+          "config": {
+            "endpoint": "/api/grades/calculate-cgpa",
+            "method": "POST"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "api",
+          "name": "Identify Backlogs",
+          "config": {
+            "endpoint": "/api/grades/flag-backlogs",
+            "method": "POST"
+          },
+          "nextStepId": "s3"
+        },
+        {
+          "id": "s3",
+          "type": "notification",
+          "name": "Notify Students",
+          "config": {
+            "channel": "email",
+            "template": "results-published",
+            "to": "all_students"
+          },
+          "nextStepId": "s4"
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Alert Parents — Backlog",
+          "config": {
+            "channel": "sms",
+            "template": "backlog-alert",
+            "to": "{{student.parentPhone}}",
+            "condition": "hasBacklog == true"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-fee-reminder",
+      "name": "Fee Due Reminder",
+      "category": "Finance",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Fee Due in 7 Days",
+        "config": {
+          "event": "scheduled",
+          "schedule": "0 8 * * *"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Get Pending Fee Students",
+          "config": {
+            "endpoint": "/api/fees/pending-list",
+            "method": "GET"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "notification",
+          "name": "Send SMS Reminder",
+          "config": {
+            "channel": "sms",
+            "template": "fee-reminder",
+            "to": "{{student.parentPhone}}"
+          },
+          "nextStepId": "s3"
+        },
+        {
+          "id": "s3",
+          "type": "notification",
+          "name": "Send Email Reminder",
+          "config": {
+            "channel": "email",
+            "template": "fee-reminder",
+            "to": "{{student.email}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-graduation-clearance",
+      "name": "Graduation Clearance",
+      "category": "Academics",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Final Semester Complete",
+        "config": {
+          "entity": "students",
+          "event": "update",
+          "condition": "semester == 8 AND cgpa >= 4.0"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Check No Dues",
+          "config": {
+            "endpoint": "/api/clearance/check",
+            "method": "POST"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "condition",
+          "name": "All Dues Cleared?",
+          "config": {
+            "condition": "noDues == true",
+            "branches": [
+              "s3",
+              "s4"
+            ]
+          }
+        },
+        {
+          "id": "s3",
+          "type": "api",
+          "name": "Generate Provisional Certificate",
+          "config": {
+            "endpoint": "/api/certificates/generate",
+            "method": "POST"
+          },
+          "nextStepId": "s5"
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Dues Pending Notice",
+          "config": {
+            "channel": "email",
+            "template": "dues-pending",
+            "to": "{{student.email}}"
+          }
+        },
+        {
+          "id": "s5",
+          "type": "notification",
+          "name": "Convocation Invite",
+          "config": {
+            "channel": "email",
+            "template": "convocation",
+            "to": "{{student.email}}"
+          }
+        }
+      ]
+    }
+  ],
+  "desktop": {
+    "primaryClickBehaviour": "selectors",
+    "topDependencySource": "left",
+    "headerOptions": {
+      "left": [
+        {
+          "id": "logo",
+          "label": "Show Logo",
+          "checked": true
+        },
+        {
+          "id": "app-name",
+          "label": "Show App Name",
+          "checked": true
+        },
+        {
+          "id": "switcher",
+          "label": "Application Switcher",
+          "checked": false
+        }
+      ],
+      "right": [
+        {
+          "id": "add-button",
+          "label": "+ New Student",
+          "checked": true
+        },
+        {
+          "id": "global-search",
+          "label": "Search Students",
+          "checked": true
+        },
+        {
+          "id": "knowledge-base",
+          "label": "Academic Calendar",
+          "checked": true
+        },
+        {
+          "id": "notifications",
+          "label": "Notifications",
+          "checked": true
+        },
+        {
+          "id": "app-settings",
+          "label": "Settings",
+          "checked": true
+        },
+        {
+          "id": "account-settings",
+          "label": "My Account",
+          "checked": true
+        }
+      ]
+    },
+    "footerOptions": [
+      {
+        "id": "records",
+        "label": "Total Records",
+        "checked": true
+      },
+      {
+        "id": "pagination",
+        "label": "Pagination",
+        "checked": true
+      },
+      {
+        "id": "columns",
+        "label": "Column Dropdown",
+        "checked": true
+      },
+      {
+        "id": "function-type",
+        "label": "Function Type",
+        "checked": false
+      },
+      {
+        "id": "academic-year",
+        "label": "Academic Year",
+        "checked": true
+      }
+    ],
+    "environments": [
+      {
+        "id": "c80f9eb3-078e-4e2e-9d46-f6a7cd30cad1",
+        "name": "Production",
+        "url": "erp.kingsford.edu",
+        "status": "Live",
+        "users": "82,000 users"
+      },
+      {
+        "id": "dec303f0-462d-434c-9853-7887e4c5c98b",
+        "name": "Staging",
+        "url": "staging.erp.kingsford.edu",
+        "status": "Testing",
+        "users": "65 users"
+      },
+      {
+        "id": "a7fd5577-752d-4680-8943-6d4396234d6d",
+        "name": "Development",
+        "url": "dev.erp.kingsford.edu",
+        "status": "In Progress",
+        "users": "20 users"
+      }
+    ]
+  },
+  "mobile": {
+    "primaryClickBehaviour": "selectors",
+    "topDependencySource": "left",
+    "headerOptions": {
+      "left": [
+        {
+          "id": "logo",
+          "label": "Show Logo",
+          "checked": true
+        },
+        {
+          "id": "app-name",
+          "label": "Show App Name",
+          "checked": true
+        },
+        {
+          "id": "switcher",
+          "label": "Application Switcher",
+          "checked": false
+        }
+      ],
+      "right": [
+        {
+          "id": "add-button",
+          "label": "+ New",
+          "checked": true
+        },
+        {
+          "id": "global-search",
+          "label": "Search",
+          "checked": true
+        },
+        {
+          "id": "notifications",
+          "label": "Alerts",
+          "checked": true
+        },
+        {
+          "id": "account-settings",
+          "label": "Account",
+          "checked": true
+        }
+      ]
+    },
+    "bottomNavItems": [
+      {
+        "id": "dashboard",
+        "label": "Home",
+        "icon": "school"
+      },
+      {
+        "id": "students",
+        "label": "Students",
+        "icon": "groups"
+      },
+      {
+        "id": "academics",
+        "label": "Academics",
+        "icon": "auto_stories"
+      },
+      {
+        "id": "admin",
+        "label": "Admin",
+        "icon": "admin_panel_settings"
+      },
+      {
+        "id": "more",
+        "label": "More",
+        "icon": "more_horiz"
+      }
+    ],
+    "environments": [
+      {
+        "id": "3a10611e-d261-4897-baff-62b4ffa4317f",
+        "name": "Production",
+        "url": "m.erp.kingsford.edu",
+        "status": "Live",
+        "users": "50,000 users"
+      }
+    ]
+  },
+  "mockData": {
+    "seed": 19,
+    "entities": [
+      "students",
+      "faculty",
+      "courses",
+      "grades",
+      "attendanceRecords",
+      "exams",
+      "feeRecords",
+      "libraryBooks",
+      "hostelRooms",
+      "researchProjects"
+    ],
+    "recordCounts": {
+      "students": 75000,
+      "faculty": 3500,
+      "courses": 2500,
+      "grades": 500000,
+      "attendanceRecords": 300000,
+      "exams": 8000,
+      "feeRecords": 200000,
+      "libraryBooks": 50000,
+      "hostelRooms": 5000,
+      "researchProjects": 1500
+    }
+  }
+}

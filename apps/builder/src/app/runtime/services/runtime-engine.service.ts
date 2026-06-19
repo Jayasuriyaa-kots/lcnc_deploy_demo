@@ -15,6 +15,10 @@ import type {
 } from '../models/app-config.model';
 import type { NavigationPage } from '../../features/deployment/models/deployment.models';
 import { HEXAWARE_APP_CONFIG } from '../configs/hexaware.config';
+import rawFinance from '../configs/finance.config.json';
+import rawHealthcare from '../configs/healthcare.config.json';
+import rawLogistics from '../configs/logistics.config.json';
+import rawUniversity from '../configs/university.config.json';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // RuntimeEngineService
@@ -40,14 +44,41 @@ const BUILDER_STALE_KEYS = [
   'qo-deployment-mobile-layout-json',
 ];
 
+/** Named presets bundled at build time — switching by URL param works on any device */
+export const PRESET_CONFIGS: Record<string, AppConfig> = {
+  swiftmove: HEXAWARE_APP_CONFIG,
+  finance:   rawFinance    as unknown as AppConfig,
+  healthcare: rawHealthcare as unknown as AppConfig,
+  logistics:  rawLogistics  as unknown as AppConfig,
+  university: rawUniversity as unknown as AppConfig,
+};
+
 function loadInitialConfig(): AppConfig {
+  // 1. URL ?preset=X param — shareable across devices
+  try {
+    const preset = new URLSearchParams(window.location.search).get('preset');
+    if (preset && PRESET_CONFIGS[preset]) {
+      const cfg = PRESET_CONFIGS[preset];
+      localStorage.setItem(CONFIG_OVERRIDE_KEY, JSON.stringify(cfg));
+      return cfg;
+    }
+  } catch { /* ignore */ }
+
+  // 2. localStorage override (from a previous Load Config action)
   try {
     const stored = localStorage.getItem(CONFIG_OVERRIDE_KEY);
     if (stored) return JSON.parse(stored) as AppConfig;
-  } catch {
-    // corrupted — fall through to default
-  }
+  } catch { /* corrupted — fall through */ }
+
   return HEXAWARE_APP_CONFIG;
+}
+
+/** Returns the preset key for a config, or null if it's a custom upload */
+function findPresetName(config: AppConfig): string | null {
+  for (const [name, preset] of Object.entries(PRESET_CONFIGS)) {
+    if (preset.application.id === config.application.id) return name;
+  }
+  return null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -155,6 +186,11 @@ export class RuntimeEngineService {
 
   getWorkflowById(id: string): WorkflowConfig | undefined {
     return this._config().workflows.find(w => w.id === id);
+  }
+
+  /** Returns the preset name if the current (or given) config matches a built-in preset. */
+  getPresetName(config?: AppConfig): string | null {
+    return findPresetName(config ?? this._config());
   }
 
   /** Replace the active config at runtime. Persists to localStorage so it survives page reloads. */

@@ -59,50 +59,94 @@
   <div class="config-loader-backdrop" (click)="closeConfigLoader()"></div>
   <div class="config-loader-modal" role="dialog" aria-modal="true" aria-label="Load Config">
     <div class="config-loader-modal__header">
-      <span class="material-symbols-outlined config-loader-modal__icon">upload_file</span>
-      <h2 class="config-loader-modal__title">Load Config File</h2>
+      <span class="material-symbols-outlined config-loader-modal__icon">
+        {{ configApplied() ? 'check_circle' : 'upload_file' }}
+      </span>
+      <h2 class="config-loader-modal__title">
+        {{ configApplied() ? 'Config Applied' : 'Load Config File' }}
+      </h2>
       <button class="config-loader-modal__close" type="button" aria-label="Close" (click)="closeConfigLoader()">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
 
-    <div class="config-loader-modal__body">
-      <label class="config-loader-modal__upload-zone">
-        <input
-          type="file"
-          accept=".json,application/json"
-          class="config-loader-modal__file-input"
-          (change)="onConfigFileSelected($event)"
-        />
-        <span class="material-symbols-outlined config-loader-modal__upload-icon">folder_open</span>
-        @if (configFileName()) {
-          <span class="config-loader-modal__file-name">{{ configFileName() }}</span>
-        } @else {
-          <span class="config-loader-modal__upload-hint">Click to browse for a <strong>.json</strong> config file</span>
+    @if (configApplied()) {
+      <!-- ── Success state ─────────────────────────────────────────────────── -->
+      <div class="config-loader-modal__body">
+        <div class="config-loader-modal__success">
+          <span class="material-symbols-outlined config-loader-modal__success-icon">task_alt</span>
+          <p class="config-loader-modal__success-msg">Config loaded successfully. Share the link below so anyone on any device can view this configuration.</p>
+        </div>
+
+        <div class="config-loader-modal__share-row">
+          <input
+            class="config-loader-modal__share-input"
+            type="text"
+            readonly
+            [value]="shareableLink() ?? ''"
+          />
+          <button
+            class="config-loader-modal__copy-btn"
+            type="button"
+            (click)="copyShareableLink()"
+            [attr.aria-label]="linkCopied() ? 'Copied!' : 'Copy link'">
+            <span class="material-symbols-outlined">{{ linkCopied() ? 'check' : 'content_copy' }}</span>
+            {{ linkCopied() ? 'Copied!' : 'Copy' }}
+          </button>
+        </div>
+
+        <p class="config-loader-modal__share-hint">
+          <span class="material-symbols-outlined">info</span>
+          Paste this link in any browser or phone — the config loads automatically.
+        </p>
+      </div>
+
+      <div class="config-loader-modal__footer">
+        <qo-button variant="primary" type="button" (click)="closeConfigLoader()">
+          <span class="material-symbols-outlined">open_in_new</span>
+          Open Mobile Preview
+        </qo-button>
+      </div>
+    } @else {
+      <!-- ── Upload / paste state ──────────────────────────────────────────── -->
+      <div class="config-loader-modal__body">
+        <label class="config-loader-modal__upload-zone">
+          <input
+            type="file"
+            accept=".json,application/json"
+            class="config-loader-modal__file-input"
+            (change)="onConfigFileSelected($event)"
+          />
+          <span class="material-symbols-outlined config-loader-modal__upload-icon">folder_open</span>
+          @if (configFileName()) {
+            <span class="config-loader-modal__file-name">{{ configFileName() }}</span>
+          } @else {
+            <span class="config-loader-modal__upload-hint">Click to browse for a <strong>.json</strong> config file</span>
+          }
+        </label>
+
+        <p class="config-loader-modal__or">— or paste JSON below —</p>
+
+        <textarea
+          class="config-loader-modal__textarea"
+          placeholder='{ "application": { "id": "...", "name": "..." }, ... }'
+          rows="8"
+          [value]="configJsonDraft()"
+          (input)="configJsonDraft.set($any($event.target).value)"
+        ></textarea>
+
+        @if (configLoadError()) {
+          <p class="config-loader-modal__error">{{ configLoadError() }}</p>
         }
-      </label>
+      </div>
 
-      <p class="config-loader-modal__or">— or paste JSON below —</p>
-
-      <textarea
-        class="config-loader-modal__textarea"
-        placeholder='{ "application": { "id": "...", "name": "..." }, ... }'
-        rows="8"
-        [value]="configJsonDraft()"
-        (input)="configJsonDraft.set($any($event.target).value)"
-      ></textarea>
-
-      @if (configLoadError()) {
-        <p class="config-loader-modal__error">{{ configLoadError() }}</p>
-      }
-    </div>
-
-    <div class="config-loader-modal__footer">
-      <qo-button variant="secondary" type="button" (click)="closeConfigLoader()">Cancel</qo-button>
-      <qo-button variant="primary" type="button" (click)="applyConfig()">
-        <span class="material-symbols-outlined">check_circle</span>
-        Apply Config
-      </qo-button>
-    </div>
+      <div class="config-loader-modal__footer">
+        <qo-button variant="secondary" type="button" (click)="closeConfigLoader()">Cancel</qo-button>
+        <qo-button variant="primary" type="button" (click)="applyConfig()">
+          <span class="material-symbols-outlined">check_circle</span>
+          Apply Config
+        </qo-button>
+      </div>
+    }
   </div>
 }

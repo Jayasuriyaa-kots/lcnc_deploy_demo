@@ -1,0 +1,2873 @@
+{
+  "application": {
+    "id": "7aaee68a-29b3-4c87-9b08-846fd4774842",
+    "version": "2.1.0",
+    "name": "Meridian Capital",
+    "environment": "production"
+  },
+  "branding": {
+    "companyName": "Meridian Capital Management",
+    "appName": "Capital Suite",
+    "logoUrl": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMEExNjI4Ii8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNDOUE4NEMiPk1DPC90ZXh0Pjwvc3ZnPg==",
+    "faviconUrl": "https://assets.meridiancapital.com/logo/favicon-gold.ico",
+    "primaryColor": "#0A1628",
+    "secondaryColor": "#C9A84C",
+    "accentColor": "#E8C86A"
+  },
+  "theme": {
+    "headerBg": "#0A1628",
+    "headerText": "#F5F0E8",
+    "navBg": "#0A1628",
+    "navText": "#C9A84C",
+    "navActiveBg": "#C9A84C",
+    "navActiveText": "#0A1628",
+    "sidebarBg": "#0F2040",
+    "sidebarText": "#CBD5E1",
+    "sidebarActiveBg": "#C9A84C",
+    "sidebarActiveText": "#0A1628",
+    "workspaceBg": "#F0F4F8",
+    "footerBg": "#0A1628",
+    "footerText": "#94A3B8",
+    "borderColor": "#1E3A5F",
+    "hoverBg": "#E8F0FE",
+    "primaryColor": "#0A1628",
+    "secondaryColor": "#EEF2F7",
+    "textPrimary": "#0A1628",
+    "textSecondary": "#475569"
+  },
+  "navigation": {
+    "primaryPages": [
+      {
+        "id": "1108b591-245c-494c-aca5-eed2301905a6",
+        "label": "Dashboard",
+        "icon": "dashboard",
+        "tone": "green",
+        "pageTargetId": "page-finance-dashboard",
+        "pageTargetType": "page"
+      },
+      {
+        "id": "7b92c485-eab7-490d-93d0-8919092c5c01",
+        "label": "Portfolio",
+        "icon": "account_balance_wallet",
+        "tone": "blue",
+        "leftPages": [
+          {
+            "id": "349a957b-4689-4a65-996b-e2692593ce3c",
+            "label": "Equities",
+            "icon": "trending_up",
+            "tone": "blue",
+            "subPages": [
+              {
+                "id": "41567058-2947-4037-8993-46801c26124e",
+                "label": "All Holdings",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "c467c503-f442-407b-b841-d252dd6dc18b",
+                    "label": "All",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_eq_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "a3da0822-8067-464e-87f4-f3a9e6589b70",
+                    "label": "Long",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_eq_buy",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "8ca77633-8bbe-4e32-aea6-2664e5ae2338",
+                    "label": "Short",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_eq_sell",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "4e8cd2d1-ccd6-4628-bdd0-be4e7352ab34",
+                    "label": "Neutral",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_eq_hold",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "5b99a874-e039-422e-93d6-9f740d50f61e",
+                "label": "Growth",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "9ecffc54-52c7-4abd-92df-81cc3dd6e4e6",
+                    "label": "All Growth",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_growth_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "a94d25c3-874a-4fbd-bb03-f8abbc0917d0",
+                    "label": "Large Cap",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_growth_large",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "76b68e64-49e9-48e1-a22d-3dcfc5a3a051",
+                    "label": "Mid Cap",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_growth_mid",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "966bd811-77d3-4ca9-839f-51c555eecaf9",
+                "label": "Value",
+                "icon": "article",
+                "tone": "blue",
+                "pageTargetId": "r_eq_value",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "6be4d9c3-af1e-4a29-8c6f-0dc27720324d",
+            "label": "Fixed Income",
+            "icon": "receipt_long",
+            "tone": "blue",
+            "subPages": [
+              {
+                "id": "abc49967-62d7-4e5f-9618-fbb906b885c5",
+                "label": "Government",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "3effc6bb-9790-439c-97dc-cd8c794c46ef",
+                    "label": "All Govt",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_bgov_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "f38b4c60-bc4a-41d2-8ec9-1bad7e289822",
+                    "label": "Short Term",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_bgov_short",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "c7e23ae2-46c2-4727-af85-397439917225",
+                    "label": "Long Term",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_bgov_long",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "f287bdb7-c6d0-4e44-9fab-891e2b9e38af",
+                "label": "Corporate",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "f7437c2f-ecef-4842-a7ae-d52d625b882a",
+                    "label": "All Corp",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_bcorp_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "35319a43-28e3-4f12-92a3-8cd5ac882412",
+                    "label": "Inv Grade",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_bcorp_ig",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "65faa84d-c56b-42a6-95fb-69574f969c78",
+                    "label": "High Yield",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_bcorp_hy",
+                    "pageTargetType": "report"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "04ae8e13-cbaf-457c-8198-59b55af2761d",
+            "label": "Derivatives",
+            "icon": "multiline_chart",
+            "tone": "purple",
+            "pageTargetId": "r_derivatives",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "81e5c693-632f-4e18-84ce-2a4199f40bb8",
+            "label": "Cash & Money Mkt",
+            "icon": "savings",
+            "tone": "green",
+            "pageTargetId": "r_cash",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "85db6fe3-79c4-488e-89f9-2b691acb2bd0",
+            "label": "FX",
+            "icon": "currency_exchange",
+            "tone": "blue",
+            "pageTargetId": "r_fx",
+            "pageTargetType": "report"
+          }
+        ]
+      },
+      {
+        "id": "175bb47d-4d23-4bf0-a035-a350d400868a",
+        "label": "Markets",
+        "icon": "candlestick_chart",
+        "tone": "purple",
+        "leftPages": [
+          {
+            "id": "5e5bcf94-c331-48da-8594-cee457245eca",
+            "label": "Live Prices",
+            "icon": "bar_chart",
+            "tone": "blue",
+            "topTabs": [
+              {
+                "id": "b76854bf-5160-49c7-81cf-6977494f87bb",
+                "label": "Equities",
+                "icon": "tab",
+                "tone": "blue",
+                "pageTargetId": "r_live_eq",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "7590f2f3-a7d8-425e-a102-c69df357468d",
+                "label": "FX Rates",
+                "icon": "tab",
+                "tone": "purple",
+                "pageTargetId": "r_live_fx",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "2395f43a-5f58-4de2-b013-c7d2ab35ae2c",
+                "label": "Commodities",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_live_comm",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "d84f7fdf-8860-44d6-b79b-4b32607bf083",
+            "label": "Historical Data",
+            "icon": "history",
+            "tone": "blue",
+            "pageTargetId": "r_hist",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "34d46b6d-901e-4e56-b23e-4d5571e78ac5",
+            "label": "Watchlist",
+            "icon": "star",
+            "tone": "purple",
+            "pageTargetId": "r_watchlist",
+            "pageTargetType": "report"
+          }
+        ]
+      },
+      {
+        "id": "22eccaa6-b275-4317-ad43-84aab8f71585",
+        "label": "Compliance",
+        "icon": "gavel",
+        "tone": "blue",
+        "leftPages": [
+          {
+            "id": "6f017926-1cb4-4531-9a6e-e83163e07cff",
+            "label": "KYC",
+            "icon": "verified_user",
+            "tone": "green",
+            "topTabs": [
+              {
+                "id": "9b95c353-92f3-40af-8ce5-2d857b6657cd",
+                "label": "Pending Review",
+                "icon": "tab",
+                "tone": "purple",
+                "pageTargetId": "r_kyc_pend",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "9195ea55-34dc-490a-b0ab-413df0773439",
+                "label": "Verified",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_kyc_done",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "bf8178b1-2408-48b9-813f-c93b9e60ed63",
+                "label": "Rejected",
+                "icon": "tab",
+                "tone": "blue",
+                "pageTargetId": "r_kyc_rej",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "34def900-4e97-4ae7-aecf-20fcf2a6ec4c",
+            "label": "AML Screening",
+            "icon": "policy",
+            "tone": "blue",
+            "topTabs": [
+              {
+                "id": "9f72c912-4ace-4312-8b57-1441fed97a83",
+                "label": "Active Alerts",
+                "icon": "tab",
+                "tone": "purple",
+                "pageTargetId": "r_aml_alert",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "f1bc1d1e-a52f-4660-88f8-027eb8181a5d",
+                "label": "Under Review",
+                "icon": "tab",
+                "tone": "blue",
+                "pageTargetId": "r_aml_inv",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "77ae077b-4026-4c8c-b96f-eb8a158dcf8b",
+                "label": "Cleared",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_aml_clear",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "65b5450d-75a4-46e6-9e1f-c33a2c09c833",
+            "label": "Audit Trail",
+            "icon": "assignment",
+            "tone": "blue",
+            "pageTargetId": "r_audit",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "a8d57ee8-0661-4587-bf7b-822b6a94793d",
+            "label": "Risk Limits",
+            "icon": "warning",
+            "tone": "purple",
+            "pageTargetId": "r_risklim",
+            "pageTargetType": "report"
+          }
+        ]
+      },
+      {
+        "id": "414d5b98-287e-4174-81c9-af40b9545f68",
+        "label": "Reports",
+        "icon": "insert_chart",
+        "tone": "green",
+        "leftPages": [
+          {
+            "id": "a53c6424-76e2-465e-a7ee-395e2dbeff6d",
+            "label": "P&L Reports",
+            "icon": "show_chart",
+            "tone": "green",
+            "topTabs": [
+              {
+                "id": "4ade2892-b248-4ec9-ac08-a1044e655c0a",
+                "label": "Daily P&L",
+                "icon": "tab",
+                "tone": "blue",
+                "pageTargetId": "r_pnl_daily",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "379e34bc-6b9d-4a54-8b9b-efec23811945",
+                "label": "Month-to-Date",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_pnl_mtd",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "3d7c6449-1ecd-44c9-b017-8a5a033ef105",
+                "label": "Year-to-Date",
+                "icon": "tab",
+                "tone": "purple",
+                "pageTargetId": "r_pnl_ytd",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "d65067ea-07dd-4625-b25b-7039753474e6",
+            "label": "Risk Reports",
+            "icon": "assessment",
+            "tone": "blue",
+            "pageTargetId": "r_riskrpt",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "e3e316f9-ac59-4a5d-b92a-b50d5a760a6b",
+            "label": "Client Reports",
+            "icon": "people_outline",
+            "tone": "purple",
+            "pageTargetId": "r_client",
+            "pageTargetType": "report"
+          }
+        ]
+      }
+    ]
+  },
+  "pageTargets": {
+    "1108b591-245c-494c-aca5-eed2301905a6": {
+      "assetId": "page-finance-dashboard",
+      "assetType": "page"
+    },
+    "c467c503-f442-407b-b841-d252dd6dc18b": {
+      "assetId": "r_eq_all",
+      "assetType": "report"
+    },
+    "a3da0822-8067-464e-87f4-f3a9e6589b70": {
+      "assetId": "r_eq_buy",
+      "assetType": "report"
+    },
+    "8ca77633-8bbe-4e32-aea6-2664e5ae2338": {
+      "assetId": "r_eq_sell",
+      "assetType": "report"
+    },
+    "4e8cd2d1-ccd6-4628-bdd0-be4e7352ab34": {
+      "assetId": "r_eq_hold",
+      "assetType": "report"
+    },
+    "9ecffc54-52c7-4abd-92df-81cc3dd6e4e6": {
+      "assetId": "r_growth_all",
+      "assetType": "report"
+    },
+    "a94d25c3-874a-4fbd-bb03-f8abbc0917d0": {
+      "assetId": "r_growth_large",
+      "assetType": "report"
+    },
+    "76b68e64-49e9-48e1-a22d-3dcfc5a3a051": {
+      "assetId": "r_growth_mid",
+      "assetType": "report"
+    },
+    "966bd811-77d3-4ca9-839f-51c555eecaf9": {
+      "assetId": "r_eq_value",
+      "assetType": "report"
+    },
+    "3effc6bb-9790-439c-97dc-cd8c794c46ef": {
+      "assetId": "r_bgov_all",
+      "assetType": "report"
+    },
+    "f38b4c60-bc4a-41d2-8ec9-1bad7e289822": {
+      "assetId": "r_bgov_short",
+      "assetType": "report"
+    },
+    "c7e23ae2-46c2-4727-af85-397439917225": {
+      "assetId": "r_bgov_long",
+      "assetType": "report"
+    },
+    "f7437c2f-ecef-4842-a7ae-d52d625b882a": {
+      "assetId": "r_bcorp_all",
+      "assetType": "report"
+    },
+    "35319a43-28e3-4f12-92a3-8cd5ac882412": {
+      "assetId": "r_bcorp_ig",
+      "assetType": "report"
+    },
+    "65faa84d-c56b-42a6-95fb-69574f969c78": {
+      "assetId": "r_bcorp_hy",
+      "assetType": "report"
+    },
+    "04ae8e13-cbaf-457c-8198-59b55af2761d": {
+      "assetId": "r_derivatives",
+      "assetType": "report"
+    },
+    "81e5c693-632f-4e18-84ce-2a4199f40bb8": {
+      "assetId": "r_cash",
+      "assetType": "report"
+    },
+    "85db6fe3-79c4-488e-89f9-2b691acb2bd0": {
+      "assetId": "r_fx",
+      "assetType": "report"
+    },
+    "b76854bf-5160-49c7-81cf-6977494f87bb": {
+      "assetId": "r_live_eq",
+      "assetType": "report"
+    },
+    "7590f2f3-a7d8-425e-a102-c69df357468d": {
+      "assetId": "r_live_fx",
+      "assetType": "report"
+    },
+    "2395f43a-5f58-4de2-b013-c7d2ab35ae2c": {
+      "assetId": "r_live_comm",
+      "assetType": "report"
+    },
+    "d84f7fdf-8860-44d6-b79b-4b32607bf083": {
+      "assetId": "r_hist",
+      "assetType": "report"
+    },
+    "34d46b6d-901e-4e56-b23e-4d5571e78ac5": {
+      "assetId": "r_watchlist",
+      "assetType": "report"
+    },
+    "9b95c353-92f3-40af-8ce5-2d857b6657cd": {
+      "assetId": "r_kyc_pend",
+      "assetType": "report"
+    },
+    "9195ea55-34dc-490a-b0ab-413df0773439": {
+      "assetId": "r_kyc_done",
+      "assetType": "report"
+    },
+    "bf8178b1-2408-48b9-813f-c93b9e60ed63": {
+      "assetId": "r_kyc_rej",
+      "assetType": "report"
+    },
+    "9f72c912-4ace-4312-8b57-1441fed97a83": {
+      "assetId": "r_aml_alert",
+      "assetType": "report"
+    },
+    "f1bc1d1e-a52f-4660-88f8-027eb8181a5d": {
+      "assetId": "r_aml_inv",
+      "assetType": "report"
+    },
+    "77ae077b-4026-4c8c-b96f-eb8a158dcf8b": {
+      "assetId": "r_aml_clear",
+      "assetType": "report"
+    },
+    "65b5450d-75a4-46e6-9e1f-c33a2c09c833": {
+      "assetId": "r_audit",
+      "assetType": "report"
+    },
+    "a8d57ee8-0661-4587-bf7b-822b6a94793d": {
+      "assetId": "r_risklim",
+      "assetType": "report"
+    },
+    "4ade2892-b248-4ec9-ac08-a1044e655c0a": {
+      "assetId": "r_pnl_daily",
+      "assetType": "report"
+    },
+    "379e34bc-6b9d-4a54-8b9b-efec23811945": {
+      "assetId": "r_pnl_mtd",
+      "assetType": "report"
+    },
+    "3d7c6449-1ecd-44c9-b017-8a5a033ef105": {
+      "assetId": "r_pnl_ytd",
+      "assetType": "report"
+    },
+    "d65067ea-07dd-4625-b25b-7039753474e6": {
+      "assetId": "r_riskrpt",
+      "assetType": "report"
+    },
+    "e3e316f9-ac59-4a5d-b92a-b50d5a760a6b": {
+      "assetId": "r_client",
+      "assetType": "report"
+    }
+  },
+  "datasources": [
+    {
+      "id": "ds-portfolios",
+      "name": "Portfolio Holdings",
+      "type": "mock",
+      "entity": "portfolios"
+    },
+    {
+      "id": "ds-transactions",
+      "name": "Transaction Ledger",
+      "type": "mock",
+      "entity": "transactions"
+    },
+    {
+      "id": "ds-clients",
+      "name": "Client Registry",
+      "type": "mock",
+      "entity": "clients"
+    },
+    {
+      "id": "ds-securities",
+      "name": "Securities Master",
+      "type": "mock",
+      "entity": "securities"
+    },
+    {
+      "id": "ds-trades",
+      "name": "Trade Blotter",
+      "type": "mock",
+      "entity": "trades"
+    },
+    {
+      "id": "ds-alerts",
+      "name": "Compliance Alerts",
+      "type": "mock",
+      "entity": "complianceAlerts"
+    },
+    {
+      "id": "ds-pnl",
+      "name": "P&L Ledger",
+      "type": "mock",
+      "entity": "pnlRecords"
+    },
+    {
+      "id": "ds-risk",
+      "name": "Risk Metrics",
+      "type": "mock",
+      "entity": "riskMetrics"
+    },
+    {
+      "id": "ds-kyc",
+      "name": "KYC Records",
+      "type": "mock",
+      "entity": "kycRecords"
+    },
+    {
+      "id": "ds-marketdata",
+      "name": "Market Data Feed",
+      "type": "mock",
+      "entity": "marketData"
+    }
+  ],
+  "forms": [
+    {
+      "id": "form-trade-entry",
+      "name": "Trade Entry",
+      "icon": "swap_horiz",
+      "description": "Enter a new buy or sell trade order",
+      "datasourceEntity": "trades",
+      "submitLabel": "Submit Trade",
+      "sections": [
+        {
+          "id": "trade-basics",
+          "title": "Trade Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "tradeType",
+              "type": "select",
+              "label": "Trade Type",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "buy",
+                  "label": "Buy"
+                },
+                {
+                  "value": "sell",
+                  "label": "Sell"
+                },
+                {
+                  "value": "short",
+                  "label": "Short"
+                },
+                {
+                  "value": "cover",
+                  "label": "Cover"
+                }
+              ]
+            },
+            {
+              "id": "assetClass",
+              "type": "select",
+              "label": "Asset Class",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "equity",
+                  "label": "Equity"
+                },
+                {
+                  "value": "bond",
+                  "label": "Bond"
+                },
+                {
+                  "value": "fx",
+                  "label": "FX"
+                },
+                {
+                  "value": "derivative",
+                  "label": "Derivative"
+                },
+                {
+                  "value": "commodity",
+                  "label": "Commodity"
+                }
+              ]
+            },
+            {
+              "id": "ticker",
+              "type": "text",
+              "label": "Ticker / ISIN",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "quantity",
+              "type": "number",
+              "label": "Quantity",
+              "width": "half",
+              "validation": {
+                "required": true,
+                "min": 1
+              }
+            },
+            {
+              "id": "limitPrice",
+              "type": "number",
+              "label": "Limit Price",
+              "width": "half"
+            },
+            {
+              "id": "orderType",
+              "type": "select",
+              "label": "Order Type",
+              "width": "half",
+              "options": [
+                {
+                  "value": "market",
+                  "label": "Market"
+                },
+                {
+                  "value": "limit",
+                  "label": "Limit"
+                },
+                {
+                  "value": "stop",
+                  "label": "Stop"
+                },
+                {
+                  "value": "stop_limit",
+                  "label": "Stop-Limit"
+                }
+              ]
+            },
+            {
+              "id": "currency",
+              "type": "select",
+              "label": "Currency",
+              "width": "half",
+              "options": [
+                {
+                  "value": "USD",
+                  "label": "USD"
+                },
+                {
+                  "value": "EUR",
+                  "label": "EUR"
+                },
+                {
+                  "value": "GBP",
+                  "label": "GBP"
+                },
+                {
+                  "value": "JPY",
+                  "label": "JPY"
+                },
+                {
+                  "value": "INR",
+                  "label": "INR"
+                }
+              ]
+            },
+            {
+              "id": "portfolio",
+              "type": "select",
+              "label": "Portfolio",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "main_fund",
+                  "label": "Main Fund"
+                },
+                {
+                  "value": "growth_fund",
+                  "label": "Growth Fund"
+                },
+                {
+                  "value": "income_fund",
+                  "label": "Income Fund"
+                },
+                {
+                  "value": "hedge_fund",
+                  "label": "Hedge Fund"
+                }
+              ]
+            },
+            {
+              "id": "broker",
+              "type": "select",
+              "label": "Broker",
+              "width": "half",
+              "options": [
+                {
+                  "value": "gs",
+                  "label": "Goldman Sachs"
+                },
+                {
+                  "value": "ms",
+                  "label": "Morgan Stanley"
+                },
+                {
+                  "value": "ubs",
+                  "label": "UBS"
+                },
+                {
+                  "value": "cs",
+                  "label": "Credit Suisse"
+                }
+              ]
+            },
+            {
+              "id": "settlement",
+              "type": "date",
+              "label": "Settlement Date",
+              "width": "half"
+            },
+            {
+              "id": "notes",
+              "type": "textarea",
+              "label": "Trade Notes",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-client-onboarding",
+      "name": "Client Onboarding",
+      "icon": "person_add",
+      "description": "Register a new investment client",
+      "datasourceEntity": "clients",
+      "submitLabel": "Submit Application",
+      "sections": [
+        {
+          "id": "client-personal",
+          "title": "Personal Information",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "clientType",
+              "type": "select",
+              "label": "Client Type",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "individual",
+                  "label": "Individual"
+                },
+                {
+                  "value": "corporate",
+                  "label": "Corporate"
+                },
+                {
+                  "value": "trust",
+                  "label": "Trust"
+                },
+                {
+                  "value": "fund",
+                  "label": "Fund"
+                }
+              ]
+            },
+            {
+              "id": "fullName",
+              "type": "text",
+              "label": "Full Legal Name",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "dateOfBirth",
+              "type": "date",
+              "label": "Date of Birth",
+              "width": "half"
+            },
+            {
+              "id": "nationality",
+              "type": "text",
+              "label": "Nationality",
+              "width": "half"
+            },
+            {
+              "id": "taxId",
+              "type": "text",
+              "label": "Tax ID / PAN",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "passportNum",
+              "type": "text",
+              "label": "Passport Number",
+              "width": "half"
+            },
+            {
+              "id": "email",
+              "type": "email",
+              "label": "Email Address",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "phone",
+              "type": "phone",
+              "label": "Phone Number",
+              "width": "half"
+            },
+            {
+              "id": "riskProfile",
+              "type": "select",
+              "label": "Risk Appetite",
+              "width": "half",
+              "options": [
+                {
+                  "value": "conservative",
+                  "label": "Conservative"
+                },
+                {
+                  "value": "moderate",
+                  "label": "Moderate"
+                },
+                {
+                  "value": "aggressive",
+                  "label": "Aggressive"
+                },
+                {
+                  "value": "very_aggressive",
+                  "label": "Very Aggressive"
+                }
+              ]
+            },
+            {
+              "id": "investmentGoal",
+              "type": "select",
+              "label": "Investment Goal",
+              "width": "half",
+              "options": [
+                {
+                  "value": "growth",
+                  "label": "Capital Growth"
+                },
+                {
+                  "value": "income",
+                  "label": "Regular Income"
+                },
+                {
+                  "value": "preservation",
+                  "label": "Capital Preservation"
+                },
+                {
+                  "value": "speculation",
+                  "label": "Speculation"
+                }
+              ]
+            },
+            {
+              "id": "initialAUM",
+              "type": "number",
+              "label": "Initial AUM (USD)",
+              "width": "half"
+            },
+            {
+              "id": "address",
+              "type": "textarea",
+              "label": "Residential Address",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "client-kyc",
+          "title": "KYC & Compliance",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "pep",
+              "type": "toggle",
+              "label": "Politically Exposed Person (PEP)",
+              "width": "half"
+            },
+            {
+              "id": "sanctioned",
+              "type": "toggle",
+              "label": "On Sanctions List",
+              "width": "half"
+            },
+            {
+              "id": "sourceOfFunds",
+              "type": "select",
+              "label": "Source of Funds",
+              "width": "half",
+              "options": [
+                {
+                  "value": "salary",
+                  "label": "Salary"
+                },
+                {
+                  "value": "business",
+                  "label": "Business Income"
+                },
+                {
+                  "value": "inheritance",
+                  "label": "Inheritance"
+                },
+                {
+                  "value": "investment",
+                  "label": "Investment Returns"
+                }
+              ]
+            },
+            {
+              "id": "kycDocs",
+              "type": "file",
+              "label": "Upload KYC Documents",
+              "width": "half"
+            },
+            {
+              "id": "consent",
+              "type": "checkbox",
+              "label": "Client consents to data processing",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-kyc-review",
+      "name": "KYC Review",
+      "icon": "fact_check",
+      "description": "Compliance officer KYC review form",
+      "datasourceEntity": "kycRecords",
+      "submitLabel": "Submit Review",
+      "sections": [
+        {
+          "id": "kyc-section",
+          "title": "KYC Verification",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "clientId",
+              "type": "text",
+              "label": "Client ID",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "reviewDate",
+              "type": "date",
+              "label": "Review Date",
+              "width": "half"
+            },
+            {
+              "id": "verifiedBy",
+              "type": "text",
+              "label": "Verified By",
+              "width": "half"
+            },
+            {
+              "id": "idVerified",
+              "type": "toggle",
+              "label": "ID Verified",
+              "width": "half"
+            },
+            {
+              "id": "addressVerified",
+              "type": "toggle",
+              "label": "Address Verified",
+              "width": "half"
+            },
+            {
+              "id": "pepChecked",
+              "type": "toggle",
+              "label": "PEP Check Done",
+              "width": "half"
+            },
+            {
+              "id": "sanctionChecked",
+              "type": "toggle",
+              "label": "Sanctions Checked",
+              "width": "half"
+            },
+            {
+              "id": "riskScore",
+              "type": "number",
+              "label": "Risk Score (1-100)",
+              "width": "half",
+              "validation": {
+                "min": 1,
+                "max": 100
+              }
+            },
+            {
+              "id": "decision",
+              "type": "select",
+              "label": "Decision",
+              "width": "half",
+              "options": [
+                {
+                  "value": "approved",
+                  "label": "Approved"
+                },
+                {
+                  "value": "pending",
+                  "label": "Pending More Info"
+                },
+                {
+                  "value": "rejected",
+                  "label": "Rejected"
+                }
+              ]
+            },
+            {
+              "id": "reviewNotes",
+              "type": "textarea",
+              "label": "Review Notes",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-aml-alert",
+      "name": "AML Alert",
+      "icon": "report_problem",
+      "description": "Raise an Anti-Money Laundering alert",
+      "datasourceEntity": "complianceAlerts",
+      "submitLabel": "Raise Alert",
+      "sections": [
+        {
+          "id": "aml-section",
+          "title": "Alert Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "alertType",
+              "type": "select",
+              "label": "Alert Type",
+              "width": "half",
+              "options": [
+                {
+                  "value": "suspicious_tx",
+                  "label": "Suspicious Transaction"
+                },
+                {
+                  "value": "threshold",
+                  "label": "Threshold Breach"
+                },
+                {
+                  "value": "pep",
+                  "label": "PEP Match"
+                },
+                {
+                  "value": "sanction",
+                  "label": "Sanction Match"
+                }
+              ]
+            },
+            {
+              "id": "severity",
+              "type": "select",
+              "label": "Severity",
+              "width": "half",
+              "options": [
+                {
+                  "value": "low",
+                  "label": "Low"
+                },
+                {
+                  "value": "medium",
+                  "label": "Medium"
+                },
+                {
+                  "value": "high",
+                  "label": "High"
+                },
+                {
+                  "value": "critical",
+                  "label": "Critical"
+                }
+              ]
+            },
+            {
+              "id": "clientId",
+              "type": "text",
+              "label": "Client ID",
+              "width": "half"
+            },
+            {
+              "id": "transactionId",
+              "type": "text",
+              "label": "Transaction ID",
+              "width": "half"
+            },
+            {
+              "id": "amount",
+              "type": "number",
+              "label": "Amount (USD)",
+              "width": "half"
+            },
+            {
+              "id": "currency",
+              "type": "text",
+              "label": "Currency",
+              "width": "half"
+            },
+            {
+              "id": "description",
+              "type": "textarea",
+              "label": "Alert Description",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-risk-limit",
+      "name": "Risk Limit Override",
+      "icon": "warning",
+      "description": "Request a temporary risk limit override",
+      "datasourceEntity": "riskMetrics",
+      "submitLabel": "Submit Request",
+      "sections": [
+        {
+          "id": "risk-section",
+          "title": "Risk Override Request",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "limitType",
+              "type": "select",
+              "label": "Limit Type",
+              "width": "half",
+              "options": [
+                {
+                  "value": "var",
+                  "label": "VaR Limit"
+                },
+                {
+                  "value": "position",
+                  "label": "Position Limit"
+                },
+                {
+                  "value": "concentration",
+                  "label": "Concentration Limit"
+                },
+                {
+                  "value": "counterparty",
+                  "label": "Counterparty Limit"
+                }
+              ]
+            },
+            {
+              "id": "currentLimit",
+              "type": "number",
+              "label": "Current Limit",
+              "width": "half"
+            },
+            {
+              "id": "requestedLimit",
+              "type": "number",
+              "label": "Requested Limit",
+              "width": "half"
+            },
+            {
+              "id": "duration",
+              "type": "select",
+              "label": "Duration",
+              "width": "half",
+              "options": [
+                {
+                  "value": "1d",
+                  "label": "1 Day"
+                },
+                {
+                  "value": "1w",
+                  "label": "1 Week"
+                },
+                {
+                  "value": "1m",
+                  "label": "1 Month"
+                }
+              ]
+            },
+            {
+              "id": "businessJustification",
+              "type": "richtext",
+              "label": "Business Justification",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "approvedBy",
+              "type": "text",
+              "label": "CRO Approval",
+              "width": "half"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-pnl-adjustment",
+      "name": "P&L Adjustment",
+      "icon": "edit_note",
+      "description": "Submit a P&L book adjustment entry",
+      "datasourceEntity": "pnlRecords",
+      "submitLabel": "Post Adjustment",
+      "sections": [
+        {
+          "id": "pnl-section",
+          "title": "Adjustment Entry",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "book",
+              "type": "select",
+              "label": "Book",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "trading",
+                  "label": "Trading Book"
+                },
+                {
+                  "value": "banking",
+                  "label": "Banking Book"
+                },
+                {
+                  "value": "treasury",
+                  "label": "Treasury"
+                },
+                {
+                  "value": "derivatives",
+                  "label": "Derivatives"
+                }
+              ]
+            },
+            {
+              "id": "adjustmentType",
+              "type": "select",
+              "label": "Adjustment Type",
+              "width": "half",
+              "options": [
+                {
+                  "value": "realized",
+                  "label": "Realized PnL"
+                },
+                {
+                  "value": "unrealized",
+                  "label": "Unrealized PnL"
+                },
+                {
+                  "value": "fee",
+                  "label": "Fee Accrual"
+                },
+                {
+                  "value": "fx",
+                  "label": "FX Revaluation"
+                }
+              ]
+            },
+            {
+              "id": "amount",
+              "type": "number",
+              "label": "Amount (USD)",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "tradeDate",
+              "type": "date",
+              "label": "Trade Date",
+              "width": "half"
+            },
+            {
+              "id": "valueDate",
+              "type": "date",
+              "label": "Value Date",
+              "width": "half"
+            },
+            {
+              "id": "glCode",
+              "type": "text",
+              "label": "GL Code",
+              "width": "half"
+            },
+            {
+              "id": "narrative",
+              "type": "textarea",
+              "label": "Narrative",
+              "width": "full",
+              "validation": {
+                "required": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dataframes": [
+    {
+      "id": "df-portfolios",
+      "name": "Portfolio Holdings",
+      "entity": "portfolios",
+      "searchable": true,
+      "searchFields": [
+        "ticker",
+        "name",
+        "assetClass",
+        "portfolio"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "marketValue",
+        "direction": "desc"
+      },
+      "pageSize": 100,
+      "addFormId": "form-trade-entry",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "ticker",
+          "header": "Ticker",
+          "type": "text",
+          "sortable": true,
+          "filterable": true
+        },
+        {
+          "id": "c2",
+          "field": "name",
+          "header": "Security Name",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "assetClass",
+          "header": "Asset Class",
+          "type": "badge",
+          "sortable": true,
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Equity",
+              "label": "Equity",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Bond",
+              "label": "Bond",
+              "color": "#059669"
+            },
+            {
+              "value": "FX",
+              "label": "FX",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "Derivative",
+              "label": "Derivative",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Commodity",
+              "label": "Commodity",
+              "color": "#d97706"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "field": "quantity",
+          "header": "Quantity",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c5",
+          "field": "avgCost",
+          "header": "Avg Cost",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c6",
+          "field": "marketPrice",
+          "header": "Market Price",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "marketValue",
+          "header": "Market Value",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c8",
+          "field": "unrealizedPnL",
+          "header": "Unrealized P&L",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c9",
+          "field": "pnlPct",
+          "header": "P&L %",
+          "type": "percentage",
+          "sortable": true
+        },
+        {
+          "id": "c10",
+          "field": "portfolio",
+          "header": "Portfolio",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c11",
+          "field": "currency",
+          "header": "CCY",
+          "type": "text",
+          "filterable": true
+        }
+      ]
+    },
+    {
+      "id": "df-transactions",
+      "name": "Transaction Ledger",
+      "entity": "transactions",
+      "searchable": true,
+      "searchFields": [
+        "transactionId",
+        "clientName",
+        "description"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "valueDate",
+        "direction": "desc"
+      },
+      "pageSize": 100,
+      "columns": [
+        {
+          "id": "c1",
+          "field": "transactionId",
+          "header": "Txn ID",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c2",
+          "field": "valueDate",
+          "header": "Value Date",
+          "type": "date",
+          "sortable": true,
+          "format": "DD MMM YYYY"
+        },
+        {
+          "id": "c3",
+          "field": "clientName",
+          "header": "Client",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c4",
+          "field": "type",
+          "header": "Type",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Credit",
+              "label": "Credit",
+              "color": "#059669"
+            },
+            {
+              "value": "Debit",
+              "label": "Debit",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Fee",
+              "label": "Fee",
+              "color": "#d97706"
+            },
+            {
+              "value": "Interest",
+              "label": "Interest",
+              "color": "#2563eb"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "field": "amount",
+          "header": "Amount",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c6",
+          "field": "currency",
+          "header": "CCY",
+          "type": "text"
+        },
+        {
+          "id": "c7",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Settled",
+              "label": "Settled",
+              "color": "#059669"
+            },
+            {
+              "value": "Pending",
+              "label": "Pending",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Failed",
+              "label": "Failed",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Cancelled",
+              "label": "Cancelled",
+              "color": "#6b7280"
+            }
+          ]
+        },
+        {
+          "id": "c8",
+          "field": "description",
+          "header": "Description",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "id": "df-clients",
+      "name": "Client Registry",
+      "entity": "clients",
+      "searchable": true,
+      "searchFields": [
+        "clientName",
+        "clientId",
+        "email",
+        "relationship"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "aum",
+        "direction": "desc"
+      },
+      "pageSize": 50,
+      "addFormId": "form-client-onboarding",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "clientId",
+          "header": "Client ID",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c2",
+          "field": "clientName",
+          "header": "Client Name",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "clientType",
+          "header": "Type",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Individual",
+              "label": "Individual",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Corporate",
+              "label": "Corporate",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "Trust",
+              "label": "Trust",
+              "color": "#059669"
+            },
+            {
+              "value": "Fund",
+              "label": "Fund",
+              "color": "#d97706"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "field": "riskProfile",
+          "header": "Risk Profile",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Conservative",
+              "label": "Conservative",
+              "color": "#059669"
+            },
+            {
+              "value": "Moderate",
+              "label": "Moderate",
+              "color": "#d97706"
+            },
+            {
+              "value": "Aggressive",
+              "label": "Aggressive",
+              "color": "#dc2626"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "field": "aum",
+          "header": "AUM (USD)",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c6",
+          "field": "relationship",
+          "header": "RM",
+          "type": "text"
+        },
+        {
+          "id": "c7",
+          "field": "kycStatus",
+          "header": "KYC",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Verified",
+              "label": "Verified",
+              "color": "#059669"
+            },
+            {
+              "value": "Pending",
+              "label": "Pending",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Rejected",
+              "label": "Rejected",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Expired",
+              "label": "Expired",
+              "color": "#6b7280"
+            }
+          ]
+        },
+        {
+          "id": "c8",
+          "field": "onboardDate",
+          "header": "Onboarded",
+          "type": "date",
+          "sortable": true,
+          "format": "DD MMM YYYY"
+        }
+      ]
+    },
+    {
+      "id": "df-trades",
+      "name": "Trade Blotter",
+      "entity": "trades",
+      "searchable": true,
+      "searchFields": [
+        "tradeId",
+        "ticker",
+        "clientName",
+        "trader"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "tradeDate",
+        "direction": "desc"
+      },
+      "pageSize": 100,
+      "addFormId": "form-trade-entry",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "tradeId",
+          "header": "Trade ID",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c2",
+          "field": "tradeDate",
+          "header": "Trade Date",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "ticker",
+          "header": "Ticker",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c4",
+          "field": "side",
+          "header": "Side",
+          "type": "badge",
+          "badgeOptions": [
+            {
+              "value": "Buy",
+              "label": "Buy",
+              "color": "#059669"
+            },
+            {
+              "value": "Sell",
+              "label": "Sell",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Short",
+              "label": "Short",
+              "color": "#7c3aed"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "field": "quantity",
+          "header": "Qty",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c6",
+          "field": "price",
+          "header": "Price",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "notional",
+          "header": "Notional",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c8",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Filled",
+              "label": "Filled",
+              "color": "#059669"
+            },
+            {
+              "value": "Partial",
+              "label": "Partial",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Pending",
+              "label": "Pending",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Cancelled",
+              "label": "Cancelled",
+              "color": "#6b7280"
+            }
+          ]
+        },
+        {
+          "id": "c9",
+          "field": "trader",
+          "header": "Trader",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "id": "df-compliance",
+      "name": "Compliance Alerts",
+      "entity": "complianceAlerts",
+      "searchable": true,
+      "searchFields": [
+        "alertId",
+        "clientName",
+        "description"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "raisedDate",
+        "direction": "desc"
+      },
+      "pageSize": 50,
+      "addFormId": "form-aml-alert",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "alertId",
+          "header": "Alert ID",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "raisedDate",
+          "header": "Raised",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "alertType",
+          "header": "Type",
+          "type": "badge",
+          "badgeOptions": [
+            {
+              "value": "AML",
+              "label": "AML",
+              "color": "#dc2626"
+            },
+            {
+              "value": "KYC",
+              "label": "KYC",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Sanction",
+              "label": "Sanction",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "PEP",
+              "label": "PEP",
+              "color": "#2563eb"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "field": "severity",
+          "header": "Severity",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Critical",
+              "label": "Critical",
+              "color": "#dc2626"
+            },
+            {
+              "value": "High",
+              "label": "High",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Medium",
+              "label": "Medium",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Low",
+              "label": "Low",
+              "color": "#6b7280"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "field": "clientName",
+          "header": "Client",
+          "type": "text"
+        },
+        {
+          "id": "c6",
+          "field": "amount",
+          "header": "Amount",
+          "type": "currency"
+        },
+        {
+          "id": "c7",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "badgeOptions": [
+            {
+              "value": "Open",
+              "label": "Open",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Under Review",
+              "label": "Under Review",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Cleared",
+              "label": "Cleared",
+              "color": "#059669"
+            },
+            {
+              "value": "Escalated",
+              "label": "Escalated",
+              "color": "#7c3aed"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "page-finance-dashboard",
+      "name": "Capital Suite Dashboard",
+      "widgets": [
+        {
+          "id": "w1",
+          "type": "kpi",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "config": {
+            "title": "Total AUM",
+            "entity": "portfolios",
+            "metric": "sum",
+            "field": "marketValue",
+            "icon": "account_balance",
+            "color": "#C9A84C",
+            "prefix": "$",
+            "suffix": "B"
+          }
+        },
+        {
+          "id": "w2",
+          "type": "kpi",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "config": {
+            "title": "Active Clients",
+            "entity": "clients",
+            "metric": "count",
+            "icon": "people",
+            "color": "#2563EB"
+          }
+        },
+        {
+          "id": "w3",
+          "type": "kpi",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "config": {
+            "title": "Open Trades",
+            "entity": "trades",
+            "metric": "count",
+            "filter": {
+              "status": "Pending"
+            },
+            "icon": "swap_horiz",
+            "color": "#059669"
+          }
+        },
+        {
+          "id": "w4",
+          "type": "kpi",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "config": {
+            "title": "Compliance Alerts",
+            "entity": "complianceAlerts",
+            "metric": "count",
+            "filter": {
+              "status": "Open"
+            },
+            "icon": "warning",
+            "color": "#dc2626"
+          }
+        },
+        {
+          "id": "w5",
+          "type": "chart",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 4
+          },
+          "config": {
+            "title": "Portfolio Allocation by Asset Class",
+            "chartType": "donut",
+            "entity": "portfolios",
+            "groupByField": "assetClass",
+            "aggregation": "sum",
+            "aggregateField": "marketValue"
+          }
+        },
+        {
+          "id": "w6",
+          "type": "chart",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 6,
+            "h": 4
+          },
+          "config": {
+            "title": "Daily P&L Trend",
+            "chartType": "area",
+            "entity": "pnlRecords",
+            "groupByField": "tradeDate",
+            "aggregation": "sum",
+            "aggregateField": "pnl",
+            "limit": 30
+          }
+        },
+        {
+          "id": "w7",
+          "type": "chart",
+          "layout": {
+            "x": 0,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Client Risk Profile Distribution",
+            "chartType": "pie",
+            "entity": "clients",
+            "groupByField": "riskProfile",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w8",
+          "type": "chart",
+          "layout": {
+            "x": 4,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Trade Volume by Asset Class",
+            "chartType": "bar",
+            "entity": "trades",
+            "groupByField": "assetClass",
+            "aggregation": "sum",
+            "aggregateField": "notional"
+          }
+        },
+        {
+          "id": "w9",
+          "type": "chart",
+          "layout": {
+            "x": 8,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Alert Severity Breakdown",
+            "chartType": "bar",
+            "entity": "complianceAlerts",
+            "groupByField": "severity",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w10",
+          "type": "dataframe",
+          "layout": {
+            "x": 0,
+            "y": 10,
+            "w": 12,
+            "h": 5
+          },
+          "config": {
+            "title": "Recent Trades",
+            "dataframeId": "df-trades",
+            "pageSize": 10,
+            "showSearch": false
+          }
+        }
+      ]
+    }
+  ],
+  "workflows": [
+    {
+      "id": "wf-trade-approval",
+      "name": "Large Trade Approval",
+      "category": "Trading",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Trade Submitted",
+        "config": {
+          "formId": "form-trade-entry",
+          "event": "submit",
+          "condition": "notional > 1000000"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "condition",
+          "name": "Notional Check",
+          "config": {
+            "condition": "notional > 5000000",
+            "branches": [
+              "s2",
+              "s3"
+            ]
+          }
+        },
+        {
+          "id": "s2",
+          "type": "approval",
+          "name": "Senior Trader Approval",
+          "config": {
+            "approver": "senior_trader",
+            "deadline": "2h"
+          },
+          "onApprove": "s4",
+          "onReject": "s5"
+        },
+        {
+          "id": "s3",
+          "type": "approval",
+          "name": "Desk Head Approval",
+          "config": {
+            "approver": "desk_head",
+            "deadline": "4h"
+          },
+          "onApprove": "s4",
+          "onReject": "s5"
+        },
+        {
+          "id": "s4",
+          "type": "api",
+          "name": "Send to OMS",
+          "config": {
+            "endpoint": "/api/oms/submit",
+            "method": "POST"
+          },
+          "nextStepId": "s6"
+        },
+        {
+          "id": "s5",
+          "type": "notification",
+          "name": "Notify Rejection",
+          "config": {
+            "channel": "email",
+            "template": "trade-rejected",
+            "to": "{{trader.email}}"
+          }
+        },
+        {
+          "id": "s6",
+          "type": "notification",
+          "name": "Trade Confirmed",
+          "config": {
+            "channel": "email",
+            "template": "trade-confirmed",
+            "to": "{{trader.email}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-kyc-verification",
+      "name": "KYC Verification",
+      "category": "Compliance",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Client Submitted",
+        "config": {
+          "formId": "form-client-onboarding",
+          "event": "submit"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Sanctions Screening",
+          "config": {
+            "endpoint": "/api/compliance/sanctions-check",
+            "method": "POST"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "condition",
+          "name": "Sanctions Result",
+          "config": {
+            "condition": "sanctionsResult == clear",
+            "branches": [
+              "s3",
+              "s4"
+            ]
+          }
+        },
+        {
+          "id": "s3",
+          "type": "approval",
+          "name": "Compliance Officer Review",
+          "config": {
+            "approver": "compliance_team",
+            "deadline": "48h"
+          },
+          "onApprove": "s5",
+          "onReject": "s6"
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Alert Compliance",
+          "config": {
+            "channel": "email",
+            "template": "sanctions-hit",
+            "to": "compliance@meridian.com"
+          }
+        },
+        {
+          "id": "s5",
+          "type": "notification",
+          "name": "KYC Approved",
+          "config": {
+            "channel": "email",
+            "template": "kyc-approved",
+            "to": "{{client.email}}"
+          }
+        },
+        {
+          "id": "s6",
+          "type": "notification",
+          "name": "KYC Rejected",
+          "config": {
+            "channel": "email",
+            "template": "kyc-rejected",
+            "to": "{{client.email}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-aml-alert",
+      "name": "AML Alert Processing",
+      "category": "Compliance",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Alert Raised",
+        "config": {
+          "formId": "form-aml-alert",
+          "event": "submit"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "condition",
+          "name": "Severity Check",
+          "config": {
+            "condition": "severity == critical",
+            "branches": [
+              "s2",
+              "s3"
+            ]
+          }
+        },
+        {
+          "id": "s2",
+          "type": "notification",
+          "name": "Escalate to MLRO",
+          "config": {
+            "channel": "email",
+            "template": "critical-aml",
+            "to": "mlro@meridian.com"
+          },
+          "nextStepId": "s4"
+        },
+        {
+          "id": "s3",
+          "type": "approval",
+          "name": "AML Analyst Review",
+          "config": {
+            "approver": "aml_team",
+            "deadline": "24h"
+          },
+          "onApprove": "s5",
+          "onReject": "s6"
+        },
+        {
+          "id": "s4",
+          "type": "api",
+          "name": "File SAR",
+          "config": {
+            "endpoint": "/api/compliance/file-sar",
+            "method": "POST"
+          }
+        },
+        {
+          "id": "s5",
+          "type": "api",
+          "name": "Mark Alert Cleared",
+          "config": {
+            "endpoint": "/api/alerts/clear",
+            "method": "PUT"
+          }
+        },
+        {
+          "id": "s6",
+          "type": "notification",
+          "name": "Escalation Notice",
+          "config": {
+            "channel": "email",
+            "template": "aml-escalated",
+            "to": "compliance@meridian.com"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-margin-call",
+      "name": "Margin Call Notification",
+      "category": "Risk",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Risk Breach Detected",
+        "config": {
+          "formId": "form-risk-limit",
+          "event": "submit"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "notification",
+          "name": "Notify Trader",
+          "config": {
+            "channel": "email",
+            "template": "margin-call",
+            "to": "{{trader.email}}"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "delay",
+          "name": "Wait 30 Minutes",
+          "config": {
+            "duration": "30m"
+          },
+          "nextStepId": "s3"
+        },
+        {
+          "id": "s3",
+          "type": "condition",
+          "name": "Check Resolution",
+          "config": {
+            "condition": "marginStatus == resolved",
+            "branches": [
+              "s4",
+              "s5"
+            ]
+          }
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Resolved Confirmation",
+          "config": {
+            "channel": "email",
+            "template": "margin-resolved",
+            "to": "{{trader.email}}"
+          }
+        },
+        {
+          "id": "s5",
+          "type": "api",
+          "name": "Force Position Close",
+          "config": {
+            "endpoint": "/api/risk/force-close",
+            "method": "POST"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-eod-pnl",
+      "name": "End-of-Day P&L Run",
+      "category": "Operations",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Market Close Reached",
+        "config": {
+          "event": "scheduled",
+          "schedule": "0 17 * * 1-5"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Price All Positions",
+          "config": {
+            "endpoint": "/api/pricing/mark-to-market",
+            "method": "POST"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "api",
+          "name": "Calculate P&L",
+          "config": {
+            "endpoint": "/api/pnl/calculate",
+            "method": "POST"
+          },
+          "nextStepId": "s3"
+        },
+        {
+          "id": "s3",
+          "type": "api",
+          "name": "Publish to Risk",
+          "config": {
+            "endpoint": "/api/risk/eod-snapshot",
+            "method": "POST"
+          },
+          "nextStepId": "s4"
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "EOD Report Email",
+          "config": {
+            "channel": "email",
+            "template": "eod-pnl-report",
+            "to": "management@meridian.com"
+          }
+        }
+      ]
+    }
+  ],
+  "desktop": {
+    "primaryClickBehaviour": "selectors",
+    "topDependencySource": "left",
+    "headerOptions": {
+      "left": [
+        {
+          "id": "logo",
+          "label": "Show Logo",
+          "checked": true
+        },
+        {
+          "id": "app-name",
+          "label": "Show App Name",
+          "checked": true
+        },
+        {
+          "id": "switcher",
+          "label": "Application Switcher",
+          "checked": true
+        }
+      ],
+      "right": [
+        {
+          "id": "add-button",
+          "label": "+ New Trade",
+          "checked": true
+        },
+        {
+          "id": "global-search",
+          "label": "Global Search",
+          "checked": true
+        },
+        {
+          "id": "knowledge-base",
+          "label": "Knowledge Base",
+          "checked": true
+        },
+        {
+          "id": "notifications",
+          "label": "Notifications",
+          "checked": true
+        },
+        {
+          "id": "app-settings",
+          "label": "App Settings",
+          "checked": true
+        },
+        {
+          "id": "account-settings",
+          "label": "Account Settings",
+          "checked": true
+        }
+      ]
+    },
+    "footerOptions": [
+      {
+        "id": "records",
+        "label": "Total Records Count",
+        "checked": true
+      },
+      {
+        "id": "pagination",
+        "label": "Pagination",
+        "checked": true
+      },
+      {
+        "id": "columns",
+        "label": "Column Dropdown",
+        "checked": true
+      },
+      {
+        "id": "function-type",
+        "label": "Aggregation Type",
+        "checked": true
+      },
+      {
+        "id": "timestamp",
+        "label": "Last Refreshed",
+        "checked": true
+      }
+    ],
+    "environments": [
+      {
+        "id": "a0e0b078-265f-4b54-8d2a-a325abcab7c9",
+        "name": "Production",
+        "url": "capital.meridian.com",
+        "status": "Live",
+        "users": "1,240 users"
+      },
+      {
+        "id": "261cf849-f356-4317-85be-b7c91eeb8271",
+        "name": "UAT",
+        "url": "uat.capital.meridian.com",
+        "status": "Testing",
+        "users": "38 users"
+      },
+      {
+        "id": "6a7920f7-f1c2-43df-928a-4f7741124870",
+        "name": "Development",
+        "url": "dev.capital.meridian.com",
+        "status": "In Progress",
+        "users": "12 users"
+      }
+    ]
+  },
+  "mobile": {
+    "primaryClickBehaviour": "selectors",
+    "topDependencySource": "left",
+    "headerOptions": {
+      "left": [
+        {
+          "id": "logo",
+          "label": "Show Logo",
+          "checked": true
+        },
+        {
+          "id": "app-name",
+          "label": "Show App Name",
+          "checked": true
+        },
+        {
+          "id": "switcher",
+          "label": "Application Switcher",
+          "checked": false
+        }
+      ],
+      "right": [
+        {
+          "id": "add-button",
+          "label": "+ New Trade",
+          "checked": true
+        },
+        {
+          "id": "global-search",
+          "label": "Global Search",
+          "checked": true
+        },
+        {
+          "id": "notifications",
+          "label": "Notifications",
+          "checked": true
+        },
+        {
+          "id": "account-settings",
+          "label": "Account Settings",
+          "checked": true
+        }
+      ]
+    },
+    "bottomNavItems": [
+      {
+        "id": "dashboard",
+        "label": "Home",
+        "icon": "dashboard"
+      },
+      {
+        "id": "portfolio",
+        "label": "Portfolio",
+        "icon": "account_balance_wallet"
+      },
+      {
+        "id": "markets",
+        "label": "Markets",
+        "icon": "candlestick_chart"
+      },
+      {
+        "id": "compliance",
+        "label": "Compliance",
+        "icon": "gavel"
+      },
+      {
+        "id": "more",
+        "label": "More",
+        "icon": "more_horiz"
+      }
+    ],
+    "environments": [
+      {
+        "id": "a56eacc2-7dfa-4db8-8949-52156f043aae",
+        "name": "Production",
+        "url": "m.capital.meridian.com",
+        "status": "Live",
+        "users": "890 users"
+      }
+    ]
+  },
+  "mockData": {
+    "seed": 7,
+    "entities": [
+      "portfolios",
+      "transactions",
+      "clients",
+      "securities",
+      "trades",
+      "complianceAlerts",
+      "pnlRecords",
+      "riskMetrics",
+      "kycRecords",
+      "marketData"
+    ],
+    "recordCounts": {
+      "portfolios": 50000,
+      "transactions": 50000,
+      "clients": 5000,
+      "securities": 8000,
+      "trades": 50000,
+      "complianceAlerts": 3500,
+      "pnlRecords": 12000,
+      "riskMetrics": 6000,
+      "kycRecords": 5000,
+      "marketData": 50000
+    }
+  }
+}

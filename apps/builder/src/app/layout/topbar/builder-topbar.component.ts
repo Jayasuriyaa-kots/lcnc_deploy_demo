@@ -31,6 +31,9 @@ export class BuilderTopbarComponent {
   readonly configJsonDraft = signal('');
   readonly configLoadError = signal<string | null>(null);
   readonly configFileName = signal<string | null>(null);
+  readonly configApplied = signal(false);
+  readonly shareableLink = signal<string | null>(null);
+  readonly linkCopied = signal(false);
 
   constructor(
     private readonly router: Router,
@@ -165,10 +168,20 @@ export class BuilderTopbarComponent {
     this.configJsonDraft.set('');
     this.configLoadError.set(null);
     this.configFileName.set(null);
+    this.configApplied.set(false);
+    this.shareableLink.set(null);
+    this.linkCopied.set(false);
     this.configLoaderOpen.set(true);
   }
 
   closeConfigLoader(): void {
+    if (this.configApplied()) {
+      // Reload so DeploymentFacade re-initializes signals from the new config
+      const preset = this.runtimeEngine.getPresetName();
+      const base = `${window.location.origin}/mobile-preview`;
+      window.location.href = preset ? `${base}?preset=${preset}` : base;
+      return;
+    }
     this.configLoaderOpen.set(false);
   }
 
@@ -193,10 +206,28 @@ export class BuilderTopbarComponent {
     try {
       const parsed = JSON.parse(text) as AppConfig;
       this.runtimeEngine.loadConfig(parsed);
-      // Reload so all builder facades re-initialize from the new config
-      window.location.reload();
+
+      const presetName = this.runtimeEngine.getPresetName(parsed);
+      const origin = window.location.origin;
+      const link = presetName
+        ? `${origin}/mobile-preview?preset=${presetName}`
+        : `${origin}/mobile-preview`;
+      this.shareableLink.set(link);
+      this.configApplied.set(true);
     } catch {
       this.configLoadError.set('Invalid JSON — check the file and try again.');
+    }
+  }
+
+  async copyShareableLink(): Promise<void> {
+    const link = this.shareableLink();
+    if (!link) return;
+    try {
+      await navigator.clipboard.writeText(link);
+      this.linkCopied.set(true);
+      setTimeout(() => this.linkCopied.set(false), 2500);
+    } catch {
+      // Fallback: select input text
     }
   }
 }

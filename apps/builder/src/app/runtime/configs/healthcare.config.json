@@ -1,0 +1,2767 @@
+{
+  "application": {
+    "id": "56510957-ae33-474e-af6c-bc4551551a03",
+    "version": "3.0.1",
+    "name": "MediCore HMS",
+    "environment": "production"
+  },
+  "branding": {
+    "companyName": "MediCore Health Systems",
+    "appName": "MediCore HMS",
+    "logoUrl": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMEM0QTZFIi8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxMEI5ODEiPk1IPC90ZXh0Pjwvc3ZnPg==",
+    "faviconUrl": "https://assets.medicore.health/logo/favicon.ico",
+    "primaryColor": "#0C4A6E",
+    "secondaryColor": "#0EA5E9",
+    "accentColor": "#10B981"
+  },
+  "theme": {
+    "headerBg": "#0C4A6E",
+    "headerText": "#F0F9FF",
+    "navBg": "#082F49",
+    "navText": "#BAE6FD",
+    "navActiveBg": "#0EA5E9",
+    "navActiveText": "#FFFFFF",
+    "sidebarBg": "#0C4A6E",
+    "sidebarText": "#E0F2FE",
+    "sidebarActiveBg": "#0EA5E9",
+    "sidebarActiveText": "#FFFFFF",
+    "workspaceBg": "#F0F9FF",
+    "footerBg": "#082F49",
+    "footerText": "#7DD3FC",
+    "borderColor": "#BAE6FD",
+    "hoverBg": "#E0F2FE",
+    "primaryColor": "#0C4A6E",
+    "secondaryColor": "#F0F9FF",
+    "textPrimary": "#0C4A6E",
+    "textSecondary": "#475569"
+  },
+  "navigation": {
+    "primaryPages": [
+      {
+        "id": "4bf43241-f750-40d3-b790-765c4cc9b28c",
+        "label": "Dashboard",
+        "icon": "local_hospital",
+        "tone": "green",
+        "pageTargetId": "page-hms-dashboard",
+        "pageTargetType": "page"
+      },
+      {
+        "id": "04e9ea4a-2d01-494e-bc8e-cf8e6908bd7a",
+        "label": "Patients",
+        "icon": "personal_injury",
+        "tone": "blue",
+        "leftPages": [
+          {
+            "id": "05046b75-dbed-44c2-9f96-cf1b84a064b6",
+            "label": "Inpatient",
+            "icon": "hotel",
+            "tone": "blue",
+            "subPages": [
+              {
+                "id": "eb2f7b87-d5f4-4a08-8baf-65621dfa96b7",
+                "label": "All Wards",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "2fc111e9-fd11-43f3-9572-ef7234a7f59c",
+                    "label": "All Patients",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_ip_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "f9a01109-cccc-4339-89c7-25bd4553ed71",
+                    "label": "General Ward",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_ip_general",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "9cd19c2e-dfc3-43e0-be52-7fae7dc9cc2c",
+                    "label": "Private Ward",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_ip_private",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "d8d9e4ba-bd1a-4084-8f22-214ef60eb54d",
+                    "label": "ICU",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_ip_icu",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "6cdc7473-b189-4d23-b96b-aad48427d49a",
+                "label": "Admissions",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "a0ebe966-de00-498b-a371-524864212f2d",
+                    "label": "New Admissions",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_ip_admit",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "452c3c76-fbc0-4993-b606-cacc4d029ed9",
+                    "label": "Pending Beds",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_ip_pending",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "d479d0b3-1626-4871-9082-6ee213b3ea27",
+                "label": "Discharge",
+                "icon": "article",
+                "tone": "blue",
+                "pageTargetId": "r_ip_discharge",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "d5bc8573-ea5b-407d-b154-39b426d9d0a1",
+            "label": "Outpatient",
+            "icon": "event_note",
+            "tone": "blue",
+            "subPages": [
+              {
+                "id": "2e23391a-a223-46bf-9ceb-56bc1247dd67",
+                "label": "Today's Clinic",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "de50db50-535f-4cbe-a714-ec2bbf8b26e3",
+                    "label": "All",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_op_today_all",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "be6a740c-f14c-47fd-b79c-3dc7cb0c7adc",
+                    "label": "Booked",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_op_today_booked",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "c48cb364-6217-413f-bedc-cad6aff2225c",
+                    "label": "Walk-in",
+                    "icon": "tab",
+                    "tone": "purple",
+                    "pageTargetId": "r_op_today_walkin",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "ed8f39de-03f5-4e44-9996-bc533b4b845e",
+                "label": "Scheduled",
+                "icon": "article",
+                "tone": "blue",
+                "topTabs": [
+                  {
+                    "id": "116cdce9-e4b1-4a50-8058-ad0fdee5a330",
+                    "label": "Upcoming",
+                    "icon": "tab",
+                    "tone": "blue",
+                    "pageTargetId": "r_op_sched_upcoming",
+                    "pageTargetType": "report"
+                  },
+                  {
+                    "id": "b7f6032e-e108-4326-8b81-0992a2686962",
+                    "label": "Confirmed",
+                    "icon": "tab",
+                    "tone": "green",
+                    "pageTargetId": "r_op_sched_confirmed",
+                    "pageTargetType": "report"
+                  }
+                ]
+              },
+              {
+                "id": "5cbdc572-3639-4c2c-90c9-a342b2cc0f95",
+                "label": "Follow-up",
+                "icon": "article",
+                "tone": "blue",
+                "pageTargetId": "r_op_followup",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "83465413-608f-46a6-b809-83a57d250bbb",
+            "label": "Emergency (ED)",
+            "icon": "emergency",
+            "tone": "blue",
+            "pageTargetId": "r_emergency",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "110e998b-682f-4dd1-8069-71316a10bcbd",
+            "label": "ICU / Critical",
+            "icon": "monitor_heart",
+            "tone": "purple",
+            "pageTargetId": "r_icu",
+            "pageTargetType": "report"
+          }
+        ]
+      },
+      {
+        "id": "a691e781-1378-4686-95c5-2878485da42f",
+        "label": "Clinical",
+        "icon": "biotech",
+        "tone": "green",
+        "leftPages": [
+          {
+            "id": "b325b7e7-ca6e-49e0-a05b-165919394218",
+            "label": "Electronic Medical Records",
+            "icon": "description",
+            "tone": "blue",
+            "pageTargetId": "r_emr",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "89bf83e5-6f44-4960-8ab8-8bd2d7296d52",
+            "label": "Prescriptions",
+            "icon": "medication",
+            "tone": "green",
+            "topTabs": [
+              {
+                "id": "6a394d9a-d076-4efc-840b-6825214255ca",
+                "label": "Active",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_rx_active",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "0bb100db-a0ab-4825-b70d-30746320b8d0",
+                "label": "Pending",
+                "icon": "tab",
+                "tone": "purple",
+                "pageTargetId": "r_rx_pending",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "eb1a6ba8-8caa-4849-a709-321dbd61cf8d",
+                "label": "Dispensed",
+                "icon": "tab",
+                "tone": "blue",
+                "pageTargetId": "r_rx_dispensed",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "7201cf18-ccff-4a35-9f3d-61f8dc4832c7",
+            "label": "Laboratory",
+            "icon": "science",
+            "tone": "blue",
+            "topTabs": [
+              {
+                "id": "f0697cc4-b6d8-468f-a2c1-06c9f8fce9d6",
+                "label": "Ordered",
+                "icon": "tab",
+                "tone": "blue",
+                "pageTargetId": "r_lab_ordered",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "52bf228f-00d3-49ba-a466-63ac0702e5d0",
+                "label": "Processing",
+                "icon": "tab",
+                "tone": "purple",
+                "pageTargetId": "r_lab_processing",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "8892e1a0-ceb2-40f6-81c3-3e497333cfda",
+                "label": "Resulted",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_lab_resulted",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "4ceaa64e-868a-455f-a1ed-ed35ccc05afa",
+            "label": "Radiology / Imaging",
+            "icon": "radiology",
+            "tone": "blue",
+            "pageTargetId": "r_imaging",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "eed9df04-9161-47ef-8575-3e388a529d49",
+            "label": "Surgery",
+            "icon": "surgical",
+            "tone": "purple",
+            "pageTargetId": "r_surgery",
+            "pageTargetType": "report"
+          }
+        ]
+      },
+      {
+        "id": "131b09ee-0f36-40b0-88b3-23eb9fa94261",
+        "label": "Operations",
+        "icon": "settings",
+        "tone": "blue",
+        "leftPages": [
+          {
+            "id": "20c9740b-7a28-4019-818e-d416583cd7e8",
+            "label": "Bed Management",
+            "icon": "hotel",
+            "tone": "blue",
+            "topTabs": [
+              {
+                "id": "3e9e235a-7465-4674-a8a1-fb1c06fab27e",
+                "label": "Available",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_beds_available",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "fd45cef5-30cc-4085-9e9f-01018c07bd16",
+                "label": "Occupied",
+                "icon": "tab",
+                "tone": "blue",
+                "pageTargetId": "r_beds_occupied",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "4f8e44c1-3799-4f46-93b6-1eb1752ebb29",
+                "label": "Maintenance",
+                "icon": "tab",
+                "tone": "purple",
+                "pageTargetId": "r_beds_maintenance",
+                "pageTargetType": "report"
+              }
+            ]
+          },
+          {
+            "id": "8aa2ac3b-5ad8-4bdc-a17a-6f5831c29b54",
+            "label": "Staff Scheduling",
+            "icon": "badge",
+            "tone": "blue",
+            "pageTargetId": "r_staff",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "076eca5e-a43b-45cb-a955-d695483c4d9c",
+            "label": "Pharmacy",
+            "icon": "local_pharmacy",
+            "tone": "green",
+            "pageTargetId": "r_pharmacy",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "4c299f89-2740-4986-843c-86f6abbc73b4",
+            "label": "Billing",
+            "icon": "receipt",
+            "tone": "purple",
+            "topTabs": [
+              {
+                "id": "055fe97d-2263-4587-b642-beb5bfde1fbe",
+                "label": "Pending",
+                "icon": "tab",
+                "tone": "purple",
+                "pageTargetId": "r_bill_pending",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "a4c1774f-7900-4421-b51a-fa60ab432175",
+                "label": "Paid",
+                "icon": "tab",
+                "tone": "green",
+                "pageTargetId": "r_bill_paid",
+                "pageTargetType": "report"
+              },
+              {
+                "id": "82d76169-287b-4fb0-865a-1a59e649f9de",
+                "label": "Insurance",
+                "icon": "tab",
+                "tone": "blue",
+                "pageTargetId": "r_bill_insurance",
+                "pageTargetType": "report"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "b4301fd7-4242-4e1e-9b2d-01dd0d748129",
+        "label": "Analytics",
+        "icon": "analytics",
+        "tone": "purple",
+        "leftPages": [
+          {
+            "id": "e6395c0e-885a-41cb-b87b-14b88af36584",
+            "label": "Clinical Outcomes",
+            "icon": "show_chart",
+            "tone": "blue",
+            "pageTargetId": "r_outcomes",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "191a208f-3a04-4623-a006-7a92d173415c",
+            "label": "Patient Census",
+            "icon": "bar_chart",
+            "tone": "green",
+            "pageTargetId": "r_census",
+            "pageTargetType": "report"
+          },
+          {
+            "id": "d918b450-42c1-44cb-bad2-b7a9831eff3a",
+            "label": "Quality Metrics",
+            "icon": "verified",
+            "tone": "purple",
+            "pageTargetId": "r_quality",
+            "pageTargetType": "report"
+          }
+        ]
+      }
+    ]
+  },
+  "pageTargets": {
+    "4bf43241-f750-40d3-b790-765c4cc9b28c": {
+      "assetId": "page-hms-dashboard",
+      "assetType": "page"
+    },
+    "2fc111e9-fd11-43f3-9572-ef7234a7f59c": {
+      "assetId": "r_ip_all",
+      "assetType": "report"
+    },
+    "f9a01109-cccc-4339-89c7-25bd4553ed71": {
+      "assetId": "r_ip_general",
+      "assetType": "report"
+    },
+    "9cd19c2e-dfc3-43e0-be52-7fae7dc9cc2c": {
+      "assetId": "r_ip_private",
+      "assetType": "report"
+    },
+    "d8d9e4ba-bd1a-4084-8f22-214ef60eb54d": {
+      "assetId": "r_ip_icu",
+      "assetType": "report"
+    },
+    "a0ebe966-de00-498b-a371-524864212f2d": {
+      "assetId": "r_ip_admit",
+      "assetType": "report"
+    },
+    "452c3c76-fbc0-4993-b606-cacc4d029ed9": {
+      "assetId": "r_ip_pending",
+      "assetType": "report"
+    },
+    "d479d0b3-1626-4871-9082-6ee213b3ea27": {
+      "assetId": "r_ip_discharge",
+      "assetType": "report"
+    },
+    "de50db50-535f-4cbe-a714-ec2bbf8b26e3": {
+      "assetId": "r_op_today_all",
+      "assetType": "report"
+    },
+    "be6a740c-f14c-47fd-b79c-3dc7cb0c7adc": {
+      "assetId": "r_op_today_booked",
+      "assetType": "report"
+    },
+    "c48cb364-6217-413f-bedc-cad6aff2225c": {
+      "assetId": "r_op_today_walkin",
+      "assetType": "report"
+    },
+    "116cdce9-e4b1-4a50-8058-ad0fdee5a330": {
+      "assetId": "r_op_sched_upcoming",
+      "assetType": "report"
+    },
+    "b7f6032e-e108-4326-8b81-0992a2686962": {
+      "assetId": "r_op_sched_confirmed",
+      "assetType": "report"
+    },
+    "5cbdc572-3639-4c2c-90c9-a342b2cc0f95": {
+      "assetId": "r_op_followup",
+      "assetType": "report"
+    },
+    "83465413-608f-46a6-b809-83a57d250bbb": {
+      "assetId": "r_emergency",
+      "assetType": "report"
+    },
+    "110e998b-682f-4dd1-8069-71316a10bcbd": {
+      "assetId": "r_icu",
+      "assetType": "report"
+    },
+    "b325b7e7-ca6e-49e0-a05b-165919394218": {
+      "assetId": "r_emr",
+      "assetType": "report"
+    },
+    "6a394d9a-d076-4efc-840b-6825214255ca": {
+      "assetId": "r_rx_active",
+      "assetType": "report"
+    },
+    "0bb100db-a0ab-4825-b70d-30746320b8d0": {
+      "assetId": "r_rx_pending",
+      "assetType": "report"
+    },
+    "eb1a6ba8-8caa-4849-a709-321dbd61cf8d": {
+      "assetId": "r_rx_dispensed",
+      "assetType": "report"
+    },
+    "f0697cc4-b6d8-468f-a2c1-06c9f8fce9d6": {
+      "assetId": "r_lab_ordered",
+      "assetType": "report"
+    },
+    "52bf228f-00d3-49ba-a466-63ac0702e5d0": {
+      "assetId": "r_lab_processing",
+      "assetType": "report"
+    },
+    "8892e1a0-ceb2-40f6-81c3-3e497333cfda": {
+      "assetId": "r_lab_resulted",
+      "assetType": "report"
+    },
+    "4ceaa64e-868a-455f-a1ed-ed35ccc05afa": {
+      "assetId": "r_imaging",
+      "assetType": "report"
+    },
+    "eed9df04-9161-47ef-8575-3e388a529d49": {
+      "assetId": "r_surgery",
+      "assetType": "report"
+    },
+    "3e9e235a-7465-4674-a8a1-fb1c06fab27e": {
+      "assetId": "r_beds_available",
+      "assetType": "report"
+    },
+    "fd45cef5-30cc-4085-9e9f-01018c07bd16": {
+      "assetId": "r_beds_occupied",
+      "assetType": "report"
+    },
+    "4f8e44c1-3799-4f46-93b6-1eb1752ebb29": {
+      "assetId": "r_beds_maintenance",
+      "assetType": "report"
+    },
+    "8aa2ac3b-5ad8-4bdc-a17a-6f5831c29b54": {
+      "assetId": "r_staff",
+      "assetType": "report"
+    },
+    "076eca5e-a43b-45cb-a955-d695483c4d9c": {
+      "assetId": "r_pharmacy",
+      "assetType": "report"
+    },
+    "055fe97d-2263-4587-b642-beb5bfde1fbe": {
+      "assetId": "r_bill_pending",
+      "assetType": "report"
+    },
+    "a4c1774f-7900-4421-b51a-fa60ab432175": {
+      "assetId": "r_bill_paid",
+      "assetType": "report"
+    },
+    "82d76169-287b-4fb0-865a-1a59e649f9de": {
+      "assetId": "r_bill_insurance",
+      "assetType": "report"
+    },
+    "e6395c0e-885a-41cb-b87b-14b88af36584": {
+      "assetId": "r_outcomes",
+      "assetType": "report"
+    },
+    "191a208f-3a04-4623-a006-7a92d173415c": {
+      "assetId": "r_census",
+      "assetType": "report"
+    },
+    "d918b450-42c1-44cb-bad2-b7a9831eff3a": {
+      "assetId": "r_quality",
+      "assetType": "report"
+    }
+  },
+  "datasources": [
+    {
+      "id": "ds-patients",
+      "name": "Patient Registry",
+      "type": "mock",
+      "entity": "patients"
+    },
+    {
+      "id": "ds-appointments",
+      "name": "Appointments",
+      "type": "mock",
+      "entity": "appointments"
+    },
+    {
+      "id": "ds-prescriptions",
+      "name": "Prescriptions",
+      "type": "mock",
+      "entity": "prescriptions"
+    },
+    {
+      "id": "ds-labresults",
+      "name": "Lab Results",
+      "type": "mock",
+      "entity": "labResults"
+    },
+    {
+      "id": "ds-beds",
+      "name": "Bed Registry",
+      "type": "mock",
+      "entity": "beds"
+    },
+    {
+      "id": "ds-staff",
+      "name": "Clinical Staff",
+      "type": "mock",
+      "entity": "clinicalStaff"
+    },
+    {
+      "id": "ds-billing",
+      "name": "Billing Records",
+      "type": "mock",
+      "entity": "billingRecords"
+    },
+    {
+      "id": "ds-pharmacy",
+      "name": "Pharmacy Inventory",
+      "type": "mock",
+      "entity": "pharmacyInventory"
+    },
+    {
+      "id": "ds-procedures",
+      "name": "Procedures",
+      "type": "mock",
+      "entity": "procedures"
+    },
+    {
+      "id": "ds-vitals",
+      "name": "Vitals & Observations",
+      "type": "mock",
+      "entity": "vitals"
+    }
+  ],
+  "forms": [
+    {
+      "id": "form-patient-registration",
+      "name": "Patient Registration",
+      "icon": "person_add",
+      "description": "Register a new patient in the hospital system",
+      "datasourceEntity": "patients",
+      "submitLabel": "Register Patient",
+      "sections": [
+        {
+          "id": "demographics",
+          "title": "Patient Demographics",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "mrn",
+              "type": "text",
+              "label": "MRN (Auto-generated)",
+              "width": "half",
+              "readonly": true
+            },
+            {
+              "id": "firstName",
+              "type": "text",
+              "label": "First Name",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "lastName",
+              "type": "text",
+              "label": "Last Name",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "dob",
+              "type": "date",
+              "label": "Date of Birth",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "gender",
+              "type": "select",
+              "label": "Gender",
+              "width": "half",
+              "options": [
+                {
+                  "value": "male",
+                  "label": "Male"
+                },
+                {
+                  "value": "female",
+                  "label": "Female"
+                },
+                {
+                  "value": "other",
+                  "label": "Other"
+                },
+                {
+                  "value": "undisclosed",
+                  "label": "Prefer not to say"
+                }
+              ]
+            },
+            {
+              "id": "bloodGroup",
+              "type": "select",
+              "label": "Blood Group",
+              "width": "half",
+              "options": [
+                {
+                  "value": "A+",
+                  "label": "A+"
+                },
+                {
+                  "value": "A-",
+                  "label": "A-"
+                },
+                {
+                  "value": "B+",
+                  "label": "B+"
+                },
+                {
+                  "value": "B-",
+                  "label": "B-"
+                },
+                {
+                  "value": "O+",
+                  "label": "O+"
+                },
+                {
+                  "value": "O-",
+                  "label": "O-"
+                },
+                {
+                  "value": "AB+",
+                  "label": "AB+"
+                },
+                {
+                  "value": "AB-",
+                  "label": "AB-"
+                }
+              ]
+            },
+            {
+              "id": "aadhaar",
+              "type": "text",
+              "label": "Aadhaar / ID Number",
+              "width": "half"
+            },
+            {
+              "id": "phone",
+              "type": "phone",
+              "label": "Phone Number",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "email",
+              "type": "email",
+              "label": "Email Address",
+              "width": "half"
+            },
+            {
+              "id": "address",
+              "type": "textarea",
+              "label": "Address",
+              "width": "full"
+            },
+            {
+              "id": "emergencyContact",
+              "type": "text",
+              "label": "Emergency Contact Name",
+              "width": "half"
+            },
+            {
+              "id": "emergencyPhone",
+              "type": "phone",
+              "label": "Emergency Contact Phone",
+              "width": "half"
+            }
+          ]
+        },
+        {
+          "id": "insurance",
+          "title": "Insurance & Coverage",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "insuranceProvider",
+              "type": "text",
+              "label": "Insurance Provider",
+              "width": "half"
+            },
+            {
+              "id": "policyNumber",
+              "type": "text",
+              "label": "Policy Number",
+              "width": "half"
+            },
+            {
+              "id": "insuranceType",
+              "type": "select",
+              "label": "Insurance Type",
+              "width": "half",
+              "options": [
+                {
+                  "value": "govt",
+                  "label": "Government"
+                },
+                {
+                  "value": "pvt",
+                  "label": "Private"
+                },
+                {
+                  "value": "corporate",
+                  "label": "Corporate"
+                },
+                {
+                  "value": "self",
+                  "label": "Self-pay"
+                }
+              ]
+            },
+            {
+              "id": "validTill",
+              "type": "date",
+              "label": "Valid Until",
+              "width": "half"
+            },
+            {
+              "id": "allergies",
+              "type": "textarea",
+              "label": "Known Allergies",
+              "width": "full"
+            },
+            {
+              "id": "chronicConditions",
+              "type": "textarea",
+              "label": "Chronic Conditions",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-appointment",
+      "name": "Book Appointment",
+      "icon": "calendar_month",
+      "description": "Schedule a patient appointment",
+      "datasourceEntity": "appointments",
+      "submitLabel": "Book Appointment",
+      "sections": [
+        {
+          "id": "appt-details",
+          "title": "Appointment Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "patientMRN",
+              "type": "text",
+              "label": "Patient MRN",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "patientName",
+              "type": "text",
+              "label": "Patient Name",
+              "width": "half"
+            },
+            {
+              "id": "department",
+              "type": "select",
+              "label": "Department",
+              "width": "half",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "cardiology",
+                  "label": "Cardiology"
+                },
+                {
+                  "value": "orthopedics",
+                  "label": "Orthopedics"
+                },
+                {
+                  "value": "neurology",
+                  "label": "Neurology"
+                },
+                {
+                  "value": "oncology",
+                  "label": "Oncology"
+                },
+                {
+                  "value": "general",
+                  "label": "General Medicine"
+                },
+                {
+                  "value": "gynecology",
+                  "label": "Gynecology"
+                },
+                {
+                  "value": "pediatrics",
+                  "label": "Pediatrics"
+                },
+                {
+                  "value": "dermatology",
+                  "label": "Dermatology"
+                }
+              ]
+            },
+            {
+              "id": "doctor",
+              "type": "text",
+              "label": "Preferred Doctor",
+              "width": "half"
+            },
+            {
+              "id": "appointmentDate",
+              "type": "date",
+              "label": "Appointment Date",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "appointmentTime",
+              "type": "time",
+              "label": "Appointment Time",
+              "width": "half"
+            },
+            {
+              "id": "appointmentType",
+              "type": "select",
+              "label": "Appointment Type",
+              "width": "half",
+              "options": [
+                {
+                  "value": "consultation",
+                  "label": "Consultation"
+                },
+                {
+                  "value": "followup",
+                  "label": "Follow-up"
+                },
+                {
+                  "value": "procedure",
+                  "label": "Procedure"
+                },
+                {
+                  "value": "lab",
+                  "label": "Lab Test"
+                }
+              ]
+            },
+            {
+              "id": "priority",
+              "type": "select",
+              "label": "Priority",
+              "width": "half",
+              "options": [
+                {
+                  "value": "routine",
+                  "label": "Routine"
+                },
+                {
+                  "value": "urgent",
+                  "label": "Urgent"
+                },
+                {
+                  "value": "emergency",
+                  "label": "Emergency"
+                }
+              ]
+            },
+            {
+              "id": "symptoms",
+              "type": "textarea",
+              "label": "Chief Complaint",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-prescription",
+      "name": "Issue Prescription",
+      "icon": "medication",
+      "description": "Doctor prescribes medication for a patient",
+      "datasourceEntity": "prescriptions",
+      "submitLabel": "Issue Prescription",
+      "sections": [
+        {
+          "id": "rx-details",
+          "title": "Prescription Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "patientMRN",
+              "type": "text",
+              "label": "Patient MRN",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "diagnosisCode",
+              "type": "text",
+              "label": "ICD-10 Code",
+              "width": "half"
+            },
+            {
+              "id": "diagnosis",
+              "type": "text",
+              "label": "Diagnosis",
+              "width": "full"
+            },
+            {
+              "id": "drugName",
+              "type": "text",
+              "label": "Drug Name",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "dosage",
+              "type": "text",
+              "label": "Dosage",
+              "width": "half"
+            },
+            {
+              "id": "frequency",
+              "type": "select",
+              "label": "Frequency",
+              "width": "half",
+              "options": [
+                {
+                  "value": "od",
+                  "label": "Once Daily"
+                },
+                {
+                  "value": "bd",
+                  "label": "Twice Daily"
+                },
+                {
+                  "value": "tds",
+                  "label": "Three Times Daily"
+                },
+                {
+                  "value": "qds",
+                  "label": "Four Times Daily"
+                },
+                {
+                  "value": "sos",
+                  "label": "As Needed"
+                }
+              ]
+            },
+            {
+              "id": "duration",
+              "type": "text",
+              "label": "Duration",
+              "width": "half"
+            },
+            {
+              "id": "route",
+              "type": "select",
+              "label": "Route",
+              "width": "half",
+              "options": [
+                {
+                  "value": "oral",
+                  "label": "Oral"
+                },
+                {
+                  "value": "iv",
+                  "label": "Intravenous"
+                },
+                {
+                  "value": "im",
+                  "label": "Intramuscular"
+                },
+                {
+                  "value": "topical",
+                  "label": "Topical"
+                },
+                {
+                  "value": "inhaled",
+                  "label": "Inhaled"
+                }
+              ]
+            },
+            {
+              "id": "refills",
+              "type": "number",
+              "label": "Refills Allowed",
+              "width": "half"
+            },
+            {
+              "id": "notes",
+              "type": "textarea",
+              "label": "Doctor Notes",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-lab-request",
+      "name": "Lab Test Request",
+      "icon": "science",
+      "description": "Order laboratory tests for a patient",
+      "datasourceEntity": "labResults",
+      "submitLabel": "Submit Lab Order",
+      "sections": [
+        {
+          "id": "lab-order",
+          "title": "Lab Order",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "patientMRN",
+              "type": "text",
+              "label": "Patient MRN",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "orderDate",
+              "type": "date",
+              "label": "Order Date",
+              "width": "half"
+            },
+            {
+              "id": "urgency",
+              "type": "select",
+              "label": "Urgency",
+              "width": "half",
+              "options": [
+                {
+                  "value": "routine",
+                  "label": "Routine"
+                },
+                {
+                  "value": "urgent",
+                  "label": "Urgent (4h)"
+                },
+                {
+                  "value": "stat",
+                  "label": "STAT (1h)"
+                }
+              ]
+            },
+            {
+              "id": "tests",
+              "type": "multiselect",
+              "label": "Tests Ordered",
+              "width": "full",
+              "validation": {
+                "required": true
+              },
+              "options": [
+                {
+                  "value": "cbc",
+                  "label": "CBC"
+                },
+                {
+                  "value": "lft",
+                  "label": "LFT"
+                },
+                {
+                  "value": "rft",
+                  "label": "RFT"
+                },
+                {
+                  "value": "tsh",
+                  "label": "TSH"
+                },
+                {
+                  "value": "hba1c",
+                  "label": "HbA1c"
+                },
+                {
+                  "value": "lipid",
+                  "label": "Lipid Profile"
+                },
+                {
+                  "value": "urine",
+                  "label": "Urine Routine"
+                },
+                {
+                  "value": "xray",
+                  "label": "Chest X-Ray"
+                },
+                {
+                  "value": "ecg",
+                  "label": "ECG"
+                },
+                {
+                  "value": "echo",
+                  "label": "Echocardiogram"
+                }
+              ]
+            },
+            {
+              "id": "clinicalNotes",
+              "type": "textarea",
+              "label": "Clinical Notes",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-admission",
+      "name": "Patient Admission",
+      "icon": "hotel",
+      "description": "Admit a patient to a ward",
+      "datasourceEntity": "patients",
+      "submitLabel": "Confirm Admission",
+      "sections": [
+        {
+          "id": "admission-details",
+          "title": "Admission Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "patientMRN",
+              "type": "text",
+              "label": "Patient MRN",
+              "width": "half",
+              "validation": {
+                "required": true
+              }
+            },
+            {
+              "id": "admissionDate",
+              "type": "date",
+              "label": "Admission Date",
+              "width": "half"
+            },
+            {
+              "id": "ward",
+              "type": "select",
+              "label": "Ward",
+              "width": "half",
+              "options": [
+                {
+                  "value": "general",
+                  "label": "General Ward"
+                },
+                {
+                  "value": "private",
+                  "label": "Private Room"
+                },
+                {
+                  "value": "icu",
+                  "label": "ICU"
+                },
+                {
+                  "value": "nicu",
+                  "label": "NICU"
+                },
+                {
+                  "value": "picu",
+                  "label": "PICU"
+                },
+                {
+                  "value": "ccu",
+                  "label": "CCU"
+                }
+              ]
+            },
+            {
+              "id": "bedNumber",
+              "type": "text",
+              "label": "Bed Number",
+              "width": "half"
+            },
+            {
+              "id": "admittingDoctor",
+              "type": "text",
+              "label": "Admitting Doctor",
+              "width": "half"
+            },
+            {
+              "id": "diagnosis",
+              "type": "textarea",
+              "label": "Admission Diagnosis",
+              "width": "full"
+            },
+            {
+              "id": "estimatedStay",
+              "type": "number",
+              "label": "Estimated Stay (days)",
+              "width": "half"
+            },
+            {
+              "id": "dietOrder",
+              "type": "select",
+              "label": "Diet Order",
+              "width": "half",
+              "options": [
+                {
+                  "value": "normal",
+                  "label": "Normal"
+                },
+                {
+                  "value": "diabetic",
+                  "label": "Diabetic"
+                },
+                {
+                  "value": "liquid",
+                  "label": "Liquid"
+                },
+                {
+                  "value": "npo",
+                  "label": "NPO"
+                },
+                {
+                  "value": "low_sodium",
+                  "label": "Low Sodium"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "form-discharge",
+      "name": "Discharge Summary",
+      "icon": "logout",
+      "description": "Generate discharge summary for patient",
+      "datasourceEntity": "patients",
+      "submitLabel": "Confirm Discharge",
+      "sections": [
+        {
+          "id": "discharge-details",
+          "title": "Discharge Details",
+          "columns": 2,
+          "fields": [
+            {
+              "id": "patientMRN",
+              "type": "text",
+              "label": "Patient MRN",
+              "width": "half"
+            },
+            {
+              "id": "dischargeDate",
+              "type": "date",
+              "label": "Discharge Date",
+              "width": "half"
+            },
+            {
+              "id": "dischargeType",
+              "type": "select",
+              "label": "Discharge Type",
+              "width": "half",
+              "options": [
+                {
+                  "value": "cured",
+                  "label": "Cured"
+                },
+                {
+                  "value": "improved",
+                  "label": "Improved"
+                },
+                {
+                  "value": "lama",
+                  "label": "LAMA"
+                },
+                {
+                  "value": "transferred",
+                  "label": "Transferred"
+                },
+                {
+                  "value": "expired",
+                  "label": "Expired"
+                }
+              ]
+            },
+            {
+              "id": "followupDate",
+              "type": "date",
+              "label": "Follow-up Date",
+              "width": "half"
+            },
+            {
+              "id": "dischargeSummary",
+              "type": "richtext",
+              "label": "Discharge Summary",
+              "width": "full"
+            },
+            {
+              "id": "dischargeRx",
+              "type": "textarea",
+              "label": "Discharge Medication",
+              "width": "full"
+            },
+            {
+              "id": "instructions",
+              "type": "textarea",
+              "label": "Patient Instructions",
+              "width": "full"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dataframes": [
+    {
+      "id": "df-patients",
+      "name": "Patient Registry",
+      "entity": "patients",
+      "searchable": true,
+      "searchFields": [
+        "mrn",
+        "firstName",
+        "lastName",
+        "phone",
+        "diagnosis"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "registrationDate",
+        "direction": "desc"
+      },
+      "pageSize": 50,
+      "addFormId": "form-patient-registration",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "mrn",
+          "header": "MRN",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c2",
+          "field": "fullName",
+          "header": "Patient Name",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "age",
+          "header": "Age",
+          "type": "number",
+          "sortable": true
+        },
+        {
+          "id": "c4",
+          "field": "gender",
+          "header": "Gender",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Male",
+              "label": "Male",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Female",
+              "label": "Female",
+              "color": "#db2777"
+            },
+            {
+              "value": "Other",
+              "label": "Other",
+              "color": "#7c3aed"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "field": "bloodGroup",
+          "header": "Blood Grp",
+          "type": "text"
+        },
+        {
+          "id": "c6",
+          "field": "department",
+          "header": "Department",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c7",
+          "field": "admissionStatus",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Inpatient",
+              "label": "Inpatient",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Outpatient",
+              "label": "Outpatient",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Discharged",
+              "label": "Discharged",
+              "color": "#059669"
+            },
+            {
+              "value": "Emergency",
+              "label": "Emergency",
+              "color": "#f59e0b"
+            }
+          ]
+        },
+        {
+          "id": "c8",
+          "field": "doctor",
+          "header": "Doctor",
+          "type": "text"
+        },
+        {
+          "id": "c9",
+          "field": "ward",
+          "header": "Ward",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c10",
+          "field": "registrationDate",
+          "header": "Registered",
+          "type": "date",
+          "sortable": true,
+          "format": "DD MMM YYYY"
+        }
+      ]
+    },
+    {
+      "id": "df-appointments",
+      "name": "Appointment Schedule",
+      "entity": "appointments",
+      "searchable": true,
+      "searchFields": [
+        "mrn",
+        "patientName",
+        "doctor",
+        "department"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "appointmentDate",
+        "direction": "asc"
+      },
+      "pageSize": 50,
+      "addFormId": "form-appointment",
+      "columns": [
+        {
+          "id": "c1",
+          "field": "apptId",
+          "header": "Appt ID",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "appointmentDate",
+          "header": "Date",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c3",
+          "field": "appointmentTime",
+          "header": "Time",
+          "type": "text"
+        },
+        {
+          "id": "c4",
+          "field": "patientName",
+          "header": "Patient",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c5",
+          "field": "mrn",
+          "header": "MRN",
+          "type": "text"
+        },
+        {
+          "id": "c6",
+          "field": "department",
+          "header": "Department",
+          "type": "text",
+          "filterable": true
+        },
+        {
+          "id": "c7",
+          "field": "doctor",
+          "header": "Doctor",
+          "type": "text"
+        },
+        {
+          "id": "c8",
+          "field": "type",
+          "header": "Type",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Consultation",
+              "label": "Consultation",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Follow-up",
+              "label": "Follow-up",
+              "color": "#059669"
+            },
+            {
+              "value": "Procedure",
+              "label": "Procedure",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "Lab",
+              "label": "Lab",
+              "color": "#d97706"
+            }
+          ]
+        },
+        {
+          "id": "c9",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Booked",
+              "label": "Booked",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Checked In",
+              "label": "Checked In",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Completed",
+              "label": "Completed",
+              "color": "#059669"
+            },
+            {
+              "value": "No Show",
+              "label": "No Show",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Cancelled",
+              "label": "Cancelled",
+              "color": "#6b7280"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "df-labresults",
+      "name": "Lab Results",
+      "entity": "labResults",
+      "searchable": true,
+      "searchFields": [
+        "mrn",
+        "patientName",
+        "testName",
+        "orderedBy"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "orderedDate",
+        "direction": "desc"
+      },
+      "pageSize": 100,
+      "columns": [
+        {
+          "id": "c1",
+          "field": "labId",
+          "header": "Lab ID",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "mrn",
+          "header": "MRN",
+          "type": "text"
+        },
+        {
+          "id": "c3",
+          "field": "patientName",
+          "header": "Patient",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c4",
+          "field": "testName",
+          "header": "Test",
+          "type": "text",
+          "sortable": true,
+          "filterable": true
+        },
+        {
+          "id": "c5",
+          "field": "orderedDate",
+          "header": "Ordered",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c6",
+          "field": "resultDate",
+          "header": "Resulted",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "result",
+          "header": "Result",
+          "type": "text"
+        },
+        {
+          "id": "c8",
+          "field": "referenceRange",
+          "header": "Ref Range",
+          "type": "text"
+        },
+        {
+          "id": "c9",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Ordered",
+              "label": "Ordered",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Processing",
+              "label": "Processing",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Normal",
+              "label": "Normal",
+              "color": "#059669"
+            },
+            {
+              "value": "Abnormal",
+              "label": "Abnormal",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Critical",
+              "label": "Critical",
+              "color": "#7c3aed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "df-beds",
+      "name": "Bed Management",
+      "entity": "beds",
+      "searchable": true,
+      "searchFields": [
+        "bedNumber",
+        "ward",
+        "patientMRN",
+        "patientName"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "ward",
+        "direction": "asc"
+      },
+      "pageSize": 100,
+      "columns": [
+        {
+          "id": "c1",
+          "field": "bedNumber",
+          "header": "Bed No",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c2",
+          "field": "ward",
+          "header": "Ward",
+          "type": "text",
+          "sortable": true,
+          "filterable": true
+        },
+        {
+          "id": "c3",
+          "field": "room",
+          "header": "Room",
+          "type": "text"
+        },
+        {
+          "id": "c4",
+          "field": "status",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Available",
+              "label": "Available",
+              "color": "#059669"
+            },
+            {
+              "value": "Occupied",
+              "label": "Occupied",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Cleaning",
+              "label": "Cleaning",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Maintenance",
+              "label": "Maintenance",
+              "color": "#6b7280"
+            },
+            {
+              "value": "Reserved",
+              "label": "Reserved",
+              "color": "#2563eb"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "field": "patientName",
+          "header": "Patient",
+          "type": "text"
+        },
+        {
+          "id": "c6",
+          "field": "admissionDate",
+          "header": "Admitted",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c7",
+          "field": "bedType",
+          "header": "Type",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "General",
+              "label": "General",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Private",
+              "label": "Private",
+              "color": "#7c3aed"
+            },
+            {
+              "value": "ICU",
+              "label": "ICU",
+              "color": "#dc2626"
+            },
+            {
+              "value": "NICU",
+              "label": "NICU",
+              "color": "#d97706"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "df-billing",
+      "name": "Billing Records",
+      "entity": "billingRecords",
+      "searchable": true,
+      "searchFields": [
+        "billId",
+        "mrn",
+        "patientName"
+      ],
+      "defaultView": "list",
+      "defaultSort": {
+        "field": "billDate",
+        "direction": "desc"
+      },
+      "pageSize": 50,
+      "columns": [
+        {
+          "id": "c1",
+          "field": "billId",
+          "header": "Bill ID",
+          "type": "text"
+        },
+        {
+          "id": "c2",
+          "field": "mrn",
+          "header": "MRN",
+          "type": "text"
+        },
+        {
+          "id": "c3",
+          "field": "patientName",
+          "header": "Patient",
+          "type": "text",
+          "sortable": true
+        },
+        {
+          "id": "c4",
+          "field": "billDate",
+          "header": "Bill Date",
+          "type": "date",
+          "sortable": true
+        },
+        {
+          "id": "c5",
+          "field": "totalAmount",
+          "header": "Total",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c6",
+          "field": "insuranceCovered",
+          "header": "Insurance",
+          "type": "currency"
+        },
+        {
+          "id": "c7",
+          "field": "patientDue",
+          "header": "Patient Due",
+          "type": "currency",
+          "sortable": true
+        },
+        {
+          "id": "c8",
+          "field": "paymentStatus",
+          "header": "Status",
+          "type": "badge",
+          "filterable": true,
+          "badgeOptions": [
+            {
+              "value": "Paid",
+              "label": "Paid",
+              "color": "#059669"
+            },
+            {
+              "value": "Partial",
+              "label": "Partial",
+              "color": "#f59e0b"
+            },
+            {
+              "value": "Pending",
+              "label": "Pending",
+              "color": "#dc2626"
+            },
+            {
+              "value": "Insurance",
+              "label": "Insurance",
+              "color": "#2563eb"
+            },
+            {
+              "value": "Waived",
+              "label": "Waived",
+              "color": "#6b7280"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "page-hms-dashboard",
+      "name": "Hospital Command Centre",
+      "widgets": [
+        {
+          "id": "w1",
+          "type": "kpi",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Total Patients Today",
+            "entity": "appointments",
+            "metric": "count",
+            "filter": {
+              "date": "today"
+            },
+            "icon": "personal_injury",
+            "color": "#0EA5E9"
+          }
+        },
+        {
+          "id": "w2",
+          "type": "kpi",
+          "layout": {
+            "x": 2,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Beds Occupied",
+            "entity": "beds",
+            "metric": "count",
+            "filter": {
+              "status": "Occupied"
+            },
+            "icon": "hotel",
+            "color": "#dc2626"
+          }
+        },
+        {
+          "id": "w3",
+          "type": "kpi",
+          "layout": {
+            "x": 4,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Beds Available",
+            "entity": "beds",
+            "metric": "count",
+            "filter": {
+              "status": "Available"
+            },
+            "icon": "hotel",
+            "color": "#059669"
+          }
+        },
+        {
+          "id": "w4",
+          "type": "kpi",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Emergency Cases",
+            "entity": "patients",
+            "metric": "count",
+            "filter": {
+              "admissionStatus": "Emergency"
+            },
+            "icon": "emergency",
+            "color": "#f59e0b"
+          }
+        },
+        {
+          "id": "w5",
+          "type": "kpi",
+          "layout": {
+            "x": 8,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Pending Lab Results",
+            "entity": "labResults",
+            "metric": "count",
+            "filter": {
+              "status": "Processing"
+            },
+            "icon": "science",
+            "color": "#7c3aed"
+          }
+        },
+        {
+          "id": "w6",
+          "type": "kpi",
+          "layout": {
+            "x": 10,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "config": {
+            "title": "Pending Bills",
+            "entity": "billingRecords",
+            "metric": "sum",
+            "field": "patientDue",
+            "filter": {
+              "paymentStatus": "Pending"
+            },
+            "icon": "receipt",
+            "color": "#d97706",
+            "prefix": "₹"
+          }
+        },
+        {
+          "id": "w7",
+          "type": "chart",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 4
+          },
+          "config": {
+            "title": "Patient Admissions by Department",
+            "chartType": "bar",
+            "entity": "patients",
+            "groupByField": "department",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w8",
+          "type": "chart",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 6,
+            "h": 4
+          },
+          "config": {
+            "title": "Bed Occupancy by Ward",
+            "chartType": "donut",
+            "entity": "beds",
+            "groupByField": "ward",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w9",
+          "type": "chart",
+          "layout": {
+            "x": 0,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Appointment Status Breakdown",
+            "chartType": "pie",
+            "entity": "appointments",
+            "groupByField": "status",
+            "aggregation": "count"
+          }
+        },
+        {
+          "id": "w10",
+          "type": "chart",
+          "layout": {
+            "x": 4,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Lab Result Trends (7 days)",
+            "chartType": "area",
+            "entity": "labResults",
+            "groupByField": "orderedDate",
+            "aggregation": "count",
+            "limit": 7
+          }
+        },
+        {
+          "id": "w11",
+          "type": "chart",
+          "layout": {
+            "x": 8,
+            "y": 6,
+            "w": 4,
+            "h": 4
+          },
+          "config": {
+            "title": "Revenue by Department",
+            "chartType": "bar",
+            "entity": "billingRecords",
+            "groupByField": "department",
+            "aggregation": "sum",
+            "aggregateField": "totalAmount"
+          }
+        },
+        {
+          "id": "w12",
+          "type": "dataframe",
+          "layout": {
+            "x": 0,
+            "y": 10,
+            "w": 12,
+            "h": 5
+          },
+          "config": {
+            "title": "Today's Appointments",
+            "dataframeId": "df-appointments",
+            "pageSize": 10,
+            "showSearch": false
+          }
+        }
+      ]
+    }
+  ],
+  "workflows": [
+    {
+      "id": "wf-patient-admission",
+      "name": "Patient Admission Flow",
+      "category": "Patient Management",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Admission Form Submitted",
+        "config": {
+          "formId": "form-admission",
+          "event": "submit"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Check Bed Availability",
+          "config": {
+            "endpoint": "/api/beds/check",
+            "method": "POST"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "condition",
+          "name": "Bed Available?",
+          "config": {
+            "condition": "bedAvailable == true",
+            "branches": [
+              "s3",
+              "s4"
+            ]
+          }
+        },
+        {
+          "id": "s3",
+          "type": "api",
+          "name": "Assign Bed",
+          "config": {
+            "endpoint": "/api/beds/assign",
+            "method": "PUT"
+          },
+          "nextStepId": "s5"
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Notify Bed Shortage",
+          "config": {
+            "channel": "email",
+            "template": "bed-shortage",
+            "to": "ward.manager@medicore.health"
+          }
+        },
+        {
+          "id": "s5",
+          "type": "api",
+          "name": "Create EMR",
+          "config": {
+            "endpoint": "/api/emr/create",
+            "method": "POST"
+          },
+          "nextStepId": "s6"
+        },
+        {
+          "id": "s6",
+          "type": "notification",
+          "name": "Notify Doctor",
+          "config": {
+            "channel": "email",
+            "template": "new-admission",
+            "to": "{{doctor.email}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-discharge",
+      "name": "Patient Discharge Process",
+      "category": "Patient Management",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Discharge Form Submitted",
+        "config": {
+          "formId": "form-discharge",
+          "event": "submit"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Generate Final Bill",
+          "config": {
+            "endpoint": "/api/billing/generate",
+            "method": "POST"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "api",
+          "name": "Release Bed",
+          "config": {
+            "endpoint": "/api/beds/release",
+            "method": "PUT"
+          },
+          "nextStepId": "s3"
+        },
+        {
+          "id": "s3",
+          "type": "notification",
+          "name": "Send Discharge Summary",
+          "config": {
+            "channel": "email",
+            "template": "discharge-summary",
+            "to": "{{patient.email}}"
+          },
+          "nextStepId": "s4"
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Send Bill",
+          "config": {
+            "channel": "email",
+            "template": "bill-summary",
+            "to": "{{patient.email}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-critical-lab",
+      "name": "Critical Lab Result Alert",
+      "category": "Clinical",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Lab Result Critical",
+        "config": {
+          "entity": "labResults",
+          "event": "update",
+          "condition": "status == Critical"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "notification",
+          "name": "Alert Doctor Immediately",
+          "config": {
+            "channel": "sms",
+            "template": "critical-lab",
+            "to": "{{doctor.phone}}"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "notification",
+          "name": "Alert Nursing Station",
+          "config": {
+            "channel": "app",
+            "template": "critical-lab-push",
+            "to": "nursing_station"
+          },
+          "nextStepId": "s3"
+        },
+        {
+          "id": "s3",
+          "type": "api",
+          "name": "Log Critical Alert",
+          "config": {
+            "endpoint": "/api/alerts/critical",
+            "method": "POST"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-appointment-reminder",
+      "name": "Appointment Reminder",
+      "category": "Outpatient",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "24h Before Appointment",
+        "config": {
+          "event": "scheduled",
+          "schedule": "0 9 * * *"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "notification",
+          "name": "SMS Reminder",
+          "config": {
+            "channel": "sms",
+            "template": "appt-reminder",
+            "to": "{{patient.phone}}"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "notification",
+          "name": "Email Reminder",
+          "config": {
+            "channel": "email",
+            "template": "appt-reminder",
+            "to": "{{patient.email}}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wf-insurance-claim",
+      "name": "Insurance Claim Processing",
+      "category": "Billing",
+      "trigger": {
+        "id": "tr1",
+        "type": "trigger",
+        "name": "Bill Generated",
+        "config": {
+          "entity": "billingRecords",
+          "event": "create",
+          "condition": "insuranceType != self"
+        }
+      },
+      "steps": [
+        {
+          "id": "s1",
+          "type": "api",
+          "name": "Validate Insurance",
+          "config": {
+            "endpoint": "/api/insurance/validate",
+            "method": "POST"
+          },
+          "nextStepId": "s2"
+        },
+        {
+          "id": "s2",
+          "type": "condition",
+          "name": "Claim Eligible?",
+          "config": {
+            "condition": "insuranceValid == true",
+            "branches": [
+              "s3",
+              "s4"
+            ]
+          }
+        },
+        {
+          "id": "s3",
+          "type": "api",
+          "name": "Submit Claim",
+          "config": {
+            "endpoint": "/api/insurance/submit-claim",
+            "method": "POST"
+          },
+          "nextStepId": "s5"
+        },
+        {
+          "id": "s4",
+          "type": "notification",
+          "name": "Notify Patient",
+          "config": {
+            "channel": "email",
+            "template": "insurance-rejected",
+            "to": "{{patient.email}}"
+          }
+        },
+        {
+          "id": "s5",
+          "type": "notification",
+          "name": "Claim Submitted",
+          "config": {
+            "channel": "email",
+            "template": "claim-submitted",
+            "to": "{{patient.email}}"
+          }
+        }
+      ]
+    }
+  ],
+  "desktop": {
+    "primaryClickBehaviour": "selectors",
+    "topDependencySource": "left",
+    "headerOptions": {
+      "left": [
+        {
+          "id": "logo",
+          "label": "Show Logo",
+          "checked": true
+        },
+        {
+          "id": "app-name",
+          "label": "Show App Name",
+          "checked": true
+        },
+        {
+          "id": "switcher",
+          "label": "Application Switcher",
+          "checked": false
+        }
+      ],
+      "right": [
+        {
+          "id": "add-button",
+          "label": "+ New Patient",
+          "checked": true
+        },
+        {
+          "id": "global-search",
+          "label": "Search Patient",
+          "checked": true
+        },
+        {
+          "id": "knowledge-base",
+          "label": "Clinical Reference",
+          "checked": true
+        },
+        {
+          "id": "notifications",
+          "label": "Alerts",
+          "checked": true
+        },
+        {
+          "id": "app-settings",
+          "label": "Settings",
+          "checked": true
+        },
+        {
+          "id": "account-settings",
+          "label": "Account",
+          "checked": true
+        }
+      ]
+    },
+    "footerOptions": [
+      {
+        "id": "records",
+        "label": "Total Records",
+        "checked": true
+      },
+      {
+        "id": "pagination",
+        "label": "Pagination",
+        "checked": true
+      },
+      {
+        "id": "columns",
+        "label": "Column Dropdown",
+        "checked": true
+      },
+      {
+        "id": "function-type",
+        "label": "Function Type",
+        "checked": false
+      },
+      {
+        "id": "last-sync",
+        "label": "Last Sync",
+        "checked": true
+      }
+    ],
+    "environments": [
+      {
+        "id": "3635d4ae-3ee3-4e3e-b359-83f911c6be28",
+        "name": "Production",
+        "url": "hms.medicore.health",
+        "status": "Live",
+        "users": "3,400 users"
+      },
+      {
+        "id": "20750350-fe74-4c8e-90f2-05328e5e0a64",
+        "name": "Staging",
+        "url": "staging.hms.medicore.health",
+        "status": "Testing",
+        "users": "45 users"
+      },
+      {
+        "id": "42bce542-bd22-4bff-bc3c-6fdcf1b3df63",
+        "name": "Training",
+        "url": "training.hms.medicore.health",
+        "status": "In Progress",
+        "users": "120 users"
+      }
+    ]
+  },
+  "mobile": {
+    "primaryClickBehaviour": "selectors",
+    "topDependencySource": "left",
+    "headerOptions": {
+      "left": [
+        {
+          "id": "logo",
+          "label": "Show Logo",
+          "checked": true
+        },
+        {
+          "id": "app-name",
+          "label": "Show App Name",
+          "checked": true
+        },
+        {
+          "id": "switcher",
+          "label": "Application Switcher",
+          "checked": false
+        }
+      ],
+      "right": [
+        {
+          "id": "add-button",
+          "label": "+ New Patient",
+          "checked": true
+        },
+        {
+          "id": "global-search",
+          "label": "Search",
+          "checked": true
+        },
+        {
+          "id": "notifications",
+          "label": "Alerts",
+          "checked": true
+        },
+        {
+          "id": "account-settings",
+          "label": "Account",
+          "checked": true
+        }
+      ]
+    },
+    "bottomNavItems": [
+      {
+        "id": "dashboard",
+        "label": "Home",
+        "icon": "local_hospital"
+      },
+      {
+        "id": "patients",
+        "label": "Patients",
+        "icon": "personal_injury"
+      },
+      {
+        "id": "clinical",
+        "label": "Clinical",
+        "icon": "biotech"
+      },
+      {
+        "id": "operations",
+        "label": "Ops",
+        "icon": "settings"
+      },
+      {
+        "id": "more",
+        "label": "More",
+        "icon": "more_horiz"
+      }
+    ],
+    "environments": [
+      {
+        "id": "926057a6-b1df-4dd7-a271-472476bc6351",
+        "name": "Production",
+        "url": "m.hms.medicore.health",
+        "status": "Live",
+        "users": "1,200 users"
+      }
+    ]
+  },
+  "mockData": {
+    "seed": 13,
+    "entities": [
+      "patients",
+      "appointments",
+      "prescriptions",
+      "labResults",
+      "beds",
+      "clinicalStaff",
+      "billingRecords",
+      "pharmacyInventory",
+      "procedures",
+      "vitals"
+    ],
+    "recordCounts": {
+      "patients": 100000,
+      "appointments": 80000,
+      "prescriptions": 150000,
+      "labResults": 200000,
+      "beds": 2000,
+      "clinicalStaff": 5000,
+      "billingRecords": 90000,
+      "pharmacyInventory": 15000,
+      "procedures": 60000,
+      "vitals": 500000
+    }
+  }
+}
