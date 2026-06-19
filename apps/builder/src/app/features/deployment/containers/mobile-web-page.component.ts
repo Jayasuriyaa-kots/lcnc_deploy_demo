@@ -187,6 +187,8 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   private readonly exactSearchValue = signal('');
   readonly mobileAppSwitcherOpen = signal(false);
   readonly mobileNavVisible = signal(true);
+  /** Floating scroll-to-top button — appears only after scrolling down a bit */
+  readonly showScrollTop = signal(false);
   readonly mobileGlobalSearchOpen = signal(false);
   readonly mobileGlobalSearchQuery = signal('');
   readonly mobileProfileMenuOpen = signal(false);
@@ -646,6 +648,16 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
       }
     }
     this.lastScrollTop = Math.max(0, scrollTop);
+    // Reveal the scroll-to-top button once the user is well down the list
+    this.showScrollTop.set(scrollTop > 400);
+  }
+
+  scrollToTop(): void {
+    const el = this.scrollContainerRef?.nativeElement;
+    if (!el) return;
+    el.scrollTo({ top: 0, behavior: 'smooth' });
+    this.mobileNavVisible.set(true);
+    this.showScrollTop.set(false);
   }
 
   onTouchStart(event: TouchEvent): void {

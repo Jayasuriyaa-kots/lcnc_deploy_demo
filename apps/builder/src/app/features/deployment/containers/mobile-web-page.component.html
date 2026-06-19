@@ -1369,6 +1369,16 @@
                   </div>
                 }
 
+                @if (showScrollTop()) {
+                  <button
+                    type="button"
+                    class="mobile-scroll-top"
+                    aria-label="Scroll to top"
+                    (click)="scrollToTop()">
+                    <qo-icon name="arrow-up" aria-hidden="true"></qo-icon>
+                  </button>
+                }
+
                 <nav
                   class="mobile-app-bottom-nav"
                   [class.mobile-app-bottom-nav--hidden]="!mobileNavVisible()"
