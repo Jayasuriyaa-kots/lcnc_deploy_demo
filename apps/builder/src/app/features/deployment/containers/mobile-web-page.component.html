@@ -547,8 +547,8 @@
                 <div class="mobile-layout-preview__notch" aria-hidden="true"></div>
               }
               <div class="mobile-layout-preview__screen" [class.mobile-layout-preview__screen--deployed]="runtimeMode() === 'deployed'">
-                <div #scrollContainer class="mobile-scroll-container" [style.--table-top.px]="tableStickyTop()" (scroll)="onContentScroll($event)" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()" (touchcancel)="onTouchEnd()">
-                <div #controlsWrap class="mobile-app-controls-wrap" [style.transform]="chromeTransform()" [style.opacity]="chromeOpacity()">
+                <div #scrollContainer class="mobile-scroll-container" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()" (touchcancel)="onTouchEnd()">
+                <div #controlsWrap class="mobile-app-controls-wrap">
                 <div class="mobile-app-controls-inner">
                 <header class="mobile-app-header">
                   @if (headerShowSwitcher()) {

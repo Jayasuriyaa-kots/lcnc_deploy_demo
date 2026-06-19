@@ -187,31 +187,6 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   private readonly searchMode = signal<'contains' | 'exact'>('contains');
   private readonly exactSearchValue = signal('');
   readonly mobileAppSwitcherOpen = signal(false);
-  /** Accumulated collapse offset (px) for the top chrome — scroll-linked,
-   *  Gmail-style. Grows as the user scrolls down, shrinks as they scroll up. */
-  readonly chromeOffset = signal(0);
-  // Height of the sticky controls chrome — drives sticky table-header offset
-  readonly chromeHeight = signal(0);
-  /** Inline transform that slides the chrome up progressively with scroll. */
-  readonly chromeTransform = computed(() => `translateY(-${this.chromeOffset()}px)`);
-  /** Subtle fade as the chrome collapses (1 → 0.7), per spec. */
-  readonly chromeOpacity = computed(() => {
-    const h = this.chromeHeight();
-    return h === 0 ? 1 : 1 - Math.min(this.chromeOffset() / h, 1) * 0.3;
-  });
-  /** Sticky column header rides up with the chrome and ends pinned at top:0. */
-  readonly tableStickyTop = computed(() => Math.max(0, this.chromeHeight() - this.chromeOffset()));
-  /** Mostly-expanded gate for secondary chrome (left selector, action panels). */
-  readonly mobileNavVisible = computed(() => {
-    const h = this.chromeHeight();
-    return h === 0 ? true : this.chromeOffset() < h * 0.5;
-  });
-  /** Full data mode: chrome fully collapsed — hide the bottom nav for an
-   *  immersive, distraction-free data view. */
-  readonly fullDataMode = computed(() => {
-    const h = this.chromeHeight();
-    return h > 0 && this.chromeOffset() >= h - 1;
-  });
   /** Floating scroll-to-top button — appears only after scrolling down a bit */
   readonly showScrollTop = signal(false);
   readonly mobileGlobalSearchOpen = signal(false);
@@ -219,7 +194,24 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   readonly mobileProfileMenuOpen = signal(false);
   readonly mobileMoreMenuOpen = signal(false);
   readonly isSignedIn = signal(true);
-  private lastScrollTop = 0;
+
+  // ── Native scroll-collapse engine ───────────────────────────────────────────
+  // Transforms are applied directly to the DOM inside a requestAnimationFrame
+  // loop, driven by a passive scroll listener running OUTSIDE the Angular zone.
+  // Nothing here triggers change detection per frame — the chrome is glued to
+  // the finger via GPU translate3d. Only the rare boolean states below flip
+  // Angular signals (and only when they actually change).
+  private scrollEl?: HTMLElement;
+  private chromeEl?: HTMLElement;
+  private chromeHeightPx = 0;
+  private latestScrollTop = 0;
+  private rafId: number | null = null;
+
+  /** Mostly-expanded gate for secondary chrome (left selector, action panels). */
+  readonly mobileNavVisible = signal(true);
+  /** Full data mode: chrome fully collapsed — hide the bottom nav for an
+   *  immersive, distraction-free data view. */
+  readonly fullDataMode = signal(false);
   @ViewChild('scrollContainer') private scrollContainerRef?: ElementRef<HTMLElement>;
   @ViewChild('controlsWrap') private controlsWrapRef?: ElementRef<HTMLElement>;
   private resizeObs?: ResizeObserver;
@@ -635,15 +627,22 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    // Measure the collapsible chrome so the sticky column header can track it.
-    const chromeEl = this.controlsWrapRef?.nativeElement;
-    if (chromeEl) {
-      this.chromeHeight.set(chromeEl.offsetHeight);
+    // ── Wire up the native scroll-collapse engine ──────────────────────────
+    this.scrollEl = this.scrollContainerRef?.nativeElement;
+    this.chromeEl = this.controlsWrapRef?.nativeElement;
+    if (this.chromeEl) {
+      this.chromeHeightPx = this.chromeEl.offsetHeight;
       this.resizeObs = new ResizeObserver(() => {
-        this.ngZone.run(() => this.chromeHeight.set(chromeEl.offsetHeight));
+        this.chromeHeightPx = this.chromeEl?.offsetHeight ?? 0;
+        this.applyScroll();
       });
-      this.resizeObs.observe(chromeEl);
+      this.resizeObs.observe(this.chromeEl);
+      this.applyScroll();
     }
+    // Passive listener + rAF, both outside Angular — zero CD per scroll frame.
+    this.ngZone.runOutsideAngular(() => {
+      this.scrollEl?.addEventListener('scroll', this.onScroll, { passive: true });
+    });
 
     const el = this.tabsStripRef?.nativeElement;
     if (!el || el.scrollWidth <= el.clientWidth) return;
@@ -662,6 +661,8 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     clearTimeout(this.tabsHintTimer);
     this.resizeObs?.disconnect();
+    this.scrollEl?.removeEventListener('scroll', this.onScroll);
+    if (this.rafId != null) cancelAnimationFrame(this.rafId);
   }
 
   onTabsScroll(event: Event): void {
@@ -672,41 +673,55 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
     this.tabsHasRightOverflow.set(scrollLeft + el.clientWidth < el.scrollWidth - 4);
   }
 
-  onContentScroll(event: Event): void {
-    const el = event.target as HTMLElement;
-    const scrollTop = Math.max(0, el.scrollTop);
-    const delta = scrollTop - this.lastScrollTop;
-
-    // Scroll-linked progressive collapse: accumulate the chrome offset with the
-    // scroll delta (clamped 0..chromeHeight). Scrolling down slides the chrome
-    // away gradually; scrolling up brings it back gradually — no thresholds.
-    const max = this.chromeHeight();
-    if (max > 0 && delta !== 0) {
-      const prev = this.chromeOffset();
-      const next = Math.min(Math.max(prev + delta, 0), max);
-      if (next !== prev) this.chromeOffset.set(next);
-      // Close any transient action panel the moment we begin collapsing.
-      if (delta > 0 && prev === 0 && next > 0) {
-        this.closeAllActionPanels();
-      }
+  // ── Native scroll-collapse engine ───────────────────────────────────────────
+  /** Passive scroll handler — only records position, then schedules a frame. */
+  private readonly onScroll = (): void => {
+    this.latestScrollTop = Math.max(0, this.scrollEl?.scrollTop ?? 0);
+    if (this.rafId == null) {
+      this.rafId = requestAnimationFrame(this.applyScroll);
     }
+  };
 
-    this.lastScrollTop = scrollTop;
-    // Minimal scroll-to-top icon: show only after scrolling deep (>1000px),
-    // hide again once back near the top (<500px). Hysteresis avoids flicker.
-    if (scrollTop > 1000) {
-      this.showScrollTop.set(true);
-    } else if (scrollTop < 500) {
-      this.showScrollTop.set(false);
+  /** Runs on the animation frame (outside Angular). Maps scroll position
+   *  directly to the chrome transform — collapseOffset = min(scrollTop, H). */
+  private readonly applyScroll = (): void => {
+    this.rafId = null;
+    const scrollTop = this.latestScrollTop;
+    const h = this.chromeHeightPx;
+    const offset = h > 0 ? Math.min(scrollTop, h) : 0;
+
+    // GPU-accelerated transform — direct DOM write, no Angular involved.
+    if (this.chromeEl) {
+      this.chromeEl.style.transform = `translate3d(0, ${-offset}px, 0)`;
+      this.chromeEl.style.opacity = h > 0 ? `${1 - (offset / h) * 0.3}` : '1';
     }
-  }
+    // Sticky column header rides up with the chrome, pinned at top:0 when gone.
+    this.scrollEl?.style.setProperty('--table-top', `${Math.max(0, h - offset)}px`);
+
+    // Rare boolean states — flip Angular signals only when they actually change.
+    const navVisible = h === 0 ? true : offset < h * 0.5;
+    const fullData = h > 0 && offset >= h - 1;
+    const showTop = scrollTop > 1000 ? true : scrollTop < 500 ? false : this.showScrollTop();
+    if (
+      navVisible !== this.mobileNavVisible() ||
+      fullData !== this.fullDataMode() ||
+      showTop !== this.showScrollTop()
+    ) {
+      this.ngZone.run(() => {
+        this.mobileNavVisible.set(navVisible);
+        this.fullDataMode.set(fullData);
+        this.showScrollTop.set(showTop);
+        if (fullData) this.closeAllActionPanels();
+      });
+    }
+  };
 
   scrollToTop(): void {
-    const el = this.scrollContainerRef?.nativeElement;
+    const el = this.scrollEl;
     if (!el) return;
     el.scrollTo({ top: 0, behavior: 'smooth' });
-    this.chromeOffset.set(0);
     this.showScrollTop.set(false);
+    // The smooth scroll fires scroll events that drive applyScroll back to 0.
   }
 
   onTouchStart(event: TouchEvent): void {

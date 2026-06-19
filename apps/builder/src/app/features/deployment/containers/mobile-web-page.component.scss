@@ -573,11 +573,13 @@
   left: 0;
   z-index: 100;
   background: var(--qo-color-neutral-0);
-  // Scroll-linked progressive collapse: transform/opacity are driven inline
-  // from the scroll handler. A short linear transition smooths the discrete
-  // scroll events without lagging behind the finger.
-  transition: transform 0.15s linear, opacity 0.15s linear;
-  will-change: transform;
+  // The transform is written every animation frame from a passive scroll
+  // listener (rAF, outside Angular). No CSS transition — the chrome is glued
+  // 1:1 to the finger like iOS Mail, not running a timed animation. Promoted
+  // to its own GPU layer for jank-free 60fps collapse.
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .mobile-app-controls-inner {
@@ -2600,9 +2602,10 @@
     text-align: left;
     white-space: nowrap;
     text-transform: uppercase;
-    // Matches the chrome's 0.15s linear so the column header tracks the
-    // collapsing chrome in lockstep as it slides up.
-    transition: top 0.15s linear;
+    // The sticky header itself must NOT animate — its top offset (--table-top)
+    // is updated every frame in lockstep with the chrome transform, so any
+    // transition here would cause lag/flicker.
+    transition: none;
   }
 
   td {

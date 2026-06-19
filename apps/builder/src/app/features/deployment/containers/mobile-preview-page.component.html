@@ -1,6 +1,6 @@
 <div class="mobile-preview-page">
-  <div #scrollContainer class="mobile-scroll-container" [style.--table-top.px]="tableStickyTop()" (scroll)="onContentScroll($event)" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()" (touchcancel)="onTouchEnd()">
-  <div #controlsWrap class="mobile-app-controls-wrap" [style.transform]="chromeTransform()" [style.opacity]="chromeOpacity()">
+  <div #scrollContainer class="mobile-scroll-container" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()" (touchcancel)="onTouchEnd()">
+  <div #controlsWrap class="mobile-app-controls-wrap">
   <div class="mobile-app-controls-inner">
   <!-- ── Header ─────────────────────────────────────────────────────────── -->
   <header class="mobile-app-header">
