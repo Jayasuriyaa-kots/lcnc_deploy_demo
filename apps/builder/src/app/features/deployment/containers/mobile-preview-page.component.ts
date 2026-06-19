@@ -103,6 +103,10 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
   readonly mobileActionBarOpen = signal(false);
   readonly mobileExportMenuOpen = signal(false);
   readonly mobileSearchQuery = signal('');
+  /** 'contains' = Search button / typing (partial match across all cells)
+   *  'exact'    = Suggestion click (exact match on first column only) */
+  private readonly searchMode = signal<'contains' | 'exact'>('contains');
+  private readonly exactSearchValue = signal('');
   readonly mobileAppSwitcherOpen = signal(false);
   readonly mobileNavVisible = signal(true);
   readonly mobileGlobalSearchOpen = signal(false);
@@ -218,9 +222,14 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
   });
 
   readonly mobilePreviewRows = computed(() => {
-    const query = this.mobileSearchQuery().trim().toLowerCase();
     let rows = this.sortedFilteredRows();
-    if (query) rows = rows.filter((row) => row.some((cell) => cell.toLowerCase().includes(query)));
+    if (this.searchMode() === 'exact') {
+      const exact = this.exactSearchValue();
+      if (exact) rows = rows.filter((row) => row[0]?.toLowerCase() === exact.toLowerCase());
+    } else {
+      const query = this.mobileSearchQuery().trim().toLowerCase();
+      if (query) rows = rows.filter((row) => row.some((cell) => cell.toLowerCase().includes(query)));
+    }
     return rows;
   });
 
@@ -355,6 +364,17 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
   }
 
   submitSearch(): void {
+    // Contains search — partial match on whatever is in the input box
+    this.searchMode.set('contains');
+    this.exactSearchValue.set('');
+    this.mobileActionBarOpen.set(false);
+  }
+
+  selectSearchSuggestion(value: string): void {
+    // Exact search — first column must equal the suggestion exactly
+    this.mobileSearchQuery.set(value);
+    this.exactSearchValue.set(value);
+    this.searchMode.set('exact');
     this.mobileActionBarOpen.set(false);
   }
 
@@ -369,6 +389,13 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
 
   updateMobileSearchQuery(query: string): void {
     this.mobileSearchQuery.set(query);
+    // Typing resets to contains mode and clears any prior exact match
+    this.searchMode.set('contains');
+    this.exactSearchValue.set('');
+    if (!query.trim()) {
+      this.mobileActionBarOpen.set(false);
+      return;
+    }
     this.mobileExportMenuOpen.set(false);
     this.mobileActionBarOpen.set(true);
   }
