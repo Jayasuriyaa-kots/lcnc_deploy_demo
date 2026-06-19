@@ -804,6 +804,18 @@
     </div>
   }
 
+  <!-- ── Scroll to top (floating) ──────────────────────────────────────── -->
+  @if (showScrollTop()) {
+    <button
+      type="button"
+      class="mobile-scroll-top"
+      aria-label="Scroll to top"
+      [style.--scroll-top-bg]="activeLayoutPayload().layout.theme.sidebarActiveBg"
+      (click)="scrollToTop()">
+      <qo-icon name="arrow-up" aria-hidden="true"></qo-icon>
+    </button>
+  }
+
   <!-- ── Bottom nav ────────────────────────────────────────────────────── -->
   <nav
     class="mobile-app-bottom-nav"
