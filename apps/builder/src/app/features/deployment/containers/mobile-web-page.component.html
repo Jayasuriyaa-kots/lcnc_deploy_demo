@@ -1372,11 +1372,11 @@
                 @if (showScrollTop()) {
                   <button
                     type="button"
-                    class="mobile-scroll-top"
-                    aria-label="Scroll to top"
-                    [style.--scroll-top-bg]="activeLayoutPayload().layout.theme.sidebarActiveBg"
+                    class="mobile-back-to-top"
+                    aria-label="Back to top"
                     (click)="scrollToTop()">
                     <qo-icon name="arrow-up" aria-hidden="true"></qo-icon>
+                    <span>Back to Top</span>
                   </button>
                 }
 

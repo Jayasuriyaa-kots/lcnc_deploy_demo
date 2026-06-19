@@ -648,8 +648,9 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
       }
     }
     this.lastScrollTop = Math.max(0, scrollTop);
-    // Reveal the scroll-to-top button once the user is well down the list
-    this.showScrollTop.set(scrollTop > 400);
+    // Reveal the "Back to Top" pill once the user is well down the list,
+    // and hide it again near the top (within the first 200px).
+    this.showScrollTop.set(scrollTop > 500);
   }
 
   scrollToTop(): void {
