@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BuilderModuleLink } from '@builder/core/models/builder-shell.model';
 import { DeploymentFacadeService } from '@builder/features/deployment/facades/deployment.facade';
 import { FormBuilderFacadeService } from '@builder/features/form-builder/services/form-builder-facade.service';
 import { PageBuilderFacade } from '@builder/features/page-builder/facades/page-builder.facade';
 import { ReportBuilderFacade } from '@builder/features/report-builder/facades/report-builder.facade';
+import { RuntimeEngineService } from '@builder/runtime/services/runtime-engine.service';
+import type { AppConfig } from '@builder/runtime/models/app-config.model';
 import { QoButtonComponent, QoIconComponent, QoToastService } from '@qo/ui-components';
 
 @Component({
@@ -17,12 +19,18 @@ import { QoButtonComponent, QoIconComponent, QoToastService } from '@qo/ui-compo
 })
 export class BuilderTopbarComponent {
   private readonly deploymentFacade = inject(DeploymentFacadeService);
+  private readonly runtimeEngine = inject(RuntimeEngineService);
 
   readonly modules = input.required<BuilderModuleLink[]>();
   readonly activeRoute = input.required<string>();
   readonly applicationName = input('');
   readonly deploymentSaveState = this.deploymentFacade.saveState;
   readonly deploymentSaveLabel = this.deploymentFacade.saveButtonLabel;
+
+  readonly configLoaderOpen = signal(false);
+  readonly configJsonDraft = signal('');
+  readonly configLoadError = signal<string | null>(null);
+  readonly configFileName = signal<string | null>(null);
 
   constructor(
     private readonly router: Router,
@@ -151,6 +159,45 @@ export class BuilderTopbarComponent {
     }
 
     this.toast.info('Deploy is not available from this screen yet');
+  }
+
+  openConfigLoader(): void {
+    this.configJsonDraft.set('');
+    this.configLoadError.set(null);
+    this.configFileName.set(null);
+    this.configLoaderOpen.set(true);
+  }
+
+  closeConfigLoader(): void {
+    this.configLoaderOpen.set(false);
+  }
+
+  onConfigFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.configFileName.set(file.name);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.configJsonDraft.set((e.target?.result as string) ?? '');
+      this.configLoadError.set(null);
+    };
+    reader.readAsText(file);
+  }
+
+  applyConfig(): void {
+    const text = this.configJsonDraft().trim();
+    if (!text) {
+      this.configLoadError.set('Please paste a JSON config or upload a file.');
+      return;
+    }
+    try {
+      const parsed = JSON.parse(text) as AppConfig;
+      this.runtimeEngine.loadConfig(parsed);
+      // Reload so all builder facades re-initialize from the new config
+      window.location.reload();
+    } catch {
+      this.configLoadError.set('Invalid JSON — check the file and try again.');
+    }
   }
 }
 

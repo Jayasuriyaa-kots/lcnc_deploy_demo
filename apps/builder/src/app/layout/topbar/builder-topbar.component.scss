@@ -181,4 +181,170 @@
   font-size: 16px;
 }
 
+.topbar__action--config {
+  --qo-button-bg: var(--qo-color-neutral-0);
+  --qo-button-color: var(--qo-color-primary-600, #2563eb);
+  --qo-button-border-color: var(--qo-color-primary-200, #bfdbfe);
+  --qo-button-hover-bg: var(--qo-color-primary-50, #eff6ff);
+  --qo-button-hover-border-color: var(--qo-color-primary-400, #60a5fa);
+}
+
+// Config loader modal
+.config-loader-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 9998;
+}
+
+.config-loader-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  width: 560px;
+  max-width: calc(100vw - 32px);
+  background: var(--qo-color-neutral-0);
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.config-loader-modal__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--qo-border-color);
+}
+
+.config-loader-modal__icon {
+  font-size: 20px;
+  color: var(--qo-color-primary-600, #2563eb);
+}
+
+.config-loader-modal__title {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--qo-color-neutral-900);
+  margin: 0;
+}
+
+.config-loader-modal__close {
+  all: unset;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  color: var(--qo-color-neutral-500);
+  transition: background 0.15s;
+
+  &:hover {
+    background: var(--qo-color-neutral-100);
+    color: var(--qo-color-neutral-900);
+  }
+
+  .material-symbols-outlined {
+    font-size: 18px;
+  }
+}
+
+.config-loader-modal__body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.config-loader-modal__upload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  border: 2px dashed var(--qo-border-color-strong);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  text-align: center;
+
+  &:hover {
+    border-color: var(--qo-color-primary-400, #60a5fa);
+    background: var(--qo-color-primary-50, #eff6ff);
+  }
+}
+
+.config-loader-modal__file-input {
+  display: none;
+}
+
+.config-loader-modal__upload-icon {
+  font-size: 28px;
+  color: var(--qo-color-neutral-400);
+}
+
+.config-loader-modal__file-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--qo-color-primary-600, #2563eb);
+}
+
+.config-loader-modal__upload-hint {
+  font-size: 13px;
+  color: var(--qo-color-neutral-500);
+}
+
+.config-loader-modal__or {
+  text-align: center;
+  font-size: 11px;
+  color: var(--qo-color-neutral-400);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+.config-loader-modal__textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  border: 1px solid var(--qo-border-color-strong);
+  border-radius: 6px;
+  resize: vertical;
+  outline: none;
+  color: var(--qo-color-neutral-800);
+  background: var(--qo-color-neutral-50);
+  transition: border-color 0.15s;
+
+  &:focus {
+    border-color: var(--qo-color-primary-400, #60a5fa);
+    background: var(--qo-color-neutral-0);
+  }
+}
+
+.config-loader-modal__error {
+  margin: 0;
+  font-size: 12px;
+  color: var(--qo-color-danger-600, #dc2626);
+  background: var(--qo-color-danger-50, #fef2f2);
+  border: 1px solid var(--qo-color-danger-200, #fecaca);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.config-loader-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--qo-border-color);
+}
 

@@ -28,10 +28,32 @@ function toNavPage(p: NavPrimaryPage | NavLeftPage | NavSubPage | NavTopTab): Na
   return { id: p.id, label: p.label, icon: p.icon, tone: p.tone as NavigationPage['tone'] };
 }
 
+const CONFIG_OVERRIDE_KEY = 'qo.runtime.config-override.v1';
+
+const BUILDER_STALE_KEYS = [
+  'qo.builder.page-builder.pages.v1',
+  'qo.builder.page-builder.selected-page.v1',
+  'qo.builder.form-builder.forms.v2',
+  'qo.report-builder.v1',
+  'qo.builder.config-instance.v1',
+  'qo-deployment-desktop-layout-json',
+  'qo-deployment-mobile-layout-json',
+];
+
+function loadInitialConfig(): AppConfig {
+  try {
+    const stored = localStorage.getItem(CONFIG_OVERRIDE_KEY);
+    if (stored) return JSON.parse(stored) as AppConfig;
+  } catch {
+    // corrupted — fall through to default
+  }
+  return HEXAWARE_APP_CONFIG;
+}
+
 @Injectable({ providedIn: 'root' })
 export class RuntimeEngineService {
 
-  private readonly _config = signal<AppConfig>(HEXAWARE_APP_CONFIG);
+  private readonly _config = signal<AppConfig>(loadInitialConfig());
 
   readonly config: Signal<AppConfig> = this._config.asReadonly();
 
@@ -135,8 +157,21 @@ export class RuntimeEngineService {
     return this._config().workflows.find(w => w.id === id);
   }
 
-  /** Replace the active config at runtime (e.g., when switching tenants). */
+  /** Replace the active config at runtime. Persists to localStorage so it survives page reloads. */
   loadConfig(config: AppConfig): void {
+    for (const key of BUILDER_STALE_KEYS) {
+      localStorage.removeItem(key);
+    }
+    localStorage.setItem(CONFIG_OVERRIDE_KEY, JSON.stringify(config));
     this._config.set(config);
+  }
+
+  /** Remove any persisted config override and revert to the built-in default. */
+  clearConfigOverride(): void {
+    for (const key of BUILDER_STALE_KEYS) {
+      localStorage.removeItem(key);
+    }
+    localStorage.removeItem(CONFIG_OVERRIDE_KEY);
+    this._config.set(HEXAWARE_APP_CONFIG);
   }
 }
