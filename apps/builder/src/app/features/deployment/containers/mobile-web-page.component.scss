@@ -2139,41 +2139,40 @@
 }
 
 // ── Floating scroll-to-top button ───────────────────────────────────────────
-// Small, subtle, glassy circle that sits just above the bottom nav. It only
-// appears once the user has scrolled well down the list.
+// Small circular button that sits just above the bottom nav. It only appears
+// once the user has scrolled well down the list. Filled with the app's active
+// theme colour so it stands out clearly against the list.
 .mobile-scroll-top {
   position: absolute;
-  right: 14px;
-  bottom: 104px;
-  z-index: 20;
+  right: 16px;
+  bottom: 110px;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   padding: 0;
-  border: 1px solid rgb(255 255 255 / 45%);
+  border: 2px solid rgb(255 255 255 / 85%);
   border-radius: 999px;
-  background: rgb(17 24 39 / 38%);
+  background: var(--scroll-top-bg, #4f46e5);
   color: #ffffff;
   cursor: pointer;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 14px rgb(0 0 0 / 22%);
-  opacity: 0.55;
-  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 32%);
+  opacity: 0.95;
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   animation: mobile-scroll-top-in 0.25s ease;
 
   &:hover,
   &:active {
     opacity: 1;
-    background: rgb(17 24 39 / 72%);
     transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgb(0 0 0 / 40%);
   }
 
   qo-icon {
     display: block;
-    font-size: 18px;
+    font-size: 20px;
     color: inherit;
   }
 }
@@ -2184,7 +2183,7 @@
     transform: translateY(8px) scale(0.85);
   }
   to {
-    opacity: 0.55;
+    opacity: 0.95;
     transform: translateY(0) scale(1);
   }
 }
