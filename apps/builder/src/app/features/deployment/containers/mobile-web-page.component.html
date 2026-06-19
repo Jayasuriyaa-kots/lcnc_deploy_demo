@@ -825,7 +825,7 @@
                           @if (mobilePreviewRows().length) {
                             @for (row of mobilePreviewRows().slice(0, 6); track $index) {
                               <li>
-                                <button type="button" class="mobile-app-search__result-item" (click)="submitSearch()">
+                                <button type="button" class="mobile-app-search__result-item" (click)="selectSearchSuggestion(row[0])">
                                   <qo-icon name="file-text" aria-hidden="true"></qo-icon>
                                   <span class="mobile-app-search__result-primary">{{ row[0] }}</span>
                                   @if (row[1]) {

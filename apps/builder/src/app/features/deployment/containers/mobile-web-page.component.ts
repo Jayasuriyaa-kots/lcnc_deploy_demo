@@ -466,6 +466,11 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
     this.mobileActionBarOpen.set(false);
   }
 
+  selectSearchSuggestion(value: string): void {
+    this.mobileSearchQuery.set(value);
+    this.mobileActionBarOpen.set(false);
+  }
+
   closeAllActionPanels(): void {
     this.mobileActionBarOpen.set(false);
     this.mobileExportMenuOpen.set(false);
