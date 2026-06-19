@@ -1,0 +1,37 @@
+<div class="visibility-panel">
+  @for (section of sections(); track section.title) {
+    <qo-card class="section-card">
+      <div class="section-header">
+        <span>{{ section.title }}</span>
+        <span class="header-right">{{ t('reportEmbed.visibility.title') }}</span>
+      </div>
+
+      @for (item of section.items; track item.key) {
+        <div class="row">
+          <span class="label">{{ item.label }}</span>
+          <div class="toggle-control">
+            <qo-toggle
+              [formControl]="controlFor(item)"
+              (checkedChange)="toggle(item, $event)"
+            ></qo-toggle>
+          </div>
+        </div>
+      }
+    </qo-card>
+  }
+
+  <qo-card class="public-access-card">
+    <div class="public-access-row">
+      <span class="label">{{ t('search.resultPanel.allowPublicAccess') }}<span class="label-info">ⓘ</span>
+      </span>
+      <div class="public-access-toggle">
+        <qo-toggle
+          [formControl]="publicAccessControl"
+          label="Yes"
+          (checkedChange)="togglePublicAccess($event)"
+        ></qo-toggle>
+      </div>
+    </div>
+  </qo-card>
+</div>
+

@@ -1,0 +1,70 @@
+<div class="preview-page">
+  <header class="preview-page__header">
+    <div>
+      <div class="preview-page__eyebrow">{{ t('editCanvas.reportPreviewEyebrow') }}</div>
+      <h1>{{ reportConfig()?.reportLabel || t('editCanvas.reportPreviewEyebrow') }}</h1>
+    </div>
+    <qo-button variant="secondary" type="button" (click)="closeTab()">{{ t('common.close') }}</qo-button>
+  </header>
+
+  @if (reportConfig(); as reportConfig) {
+    <main class="preview-page__body">
+      <section class="report-shell">
+        <div class="report-shell__head">
+          <div>
+            <div class="report-shell__title">{{ reportConfig.reportLabel }}</div>
+            <div class="report-shell__subtitle">{{ getRows().length }} {{ t('editCanvas.rowsSuffix') }}</div>
+          </div>
+          <div class="report-shell__actions">
+            @if (reportConfig.visibility.search) {
+              <input
+                class="report-shell__search"
+                type="search"
+                [placeholder]="t('editCanvas.searchRowsPlaceholder')"
+                [value]="searchQuery()"
+                (input)="onSearchInput($event)"
+              />
+            }
+            @if (reportConfig.visibility.print) {
+              <button class="report-shell__action" type="button" (click)="printReport(reportConfig)">{{ t('common.print') }}</button>
+            }
+            @if (reportConfig.visibility.export) {
+              <button class="report-shell__action" type="button" (click)="exportReport(reportConfig)">{{ t('common.export') }}</button>
+            }
+          </div>
+        </div>
+
+        <div class="report-shell__toolbar">
+          <span class="report-shell__chip">{{ reportConfig.applicationLabel }}</span>
+          <span class="report-shell__chip report-shell__chip--ghost">{{ reportConfig.sourceFormLabel }}</span>
+          @if (reportConfig.filterConfigured) {
+            <span class="report-shell__chip report-shell__chip--ghost">{{ t('editCanvas.filtered') }}</span>
+          }
+        </div>
+
+        <div class="report-table">
+          <div class="report-table__row report-table__row--header">
+            @for (column of reportConfig.columns; track column.id) {
+              <span class="report-table__cell">{{ column.label }}</span>
+            }
+          </div>
+
+          @for (row of getRows(); track row.id) {
+            <div class="report-table__row">
+              @for (value of row.values; track $index) {
+                <span
+                  class="report-table__cell"
+                  [class.report-table__cell--status]="value === 'Active' || value === 'Late' || value === 'Inactive' || value === 'Present'"
+                >
+                  {{ value }}
+                </span>
+              }
+            </div>
+          }
+        </div>
+      </section>
+    </main>
+  } @else {
+    <div class="preview-page__empty">{{ t('editCanvas.reportNotFound') }}</div>
+  }
+</div>

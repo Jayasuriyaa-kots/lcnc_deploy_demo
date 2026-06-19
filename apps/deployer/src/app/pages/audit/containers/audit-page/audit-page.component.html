@@ -1,0 +1,32 @@
+<div class="section-grid">
+  <qo-page-section
+    [eyebrow]="i18n.translate('audit.eyebrow')"
+    [title]="i18n.translate('audit.title')"
+    [description]="i18n.translate('audit.description')"
+  />
+
+  <qo-table [data]="recordRows()">
+    <ng-template qoTableColumn="actor" [header]="i18n.translate('audit.colActor')" let-record>
+      <strong>{{ record.actor }}</strong>
+    </ng-template>
+    <ng-template qoTableColumn="timestamp" [header]="i18n.translate('audit.colTimestamp')" let-record>
+      {{ record.timestamp }}
+    </ng-template>
+    <ng-template qoTableColumn="actionType" [header]="i18n.translate('audit.colActionType')" let-record>
+      {{ record.actionType }}
+    </ng-template>
+    <ng-template qoTableColumn="affectedEntity" [header]="i18n.translate('audit.colAffectedEntity')" let-record>
+      {{ record.affectedEntity }}
+    </ng-template>
+    <ng-template qoTableColumn="description" [header]="i18n.translate('audit.colDescription')" let-record>
+      {{ record.description }}
+    </ng-template>
+
+    <ng-template qoTableEmpty>
+      <qo-empty-state
+        [title]="i18n.translate('audit.noAuditRecords')"
+        [description]="i18n.translate('audit.noAuditRecordsDescription')"
+      />
+    </ng-template>
+  </qo-table>
+</div>

@@ -1,0 +1,63 @@
+<qo-modal
+  class="payment-modal-shell"
+  [title]="i18n.translate('settings.recordPaymentModalTitle')"
+  [subtitle]="i18n.translate('settings.recordPaymentModalSubtitle')"
+  size="md"
+  [maxWidth]="'var(--qo-size-480)'"
+  panelClass="qo-modal-panel--payment"
+  (close)="close.emit()"
+>
+  <div class="payment-modal">
+    <div class="payment-modal__grid">
+      <qo-form-field [label]="i18n.translate('settings.invoiceField')" [required]="true">
+        <qo-select
+          [options]="invoiceSelectOptions()"
+          [value]="selectedInvoice()"
+          (valueChange)="onInvoiceChange($event)"
+        />
+      </qo-form-field>
+
+      <div class="payment-modal__grid payment-modal__grid--two">
+        <qo-form-field [label]="i18n.translate('settings.amountPaid')" [required]="true">
+          <qo-input
+            type="text"
+            [placeholder]="amountPlaceholder()"
+            [value]="amountPaid()"
+            (valueChange)="updateAmountPaid($event)"
+          />
+        </qo-form-field>
+
+        <qo-form-field [label]="i18n.translate('settings.paymentDate')" [required]="true">
+          <qo-input type="date" [value]="paymentDateNativeValue()" (valueChange)="paymentDateSelect.emit($event)" />
+        </qo-form-field>
+      </div>
+
+      <qo-form-field [label]="i18n.translate('settings.referenceNumber')" [required]="true">
+        <qo-input
+          type="text"
+          [placeholder]="i18n.translate('settings.referencePlaceholder')"
+          [value]="referenceNumber()"
+          (valueChange)="updateReferenceNumber($event)"
+        />
+      </qo-form-field>
+
+      <qo-form-field [label]="i18n.translate('settings.paymentMethodField')">
+        <qo-select
+          [options]="paymentMethodOptions()"
+          [value]="selectedPaymentMethod()"
+          (valueChange)="onPaymentMethodChange($event)"
+        />
+      </qo-form-field>
+    </div>
+  </div>
+
+  <div qo-modal-footer class="payment-modal__actions">
+    <qo-button variant="link" class="payment-modal__cancel" (click)="close.emit()">{{ i18n.translate('settings.recordPaymentCancel') }}</qo-button>
+    <qo-button variant="secondary" class="payment-modal__submit" (click)="submitPayment()">
+      <span class="payment-modal__submit-icon" aria-hidden="true">
+        <qo-icon name="check" size="sm"></qo-icon>
+      </span>
+      <span>{{ i18n.translate('settings.recordPaymentSubmit') }}</span>
+    </qo-button>
+  </div>
+</qo-modal>

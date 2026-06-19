@@ -1,0 +1,56 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<div class="workflow-field-mapper">
+  <div class="workflow-field-mapper__toolbar">
+    <span>{{ t('tables.mappedCount', { mapped: mappedCount(), total: targets().length }) }}</span>
+    <div class="workflow-field-mapper__actions">
+      <qo-button type="button" variant="secondary" size="sm" (click)="clearMapping()" [disabled]="mappedCount() === 0">
+        {{ 'actions.clear' | transloco }}
+      </qo-button>
+      <qo-button
+        type="button"
+        variant="secondary"
+        size="sm"
+        iconLeft="shuffle"
+        (click)="applyAutoMap()"
+        [disabled]="!hasAutoSuggestions()"
+      >
+        {{ t('common.autoMap') }}
+      </qo-button>
+    </div>
+  </div>
+
+  <div class="workflow-field-mapper__table" role="table" [attr.aria-label]="t('accessibility.workflowFieldMapping')">
+    <div class="workflow-field-mapper__row workflow-field-mapper__row--header" role="row">
+      <span role="columnheader">{{ t('tables.targetField') }}</span>
+      <span role="columnheader">{{ t('tables.sourceValue') }}</span>
+    </div>
+
+    @for (target of targets(); track trackTarget($index, target)) {
+      <div class="workflow-field-mapper__row" role="row">
+        <div class="workflow-field-mapper__target" role="cell">
+          <span>{{ target.label }}</span>
+          @if (target.required) {
+            <strong>{{ t('tables.required') }}</strong>
+          }
+        </div>
+        <div class="workflow-field-mapper__source" role="cell">
+          <qo-select
+            size="md"
+            [placeholder]="t('placeholders.selectSource')"
+            [options]="sourceOptions()"
+            [value]="sourceValueForTarget(target.key)"
+            (valueChange)="updateTarget(target.key, $any($event))"
+          />
+          @if (suggestionForTarget(target.key); as suggestion) {
+            <small>{{ t('tables.matchPercent', { percent: suggestion.confidence * 100 }) }}</small>
+          }
+        </div>
+      </div>
+    } @empty {
+      <div class="workflow-field-mapper__empty">
+        <p>{{ t('emptyStates.targetFields') }}</p>
+      </div>
+    }
+  </div>
+</div>
+</ng-container>

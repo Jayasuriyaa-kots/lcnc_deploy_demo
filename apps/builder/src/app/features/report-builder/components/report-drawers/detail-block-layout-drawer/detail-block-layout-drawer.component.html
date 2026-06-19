@@ -1,0 +1,387 @@
+<aside class="card-editor">
+  <header class="card-editor__header">
+    <h2>{{ t('generated.configure_fields') }}</h2>
+    <qo-button class="drawer__close" type="button" variant="ghost" size="sm" [iconOnly]="true" [attr.aria-label]="t('generated.close_drawer')" (click)="closeAll.emit()">
+      <qo-icon name="x" size="sm" />
+    </qo-button>
+  </header>
+
+  <div class="side-drawer__body side-drawer__body--padded block-layout-body">
+    <div class="block-layout-main">
+    @for (block of detailBlocks(); track block.id; let i = $index) {
+    <section
+      class="block-layout-box"
+      [class.block-layout-box--dashed]="i === 0"
+      [class.block-layout-box--active]="selectedDetailBlockId() === block.id"
+      (click)="selectDetailBlock(block.id)">
+      <header class="block-layout-box__header">
+        <strong [style.text-align]="block.alignment">{{ block.title }}</strong>
+        <qo-button
+          type="button"
+          variant="ghost"
+          size="sm"
+          [iconOnly]="true"
+          [iconLeft]="block.collapsed ? 'plus' : 'minus'"
+          (click)="toggleDetailBlockCollapse(block.id); $event.stopPropagation()">
+        </qo-button>
+      </header>
+      @if (!block.collapsed) {
+        @if (block.layoutPreset === 'preset_1') {
+          <div class="preset-stack">
+            @for (fieldId of getBlockPreviewFields(block.id, 0, 1); track fieldId) {
+              <label class="drawer-line detail-layout-line detail-layout-line--flat">{{ getDetailFieldLabel(fieldId) }}</label>
+            }
+            @for (fieldId of getBlockPreviewFields(block.id, 1, 1); track fieldId) {
+              <label class="drawer-line detail-layout-line detail-layout-line--focus">{{ getDetailFieldLabel(fieldId) }}</label>
+            }
+          </div>
+        } @else if (block.layoutPreset === 'preset_2') {
+          <div class="preset-grid">
+            @for (fieldId of getBlockPreviewFields(block.id, 0, 1); track fieldId) {
+              <label class="drawer-line detail-layout-line detail-layout-line--flat">{{ getDetailFieldLabel(fieldId) }}</label>
+            }
+            @for (fieldId of getBlockPreviewFields(block.id, 1, 1); track fieldId) {
+              <label class="drawer-line detail-layout-line detail-layout-line--focus">{{ getDetailFieldLabel(fieldId) }}</label>
+            }
+            <div class="preset-grid__three">
+              @for (fieldId of getBlockPreviewFields(block.id, 2, 3); track fieldId) {
+                <label class="drawer-line detail-layout-line detail-layout-line--mini">{{ getDetailFieldLabel(fieldId) }}</label>
+              }
+            </div>
+          </div>
+        } @else if (block.layoutPreset === 'preset_3') {
+          <div class="preset-media">
+            <div class="preset-media__thumb"></div>
+            <div class="preset-media__content">
+              @for (fieldId of getBlockPreviewFields(block.id, 0, 1); track fieldId) {
+                <label class="drawer-line detail-layout-line detail-layout-line--flat">{{ getDetailFieldLabel(fieldId) }}</label>
+              }
+              @for (fieldId of getBlockPreviewFields(block.id, 1, 1); track fieldId) {
+                <label class="drawer-line detail-layout-line detail-layout-line--focus">{{ getDetailFieldLabel(fieldId) }}</label>
+              }
+            </div>
+          </div>
+        } @else if (block.layoutPreset === 'preset_4') {
+          <div class="preset-media preset-media--mirrored">
+            <div class="preset-media__content">
+              @for (fieldId of getBlockPreviewFields(block.id, 0, 1); track fieldId) {
+                <label class="drawer-line detail-layout-line detail-layout-line--flat">{{ getDetailFieldLabel(fieldId) }}</label>
+              }
+              @for (fieldId of getBlockPreviewFields(block.id, 1, 1); track fieldId) {
+                <label class="drawer-line detail-layout-line detail-layout-line--focus">{{ getDetailFieldLabel(fieldId) }}</label>
+              }
+            </div>
+            <div class="preset-media__thumb"></div>
+          </div>
+        } @else if (block.layoutPreset === 'preset_5') {
+          <div class="preset-stack">
+            @for (fieldId of getBlockPreviewFields(block.id, 0, 1); track fieldId) {
+              <label class="drawer-line detail-layout-line detail-layout-line--flat">{{ getDetailFieldLabel(fieldId) }}</label>
+            }
+            @for (fieldId of getBlockPreviewFields(block.id, 1, 1); track fieldId) {
+              <label class="drawer-line detail-layout-line detail-layout-line--focus">{{ getDetailFieldLabel(fieldId) }}</label>
+            }
+            <div class="preset-bottom-media">
+              @for (fieldId of getBlockPreviewFields(block.id, 2, 1); track fieldId) {
+                <label class="drawer-line detail-layout-line detail-layout-line--bottom">{{ getDetailFieldLabel(fieldId) }}</label>
+              }
+              <div class="preset-media__thumb preset-media__thumb--sm"></div>
+            </div>
+          </div>
+        } @else {
+          @for (fieldId of block.fieldIds; track fieldId) {
+            <label
+              class="drawer-line detail-layout-line"
+              draggable="true"
+              (dragstart)="onDetailFieldDragStart(block.id, fieldId)"
+              (dragover)="onDragOver($event)"
+              (drop)="onDetailFieldDrop(block.id, fieldId)"
+              (dragend)="onDetailFieldDragEnd()">
+              <div class="drag-handle">
+                <qo-icon name="drag" size="sm"></qo-icon>
+              </div>
+              <span [style.text-align]="block.alignment">{{ getDetailFieldLabel(fieldId) }}</span>
+              <qo-button
+                class="field-remove"
+                type="button"
+                variant="ghost"
+                size="sm"
+                [iconOnly]="true"
+                iconLeft="x"
+                [attr.aria-label]="t('generated.remove_field')"
+                (click)="removeDetailBlockField(block.id, fieldId)"></qo-button>
+            </label>
+          }
+        }
+        <qo-button class="detail-layout-add" type="button" variant="ghost" size="sm" [fullWidth]="true" (click)="openDetailAddFields(block.id)">
+          <qo-icon name="plus" size="sm" />
+          {{ t('generated.add_fields_2') }}
+        </qo-button>
+        @if (detailAddFieldTarget() === block.id) {
+          <qo-select
+            class="detail-layout-select"
+            [options]="allColumnOptions()"
+            [searchable]="true"
+            [placeholder]="t('generated.select_a_field')"
+            (valueChange)="onDetailFieldSelected($event)">
+          </qo-select>
+        }
+      }
+    </section>
+    }
+
+    <div class="block-layout-actions">
+      <qo-button class="block-layout-action-card" type="button" variant="ghost" (click)="addDetailBlock()">
+        <span class="block-layout-action-card__preview block-layout-action-card__preview--block" aria-hidden="true">
+          <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1.5" y="1.5" width="217" height="117" rx="13.5" stroke="currentColor" stroke-width="3"/>
+            <path d="M16 28H85" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M16 52H85" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M16 76H85" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M16 100H85" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M134 28H203" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M134 52H203" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M134 76H203" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M134 100H203" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="block-layout-action-card__title">{{ t('generated.add_block_2') }}</span>
+      </qo-button>
+      <span class="block-layout-or">{{ t('generated.or') }}</span>
+      <qo-button class="block-layout-action-card" type="button" variant="ghost" (click)="openInternalRelationModal()">
+        <span class="block-layout-action-card__preview block-layout-action-card__preview--tab" aria-hidden="true">
+          <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1.5" y="1.5" width="217" height="117" rx="13.5" stroke="currentColor" stroke-width="3"/>
+            <path d="M2 48H218" stroke="currentColor" stroke-width="2"/>
+            <path d="M16 28H54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M70 28H108" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M124 28H162" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M178 28H206" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M16 78H54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M70 78H108" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M124 78H162" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M178 78H206" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M16 102H54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M70 102H108" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M124 102H162" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M178 102H206" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="block-layout-action-card__title">{{ t('generated.add_related_block') }}</span>
+      </qo-button>
+    </div>
+    </div>
+
+    <aside class="block-layout-inspector">
+      <h3>{{ t('generated.block_settings') }}</h3>
+      @if (selectedDetailBlock(); as selectedBlock) {
+        <div class="block-tools-row">
+          <qo-button
+            type="button"
+            variant="secondary"
+            size="sm"
+            [iconOnly]="true"
+            iconLeft="list"
+            (click)="toggleBlockPresetPicker()">
+          </qo-button>
+        </div>
+        @if (blockPresetPickerOpen()) {
+          <div class="block-preset-picker">
+            @for (preset of blockLayoutPresetOptions; track preset.id; let i = $index) {
+              <qo-button
+                type="button"
+                variant="ghost"
+                class="block-preset-card"
+                [class.block-preset-card--active]="selectedBlock.layoutPreset === preset.id"
+                (click)="updateSelectedDetailBlockLayoutPreset(preset.id)">
+
+                <!-- Index 0: Text-only with accent title lines -->
+                @if (i === 0) {
+                  <span class="block-preset-preview">
+                    <i class="bpl bpl--accent bpl--medium"></i>
+                    <i class="bpl bpl--accent bpl--long"></i>
+                    <i class="bpl bpl--accent bpl--short"></i>
+                    <i class="bpl bpl--accent bpl--medium"></i>
+                  </span>
+                }
+
+                <!-- Index 1: Text-only with muted lines -->
+                @else if (i === 1) {
+                  <span class="block-preset-preview">
+                    <i class="bpl bpl--muted bpl--long"></i>
+                    <i class="bpl bpl--muted bpl--medium"></i>
+                    <i class="bpl bpl--muted bpl--long"></i>
+                    <i class="bpl bpl--muted bpl--short"></i>
+                  </span>
+                }
+
+                <!-- Index 2: Image left + text right -->
+                @else if (i === 2) {
+                  <span class="block-preset-preview block-preset-preview--image-left">
+                    <span class="bpp bpp--left">
+                      <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="30" height="30" rx="4" fill="currentColor" opacity="0.15"/>
+                        <circle cx="12" cy="11" r="4" fill="currentColor" opacity="0.35"/>
+                        <path d="M2 24 L10 16 L17 21 L21 17 L28 24Z" fill="currentColor" opacity="0.3"/>
+                      </svg>
+                    </span>
+                    <span class="bpp__lines">
+                      <i class="bpl bpl--accent bpl--long"></i>
+                      <i class="bpl bpl--muted bpl--medium"></i>
+                      <i class="bpl bpl--muted bpl--short"></i>
+                    </span>
+                  </span>
+                }
+
+                <!-- Index 3: Image right + text left -->
+                @else if (i === 3) {
+                  <span class="block-preset-preview block-preset-preview--image-right">
+                    <span class="bpp__lines">
+                      <i class="bpl bpl--accent bpl--long"></i>
+                      <i class="bpl bpl--muted bpl--medium"></i>
+                      <i class="bpl bpl--muted bpl--short"></i>
+                    </span>
+                    <span class="bpp bpp--right">
+                      <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="30" height="30" rx="4" fill="currentColor" opacity="0.15"/>
+                        <circle cx="12" cy="11" r="4" fill="currentColor" opacity="0.35"/>
+                        <path d="M2 24 L10 16 L17 21 L21 17 L28 24Z" fill="currentColor" opacity="0.3"/>
+                      </svg>
+                    </span>
+                  </span>
+                }
+
+                <!-- Index 4: Text lines + small image pinned bottom-right -->
+                @else if (i === 4) {
+                  <span class="block-preset-preview block-preset-preview--text-image-br">
+                    <i class="bpl bpl--muted bpl--long"></i>
+                    <i class="bpl bpl--muted bpl--medium"></i>
+                    <i class="bpl bpl--muted bpl--long"></i>
+                    <i class="bpl bpl--muted bpl--short"></i>
+                    <span class="bpp bpp--corner">
+                      <svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="22" height="22" rx="3" fill="currentColor" opacity="0.15"/>
+                        <circle cx="9" cy="8" r="3" fill="currentColor" opacity="0.35"/>
+                        <path d="M2 18 L7 13 L13 17 L16 13 L20 18Z" fill="currentColor" opacity="0.3"/>
+                      </svg>
+                    </span>
+                  </span>
+                }
+
+                <!-- Index 5: Multi-column layout -->
+                @else {
+                  <span class="block-preset-preview block-preset-preview--multi-column">
+                    <span class="bpp__col">
+                      <i class="bpl bpl--muted bpl--long"></i>
+                      <i class="bpl bpl--accent bpl--medium"></i>
+                      <i class="bpl bpl--muted bpl--short"></i>
+                      <i class="bpl bpl--accent bpl--long"></i>
+                    </span>
+                    <span class="bpp__col">
+                      <i class="bpl bpl--muted bpl--long"></i>
+                      <i class="bpl bpl--accent bpl--medium"></i>
+                      <i class="bpl bpl--muted bpl--short"></i>
+                      <i class="bpl bpl--accent bpl--long"></i>
+                    </span>
+                  </span>
+                }
+
+              </qo-button>
+            }
+          </div>
+        }
+        <label class="field">
+          <span>{{ t('generated.title') }}</span>
+          <qo-input
+            [value]="selectedBlock.title"
+            (valueChange)="updateSelectedDetailBlockTitle($event)">
+          </qo-input>
+        </label>
+        <label class="field">
+          <span>{{ t('generated.alignment') }}</span>
+          <qo-select
+            [value]="selectedBlock.alignment"
+            [options]="blockAlignmentOptions"
+            (valueChange)="updateSelectedDetailBlockAlignment($event)">
+          </qo-select>
+        </label>
+        <qo-button
+          type="button"
+          variant="secondary"
+          size="sm"
+          (click)="toggleSelectedDetailBlockCollapse()">
+          {{ selectedBlock.collapsed ? t('generated.expand_block') : t('generated.collapse_block') }}
+        </qo-button>
+        <qo-button
+          type="button"
+          variant="secondary"
+          size="sm"
+          (click)="deleteSelectedDetailBlock()">
+          <qo-icon name="trash-2" size="sm" />
+          {{ t('generated.delete_block_2') }}
+        </qo-button>
+      } @else {
+        <p class="detail-layout-empty">{{ t('generated.select_a_block_to_edit_title_collapse_or') }}</p>
+      }
+    </aside>
+  </div>
+
+  <footer class="side-drawer__footer">
+    <qo-button variant="secondary" type="button" (click)="closeAll.emit()">{{ common('cancel') }}</qo-button>
+    <qo-button variant="primary" type="button" (click)="emitDetailBlocks(); closeAll.emit()">{{ common('apply') }}</qo-button>
+  </footer>
+</aside>
+
+@if (internalRelationModalOpen()) {
+  <div class="relation-modal-backdrop" (click)="closeInternalRelationModal()"></div>
+  <div class="relation-modal">
+    <header class="relation-modal__header">
+      <h3>{{ t('generated.internal_relation') }}</h3>
+      <qo-button
+        class="relation-modal__close"
+        type="button"
+        variant="ghost"
+        size="sm"
+        [iconOnly]="true"
+        (click)="closeInternalRelationModal()">
+        <qo-icon name="x" size="sm" />
+      </qo-button>
+    </header>
+
+    <div class="relation-modal__body">
+      <label class="field">
+        <qo-select
+          [value]="selectedRelation()"
+          [options]="relationOptions()"
+          [placeholder]="t('generated.choose_relation')"
+          (valueChange)="onRelationSelected($event)">
+        </qo-select>
+      </label>
+
+      @if (!selectedRelation()) {
+        <p class="relation-modal__hint">{{ t('generated.relation_to_this_form') }}</p>
+        <div class="relation-modal__options">
+          @for (option of relationOptions(); track option.value) {
+            <qo-button
+              class="relation-modal__option"
+              type="button"
+              variant="ghost"
+              size="sm"
+              [fullWidth]="true"
+              (click)="onRelationSelected(option.value)">
+              {{ option.label }}
+            </qo-button>
+          } @empty {
+            <p class="relation-modal__empty">{{ t('generated.no_related_forms_available') }}</p>
+          }
+        </div>
+      } @else {
+        <div class="relation-modal__actions">
+          <qo-button variant="primary" type="button" (click)="confirmRelatedBlock()">
+            {{ t('generated.add_related_block_2') }}
+          </qo-button>
+        </div>
+      }
+    </div>
+  </div>
+}

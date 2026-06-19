@@ -1,0 +1,114 @@
+:host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.inspector {
+  display: grid;
+  gap: 0;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 250, 251, 0.98) 100%);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.inspector--empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 15rem;
+  gap: var(--qo-space-2);
+  color: var(--qo-color-neutral-400);
+  text-align: center;
+  padding: var(--qo-space-10) var(--qo-space-6);
+
+  qo-icon {
+    color: var(--qo-color-neutral-300);
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--qo-text-sm);
+  }
+}
+
+.inspector__header {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-4) var(--qo-space-4) var(--qo-space-3);
+  border-bottom: var(--qo-border-width) solid var(--qo-border-color);
+  background: rgba(255, 255, 255, 0.98);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-shadow: 0 var(--qo-border-width) 0 rgba(17, 17, 17, 0.03);
+}
+
+.inspector__header-icon {
+  width: calc(var(--qo-space-8) + var(--qo-space-2));
+  height: calc(var(--qo-space-8) + var(--qo-space-2));
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, var(--qo-color-neutral-0) 0%, var(--qo-color-neutral-50) 100%);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  flex-shrink: 0;
+
+  qo-icon {
+    color: var(--qo-color-neutral-600);
+  }
+}
+
+.inspector__header-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 0.25rem;
+
+  strong {
+    color: var(--qo-color-neutral-900);
+    font-size: var(--qo-text-base);
+    font-weight: var(--qo-font-extrabold);
+    line-height: 1.2;
+  }
+
+  span {
+    color: var(--qo-color-neutral-500);
+    font-size: var(--qo-text-xs);
+  }
+}
+
+.inspector__header-label {
+  margin: 0;
+  color: var(--qo-color-neutral-400);
+  font-size: var(--qo-text-2xs);
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+:host ::ng-deep qo-button.inspector__close .qo-btn {
+  width: var(--qo-space-7);
+  min-width: var(--qo-space-7);
+  height: var(--qo-space-7);
+  padding: 0;
+  border: 0;
+  border-radius: var(--qo-radius-sm);
+  background: transparent;
+  color: var(--qo-color-neutral-500);
+}
+
+:host ::ng-deep qo-button.inspector__close .qo-btn:hover {
+  background: var(--qo-color-neutral-100);
+  color: var(--qo-color-neutral-900);
+}
+

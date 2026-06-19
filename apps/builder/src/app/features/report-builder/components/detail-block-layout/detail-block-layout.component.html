@@ -1,0 +1,142 @@
+<div class="blocks">
+  @for (block of blocks(); track block.id) {
+    <section
+      class="block"
+      [class.block--selected]="selectedBlockId() === block.id"
+      [class.block--split]="getBlockColumns(block).length > 1"
+      (click)="selectBlock(block.id)">
+
+      <header>
+        @if (editingTitleBlockId() === block.id) {
+          <qo-input
+            class="block-title-editor"
+            [value]="block.title || t('detailLayout.untitled')"
+            (click)="$event.stopPropagation()"
+            (focus)="selectTitleText($event)"
+            (valueChange)="rename(block.id, asText($event))" />
+        } @else {
+          <span class="block-title">{{ block.title || t('detailLayout.untitled') }}</span>
+        }
+
+        <div class="block-actions">
+          <!-- Edit title -->
+          <qo-button
+            class="block-action-btn"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [iconOnly]="true"
+            iconLeft="edit"
+            [attr.aria-label]="editingTitleBlockId() === block.id ? t('common.closeEdit') : t('generated.rename_block')"
+            [class.active]="editingTitleBlockId() === block.id"
+            (click)="editBlockTitle(block.id); $event.stopPropagation()">
+          </qo-button>
+
+          <!-- Split into 2 columns -->
+          <qo-button
+            class="block-action-btn split-btn"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [iconOnly]="true"
+            iconLeft="columns"
+            [class.split-btn--disabled]="getBlockColumns(block).length >= MAX_COLUMNS"
+            [disabled]="getBlockColumns(block).length >= MAX_COLUMNS"
+            [attr.aria-label]="getBlockColumns(block).length >= MAX_COLUMNS ? t('generated.max_2_columns_reached') : t('generated.split_into_2_columns')"
+            (click)="splitBlockById(block.id); $event.stopPropagation()">
+          </qo-button>
+
+          <!-- Minimize block -->
+          <qo-button
+            class="block-action-btn"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [iconOnly]="true"
+            [iconLeft]="isBlockCollapsed(block.id) ? 'plus' : 'minus'"
+            [attr.aria-label]="isBlockCollapsed(block.id) ? t('generated.expand_all_groups') : t('generated.minimize_block')"
+            (click)="toggleBlockCollapsed(block.id); $event.stopPropagation()">
+          </qo-button>
+
+          <!-- Delete block -->
+          <qo-button
+            class="block-action-btn"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [iconOnly]="true"
+            iconLeft="x"
+            [attr.aria-label]="t('generated.delete_block')"
+            (click)="deleteBlockById(block.id); $event.stopPropagation()">
+          </qo-button>
+        </div>
+      </header>
+
+      <!-- Columns container -->
+      @if (!isBlockCollapsed(block.id)) {
+      <div class="block-columns">
+        @for (col of getBlockColumns(block); track $index; let colIndex = $index) {
+          <div class="block-column">
+
+            <!-- Column header — only in split mode -->
+            @if (getBlockColumns(block).length > 1) {
+              <div class="column-header">
+                <span class="column-label">{{ t('generated.column', { index: colIndex + 1 }) }}</span>
+                <qo-button
+                  class="column-delete"
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  [iconOnly]="true"
+                  iconLeft="x"
+                  [attr.aria-label]="t('generated.remove_column')"
+                  (click)="removeColumnById(block.id, colIndex); $event.stopPropagation()">
+                </qo-button>
+              </div>
+            }
+
+            <!-- Drop zone -->
+            <div
+              cdkDropList
+              [id]="block.id + '__col' + colIndex"
+              [cdkDropListData]="col"
+              [cdkDropListConnectedTo]="allDropIds()"
+              (cdkDropListDropped)="dropInColumn($event, block.id, colIndex)">
+              @for (fieldId of col; track fieldId) {
+                <div class="field" cdkDrag [cdkDragData]="fieldId">
+                  <span class="field-handle" cdkDragHandle aria-hidden="true">::</span>
+                  <span class="field-label">{{ label(fieldId) }}</span>
+                  <qo-button
+                    class="field-remove"
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    [iconOnly]="true"
+                    iconLeft="x"
+                    [attr.aria-label]="t('generated.remove_field')"
+                    (click)="removeFieldFromColumn(block.id, colIndex, fieldId); $event.stopPropagation()">
+                  </qo-button>
+                </div>
+              }
+              @empty {
+                <div class="column-empty">{{ t('generated.drag_fields_here_or_use_add_fields') }}</div>
+              }
+            </div>
+
+            <!-- Add fields per column -->
+            <qo-select
+              class="add-field"
+              [options]="addableFieldOptions(col)"
+              [placeholder]="t('generated.add_fields')"
+              (click)="$event.stopPropagation()"
+              (valueChange)="addFieldToColumn(block.id, colIndex, asText($event))">
+            </qo-select>
+
+          </div>
+        }
+      </div>
+      }
+
+    </section>
+  }
+</div>

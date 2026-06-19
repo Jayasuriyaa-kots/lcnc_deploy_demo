@@ -1,0 +1,68 @@
+@switch (variant()) {
+  @case ('icon-only') {
+    <div class="search-wrap icon-only">
+      <input
+        class="search-input"
+        type="search"
+        [placeholder]="placeholder()"
+        [value]="value()"
+        (input)="onValueInput($event)"
+        (keyup.enter)="onSearch()"
+      />
+      <button
+        type="button"
+        class="icon-btn"
+        [attr.aria-label]="'actions.search' | transloco"
+        (click)="onSearch()"
+        tabindex="-1"
+      >
+        ?
+      </button>
+    </div>
+  }
+
+  @case ('inline-button') {
+    <div class="search-wrap inline-button">
+      <input
+        class="search-input"
+        type="search"
+        [placeholder]="placeholder()"
+        [value]="value()"
+        (input)="onValueInput($event)"
+        (keyup.enter)="onSearch()"
+      />
+      <button type="button" class="search-btn sharp" (click)="onSearch()">{{ 'actions.search' | transloco }}</button>
+    </div>
+  }
+
+  @case ('inline-button-lg') {
+    <div class="search-wrap inline-button lg">
+      <input
+        class="search-input"
+        type="search"
+        [placeholder]="placeholder()"
+        [value]="value()"
+        (input)="onValueInput($event)"
+        (keyup.enter)="onSearch()"
+      />
+      <button type="button" class="search-btn sharp" (click)="onSearch()">{{ 'actions.search' | transloco }}</button>
+    </div>
+  }
+
+  @case ('stacked-rounded') {
+    <div class="search-wrap stacked-rounded">
+      <div class="stacked-card">
+        <input
+          class="search-input rounded-input"
+          type="search"
+          [placeholder]="placeholder()"
+          [value]="value()"
+          (input)="onValueInput($event)"
+          (keyup.enter)="onSearch()"
+        />
+        <button type="button" class="search-btn pill" (click)="onSearch()">{{ 'actions.search' | transloco }}</button>
+      </div>
+    </div>
+  }
+}
+

@@ -1,0 +1,159 @@
+<div class="chart-settings-panel">
+  <form class="chart-settings-panel__body" [formGroup]="facade.form">
+    @if (isDisplayTab()) {
+      <section class="qo-card qo-card--padded qo-card--form-select qo-card--datasource-select">
+        <div class="qo-field-label">{{ 'fields.datasource' | transloco }}</div>
+        <qo-select
+          class="qo-chart-select"
+          [value]="facade.form.controls.sourceForm.getRawValue()"
+          [options]="facade.datasourceOptions()"
+          [placeholder]="'fields.selectDatasource' | transloco"
+          (valueChange)="facade.updateSourceForm($event)"
+        ></qo-select>
+      </section>
+
+      <section class="qo-card qo-card--padded qo-card--form-select qo-card--query-select">
+        <div class="qo-field-label">Query / Binding</div>
+        <app-bindable-input
+          class="qo-chart-bindable-input"
+          [rows]="3"
+          [value]="facade.form.controls.queryBinding.getRawValue()"
+          [rootKeys]="facade.queryBindingRootKeys()"
+          [allowNestedSuggestions]="false"
+          [placeholder]="'Paste JSON or type {{ }} binding'"
+          (valueChange)="facade.updateQueryBinding($event)"
+        ></app-bindable-input>
+      </section>
+
+      <section class="qo-section-card">
+        <header class="qo-section-card__header">{{ facade.categoryAxisSectionTitle() }}</header>
+
+        <div class="qo-section-card__content">
+          <div class="qo-field">
+            <label class="qo-field-label">
+              Category
+              <span class="qo-info-icon">?</span>
+            </label>
+            <qo-select
+              class="qo-chart-select"
+              [value]="facade.form.controls.xAxisCategory.getRawValue()"
+              [options]="facade.categoryOptions()"
+              [placeholder]="'fields.selectField' | transloco"
+              [searchable]="true"
+              searchPlaceholder="Search fields"
+              (valueChange)="facade.updateXAxisCategory($event)"
+            ></qo-select>
+          </div>
+
+          <div class="qo-field">
+            <label class="qo-field-label">{{ 'fields.label' | transloco }}</label>
+            <qo-input
+              class="qo-input qo-input--ghost"
+              type="text"
+              [value]="facade.form.controls.xAxisLabel.getRawValue()"
+              [placeholder]="facade.categoryAxisLabelPlaceholder()"
+              (valueChange)="facade.updateXAxisLabel($event)"
+            ></qo-input>
+          </div>
+        </div>
+      </section>
+
+      <section class="qo-section-card">
+        <header class="qo-section-card__header">{{ facade.valueAxisSectionTitle() }}</header>
+
+        <div class="qo-section-card__content">
+          <div class="qo-field">
+            <label class="qo-field-label">Aggregation</label>
+            <qo-select
+              class="qo-chart-select"
+              [value]="facade.form.controls.aggregateValue.getRawValue().tab ?? ''"
+              [options]="aggregateTypeOptions"
+              placeholder="Select function"
+              (valueChange)="facade.updateAggregateTab($event)"
+            ></qo-select>
+          </div>
+
+          <div class="qo-field">
+            <label class="qo-field-label">
+              Field
+              <span class="qo-info-icon">?</span>
+            </label>
+            <qo-select
+              class="qo-chart-select"
+              [value]="facade.form.controls.yAxisField.getRawValue()"
+              [options]="facade.yAxisFieldOptions()"
+              [placeholder]="'fields.selectField' | transloco"
+              [searchable]="true"
+              searchPlaceholder="Search fields"
+              (valueChange)="facade.updateYAxisField($event)"
+            ></qo-select>
+          </div>
+
+          <div class="qo-field">
+            <label class="qo-field-label">{{ 'fields.label' | transloco }}</label>
+            <qo-input
+              class="qo-input qo-input--ghost"
+              type="text"
+              [value]="facade.form.controls.yAxisLabel.getRawValue()"
+              [placeholder]="facade.valueAxisLabelPlaceholder()"
+              (valueChange)="facade.updateYAxisLabel($event)"
+            ></qo-input>
+          </div>
+
+          <div class="qo-field">
+            <label class="qo-field-label">
+              Interval
+              <span class="qo-info-icon">?</span>
+            </label>
+            <qo-input
+              class="qo-input qo-input--ghost"
+              type="text"
+              [value]="facade.form.controls.interval.getRawValue()"
+              placeholder="Enter value"
+              (valueChange)="facade.updateInterval($event)"
+            ></qo-input>
+          </div>
+        </div>
+      </section>
+    }
+
+    @if (isStyleTab()) {
+      <section class="prop-section-card">
+        <header class="prop-section-card__header">Colors</header>
+        <div class="prop-section-card__row">
+          <span class="prop-row-label">Series color</span>
+          <qo-color-picker
+            [value]="facade.form.controls.chartColor.value"
+            [presetColors]="colorPickerPalette()"
+            [showThemeColor]="true"
+            [triggerLabel]="'A'"
+            (valueChange)="facade.form.controls.chartColor.setValue($event || '')"
+          ></qo-color-picker>
+        </div>
+        <div class="prop-section-card__row prop-section-card__row--divided">
+          <span class="prop-row-label">Comparison color</span>
+          <qo-color-picker
+            [value]="facade.form.controls.chartColorSecondary.value"
+            [presetColors]="colorPickerPalette()"
+            [showThemeColor]="true"
+            [triggerLabel]="'A'"
+            (valueChange)="facade.form.controls.chartColorSecondary.setValue($event || '')"
+          ></qo-color-picker>
+        </div>
+      </section>
+    }
+  </form>
+
+  @if (facade.selectedRecordsModalOpen()) {
+    <app-search-criteria-modal
+      title="Selected records"
+      [rows]="selectedRecordCriteriaRows() || []"
+      [fieldOptions]="facade.selectedRecordFieldOptions()"
+      [operatorOptions]="selectedRecordOperatorOptions"
+      (rowsChange)="facade.updateSelectedRecordCriteriaRows($event)"
+      (closed)="facade.closeSelectedRecordsModal()"
+      (done)="facade.doneSelectedRecordsModal($event)"
+    ></app-search-criteria-modal>
+  }
+</div>
+

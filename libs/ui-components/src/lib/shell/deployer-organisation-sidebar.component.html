@@ -1,0 +1,48 @@
+<aside class="sidebar">
+  <div class="sidebar-flow">
+    <div class="sidebar-controls">
+      <qo-search-bar
+        placeholder="Search Organizations"
+        (search)="searchChange.emit($event)"
+      />
+
+      <qo-button
+        variant="secondary"
+        class="add-org-button"
+        [fullWidth]="true"
+        (click)="addOrganisation.emit()"
+      >
+        Add New Org
+      </qo-button>
+    </div>
+
+    <div class="sidebar-section-label mini-label">Your organizations</div>
+
+    <div class="organisation-list">
+      @for (organisation of organisations(); track organisation.id) {
+        <qo-button
+          type="button"
+          variant="text"
+          size="sm"
+          class="organisation-item"
+          [class.organisation-item-active]="organisation.id === activeId()"
+          (click)="organisationSelect.emit(organisation.id)"
+        >
+          <div class="organisation-main">
+            <qo-avatar-badge [name]="organisation.name" size="sm" />
+
+            <div class="organisation-copy">
+              <strong>{{ organisation.name }}</strong>
+            </div>
+          </div>
+
+          <div class="organisation-meta">
+            @if (organisation.id === activeId()) {
+              <qo-icon class="row-chevron" name="chevron-right" size="sm" aria-hidden="true"></qo-icon>
+            }
+          </div>
+        </qo-button>
+      }
+    </div>
+  </div>
+</aside>

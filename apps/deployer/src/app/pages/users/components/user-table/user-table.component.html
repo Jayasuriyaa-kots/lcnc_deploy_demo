@@ -1,0 +1,66 @@
+<qo-table class="users-table-wrapper" [data]="userRows()">
+  <ng-template qoTableColumn="user" [header]="i18n.translate('users.user')" let-user>
+    <div class="user-identity">
+      <qo-avatar-badge [name]="user.name" size="sm" />
+      <div class="user-identity__copy">
+        <strong>{{ user.name }}</strong>
+        <span>{{ metaFor(user).department }}</span>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template qoTableColumn="contact" [header]="i18n.translate('users.emailAndPhone')" let-user>
+    <div class="user-contact">
+      <strong>{{ user.email }}</strong>
+      <span>{{ user.phone }}</span>
+    </div>
+  </ng-template>
+
+  <ng-template qoTableColumn="status" [header]="i18n.translate('users.status')" let-user>
+    <qo-badge
+      [color]="badgeColor(user.status)"
+      [dot]="true"
+      class="user-status-badge"
+      [class.user-status-badge--inactive]="user.status === 'inactive'"
+    >
+      {{ user.status }}
+    </qo-badge>
+  </ng-template>
+
+  <ng-template qoTableColumn="lastLogin" [header]="i18n.translate('users.lastLogin')" let-user>
+    <div class="user-login">
+      <strong>{{ user.lastLogin }}</strong>
+      @if (metaFor(user).lastLoginDetail) {
+        <span>{{ metaFor(user).lastLoginDetail }}</span>
+      }
+    </div>
+  </ng-template>
+
+  <ng-template qoTableColumn="sessionHours" [header]="i18n.translate('users.sessionHours')" let-user>
+    <strong class="user-session">{{ user.sessionHours }}</strong>
+  </ng-template>
+
+  <ng-template qoTableColumn="actions" [header]="i18n.translate('users.actions')" let-user>
+    <div class="row-actions">
+      <qo-button variant="ghost" size="sm" class="users-row-button" (click)="edit.emit(user.id)">{{ i18n.translate('users.edit') }}</qo-button>
+      <qo-button variant="ghost" size="sm" class="users-row-button" (click)="resetPassword.emit(user.id)">{{ i18n.translate('users.reset') }}</qo-button>
+      <qo-button
+        variant="ghost"
+        size="sm"
+        class="users-row-button"
+        [class.users-row-button--danger]="user.status === 'active'"
+        [class.users-row-button--success]="user.status === 'inactive'"
+        (click)="toggleStatus.emit(user.id)"
+      >
+        {{ user.status === 'active' ? i18n.translate('users.disable') : i18n.translate('users.enable') }}
+      </qo-button>
+    </div>
+  </ng-template>
+
+  <ng-template qoTableEmpty>
+    <qo-empty-state
+      [title]="i18n.translate('users.noMatchingUsersTitle')"
+      [description]="i18n.translate('users.noMatchingUsersDescription')"
+    />
+  </ng-template>
+</qo-table>

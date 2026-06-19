@@ -1,0 +1,331 @@
+@if (activeTab() === 'display') {
+  <div class="prop-group">
+    <label class="prop-label">{{ t('panelConfig.buttonType') }}</label>
+    <div class="icon-category-row">
+      <qo-button
+        class="icon-category-chip"
+        type="button"
+        variant="ghost"
+        size="sm"
+        [class.active]="currentButtonDisplayType() === 'standard'"
+        (click)="setButtonDisplayType('standard')"
+      >
+        {{ t('panelConfig.standard') }}
+      </qo-button>
+      <qo-button
+        class="icon-category-chip"
+        type="button"
+        variant="ghost"
+        size="sm"
+        [class.active]="currentButtonDisplayType() === 'icon'"
+        (click)="setButtonDisplayType('icon')"
+      >
+        {{ t('panelConfig.icon') }}
+      </qo-button>
+      <qo-button
+        class="icon-category-chip"
+        type="button"
+        variant="ghost"
+        size="sm"
+        [class.active]="currentButtonDisplayType() === 'group'"
+        (click)="setButtonDisplayType('group')"
+      >
+        {{ t('panelConfig.group') }}
+      </qo-button>
+    </div>
+  </div>
+
+  @if (isButtonGroupWidget()) {
+    <div class="prop-group">
+      <label class="prop-label">{{ t('panelConfig.selectedButton') }}</label>
+      <div class="icon-category-row">
+        @for (groupButton of buttonGroupButtons(); track groupButton.id) {
+          <qo-button
+            class="icon-category-chip"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [class.active]="selectedButtonGroupButton()?.id === groupButton.id"
+            (click)="selectButtonGroupButton(groupButton.id)"
+          >
+            {{ groupButton.label }}
+          </qo-button>
+        }
+      </div>
+    </div>
+    <div class="prop-group">
+      <label class="prop-label">{{ t('panelConfig.buttons') }}</label>
+      <div class="button-group-editor">
+        @for (groupButton of buttonGroupButtons(); track groupButton.id; let groupIndex = $index) {
+          <div class="button-group-editor__row">
+            <qo-input
+              class="prop-input full-width"
+              type="text"
+              [value]="groupButton.label"
+              [placeholder]="'Button ' + (groupIndex + 1)"
+              (valueChange)="updateButtonGroupLabel(groupIndex, $event)"
+            ></qo-input>
+            <qo-button type="button" variant="ghost" size="sm" class="button-group-editor__remove" (click)="removeButtonGroupButton(groupIndex)">
+              {{ 'actions.remove' | transloco }}
+            </qo-button>
+          </div>
+        }
+        <qo-button type="button" variant="ghost" size="sm" class="button-group-editor__add" (click)="addButtonGroupButton()">
+          {{ t('panelConfig.addButton') }}
+        </qo-button>
+      </div>
+    </div>
+  } @else if (!isIconButtonWidget()) {
+    <div class="prop-group">
+      <label class="prop-label">{{ 'fields.label' | transloco }}</label>
+      <qo-input class="prop-input" [value]="editableLabel()" (valueChange)="labelChange.emit($event)"></qo-input>
+    </div>
+  }
+
+  <div class="prop-group">
+    <label class="prop-label">{{ 'fields.datasource' | transloco }}</label>
+    <qo-select
+      class="prop-select"
+      [options]="buttonDatasourceOptions()"
+      [value]="buttonActionConfig().datasourceId"
+      [searchable]="true"
+      (valueChange)="updateButtonActionField('datasourceId', $any($event))"
+    ></qo-select>
+  </div>
+  <div class="prop-group">
+    <label class="prop-label">{{ 'dataBinding.queryBinding' | transloco }}</label>
+    <textarea
+      class="prop-textarea"
+      [value]="buttonActionConfig().queryBinding"
+      [attr.placeholder]="'dataBinding.queryBindingPlaceholder' | transloco"
+      (input)="updateButtonActionField('queryBinding', $any($event.target).value)"
+    ></textarea>
+  </div>
+
+  @if (isIconButtonWidget()) {
+    <div class="prop-group">
+      <label class="prop-label">{{ t('panelConfig.iconLibrary') }}</label>
+      <div class="icon-category-row">
+        @for (category of buttonIconCategories; track category.value) {
+          <qo-button
+            class="icon-category-chip"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [class.active]="currentButtonIconCategory() === category.value"
+            (click)="setButtonIconCategory(category.value)"
+          >
+            {{ category.label }}
+          </qo-button>
+        }
+      </div>
+    </div>
+
+    <div class="prop-group">
+      <label class="prop-label">{{ t('panelConfig.defaultIcons') }}</label>
+      <div class="button-icon-grid">
+        @for (icon of visibleButtonIcons(); track icon.value) {
+          <qo-button
+            class="button-icon-card"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [class.active]="selectedWidget()?.buttonIcon === icon.value"
+            (click)="selectButtonIcon(icon.value)"
+          >
+            <span class="button-icon-card__glyph material-symbols-outlined" aria-hidden="true">{{ icon.value }}</span>
+          </qo-button>
+        }
+      </div>
+    </div>
+
+    <div class="prop-group">
+      <label class="prop-label">{{ t('panelConfig.uploadIconImage') }}</label>
+      <div class="button-icon-upload">
+        <label class="button-icon-upload__trigger">
+          <input type="file" accept="image/*" (change)="onButtonIconImageSelected($event)" />
+          <span>{{ selectedWidget()?.buttonIconImageDataUrl ? t('panelConfig.replaceImage') : t('panelConfig.chooseImage') }}</span>
+        </label>
+        @if (selectedWidget()?.buttonIconImageDataUrl) {
+          <div class="button-icon-upload__preview">
+            <img [src]="selectedWidget()?.buttonIconImageDataUrl!" alt="" />
+            <qo-button type="button" variant="ghost" size="sm" (click)="clearButtonIconImage()">{{ 'actions.remove' | transloco }}</qo-button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="prop-group">
+      <label class="prop-label">{{ t('panelConfig.iconSize') }}</label>
+      <qo-input
+        class="prop-input prop-input--compact"
+        type="number"
+        [value]="selectedWidget()?.buttonIconSize ?? 18"
+        (valueChange)="updateButtonIconSize($event)"
+      ></qo-input>
+    </div>
+  }
+}
+
+@if (activeTab() === 'action') {
+  <div class="prop-group">
+    <label class="prop-label">{{ t('panelConfig.onClick') }}</label>
+    <div class="action-options-card">
+      <div class="action-options-card__header">{{ t('panelConfig.selectActionOnClick') }}</div>
+      <div class="action-options-grid">
+        @for (option of facade.actionOptions; track option.id) {
+          <qo-button
+            class="action-option-card"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [class.active]="selectedAction() === option.id"
+            (click)="selectAction(option.id)"
+            [attr.aria-label]="option.label"
+          >
+            <span class="action-icon" aria-hidden="true">
+              <span class="material-symbols-outlined">
+                @switch (option.id) {
+                  @case ('none') {
+                    block
+                  }
+                  @case ('open-url') {
+                    link
+                  }
+                  @case ('open-form') {
+                    description
+                  }
+                  @case ('open-report') {
+                    article
+                  }
+                  @case ('open-page') {
+                    web
+                  }
+                  @case ('execute-function') {
+                    function
+                  }
+                  @default {
+                    radio_button_unchecked
+                  }
+                }
+              </span>
+            </span>
+            <span class="action-content">
+              <span class="action-title">{{ option.label }}</span>
+              <span class="action-description">{{ option.description }}</span>
+            </span>
+          </qo-button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (selectedAction() === 'open-url') {
+    <div class="prop-group">
+      <label class="prop-label">{{ t('common.url') }}</label>
+      <qo-input
+        type="text"
+        class="prop-input full-width"
+        [value]="buttonActionConfig().url"
+        [placeholder]="t('panelConfig.enterUrl')"
+        (valueChange)="updateButtonActionField('url', $event)"
+      ></qo-input>
+    </div>
+    <div class="prop-group">
+      <label class="prop-label">{{ t('common.openIn') }}</label>
+      <qo-select
+        class="prop-select"
+        [options]="facade.windowTargetOptions"
+        [value]="buttonActionConfig().openIn"
+        (valueChange)="updateButtonActionField('openIn', $any($event))"
+      ></qo-select>
+    </div>
+  }
+
+  @if (selectedAction() === 'open-form') {
+    <div class="prop-group">
+      <label class="prop-label">{{ 'layout.form' | transloco }}</label>
+      <qo-select
+        class="prop-select"
+        [options]="actionFormOptions()"
+        [value]="buttonActionConfig().formId"
+        [searchable]="true"
+        (valueChange)="updateButtonActionField('formId', $any($event))"
+      ></qo-select>
+    </div>
+    <div class="prop-group">
+      <label class="prop-label">{{ t('common.openIn') }}</label>
+      <qo-select
+        class="prop-select"
+        [options]="facade.windowTargetOptions"
+        [value]="buttonActionConfig().openIn"
+        (valueChange)="updateButtonActionField('openIn', $any($event))"
+      ></qo-select>
+    </div>
+  }
+
+  @if (selectedAction() === 'open-report') {
+    <div class="prop-group">
+      <label class="prop-label">{{ t('panelConfig.dataframe') }}</label>
+      <qo-select
+        class="prop-select"
+        [options]="actionReportOptions()"
+        [value]="buttonActionConfig().reportId"
+        [searchable]="true"
+        (valueChange)="updateButtonActionField('reportId', $any($event))"
+      ></qo-select>
+    </div>
+    <div class="prop-group">
+      <label class="prop-label">{{ t('common.openIn') }}</label>
+      <qo-select
+        class="prop-select"
+        [options]="facade.windowTargetOptions"
+        [value]="buttonActionConfig().openIn"
+        (valueChange)="updateButtonActionField('openIn', $any($event))"
+      ></qo-select>
+    </div>
+  }
+
+  @if (selectedAction() === 'open-page') {
+    <div class="prop-group">
+      <label class="prop-label">{{ 'layout.page' | transloco }}</label>
+      <qo-select
+        class="prop-select"
+        [options]="availablePageOptions()"
+        [value]="buttonActionConfig().pageId"
+        (valueChange)="updateButtonActionField('pageId', $any($event))"
+      ></qo-select>
+    </div>
+    <div class="prop-group">
+      <label class="prop-label">{{ t('common.openIn') }}</label>
+      <qo-select
+        class="prop-select"
+        [options]="facade.windowTargetOptions"
+        [value]="buttonActionConfig().openIn"
+        (valueChange)="updateButtonActionField('openIn', $any($event))"
+      ></qo-select>
+    </div>
+  }
+
+  @if (selectedAction() === 'execute-function') {
+    <div class="prop-group">
+      <label class="prop-label">{{ t('panelConfig.function') }}</label>
+      <qo-select
+        class="prop-select"
+        [options]="facade.functionOptions"
+        [value]="buttonActionConfig().functionName"
+        (valueChange)="updateButtonActionField('functionName', $any($event))"
+      ></qo-select>
+    </div>
+  }
+}
+
+@if (activeTab() === 'style') {
+  <app-button-style-panel
+    [styleConfig]="buttonStyleConfig()"
+    [buttonVariant]="selectedWidget()?.buttonVariant ?? 'primary-filled'"
+    [isIconOnly]="isIconButtonWidget()"
+    (styleConfigChange)="buttonStyleConfigChange.emit($event)"
+    (buttonVariantChange)="buttonVariantChanged.emit($event)"
+  ></app-button-style-panel>
+}

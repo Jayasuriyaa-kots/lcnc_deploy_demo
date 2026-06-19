@@ -1,0 +1,88 @@
+<div class="panel-display-settings">
+  <section class="qo-card">
+    <div class="qo-field-label">{{ 'layout.form' | transloco }}</div>
+    <qo-select
+      class="qo-form-select"
+      [value]="selectedForm()"
+      [options]="formOptions()"
+      (valueChange)="updateSelectedForm($event)"
+    ></qo-select>
+  </section>
+
+  <section class="qo-card">
+    <div class="qo-field-label">{{ t('reportEmbed.display.groupedBy') }}<span class="qo-info-icon">ⓘ</span>
+    </div>
+    <div class="qo-static-value">{{ groupedBy() }}</div>
+  </section>
+
+  <section class="qo-card">
+    <div class="qo-field-label">{{ t('reportEmbed.display.criteria') }}</div>
+    <div class="qo-segmented">
+      <qo-button
+        type="button"
+        variant="ghost"
+        size="sm"
+        class="qo-segmented__button"
+        [class.qo-segmented__button--active]="criteria() === 'all'"
+        (click)="setCriteria('all')"
+      >{{ t('reportEmbed.display.allRecords') }}</qo-button>
+      <qo-button
+        type="button"
+        variant="ghost"
+        size="sm"
+        class="qo-segmented__button"
+        [class.qo-segmented__button--active]="criteria() === 'selected'"
+        (click)="setCriteria('selected')"
+      >
+        Selected records
+      </qo-button>
+    </div>
+  </section>
+
+  <section class="qo-card qo-card--tight">
+    <div class="qo-row">
+      <span class="qo-row__label">{{ t('reportEmbed.display.ranking') }}</span>
+      <qo-toggle [checked]="rankingEnabled()" (checkedChange)="setRankingEnabled($event)"></qo-toggle>
+    </div>
+
+    <div class="qo-row qo-row--stacked">
+      <span class="qo-row__label">{{ t('reportEmbed.display.aggregateValues') }}</span>
+      <div class="qo-row__bottom">
+        <qo-button type="button" variant="ghost" size="sm" class="qo-link-select">
+          {{ aggregateValue() }}
+          <span class="qo-link-select__chevron">⌄</span>
+        </qo-button>
+        <span class="qo-count-badge">⤢</span>
+      </div>
+    </div>
+    <div class="qo-row qo-row--stacked">
+      <span class="qo-row__label">{{ t('reportEmbed.display.order') }}</span>
+      <qo-button type="button" variant="ghost" size="sm" class="qo-link-select">
+        {{ orderValue() }}
+        <span class="qo-link-select__chevron">⌄</span>
+      </qo-button>
+    </div>
+
+    <div class="qo-row qo-row--stacked">
+      <span class="qo-row__label">{{ t('reportEmbed.display.panelLimit') }}</span>
+      <qo-button type="button" variant="ghost" size="sm" class="qo-link-select">
+        {{ panelLimit() }}
+        <span class="qo-link-select__chevron">⌄</span>
+      </qo-button>
+    </div>
+  </section>
+</div>
+
+@if (selectedRecordsModalOpen) {
+  <app-search-criteria-modal
+    title="Selected records"
+    [rows]="selectedRecordCriteriaRows()"
+    [fieldOptions]="selectedRecordFieldOptions"
+    [operatorOptions]="selectedRecordOperatorOptions"
+    (rowsChange)="updateSelectedRecordCriteriaRows($event)"
+    (closed)="closeSelectedRecordsModal()"
+    (done)="doneSelectedRecordsModal($event)"
+  ></app-search-criteria-modal>
+}
+
+

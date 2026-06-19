@@ -1,0 +1,14 @@
+<section class="users-toolbar">
+  <div class="users-toolbar__filters">
+    <qo-search-bar
+      [placeholder]="i18n.translate('users.searchPlaceholder')"
+      (search)="searchChange.emit($event)"
+    />
+    <qo-filter-pills
+      [options]="[i18n.translate('users.all'), i18n.translate('users.active'), i18n.translate('users.inactive')]"
+      [active]="activeFilter()"
+      (activeChange)="activeFilterChange.emit($event)"
+    />
+  </div>
+  <span class="users-count">{{ i18n.translate('users.usersCount', { count: count() }) }}</span>
+</section>

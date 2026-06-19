@@ -1,0 +1,35 @@
+<section class="payments-panel">
+  <app-outstanding-balance-card
+    [amount]="outstandingAmount()"
+    [pendingCount]="pendingCount()"
+    [dueDetail]="dueDetail()"
+    (recordPaymentRequested)="openRecordPaymentModal()"
+  />
+  <app-payment-records [payments]="paymentRows()" />
+</section>
+
+@if (recordPaymentOpen()) {
+  <app-record-payment-modal
+    [invoiceOptions]="invoiceOptions"
+    [paymentMethods]="paymentMethods"
+    [invoiceOpen]="invoiceOpen()"
+    [paymentMethodOpen]="paymentMethodOpen()"
+    [selectedInvoice]="selectedInvoice()"
+    [selectedPaymentMethod]="selectedPaymentMethod()"
+    [amountPlaceholder]="outstandingAmount()"
+    [amountPaid]="amountPaid()"
+    [referenceNumber]="referenceNumber()"
+    [paymentDateValue]="paymentDateValue()"
+    [paymentDateNativeValue]="selectedPaymentDate()"
+    (close)="closeRecordPaymentModal()"
+    (toggleInvoice)="toggleInvoice()"
+    (togglePaymentMethod)="togglePaymentMethod()"
+    (invoiceSelect)="selectInvoice($event)"
+    (paymentMethodSelect)="selectPaymentMethod($event)"
+    (paymentDateSelect)="selectPaymentDate($event)"
+    (amountPaidChange)="setAmountPaid($event)"
+    (referenceNumberChange)="setReferenceNumber($event)"
+    (dismissDropdowns)="closeDropdowns()"
+    (recordPayment)="recordPayment($event)"
+  />
+}

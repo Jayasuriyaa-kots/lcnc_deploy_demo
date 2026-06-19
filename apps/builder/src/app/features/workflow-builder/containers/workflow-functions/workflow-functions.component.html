@@ -1,0 +1,54 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<section class="workflow-page">
+  <div class="workflow-page__section">
+    <qo-workflow-page-header
+      [title]="t('pages.functions.title')"
+      [subtitle]="t('pages.functions.subtitle')"
+    />
+  </div>
+
+  <div class="workflow-page__section">
+    <qo-workflow-toolbar
+      [createLabel]="t('toolbar.newFunction')"
+      [searchPlaceholder]="t('toolbar.searchFunctions')"
+      [countLabel]="facade.functionCardCountLabel()"
+      [searchValue]="facade.getSearch('functions')"
+      (create)="onCreateFunction()"
+      (searchChange)="onSearchChange($event)"
+    />
+  </div>
+
+  @if (facade.error()) {
+    <p class="workflow-page__error">{{ facade.error() }}</p>
+  } @else if (facade.loading()) {
+    <p class="workflow-page__loading">{{ t('loading.customFunctions') }}</p>
+  } @else {
+    <div class="workflow-page__section">
+      <app-workflow-function-grid
+        [functions]="facade.filteredFunctionCards()"
+        (edit)="onEditFunction($event)"
+        (testRun)="onTestRun($event)"
+        (duplicate)="onDuplicateFunction($event)"
+        (delete)="onDeleteFunction($event)"
+      />
+    </div>
+  }
+
+  <app-workflow-function-editor-modal
+    [open]="editorOpen()"
+    [form]="functionForm"
+    [saving]="saving()"
+    [mode]="editorMode()"
+    (close)="closeEditor()"
+    (save)="saveFunction()"
+  />
+
+  @if (confirmConfig()) {
+    <qo-confirm-dialog
+      [config]="confirmConfig()!"
+      (confirmed)="confirmDeleteFunction()"
+      (cancelled)="cancelDeleteFunction()"
+    />
+  }
+</section>
+</ng-container>

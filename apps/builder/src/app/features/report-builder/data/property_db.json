@@ -1,0 +1,80 @@
+[
+  {
+    "Property Code": "K22",
+    "Property Name": "KOTS K22",
+    "Cluster": "Whitefield",
+    "Property Type": "Apartment",
+    "Property Status": "Active",
+    "Property Address": "106/1, 3rd Cross Rd, Narayanappa Garden, Whitefield, Bangalore, Karnataka, 560066, India",
+    "City": "Bengaluru",
+    "State": "Karnataka",
+    "Pincode": "560066",
+    "Country": "India",
+    "Landlord Name": "",
+    "Total Flats": 120,
+    "Available Flats": 35,
+    "Wifi Username": "KOTS 22 - BLOCK",
+    "Wifi Password": "KOTS22@321",
+    "Added User": "jayesh.k_kots",
+    "Relationship": {
+      "join_column": "Property Code",
+      "linked_flats": [
+        {
+          "Flats Unique ID": "FC"
+        }
+      ]
+    }
+  },
+  {
+    "Property Code": "K99",
+    "Property Name": "KOTS K99",
+    "Cluster": "Bellandur, Sarjapura & HSR",
+    "Property Type": "Apartment",
+    "Property Status": "Active",
+    "Property Address": "K99, Test, Bangalore",
+    "City": "Bengaluru",
+    "State": "Karnataka",
+    "Pincode": "5760087",
+    "Country": "India",
+    "Landlord Name": "Sangeetha",
+    "Total Flats": 80,
+    "Available Flats": 12,
+    "Wifi Username": "KOTS 99 - BLOCK",
+    "Wifi Password": "KOTS99@321",
+    "Added User": "jayesh.k_kots",
+    "Relationship": {
+      "join_column": "Property Code",
+      "linked_flats": [
+        {
+          "Flats Unique ID": "K99A406"
+        }
+      ]
+    }
+  },
+  {
+    "Property Code": "K01",
+    "Property Name": "KOTS K01",
+    "Cluster": "Whitefield",
+    "Property Type": "Apartment",
+    "Property Status": "Active",
+    "Property Address": "K99, Test, Bangalore",
+    "City": "Bengaluru",
+    "State": "Karnataka",
+    "Pincode": "560066",
+    "Country": "India",
+    "Landlord Name": "Test",
+    "Total Flats": 60,
+    "Available Flats": 20,
+    "Wifi Username": "KOTS 99 - BLOCK",
+    "Wifi Password": "KOTS99@321",
+    "Added User": "jayesh.k_kots",
+    "Relationship": {
+      "join_column": "Property Code",
+      "linked_flats": [
+        {
+          "Flats Unique ID": "K01C999"
+        }
+      ]
+    }
+  }
+]

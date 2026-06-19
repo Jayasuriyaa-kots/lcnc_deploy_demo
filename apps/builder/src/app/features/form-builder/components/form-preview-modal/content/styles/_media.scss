@@ -1,0 +1,125 @@
+// ─── file / image / audio / video upload ──────────────────────────────────────
+.preview-upload-wrap,
+.preview-media-upload-wrap { width: 100%; margin-top: var(--qo-space-1); }
+
+.preview-upload-box,
+.preview-media-upload-box,
+.preview-media-value {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-2);
+  width: 100%;
+  min-height: calc(var(--qo-space-10) + var(--qo-space-1));
+  padding: var(--qo-space-3) var(--qo-space-4);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-0);
+  box-sizing: border-box;
+}
+
+.preview-upload-box { cursor: pointer; }
+.preview-upload-box:hover, .preview-media-upload-box:hover { border-color: var(--qo-color-neutral-300); }
+.preview-upload-box--disabled { cursor: default; background: var(--qo-color-neutral-50); }
+
+.preview-upload-box__placeholder,
+.preview-media-upload-box__placeholder {
+  display: inline-flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-sm);
+}
+
+.preview-media-upload-box__placeholder { cursor: pointer; }
+
+.preview-upload-box__icon,
+.preview-media-icon-btn .material-symbols-outlined { color: var(--qo-color-neutral-500); font-size: var(--qo-text-xl); }
+
+.preview-media-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--qo-space-8);
+  height: var(--qo-space-8);
+  cursor: pointer;
+}
+
+app-form-preview-content qo-button.preview-media-icon-btn .qo-btn,
+app-form-preview-content qo-button.preview-image-item__remove .qo-btn {
+  width: var(--qo-space-10);
+  min-width: var(--qo-space-10);
+  height: var(--qo-space-10);
+  padding: 0;
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xs);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  box-shadow: none;
+}
+
+app-form-preview-content qo-button.preview-media-icon-btn .qo-btn:hover,
+app-form-preview-content qo-button.preview-image-item__remove .qo-btn:hover {
+  background: var(--qo-color-neutral-100);
+  color: var(--qo-color-neutral-900);
+}
+
+.preview-media-icon-btn:hover .material-symbols-outlined { color: var(--qo-color-primary-700); }
+
+.preview-media-value,
+.preview-media-actions,
+.preview-datetime-row {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+  flex-wrap: wrap;
+}
+
+.preview-media-actions > qo-button,
+.preview-datetime-row > qo-button {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.preview-media-value { flex-direction: column; align-items: stretch; }
+.preview-media-upload-box--audio { gap: var(--qo-space-3); }
+
+.preview-media-filename { color: var(--qo-color-neutral-600); font-size: var(--qo-text-sm); }
+.preview-file-list { display: grid; gap: var(--qo-space-2); }
+
+.preview-url-stack { display: grid; gap: var(--qo-space-2); }
+
+.preview-audio-player { width: 100%; max-width: 100%; height: 2.25rem; }
+.preview-video-player { width: 100%; max-height: 12.5rem; border-radius: var(--qo-radius-xs); }
+
+.preview-image-list { display: flex; flex-wrap: wrap; gap: var(--qo-space-3); margin-top: var(--qo-space-2); }
+.preview-image-list--single { flex-direction: column; align-items: flex-start; }
+
+.preview-image-item {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xs);
+  background: var(--qo-color-neutral-0);
+}
+
+.preview-image-item img { width: 12.5rem; max-width: 100%; max-height: 9.5rem; object-fit: cover; }
+
+.preview-image-item__remove {
+  position: absolute;
+  top: var(--qo-space-2);
+  right: var(--qo-space-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--qo-space-6);
+  height: var(--qo-space-6);
+  border: 0;
+  border-radius: var(--qo-radius-full);
+  background: rgb(0 0 0 / 60%);
+  color: var(--qo-color-neutral-0);
+  cursor: pointer;
+}
+
+.preview-image-item__remove .material-symbols-outlined { font-size: var(--qo-text-sm); }

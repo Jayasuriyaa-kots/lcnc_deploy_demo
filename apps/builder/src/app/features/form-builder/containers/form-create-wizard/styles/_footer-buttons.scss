@@ -1,0 +1,110 @@
+.wizard-columns {
+  display: grid;
+  gap: var(--qo-space-3);
+}
+
+.wizard-column {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(13.75rem, 16.25rem);
+  align-items: center;
+  gap: var(--qo-space-4);
+  padding: var(--qo-space-4);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: var(--qo-radius-md);
+
+  &__info {
+    strong {
+      display: block;
+      color: var(--qo-color-neutral-900);
+      font-size: var(--qo-text-sm);
+      font-weight: var(--qo-font-extrabold);
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qo-space-2);
+    margin-top: var(--qo-space-2);
+  }
+
+}
+
+.create-flow__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+  padding: var(--qo-space-4) var(--qo-space-5);
+  border-top: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+  flex: 0 0 auto;
+}
+
+.create-flow__footer-summary {
+  display: grid;
+  gap: var(--qo-space-1);
+
+  strong {
+    color: var(--qo-color-neutral-900);
+    font-size: var(--qo-text-sm);
+    font-weight: var(--qo-font-extrabold);
+  }
+
+  span {
+    color: var(--qo-color-neutral-500);
+    font-size: var(--qo-text-sm);
+  }
+}
+
+.create-flow__footer-actions {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-sm);
+  text-align: right;
+}
+
+:host ::ng-deep qo-button.btn-primary .qo-btn,
+:host ::ng-deep qo-button.btn-secondary .qo-btn,
+:host ::ng-deep qo-button.create-flow__close .qo-btn {
+  height: var(--qo-space-10);
+  padding: 0 var(--qo-space-5);
+  border-radius: var(--qo-radius-full);
+  font-size: var(--qo-text-2xs);
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: var(--qo-border-width) solid transparent;
+}
+
+:host ::ng-deep qo-button.btn-primary .qo-btn {
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+  border-color: var(--qo-color-neutral-900);
+}
+
+:host ::ng-deep qo-button.btn-secondary .qo-btn,
+:host ::ng-deep qo-button.create-flow__close .qo-btn {
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--qo-color-neutral-900);
+  border-color: var(--qo-border-color-strong);
+}
+
+@media (max-width: 56.25rem) {
+  .create-grid,
+  .connection-card,
+  .wizard-column,
+  .create-flow__footer,
+  .create-flow__header,
+  .create-panel__intro--split {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .create-flow__footer-actions {
+    width: 100%;
+    text-align: left;
+  }
+}

@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+}
+
+.panel::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}

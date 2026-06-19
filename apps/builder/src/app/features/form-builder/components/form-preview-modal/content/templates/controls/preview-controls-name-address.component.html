@@ -1,0 +1,118 @@
+@let f = field();
+@if (ctx.isNameField(f)) {
+  <div class="preview-name-grid">
+    @if (ctx.showNamePart(f, 'prefix')) {
+      <label class="preview-name-part">
+        <span>{{ t('preview.prefix') }}</span>
+        <qo-select
+          class="preview-qo-select"
+          [value]="ctx.getNamePart(f.id, 'prefix')"
+          [options]="ctx.getNameSelectOptions(f, 'prefix')"
+          [placeholder]="t('preview.select')"
+          (valueChange)="ctx.setNamePart(f.id, 'prefix', String($event ?? ''))">
+        </qo-select>
+      </label>
+    }
+    <label class="preview-name-part">
+      <span>{{ t('preview.firstName') }}</span>
+      <qo-input class="preview-qo-input" type="text" [value]="ctx.getNamePart(f.id, 'firstName')" [placeholder]="t('preview.firstNamePlaceholder')" (valueChange)="ctx.setNamePart(f.id, 'firstName', $event)"></qo-input>
+    </label>
+    @if (ctx.showNamePart(f, 'lastName')) {
+      <label class="preview-name-part">
+        <span>{{ t('preview.lastName') }}</span>
+        <qo-input class="preview-qo-input" type="text" [value]="ctx.getNamePart(f.id, 'lastName')" [placeholder]="t('preview.lastNamePlaceholder')" (valueChange)="ctx.setNamePart(f.id, 'lastName', $event)"></qo-input>
+      </label>
+    }
+    @if (ctx.showNamePart(f, 'suffix')) {
+      <label class="preview-name-part">
+        <span>{{ t('preview.suffix') }}</span>
+        <qo-select
+          class="preview-qo-select"
+          [value]="ctx.getNamePart(f.id, 'suffix')"
+          [options]="ctx.getNameSelectOptions(f, 'suffix')"
+          [placeholder]="t('preview.select')"
+          (valueChange)="ctx.setNamePart(f.id, 'suffix', String($event ?? ''))">
+        </qo-select>
+      </label>
+    }
+  </div>
+}
+
+@if (ctx.isAddressField(f)) {
+  <div class="preview-address-grid">
+    @if (ctx.showAddressPart(f, 'line1')) {
+      <label class="preview-address-part">
+        <span>{{ ctx.getAddressLabel(f, 'line1') }}</span>
+        <qo-input class="preview-qo-input" type="text" [value]="ctx.getAddressPart(f.id, 'line1')" [placeholder]="ctx.getAddressLabel(f, 'line1')" (valueChange)="ctx.setAddressPart(f.id, 'line1', $event)"></qo-input>
+      </label>
+    }
+    @if (ctx.showAddressPart(f, 'line2')) {
+      <label class="preview-address-part">
+        <span>{{ ctx.getAddressLabel(f, 'line2') }}</span>
+        <qo-input class="preview-qo-input" type="text" [value]="ctx.getAddressPart(f.id, 'line2')" [placeholder]="ctx.getAddressLabel(f, 'line2')" (valueChange)="ctx.setAddressPart(f.id, 'line2', $event)"></qo-input>
+      </label>
+    }
+    @if (ctx.showAddressPart(f, 'city')) {
+      <label class="preview-address-part">
+        <span>{{ ctx.getAddressLabel(f, 'city') }}</span>
+        <qo-input class="preview-qo-input" type="text" [value]="ctx.getAddressPart(f.id, 'city')" [placeholder]="ctx.getAddressLabel(f, 'city')" (valueChange)="ctx.setAddressPart(f.id, 'city', $event)"></qo-input>
+      </label>
+    }
+    @if (ctx.showAddressPart(f, 'state')) {
+      <label class="preview-address-part">
+        <span>{{ ctx.getAddressLabel(f, 'state') }}</span>
+        <qo-input class="preview-qo-input" type="text" [value]="ctx.getAddressPart(f.id, 'state')" [placeholder]="ctx.getAddressLabel(f, 'state')" (valueChange)="ctx.setAddressPart(f.id, 'state', $event)"></qo-input>
+      </label>
+    }
+    @if (ctx.showAddressPart(f, 'postalCode')) {
+      <label class="preview-address-part">
+        <span>{{ ctx.getAddressLabel(f, 'postalCode') }}</span>
+        <qo-input class="preview-qo-input" type="text" [value]="ctx.getAddressPart(f.id, 'postalCode')" [placeholder]="ctx.getAddressLabel(f, 'postalCode')" (valueChange)="ctx.setAddressPart(f.id, 'postalCode', $event)"></qo-input>
+      </label>
+    }
+    @if (ctx.showAddressPart(f, 'country')) {
+      <label class="preview-address-part">
+        <span>{{ ctx.getAddressLabel(f, 'country') }}</span>
+        <qo-input class="preview-qo-input" type="text" [value]="ctx.getAddressPart(f.id, 'country')" [placeholder]="ctx.getAddressLabel(f, 'country')" (valueChange)="ctx.setAddressPart(f.id, 'country', $event)"></qo-input>
+      </label>
+    }
+    @if (f.properties.addressCaptureGeo || f.properties.addressAdjustOnMap) {
+      <small class="preview-field__helptext">
+        <qo-icon name="info" size="sm"></qo-icon>
+        {{ f.properties.addressCaptureGeo ? t('preview.geoCaptureEnabled') : '' }} {{ f.properties.addressAdjustOnMap ? t('preview.mapAdjustmentEnabled') : '' }}
+      </small>
+      <div class="preview-address-geo">
+        @if (ctx.getAddressGeoSummary(f)) {
+          <div class="preview-address-geo__summary">
+            <qo-icon name="database" size="sm"></qo-icon>
+            <span>{{ ctx.getAddressGeoSummary(f) }}</span>
+          </div>
+        }
+        <div class="preview-address-geo__actions">
+          @if (f.properties.addressCaptureGeo) {
+            <qo-button type="button" class="preview-inline-btn" variant="secondary" size="sm" (click)="ctx.captureAddressGeo(f)">{{ t('inspector.captureGeoCoordinates') }}</qo-button>
+          }
+          @if (f.properties.addressAdjustOnMap) {
+            <qo-button type="button" class="preview-inline-btn preview-inline-btn--ghost" variant="ghost" size="sm" (click)="ctx.openAddressGeoEditor(f)">{{ t('inspector.adjustLocationOnMap') }}</qo-button>
+          }
+        </div>
+        @if (ctx.isAddressGeoEditorOpen(f.id)) {
+          <div class="preview-address-geo__editor">
+            <label>
+              <span>{{ t('preview.latitude') }}</span>
+              <input type="number" step="any" [value]="ctx.addressGeoEditors[f.id].lat" (input)="ctx.setAddressGeoEditorValue(f.id, 'lat', ctx.getInputValue($event))" />
+            </label>
+            <label>
+              <span>{{ t('preview.longitude') }}</span>
+              <input type="number" step="any" [value]="ctx.addressGeoEditors[f.id].lng" (input)="ctx.setAddressGeoEditorValue(f.id, 'lng', ctx.getInputValue($event))" />
+            </label>
+            <div class="preview-address-geo__editor-actions">
+              <qo-button type="button" class="preview-inline-btn" variant="secondary" size="sm" (click)="ctx.applyAddressGeoEditor(f)">{{ t('preview.applyLocation') }}</qo-button>
+              <qo-button type="button" class="preview-inline-btn preview-inline-btn--ghost" variant="ghost" size="sm" (click)="ctx.closeAddressGeoEditor(f.id)">{{ 'actions.cancel' | transloco }}</qo-button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

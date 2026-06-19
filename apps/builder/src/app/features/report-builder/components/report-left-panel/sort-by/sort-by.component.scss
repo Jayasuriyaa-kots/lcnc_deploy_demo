@@ -1,0 +1,53 @@
+@use '../report-left-panel-shared';
+
+.field-group {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.field-group .field {
+  min-width: 0;
+}
+
+:host ::ng-deep .field-group qo-select .qo-select-trigger {
+  font-size: 0.875rem;
+  min-height: calc(var(--qo-space-10) + var(--qo-space-1));
+  height: auto;
+  align-items: flex-start;
+  padding-top: var(--qo-space-2);
+  padding-bottom: var(--qo-space-2);
+}
+
+:host ::ng-deep .field-group qo-select .qo-select-value {
+  min-width: 0;
+  font-size: 0.875rem;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.sort-remove-btn {
+  margin-bottom: 0.125rem;
+}
+
+.empty-state {
+  margin: 0;
+  color: var(--qo-color-neutral-500);
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 22rem) {
+  .field-group {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.625rem;
+  }
+
+  .sort-remove-btn {
+    justify-self: end;
+    margin-bottom: 0;
+  }
+}

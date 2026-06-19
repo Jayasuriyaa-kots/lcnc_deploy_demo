@@ -1,0 +1,26 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qo-icon {
+  fill: none;
+  stroke: currentColor;
+  display: inline-block;
+  
+  &-sm {
+    width: var(--qo-space-4);
+    height: var(--qo-space-4);
+  }
+  
+  &-md {
+    width: var(--qo-space-5);
+    height: var(--qo-space-5);
+  }
+  
+  &-lg {
+    width: var(--qo-space-6);
+    height: var(--qo-space-6);
+  }
+}

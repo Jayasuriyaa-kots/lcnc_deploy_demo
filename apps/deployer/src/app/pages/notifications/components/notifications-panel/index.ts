@@ -1,0 +1,1 @@
+export { NotificationsPanelComponent } from './notifications-panel.component';

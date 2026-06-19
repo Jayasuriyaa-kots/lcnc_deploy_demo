@@ -1,0 +1,4 @@
+[project]
+name = "qo-utils"
+version = "1.0.0"
+dependencies = ["fastapi>=0.111.0", "pydantic>=2.0.0"]

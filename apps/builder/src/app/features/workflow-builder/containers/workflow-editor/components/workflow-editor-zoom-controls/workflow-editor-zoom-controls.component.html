@@ -1,0 +1,14 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<div class="workflow-editor__zoom" [attr.aria-label]="t('accessibility.canvasZoomControls')">
+  <button type="button" [attr.aria-label]="t('accessibility.zoomIn')" [title]="t('accessibility.zoomIn')" (click)="zoomIn.emit()">
+    <qo-icon name="plus" size="sm"></qo-icon>
+  </button>
+  <button type="button" [attr.aria-label]="t('accessibility.zoomOut')" [title]="t('accessibility.zoomOut')" (click)="zoomOut.emit()">
+    <qo-icon name="minus" size="sm"></qo-icon>
+  </button>
+  <button type="button" [attr.aria-label]="t('accessibility.resetZoom')" [title]="t('accessibility.resetZoom')" (click)="resetZoom.emit()">
+    <qo-icon name="check" size="sm"></qo-icon>
+  </button>
+  <span>{{ zoomLabel() }}</span>
+</div>
+</ng-container>

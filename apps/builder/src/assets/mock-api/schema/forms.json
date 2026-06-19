@@ -1,0 +1,68 @@
+[
+  {
+    "id": "add-employee-form",
+    "name": "Add Employee Form",
+    "tableName": "employees",
+    "actionLabels": ["Submit"]
+  },
+  {
+    "id": "employee-leave-form",
+    "name": "Employee Leave Form",
+    "tableName": "leave_requests",
+    "actionLabels": ["Submit"]
+  },
+  {
+    "id": "attendance-form",
+    "name": "Attendance Form",
+    "tableName": "attendance_logs",
+    "actionLabels": ["Submit"]
+  },
+  {
+    "id": "performance-review-form",
+    "name": "Performance Review",
+    "tableName": "performance_reviews",
+    "actionLabels": ["Submit Review"]
+  },
+  {
+    "id": "asset-request-form",
+    "name": "Asset Request",
+    "tableName": "asset_requests",
+    "actionLabels": ["Submit Request"]
+  },
+  {
+    "id": "travel-reimbursement-form",
+    "name": "Travel Reimbursement",
+    "tableName": "travel_expenses",
+    "actionLabels": ["Submit Claim"]
+  },
+  {
+    "id": "recruitment-application-form",
+    "name": "Recruitment Application",
+    "tableName": "candidates",
+    "actionLabels": ["Apply Now"]
+  },
+  {
+    "id": "employee-exit-form",
+    "name": "Employee Exit Form",
+    "tableName": "exit_interviews",
+    "actionLabels": ["Submit"]
+  },
+  {
+    "id": "training-registration-form",
+    "name": "Training Registration",
+    "tableName": "training_registrations",
+    "actionLabels": ["Register"]
+  },
+  {
+    "id": "it-support-ticket-form",
+    "name": "IT Support Ticket",
+    "tableName": "it_tickets",
+    "actionLabels": ["Raise Ticket"]
+  },
+  {
+    "id": "order-form",
+    "name": "Order",
+    "tableName": "orders",
+    "actionLabels": ["Submit"]
+  }
+]

@@ -1,0 +1,20 @@
+.qo-avatar-badge {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: var(--qo-radius-lg);
+  border: var(--qo-size-1) solid color-mix(in srgb, var(--qo-color-neutral-0) 6%, transparent);
+  background: var(--qo-color-neutral-700);
+  color: var(--qo-color-neutral-0);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: -0.02em;
+}
+
+.qo-avatar-badge-sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--qo-radius-md);
+  font-size: 0.625rem;
+}

@@ -1,0 +1,95 @@
+:host {
+  display: inline-flex;
+  --_qo-toggle-gap: var(--qo-toggle-gap, var(--qo-space-3));
+  --_qo-toggle-control-width: var(--qo-toggle-control-width, var(--qo-size-36));
+  --_qo-toggle-control-height: var(--qo-toggle-control-height, var(--qo-size-20));
+  --_qo-toggle-track-bg: var(--qo-toggle-track-bg, var(--qo-color-neutral-300));
+  --_qo-toggle-track-checked-bg: var(--qo-toggle-track-checked-bg, var(--qo-color-primary-600));
+  --_qo-toggle-thumb-top: var(--qo-toggle-thumb-top, var(--qo-size-2));
+  --_qo-toggle-thumb-left: var(--qo-toggle-thumb-left, var(--qo-size-2));
+  --_qo-toggle-thumb-size: var(--qo-toggle-thumb-size, var(--qo-size-16));
+  --_qo-toggle-thumb-bg: var(--qo-toggle-thumb-bg, var(--qo-color-neutral-0));
+  --_qo-toggle-thumb-shadow: var(--qo-toggle-thumb-shadow, 0 var(--qo-size-1) var(--qo-size-2) color-mix(in srgb, black 20%, transparent));
+  --_qo-toggle-thumb-checked-transform: var(--qo-toggle-thumb-checked-transform, translateX(var(--qo-size-16)));
+  --_qo-toggle-label-font-size: var(--qo-toggle-label-font-size, var(--qo-text-sm));
+  --_qo-toggle-label-font-weight: var(--qo-toggle-label-font-weight, var(--qo-font-medium));
+  --_qo-toggle-label-color: var(--qo-toggle-label-color, var(--qo-color-neutral-900));
+  --_qo-toggle-label-letter-spacing: var(--qo-toggle-label-letter-spacing, normal);
+  --_qo-toggle-label-text-transform: var(--qo-toggle-label-text-transform, none);
+  --_qo-toggle-label-white-space: var(--qo-toggle-label-white-space, normal);
+  --_qo-toggle-label-min-width: var(--qo-toggle-label-min-width, auto);
+}
+
+.qo-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--_qo-toggle-gap);
+  cursor: pointer;
+  
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.qo-toggle-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.qo-toggle-control {
+  position: relative;
+  width: var(--_qo-toggle-control-width);
+  height: var(--_qo-toggle-control-height);
+}
+
+.qo-toggle-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--_qo-toggle-track-bg);
+  border-radius: var(--qo-radius-full);
+  transition: background-color 0.2s ease;
+  
+  &.checked {
+    background-color: var(--_qo-toggle-track-checked-bg);
+  }
+}
+
+.qo-toggle-thumb {
+  position: absolute;
+  top: var(--_qo-toggle-thumb-top);
+  left: var(--_qo-toggle-thumb-left);
+  width: var(--_qo-toggle-thumb-size);
+  height: var(--_qo-toggle-thumb-size);
+  background-color: var(--_qo-toggle-thumb-bg);
+  border-radius: 50%;
+  box-shadow: var(--_qo-toggle-thumb-shadow);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  
+  &.checked {
+    transform: var(--_qo-toggle-thumb-checked-transform);
+  }
+}
+
+.qo-toggle-label {
+  font-family: var(--qo-font-family-sans);
+  min-width: var(--_qo-toggle-label-min-width);
+  font-size: var(--_qo-toggle-label-font-size);
+  font-weight: var(--_qo-toggle-label-font-weight);
+  color: var(--_qo-toggle-label-color);
+  letter-spacing: var(--_qo-toggle-label-letter-spacing);
+  text-transform: var(--_qo-toggle-label-text-transform);
+  white-space: var(--_qo-toggle-label-white-space);
+  user-select: none;
+}

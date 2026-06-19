@@ -1,0 +1,29 @@
+{
+  "reportId": "travel-expense-report",
+  "reportLabel": "Travel Expense Claims",
+  "sourceFormId": "travel-reimbursement-form",
+  "sourceFormLabel": "Travel Reimbursement",
+  "sourceTable": "travel_expenses",
+  "columns": [
+    { "id": "employee_id",      "label": "Emp Code",    "dbColumn": "employee_id" },
+    { "id": "travel_purpose",   "label": "Purpose",     "dbColumn": "purpose" },
+    { "id": "travel_from",      "label": "From",        "dbColumn": "origin_city" },
+    { "id": "travel_to",        "label": "To",          "dbColumn": "destination_city" },
+    { "id": "travel_date",      "label": "Date",        "dbColumn": "travel_date" },
+    { "id": "total_amount",     "label": "Amount (₹)",  "dbColumn": "total_amount" }
+  ],
+  "rows": [
+    { "id": "1",  "values": ["EMP-0001", "Client Visit",    "Bengaluru", "Mumbai",    "2026-06-02", "12,450"] },
+    { "id": "2",  "values": ["EMP-0004", "Conference",      "Chennai",   "Delhi",     "2026-06-05", "18,700"] },
+    { "id": "3",  "values": ["EMP-0010", "Internal Meeting","Mumbai",    "Pune",      "2026-06-08", "3,200"]  },
+    { "id": "4",  "values": ["EMP-0007", "Client Visit",    "Hyderabad", "Bengaluru", "2026-06-10", "8,900"]  },
+    { "id": "5",  "values": ["EMP-0013", "Training",        "Mumbai",    "Hyderabad", "2026-06-11", "11,600"] },
+    { "id": "6",  "values": ["EMP-0017", "Client Visit",    "Pune",      "Delhi",     "2026-06-12", "22,300"] },
+    { "id": "7",  "values": ["EMP-0002", "Conference",      "Mumbai",    "Bengaluru", "2026-06-13", "9,800"]  },
+    { "id": "8",  "values": ["EMP-0022", "Site Inspection", "Pune",      "Noida",     "2026-06-14", "16,500"] },
+    { "id": "9",  "values": ["EMP-0028", "Client Visit",    "Hyderabad", "Chennai",   "2026-06-14", "7,200"]  },
+    { "id": "10", "values": ["EMP-0006", "Internal Meeting","Bengaluru", "Kolkata",   "2026-06-15", "19,100"] },
+    { "id": "11", "values": ["EMP-0011", "Conference",      "Delhi",     "Mumbai",    "2026-06-15", "14,800"] },
+    { "id": "12", "values": ["EMP-0016", "Client Visit",    "Kolkata",   "Hyderabad", "2026-06-16", "13,400"] }
+  ]
+}

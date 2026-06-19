@@ -1,0 +1,44 @@
+<section class="canvas">
+  <div class="canvas__hero">
+    <div>
+      <div class="canvas__eyebrow">{{ eyebrow() }}</div>
+      <h1 class="canvas__title">{{ title() }}</h1>
+      <p class="canvas__description">{{ description() }}</p>
+    </div>
+
+    <div class="canvas__hero-actions">
+      <button class="canvas__button canvas__button--ghost">{{ secondaryAction() }}</button>
+      <button class="canvas__button canvas__button--solid">{{ primaryAction() }}</button>
+    </div>
+  </div>
+
+  <div class="canvas__panel">
+    <div class="canvas__panel-label">Data Source Binding</div>
+    <div class="canvas__binding-row">
+      <div class="canvas__binding-pill">
+        <span>{{ datasource() }}</span>
+        <span class="material-symbols-outlined">expand_more</span>
+      </div>
+      <div class="canvas__binding-copy">All form fields write to this data source</div>
+    </div>
+  </div>
+
+  <div class="canvas__panel">
+    <div class="canvas__panel-top">
+      <div class="canvas__panel-label">{{ sectionLabel() }}</div>
+      <button class="canvas__button canvas__button--ghost">+ Add Field</button>
+    </div>
+
+    <div class="canvas__rows">
+      @for (row of rows(); track row) {
+        <div class="canvas__row">
+          <div class="canvas__row-name">{{ row.name }}</div>
+          <div class="canvas__row-meta">
+            {{ row.type }} → <code>{{ row.binding }}</code>
+          </div>
+          <div class="canvas__row-flags">{{ row.flags }}</div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

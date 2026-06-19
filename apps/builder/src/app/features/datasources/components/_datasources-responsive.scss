@@ -1,0 +1,38 @@
+@use '../../../../../../../libs/ui-components/src/styles/tokens' as tokens;
+
+:host {
+  @media (max-width: tokens.$qo-breakpoint-lg) {
+    .datasources-page__content {
+      width: 100%;
+      max-width: 100%;
+      padding: var(--qo-space-8) var(--qo-space-6) var(--qo-space-6);
+    }
+    .datasources-page__connector-grid,
+    .external-apis__connector-grid,
+    .datasources-page__form-grid,
+    .datasources-page__detail-grid,
+    .datasources-page__field-card { grid-template-columns: minmax(0, 1fr); }
+    .datasources-page__connector-card { border-right: 0; }
+    .external-apis__toolbar,
+    .external-apis__summary,
+    .external-apis__endpoint,
+    .external-apis__kv-row,
+    .external-apis__mapping-columns,
+    .external-apis__mapping-row,
+    .external-apis__advanced-grid,
+    .external-apis__advanced-row,
+    .external-apis__advanced-error-grid { grid-template-columns: minmax(0, 1fr); }
+    .external-apis__actions { justify-content: flex-start; flex-wrap: wrap; }
+    .external-apis__detail { padding: var(--qo-space-4); overflow-x: auto; }
+    .datasources-page__sticky-footer,
+    .datasources-page__header,
+    .datasources-page__mapping-header { flex-direction: column; align-items: stretch; }
+  }
+
+  @media (max-width: tokens.$qo-breakpoint-md) {
+    .datasources-page__content {
+      padding: var(--qo-space-5) var(--qo-space-4) var(--qo-space-5);
+    }
+  }
+}
+

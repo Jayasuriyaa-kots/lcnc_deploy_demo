@@ -1,0 +1,85 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<section class="workflow-page">
+  <div class="workflow-page__section">
+    <qo-workflow-page-header
+      [title]="t('pages.events.title')"
+      [subtitle]="t('pages.events.subtitle')"
+    />
+  </div>
+
+  <div class="workflow-page__section">
+    <qo-workflow-toolbar
+      [createLabel]="t('toolbar.newEvent')"
+      [searchPlaceholder]="t('toolbar.searchEvents')"
+      [countLabel]="facade.eventCountLabel()"
+      [searchValue]="facade.getSearch('events')"
+      (create)="onCreateEvent()"
+      (searchChange)="onSearchChange($event)"
+    />
+  </div>
+
+  @if (facade.error()) {
+    <p class="workflow-page__error">{{ facade.error() }}</p>
+  } @else if (facade.loading()) {
+    <p class="workflow-page__loading">{{ t('loading.eventWorkflows') }}</p>
+  } @else {
+    <div class="workflow-page__section">
+      <app-workflow-event-table
+        [events]="facade.filteredEventWorkflows()"
+        (edit)="onEditEvent($event)"
+        (delete)="onDeleteEvent($event)"
+      />
+    </div>
+  }
+
+  @if (eventModalOpen()) {
+    <qo-modal
+      [title]="eventEditorMode() === 'create' ? t('modals.eventWorkflow.createTitle') : t('modals.eventWorkflow.editTitle')"
+      [subtitle]="t('modals.eventWorkflow.subtitle')"
+      size="md"
+      [maxWidth]="'var(--qo-size-480)'"
+      (close)="closeEventModal()"
+    >
+      <form class="workflow-event-modal" [formGroup]="eventForm" (ngSubmit)="saveEvent()">
+        <qo-form-field [label]="t('formLabels.eventName')" [required]="true" [error]="fieldError('event', t('formLabels.eventName'))">
+          <qo-input formControlName="event" type="text" [placeholder]="t('placeholders.eventName')" />
+        </qo-form-field>
+
+        <qo-form-field [label]="t('formLabels.trigger')" [required]="true" [error]="fieldError('trigger', t('formLabels.trigger'))">
+          <qo-input formControlName="trigger" type="text" [placeholder]="t('placeholders.trigger')" />
+        </qo-form-field>
+
+        <qo-form-field [label]="t('formLabels.source')" [required]="true" [error]="fieldError('source', t('formLabels.source'))">
+          <qo-input formControlName="source" type="text" [placeholder]="t('placeholders.source')" />
+        </qo-form-field>
+
+        <qo-form-field [label]="t('formLabels.status')" [required]="true" [error]="fieldError('status', t('formLabels.status'))">
+          <qo-select formControlName="status" [options]="statusOptions" />
+        </qo-form-field>
+
+        <div qo-modal-footer class="workflow-event-modal__footer">
+          <qo-button variant="secondary" type="button" [disabled]="saving()" (click)="closeEventModal()">
+            {{ 'actions.cancel' | transloco }}
+          </qo-button>
+          <qo-button
+            variant="primary"
+            type="submit"
+            [loading]="saving()"
+            [disabled]="eventForm.invalid || saving()"
+          >
+            {{ eventEditorMode() === 'create' ? t('common.createWorkflow') : t('common.saveEvent') }}
+          </qo-button>
+        </div>
+      </form>
+    </qo-modal>
+  }
+
+  @if (confirmConfig()) {
+    <qo-confirm-dialog
+      [config]="confirmConfig()!"
+      (confirmed)="confirmDelete()"
+      (cancelled)="cancelDelete()"
+    />
+  }
+</section>
+</ng-container>

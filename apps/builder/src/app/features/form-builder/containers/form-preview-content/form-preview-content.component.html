@@ -1,0 +1,30 @@
+<div class="modal__backdrop" (click)="close()"></div>
+<div class="modal__dialog">
+  <header class="modal__header">
+    <div>
+      <div class="modal__header-eyebrow">{{ t('preview.title') }}</div>
+      <h2>{{ formName }}</h2>
+      @if (formDescription) {
+        <p>{{ formDescription }}</p>
+      }
+    </div>
+    <qo-button class="modal__close" variant="ghost" size="sm" [iconOnly]="true" type="button" (click)="close()">
+      <qo-icon name="x" size="sm"></qo-icon>
+    </qo-button>
+  </header>
+
+  @if (submitted) {
+    <div class="preview-success">
+      <qo-icon name="check" size="lg"></qo-icon>
+      <h3>{{ settings.submitBehavior === 'Redirect' ? t('preview.redirecting') : t('preview.submitted') }}</h3>
+      <p>{{ settings.submitBehavior === 'Redirect' ? t('preview.redirectMessage', { url: settings.redirectUrl }) : t('preview.responseRecorded') }}</p>
+      <qo-button class="btn-secondary" variant="secondary" type="button" (click)="resetForm()">{{ t('preview.submitAnother') }}</qo-button>
+    </div>
+  } @else {
+    <div class="modal__body preview-body" #previewRoot>
+      <app-form-preview-form-body />
+    </div>
+  }
+</div>
+
+<app-form-preview-overlays />

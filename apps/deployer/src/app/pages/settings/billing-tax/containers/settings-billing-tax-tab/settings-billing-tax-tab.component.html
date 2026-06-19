@@ -1,0 +1,59 @@
+<section class="billing-tax-layout" [formGroup]="billingTaxForm">
+  <div class="billing-tax-main">
+    <article class="settings-card billing-card billing-card--tax app-card">
+      <div class="settings-card__label">{{ i18n.translate('settings.taxRegistrationLabel') }}</div>
+      <div class="billing-tax-grid">
+        <qo-form-field class="billing-tax-field billing-tax-field--full" [label]="i18n.translate('settings.gstNumber')" [hint]="i18n.translate('settings.gstHint')">
+          <qo-input type="text" formControlName="gstNumber" />
+        </qo-form-field>
+        <qo-form-field class="billing-tax-field" [label]="i18n.translate('settings.tanNumber')" [hint]="i18n.translate('settings.tanHint')">
+          <qo-input type="text" formControlName="tanNumber" />
+        </qo-form-field>
+        <qo-form-field class="billing-tax-field" [label]="i18n.translate('settings.panNumber')" [hint]="i18n.translate('settings.panHint')">
+          <qo-input type="text" formControlName="panNumber" />
+        </qo-form-field>
+      </div>
+      <div class="card-actions card-actions--end">
+        <qo-button variant="secondary" class="settings-save-button billing-action-button" (click)="saveTaxDetails()">{{ i18n.translate('settings.saveTaxDetails') }}</qo-button>
+      </div>
+    </article>
+
+    <article class="settings-card billing-card app-card">
+      <div class="settings-card__label">{{ i18n.translate('settings.billingContactLabel') }}</div>
+      <div class="billing-tax-grid">
+        <qo-form-field class="billing-tax-field" [label]="i18n.translate('settings.billingContactName')">
+          <qo-input type="text" formControlName="billingContactName" />
+        </qo-form-field>
+        <qo-form-field class="billing-tax-field" [label]="i18n.translate('settings.billingEmail')" [required]="true">
+          <qo-input type="email" formControlName="billingEmail" />
+        </qo-form-field>
+      </div>
+      <div class="card-actions card-actions--end">
+        <qo-button variant="secondary" class="settings-save-button billing-action-button" (click)="saveBillingDetails()">{{ i18n.translate('settings.saveBillingDetails') }}</qo-button>
+      </div>
+    </article>
+  </div>
+
+  <article class="settings-card billing-card billing-card--plan app-card">
+    <div class="settings-card__label">{{ i18n.translate('settings.currentPlanLabel') }}</div>
+    <div class="plan-summary-list">
+      <div class="plan-summary-row">
+        <span>{{ i18n.translate('settings.currentPlanPlan') }}</span>
+        <strong>{{ currentPlan().plan }}</strong>
+      </div>
+      <div class="plan-summary-row">
+        <span>{{ i18n.translate('settings.currentPlanCycle') }}</span>
+        <strong>{{ currentPlan().billingCycle }}</strong>
+      </div>
+      <div class="plan-summary-row">
+        <span>{{ i18n.translate('settings.currentPlanNextInvoice') }}</span>
+        <strong>{{ currentPlan().nextInvoice }}</strong>
+      </div>
+      <div class="plan-summary-row">
+        <span>{{ i18n.translate('settings.currentPlanPaymentMethod') }}</span>
+        <strong>{{ currentPlan().paymentMethod }}</strong>
+      </div>
+    </div>
+    <qo-button variant="secondary" fullWidth="true" class="billing-plan-button">{{ i18n.translate('settings.upgradePlan') }}</qo-button>
+  </article>
+</section>

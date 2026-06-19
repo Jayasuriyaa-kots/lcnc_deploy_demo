@@ -1,0 +1,72 @@
+[
+  {
+    "id": "employee-directory",
+    "name": "Employee Directory",
+    "sourceFormId": "add-employee-form",
+    "sourceFormLabel": "Add Employee Form",
+    "sourceTable": "employees"
+  },
+  {
+    "id": "leave-summary",
+    "name": "Leave Summary",
+    "sourceFormId": "employee-leave-form",
+    "sourceFormLabel": "Employee Leave Form",
+    "sourceTable": "leave_requests"
+  },
+  {
+    "id": "attendance-summary",
+    "name": "Attendance Summary",
+    "sourceFormId": "attendance-form",
+    "sourceFormLabel": "Attendance Form",
+    "sourceTable": "attendance_logs"
+  },
+  {
+    "id": "performance-review-report",
+    "name": "Performance Reviews — Q2 2026",
+    "sourceFormId": "performance-review-form",
+    "sourceFormLabel": "Performance Review",
+    "sourceTable": "performance_reviews"
+  },
+  {
+    "id": "asset-inventory-report",
+    "name": "Asset Inventory",
+    "sourceFormId": "asset-request-form",
+    "sourceFormLabel": "Asset Request",
+    "sourceTable": "asset_requests"
+  },
+  {
+    "id": "travel-expense-report",
+    "name": "Travel Expense Claims",
+    "sourceFormId": "travel-reimbursement-form",
+    "sourceFormLabel": "Travel Reimbursement",
+    "sourceTable": "travel_expenses"
+  },
+  {
+    "id": "recruitment-pipeline-report",
+    "name": "Recruitment Pipeline",
+    "sourceFormId": "recruitment-application-form",
+    "sourceFormLabel": "Recruitment Application",
+    "sourceTable": "candidates"
+  },
+  {
+    "id": "headcount-by-department-report",
+    "name": "Headcount by Department",
+    "sourceFormId": "add-employee-form",
+    "sourceFormLabel": "Add Employee Form",
+    "sourceTable": "employees"
+  },
+  {
+    "id": "training-calendar-report",
+    "name": "Training Calendar — June 2026",
+    "sourceFormId": "training-registration-form",
+    "sourceFormLabel": "Training Registration",
+    "sourceTable": "training_registrations"
+  },
+  {
+    "id": "it-support-tickets-report",
+    "name": "IT Support Tickets",
+    "sourceFormId": "it-support-ticket-form",
+    "sourceFormLabel": "IT Support Ticket",
+    "sourceTable": "it_tickets"
+  }
+]

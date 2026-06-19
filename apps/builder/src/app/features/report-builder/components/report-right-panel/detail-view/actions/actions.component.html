@@ -1,0 +1,30 @@
+<section class="selected-record-actions__header">
+  <h3>{{ t('rightPanel.forSelectedRecord') }}</h3>
+  <qo-button
+    variant="ghost"
+    size="sm"
+    [iconOnly]="true"
+    iconLeft="add"
+    type="button"
+    [attr.aria-label]="t('generated.add_action')"
+    (click)="openActionConfigDrawer()">
+  </qo-button>
+</section>
+
+@for (group of actionGroupsState(); track group.title; let groupIndex = $index) {
+  <section class="config-action-card">
+    <h3>{{ group.title }}</h3>
+    <p>{{ group.description }}</p>
+    <div class="chip-list">
+      @for (action of group.items; track action.label; let actionIndex = $index) {
+        <qo-checkbox
+          class="action-chip"
+          [class.action-chip--disabled]="!action.enabled"
+          [label]="action.label"
+          [checked]="action.enabled"
+          (checkedChange)="toggleAction(groupIndex, actionIndex, $event)">
+        </qo-checkbox>
+      }
+    </div>
+  </section>
+}

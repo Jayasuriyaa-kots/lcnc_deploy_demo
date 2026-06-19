@@ -1,0 +1,18 @@
+:host {
+  display: inline-flex;
+}
+
+.workflow-event-trigger-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--qo-space-6);
+  padding: 0 var(--qo-space-3);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

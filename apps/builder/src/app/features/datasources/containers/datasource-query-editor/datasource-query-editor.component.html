@@ -1,0 +1,208 @@
+@if (facade.workspace() === 'editor') {
+    <div class="datasources-page__editor" [formGroup]="facade.editorForm">
+      <div class="datasources-page__editor-tabs">
+        @for (tab of facade.queryTabs(); track tab.id) {
+          <div
+            class="datasources-page__editor-tab"
+            role="button"
+            tabindex="0"
+            [class.datasources-page__editor-tab--active]="facade.activeQueryTabId() === tab.id"
+            (click)="facade.switchEditorTab(tab.id)"
+            (keydown.enter)="facade.switchEditorTab(tab.id)"
+            (keydown.space)="facade.switchEditorTab(tab.id); $event.preventDefault()"
+          >
+            {{ tab.name }}
+          </div>
+        }
+        <div
+          class="datasources-page__editor-add-tab"
+          role="button"
+          [class.datasources-page__editor-add-tab--disabled]="!facade.selectedEditorSource()?.active"
+          [attr.aria-disabled]="!facade.selectedEditorSource()?.active"
+          [attr.tabindex]="facade.selectedEditorSource()?.active ? 0 : -1"
+          (click)="facade.selectedEditorSource()?.active && facade.addEditorTab()"
+          (keydown.enter)="facade.selectedEditorSource()?.active && facade.addEditorTab()"
+          (keydown.space)="facade.selectedEditorSource()?.active && facade.addEditorTab(); $event.preventDefault()"
+        >
+          {{ t('editor.addQuery') }}
+        </div>
+      </div>
+
+      <div class="datasources-page__editor-toolbar">
+        <qo-button class="datasources-page__editor-back" variant="secondary" type="button" (click)="facade.closeEditor()">{{ t('common.backArrow') }}</qo-button>
+        <qo-select class="datasources-page__editor-select" formControlName="datasourceId" [options]="facade.editorDatasourceOptions()" (valueChange)="onEditorDatasourceChange($event)"></qo-select>
+        <qo-select class="datasources-page__editor-type" formControlName="queryTypeLabel" [options]="facade.queryTypeOptions"></qo-select>
+        <div class="datasources-page__editor-note">
+          {{ facade.selectedConnector()?.capabilitySummary }} &middot; {{ facade.selectedConnector()?.capabilityChips?.join(' / ') }}
+        </div>
+        <div class="datasources-page__editor-toolbar-actions">
+          <qo-button class="datasources-page__editor-save" variant="secondary" type="button" (click)="facade.openSaveQueryModal()">{{ t('editor.saveQuery') }}</qo-button>
+          <qo-button class="datasources-page__editor-run" variant="primary" type="button" [disabled]="!facade.canRunActiveQuery()" [loading]="facade.runningQuery()" (click)="facade.runQuery()">{{ t('editor.runQuery') }}</qo-button>
+        </div>
+      </div>
+
+      <div class="datasources-page__editor-surface">
+        <qo-textarea class="datasources-page__editor-code" formControlName="query" [rows]="14"></qo-textarea>
+      </div>
+
+      <div class="datasources-page__results-panel">
+        <div class="datasources-page__result-tabs">
+          @for (tab of resultTabs; track tab.id) {
+            <div
+              class="datasources-page__result-tab"
+              role="button"
+              tabindex="0"
+              [class.datasources-page__result-tab--active]="facade.resultTab() === tab.id"
+              (click)="onResultTabChange(tab.id)"
+              (keydown.enter)="onResultTabChange(tab.id)"
+              (keydown.space)="onResultTabChange(tab.id); $event.preventDefault()"
+            >
+              {{ t(tab.labelKey) }}
+            </div>
+          }
+        </div>
+        <div class="datasources-page__result-content">
+          @if (facade.resultTab() === 'Results') {
+            @if (facade.hasRunQuery()) {
+              <div class="datasources-page__results-table-wrap">
+                <qo-table class="datasources-page__results-table" [data]="resultRows()">
+                  @for (column of resultColumns(); track column) {
+                    <ng-template [qoTableColumn]="column" [header]="columnHeader(column)" let-row>
+                      {{ columnValue(row, column) }}
+                    </ng-template>
+                  }
+                </qo-table>
+              </div>
+            } @else {
+              <div class="datasources-page__result-empty">{{ t('editor.noResultsYet') }}</div>
+            }
+          } @else if (facade.resultTab() === 'Response') {
+            <pre class="datasources-page__result-block">{{ facade.responsePreview() }}</pre>
+          } @else if (facade.resultTab() === 'Logs') {
+            <pre class="datasources-page__result-block">[info] {{ facade.lastRunAtLabel() }}</pre>
+          } @else {
+            <pre class="datasources-page__result-block">datasource={{ facade.editorForm.controls.datasourceId.value }} queryType={{ facade.editorForm.controls.queryTypeLabel.value }}</pre>
+          }
+        </div>
+      </div>
+    </div>
+}
+  @if (schemaSource()) {
+    <qo-modal [title]="t('schemaModal.title')" [subtitle]="t('schemaModal.subtitle')" size="xl" [maxWidth]="'var(--qo-size-1040)'" panelClass="datasources-page__modal-panel" (close)="facade.closeSchema()">
+      <div class="datasources-page__mapping-header">
+        <div class="datasources-page__mapping-count">{{ t('schemaModal.countLabel', { selected: facade.selectedSchemaCount(), total: schemaFields().length }) }}</div>
+        <qo-button class="datasources-page__modal-action datasources-page__modal-action--secondary datasources-page__modal-action--select-all" variant="secondary" type="button" (click)="facade.toggleAllSchemaFields()">
+          {{ facade.selectedSchemaCount() === schemaFields().length ? t('schemaModal.clearAll') : t('schemaModal.selectAll') }}
+        </qo-button>
+      </div>
+
+      <div class="datasources-page__mapping-info">
+        {{ t('schemaModal.infoText') }}
+      </div>
+
+      <div class="datasources-page__field-list" [formGroup]="facade.schemaForm">
+        <div formArrayName="fields">
+          @for (fieldGroup of schemaFields(); track schemaTrack($index); let i = $index) {
+            <div class="datasources-page__field-card" [class.datasources-page__field-card--off]="!fieldGroup.controls.selected.value" [formGroupName]="i">
+              <div class="datasources-page__field-check">
+                <qo-checkbox [checked]="fieldGroup.controls.selected.value" (checkedChange)="onFieldSelected(i, $event)"></qo-checkbox>
+              </div>
+              <div class="datasources-page__field-main">
+                <div class="datasources-page__field-name">
+                  {{ fieldGroup.controls.name.value }}
+                  @if (fieldGroup.controls.required.value) {
+                    <span class="datasources-page__field-required">*</span>
+                  }
+                </div>
+                <div class="datasources-page__field-tags">
+                  <qo-badge color="default">{{ fieldGroup.controls.dataType.value }}</qo-badge>
+                  @if (!fieldGroup.controls.required.value) {
+                    <qo-badge color="info">{{ t('schemaModal.optional') }}</qo-badge>
+                  }
+                  @if (fieldGroup.controls.unique.value) {
+                    <qo-badge color="blue">{{ t('schemaModal.unique') }}</qo-badge>
+                  }
+                </div>
+              </div>
+
+              <qo-form-field [label]="t('schemaModal.fieldTypeLabel')">
+                <qo-select formControlName="suggestedFieldType" [options]="facade.fieldTypeOptions" (valueChange)="onFieldTypeSelected(i, $event)"></qo-select>
+              </qo-form-field>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div qo-modal-footer class="datasources-page__modal-footer">
+        <qo-button class="datasources-page__modal-action datasources-page__modal-action--secondary datasources-page__modal-action--cancel" variant="secondary" type="button" (click)="facade.closeSchema()">{{ t('saveQueryModal.cancel') }}</qo-button>
+        <qo-button class="datasources-page__modal-action datasources-page__modal-action--primary datasources-page__modal-action--apply" variant="primary" type="button" (click)="facade.applySchema()">{{ t('schemaModal.applyFields') }}</qo-button>
+      </div>
+    </qo-modal>
+  }
+
+  @if (detailState()?.query) {
+    <qo-modal [title]="t('queryDetail.detailTitle', { name: detailState()!.query.name })" [subtitle]="t('queryDetail.detailSubtitle', { source: detailState()!.source.name })" size="lg" [maxWidth]="'var(--qo-size-900)'" (close)="facade.closeDetail()">
+      @if (detailReference(); as queryReference) {
+        <div class="datasources-page__detail-grid">
+          <div class="datasources-page__detail-box"><small>{{ t('queryDetail.detailDatasource') }}</small><b>{{ queryReference.datasourceName }}</b></div>
+          <div class="datasources-page__detail-box"><small>{{ t('queryDetail.detailQueryType') }}</small><b>{{ queryReference.queryType }}</b></div>
+          <div class="datasources-page__detail-box"><small>{{ t('queryDetail.detailColumns') }}</small><b>{{ queryReference.columns.length }}</b></div>
+          <div class="datasources-page__detail-box"><small>{{ t('queryDetail.detailPreviewRows') }}</small><b>{{ queryReference.mockData.length }}</b></div>
+          <div class="datasources-page__detail-box"><small>{{ t('queryDetail.detailCalls') }}</small><b>{{ detailState()!.query.calls }}</b></div>
+          <div class="datasources-page__detail-box"><small>{{ t('queryDetail.detailP95') }}</small><b>{{ detailState()!.query.p95 }}</b></div>
+        </div>
+
+        <pre class="datasources-page__detail-code">{{ queryReference.query }}</pre>
+
+        <div class="datasources-page__detail-used-in">
+          <div class="datasources-page__detail-used-in-title">{{ t('queryDetail.usedInTitle') }}</div>
+          @if (queryReference.usedIn.length) {
+            <div class="datasources-page__detail-used-in-list">
+              @for (usage of queryReference.usedIn; track usage.module + usage.page) {
+                <div class="datasources-page__detail-used-in-item">{{ usage.module }} &rarr; {{ usage.page }}</div>
+              }
+            </div>
+          } @else {
+            <div class="datasources-page__detail-used-in-empty">{{ t('queryDetail.notReferencedYet') }}</div>
+          }
+        </div>
+
+        <div class="datasources-page__detail-preview">
+          <qo-table class="datasources-page__results-table" [data]="queryReference.mockData">
+            @for (column of queryReference.columns; track column) {
+              <ng-template [qoTableColumn]="column" [header]="columnHeader(column)" let-row>
+                {{ columnValue(row, column) }}
+              </ng-template>
+            }
+          </qo-table>
+        </div>
+      } @else {
+        <div class="datasources-page__result-empty">{{ t('queryDetail.queryReferenceNotFound') }}</div>
+      }
+
+      <div qo-modal-footer class="datasources-page__modal-footer">
+        <qo-button class="datasources-page__modal-action datasources-page__modal-action--secondary datasources-page__modal-action--open-editor" variant="secondary" type="button" (click)="openDetailInEditor()">{{ t('queryDetail.openEditor') }}</qo-button>
+        <qo-button class="datasources-page__modal-action datasources-page__modal-action--primary datasources-page__modal-action--close" variant="primary" type="button" (click)="facade.closeDetail()">{{ t('queryDetail.close') }}</qo-button>
+      </div>
+    </qo-modal>
+  }
+
+  @if (facade.saveQueryModalOpen()) {
+    <qo-modal [title]="t('saveQueryModal.title')" [subtitle]="t('saveQueryModal.subtitle')" size="md" [maxWidth]="'var(--qo-size-540)'" (close)="facade.closeSaveQueryModal()">
+      <form class="datasources-page__save-form" [formGroup]="facade.saveQueryForm">
+        <qo-form-field [label]="t('saveQueryModal.queryName')" [required]="true" [error]="saveQueryError()">
+          <qo-input formControlName="name" [placeholder]="t('uiText.query1')"></qo-input>
+        </qo-form-field>
+
+        <qo-form-field [label]="t('saveQueryModal.description')" [hint]="t('saveQueryModal.descriptionOptionalHint')">
+          <qo-textarea formControlName="description" [rows]="4" [placeholder]="t('saveQueryModal.optionalDescription')"></qo-textarea>
+        </qo-form-field>
+      </form>
+
+      <div qo-modal-footer class="datasources-page__modal-footer">
+        <qo-button class="datasources-page__modal-action datasources-page__modal-action--secondary datasources-page__modal-action--cancel" variant="secondary" type="button" (click)="facade.closeSaveQueryModal()">{{ t('saveQueryModal.cancel') }}</qo-button>
+        <qo-button class="datasources-page__modal-action datasources-page__modal-action--primary datasources-page__modal-action--save-query" variant="primary" type="button" (click)="facade.saveQuery()">{{ t('saveQueryModal.saveQuery') }}</qo-button>
+      </div>
+    </qo-modal>
+  }
+

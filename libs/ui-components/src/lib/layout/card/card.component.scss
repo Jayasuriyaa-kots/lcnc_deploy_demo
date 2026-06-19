@@ -1,0 +1,53 @@
+:host {
+  display: block;
+}
+
+.qo-card {
+  background-color: var(--qo-color-neutral-0);
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  box-shadow: var(--qo-shadow-sm);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &-hoverable:hover {
+    box-shadow: var(--qo-shadow-md);
+    border-color: var(--qo-border-color-strong);
+  }
+}
+
+:host-context(qo-card-header) {
+  display: block;
+}
+
+.qo-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--qo-space-4) var(--qo-space-5);
+
+  &-bordered {
+    border-bottom: 1px solid var(--qo-border-color-strong);
+  }
+}
+
+.qo-card-title {
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-lg);
+  font-weight: var(--qo-font-semibold);
+  color: var(--qo-color-neutral-900);
+  margin: 0;
+}
+
+.qo-card-subtitle {
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-sm);
+  color: var(--qo-color-neutral-600);
+  margin-top: var(--qo-space-1);
+}
+
+.qo-card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-2);
+}

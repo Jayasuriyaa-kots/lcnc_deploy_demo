@@ -1,0 +1,64 @@
+<div class="right-tabs">
+  <qo-button
+    class="right-tab"
+    variant="ghost"
+    size="sm"
+    [class.active]="reportTab() === 'properties'"
+    (click)="setReportTab('properties')"
+  >{{ 'layout.properties' | transloco }}</qo-button>
+  <qo-button
+    class="right-tab"
+    variant="ghost"
+    size="sm"
+    [class.active]="reportTab() === 'filter'"
+    (click)="setReportTab('filter')"
+  >{{ t('common.filter') }}</qo-button>
+</div>
+
+<div class="right-content">
+  @if (reportTab() === 'properties') {
+    <app-visibility-panel
+      [sections]="facade.reportVisibilitySections()"
+      [allowPublicAccess]="facade.reportAllowPublicAccess()"
+      (visibilityChange)="updateReportVisibilityItem($event)"
+      (allowPublicAccessChange)="onReportAllowPublicAccessChanged($event)"
+    ></app-visibility-panel>
+  }
+
+  @if (reportTab() === 'filter' && !reportFilterConfigured()) {
+    <div class="report-filter-empty">
+      <p>{{ t('panelConfig.reportFilterEmpty') }}</p>
+      <qo-button type="button" class="report-filter-link" variant="ghost" size="sm" (click)="openReportFilterModal()">{{ t('panelConfig.addFilter') }}</qo-button>
+    </div>
+  }
+
+  @if (reportTab() === 'filter' && reportFilterConfigured()) {
+    <div class="report-filter-card">
+      <div class="report-filter-card__header">
+        <span>{{ t('common.filter') }}</span>
+        <qo-button type="button" class="report-filter-card__delete" variant="ghost" size="sm" [iconOnly]="true" (click)="clearReportFilter()" [attr.aria-label]="t('panelConfig.deleteFilterAria')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+          </svg>
+        </qo-button>
+      </div>
+      <qo-button type="button" class="report-filter-expression" variant="ghost" size="sm" (click)="openReportFilterModal()">
+        {{ reportFilterExpression() }}
+      </qo-button>
+    </div>
+  }
+</div>
+
+@if (reportTab() === 'filter' && facade.reportCriteriaModalOpen()) {
+  <app-search-criteria-modal
+    [title]="t('common.filter')"
+    [rows]="panelState().reportCriteriaRows"
+    [fieldOptions]="reportFieldOptions()"
+    [operatorOptions]="facade.reportOperatorOptions"
+    (rowsChange)="onReportFilterRowsChange($event)"
+    (closed)="closeReportFilterModal()"
+    (done)="onReportFilterDone($event)"
+  ></app-search-criteria-modal>
+}

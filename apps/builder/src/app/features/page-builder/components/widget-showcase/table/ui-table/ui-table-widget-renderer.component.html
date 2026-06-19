@@ -1,0 +1,153 @@
+<div class="table-widget" [class.table-widget--hidden]="!resolvedConfig().visible">
+  @if (resolvedConfig().visible) {
+    <div class="table-toolbar" [class.table-toolbar--compact]="resolvedConfig().tableSize === 'short'">
+      @if (resolvedConfig().showSearch) {
+        <qo-input
+          class="table-search"
+          type="text"
+          placeholder="Search..."
+          [value]="searchText()"
+          (valueChange)="searchTextChange.emit($event)"
+        ></qo-input>
+      }
+
+      @if (resolvedConfig().showDownload) {
+        <button type="button" class="table-download" (click)="csvDownload.emit()">
+          Download
+          <span class="table-download__caret">v</span>
+        </button>
+      }
+    </div>
+
+    <div
+      class="table-shell"
+      [class.table-shell--short]="resolvedConfig().tableSize === 'short'"
+      [class.table-shell--tall]="resolvedConfig().tableSize === 'tall'"
+    >
+      <table>
+        <thead>
+          <tr>
+            @for (column of columns(); track column.key) {
+              <th (click)="sortColumnChange.emit(column.key)">
+                {{ column.label }}
+                @if (resolvedConfig().showSorting) {
+                  <span>{{ getSortIndicator(column.key) }}</span>
+                }
+              </th>
+            }
+            @if (showActionsColumn()) {
+              <th class="table-actions-heading">{{ t('table.widget.actions') }}</th>
+            }
+          </tr>
+
+          @if (resolvedConfig().showColumnFilters) {
+            <tr class="table-filter-row">
+              @for (column of columns(); track column.key) {
+                <th>
+                  <qo-input
+                    type="text"
+                    [placeholder]="column.filterPlaceholder"
+                    (valueChange)="columnFilterChange.emit({ columnKey: column.key, value: $event })"
+                  ></qo-input>
+                </th>
+              }
+              @if (showActionsColumn()) {
+                <th></th>
+              }
+            </tr>
+          }
+        </thead>
+
+        <tbody>
+          @for (row of visibleRows(); track $index) {
+            <tr
+              [class.table-row--selected]="isRowSelected(row)"
+              (click)="rowSelect.emit(row)"
+            >
+              @for (column of columns(); track column.key) {
+                <td>{{ row[column.key] }}</td>
+              }
+              @if (showActionsColumn()) {
+                <td>
+                  <div class="table-actions-cell">
+                    @if (resolvedConfig().enableAdd) {
+                      <button type="button" class="table-action-btn" aria-label="Add row" title="Add">
+                        <qo-icon name="plus" size="sm"></qo-icon>
+                      </button>
+                    }
+                    @if (resolvedConfig().enableEdit) {
+                      <button type="button" class="table-action-btn" aria-label="Edit row" title="Edit">
+                        <qo-icon name="edit" size="sm"></qo-icon>
+                      </button>
+                    }
+                    @if (resolvedConfig().enableDelete) {
+                      <button type="button" class="table-action-btn" aria-label="Delete row" title="Delete">
+                        <qo-icon name="trash" size="sm"></qo-icon>
+                      </button>
+                    }
+                    @if (resolvedConfig().enableDuplicate) {
+                      <button type="button" class="table-action-btn" aria-label="Duplicate row" title="Duplicate">
+                        <qo-icon name="copy" size="sm"></qo-icon>
+                      </button>
+                    }
+                  </div>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-pagination">
+      <button type="button" [disabled]="currentPage() <= 1" (click)="prevPage.emit()">{{ t('table.widget.previous') }}</button>
+      <span>Page {{ currentPage() }} / {{ totalPages() }}</span>
+      <button type="button" [disabled]="currentPage() >= totalPages()" (click)="nextPage.emit()">{{ t('table.widget.next') }}</button>
+    </div>
+  } @else {
+    <div class="table-hidden-state">{{ t('table.widget.hidden') }}</div>
+  }
+</div>
+
+@if (searchSidebarOpen()) {
+  <div class="table-search-backdrop" (click)="sidebarClose.emit()"></div>
+  <aside class="table-search-sidebar">
+    <header class="table-search-sidebar__header">
+      <h3>{{ 'actions.search' | transloco }}</h3>
+      <button type="button" class="table-search-sidebar__close" (click)="sidebarClose.emit()">x</button>
+    </header>
+
+    <div class="table-search-sidebar__body">
+      <div class="table-search-field">
+        <label class="table-search-field__label">
+          <input type="checkbox" [checked]="true" readonly />
+          <span>{{ searchColumn() ? getColumnLabel(searchColumn()) : t('fields.selectField') }}</span>
+        </label>
+        <span class="table-search-sidebar__subfield">{{ t('table.widget.searchBySubfields') }}</span>
+      </div>
+
+      <select class="table-search-sidebar__select" [value]="searchCondition()" (change)="searchConditionChange.emit($any($event.target).value)">
+        <option value="contains">{{ t('table.widget.contains') }}</option>
+        <option value="equals">{{ t('table.widget.equals') }}</option>
+        <option value="starts_with">{{ t('table.widget.startsWith') }}</option>
+        <option value="ends_with">{{ t('table.widget.endsWith') }}</option>
+        <option value="is_empty">{{ t('table.widget.isEmpty') }}</option>
+      </select>
+
+      <qo-input
+        type="text"
+        class="table-search-sidebar__input"
+        placeholder="Value"
+        [value]="searchValue()"
+        (valueChange)="searchValueChange.emit($event)"
+      ></qo-input>
+
+      @if (searchValue()) {
+        <button type="button" class="table-search-sidebar__clear" (click)="searchClear.emit()">{{ 'actions.clear' | transloco }}</button>
+      }
+
+      <p class="table-search-sidebar__single-note">{{ t('table.widget.singleColumnSearchHint') }}</p>
+    </div>
+  </aside>
+}
+

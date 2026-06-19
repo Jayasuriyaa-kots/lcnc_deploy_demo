@@ -1,0 +1,263 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--qo-overlay-backdrop);
+  backdrop-filter: blur(var(--qo-space-1));
+}
+
+.modal-shell {
+  position: relative;
+  z-index: 51;
+  display: flex;
+  width: 100%;
+  max-width: calc(var(--qo-space-32) + var(--qo-space-32) + var(--qo-space-32) + var(--qo-space-16) + var(--qo-space-4));
+  padding: var(--qo-space-6);
+  pointer-events: none;
+}
+
+.modal-card {
+  width: 100%;
+  background: var(--qo-color-neutral-0);
+  border-radius: var(--qo-radius-lg);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  box-shadow: var(--qo-shadow-elevated);
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+  padding: var(--qo-space-6);
+  border-block-end: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+
+  h2 {
+    margin: 0 0 var(--qo-space-1);
+    color: var(--qo-color-neutral-900);
+    font-size: var(--qo-text-lg);
+    font-weight: var(--qo-font-extrabold);
+  }
+
+  p {
+    margin: 0;
+    color: var(--qo-color-neutral-500);
+    font-size: var(--qo-text-sm);
+  }
+}
+
+:host ::ng-deep qo-button.modal-card__close .qo-btn {
+  width: calc(var(--qo-space-7) + var(--qo-space-1));
+  height: calc(var(--qo-space-7) + var(--qo-space-1));
+  border: none;
+  background: transparent;
+  color: var(--qo-color-neutral-400);
+  cursor: pointer;
+  border-radius: var(--qo-radius-xs);
+  padding: 0;
+
+  .qo-btn-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .material-symbols-outlined {
+    font-size: var(--qo-text-xl);
+  }
+
+  &:hover {
+    color: var(--qo-color-neutral-900);
+    background: var(--qo-color-neutral-100);
+  }
+}
+
+.modal-card__body {
+  padding: var(--qo-space-6);
+  display: grid;
+  gap: var(--qo-space-4);
+}
+
+.field {
+  display: grid;
+  gap: var(--qo-space-1);
+
+  span {
+    color: var(--qo-color-neutral-500);
+    font-size: var(--qo-text-xs);
+    font-weight: var(--qo-font-extrabold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  select,
+  input,
+  textarea {
+    width: 100%;
+    min-height: var(--qo-space-10);
+    padding: 0 var(--qo-space-3);
+    border: var(--qo-border-width) solid var(--qo-border-color);
+    background: var(--qo-color-neutral-50);
+    color: var(--qo-color-neutral-800);
+    font-size: var(--qo-text-sm);
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: var(--qo-border-color-focus);
+      background: var(--qo-color-neutral-0);
+    }
+  }
+
+  textarea {
+    height: auto;
+    min-height: var(--qo-space-20);
+    padding: var(--qo-space-2) var(--qo-space-3);
+    resize: vertical;
+  }
+}
+
+:host ::ng-deep .field qo-input,
+:host ::ng-deep .field qo-select,
+:host ::ng-deep .field qo-textarea {
+  display: block;
+  width: 100%;
+}
+
+:host ::ng-deep .field .qo-input-wrapper {
+  width: 100%;
+}
+
+:host ::ng-deep .field .qo-input-element {
+  width: 100%;
+  min-height: var(--qo-space-10);
+  padding: 0 var(--qo-space-3);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-sm);
+  font-family: inherit;
+  box-shadow: none;
+}
+
+:host ::ng-deep .field .qo-input-element::placeholder {
+  color: var(--qo-color-neutral-400);
+}
+
+:host ::ng-deep .field .qo-input-element:focus {
+  border-color: var(--qo-border-color-focus);
+  background: var(--qo-color-neutral-0);
+  box-shadow: none;
+}
+
+:host ::ng-deep .field .qo-textarea {
+  min-height: var(--qo-space-20);
+  padding: var(--qo-space-3);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-sm);
+  box-shadow: none;
+}
+
+:host ::ng-deep .field .qo-select-trigger {
+  min-height: var(--qo-space-10);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+  box-shadow: none;
+}
+
+:host ::ng-deep .field .qo-select-trigger-active {
+  border-color: var(--qo-border-color-focus);
+  background: var(--qo-color-neutral-0);
+  box-shadow: none;
+}
+
+:host ::ng-deep .field .qo-select-sm,
+:host ::ng-deep .field .qo-select-md {
+  min-height: var(--qo-space-10);
+  padding: 0 var(--qo-space-3);
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-sm);
+}
+
+.field--full-width {
+  grid-column: 1 / -1;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--qo-space-3);
+}
+
+.modal-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--qo-space-2);
+  padding: var(--qo-space-4) var(--qo-space-6);
+  border-block-start: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+}
+
+.btn-primary,
+.btn-secondary {
+  min-height: var(--qo-space-10);
+  border-radius: var(--qo-radius-lg);
+  padding: 0 var(--qo-space-4);
+  font-size: var(--qo-size-14);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+  border: var(--qo-border-width) solid transparent;
+  transition: background-color 120ms;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+  border-color: var(--qo-color-neutral-900);
+
+  &:hover {
+    background: var(--qo-color-neutral-800);
+  }
+}
+
+.btn-secondary {
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-900);
+  border-color: var(--qo-border-color-strong);
+
+  &:hover {
+    background: var(--qo-color-neutral-100);
+  }
+}
+
+@media (max-width: 48rem) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-card__footer {
+    flex-wrap: wrap;
+  }
+}

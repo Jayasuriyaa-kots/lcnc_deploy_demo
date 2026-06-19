@@ -1,0 +1,28 @@
+{
+  "reportId": "asset-inventory-report",
+  "reportLabel": "Asset Inventory",
+  "sourceFormId": "asset-request-form",
+  "sourceFormLabel": "Asset Request",
+  "sourceTable": "asset_requests",
+  "columns": [
+    { "id": "employee_id",  "label": "Emp Code",   "dbColumn": "employee_id" },
+    { "id": "asset_type",   "label": "Asset",      "dbColumn": "asset_type" },
+    { "id": "asset_model",  "label": "Model",      "dbColumn": "asset_model" },
+    { "id": "priority",     "label": "Priority",   "dbColumn": "priority" },
+    { "id": "required_by",  "label": "Needed By",  "dbColumn": "required_by" }
+  ],
+  "rows": [
+    { "id": "1",  "values": ["EMP-0002", "Laptop",            "Dell XPS 15",        "High",     "2026-07-01"] },
+    { "id": "2",  "values": ["EMP-0009", "Monitor",           "LG 27\" 4K",         "Medium",   "2026-07-10"] },
+    { "id": "3",  "values": ["EMP-0012", "Laptop",            "MacBook Pro M3",     "Critical", "2026-06-25"] },
+    { "id": "4",  "values": ["EMP-0016", "Headset",           "Sony WH-1000XM5",   "Low",      "2026-07-15"] },
+    { "id": "5",  "values": ["EMP-0022", "Mouse & Keyboard",  "Logitech MX Bundle", "Medium",   "2026-07-05"] },
+    { "id": "6",  "values": ["EMP-0003", "Access Card",       "HID Proximity",      "Critical", "2026-06-20"] },
+    { "id": "7",  "values": ["EMP-0028", "Laptop",            "ThinkPad X1 Carbon", "High",     "2026-07-08"] },
+    { "id": "8",  "values": ["EMP-0007", "Mobile Phone",      "iPhone 16 Pro",      "Medium",   "2026-07-12"] },
+    { "id": "9",  "values": ["EMP-0011", "Monitor",           "Dell U27 4K",        "Low",      "2026-07-20"] },
+    { "id": "10", "values": ["EMP-0004", "Desk Chair",        "Herman Miller Aeron","Low",      "2026-07-30"] },
+    { "id": "11", "values": ["EMP-0019", "Laptop",            "HP EliteBook 840",   "High",     "2026-07-02"] },
+    { "id": "12", "values": ["EMP-0024", "Headset",           "Jabra Evolve2 85",   "Medium",   "2026-07-18"] }
+  ]
+}

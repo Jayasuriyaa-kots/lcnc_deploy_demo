@@ -1,0 +1,395 @@
+        @if (facade.showAuthenticationSection()) {
+        <section class="datasources-page__form-card">
+          <div class="datasources-page__form-card-title">{{ t('configSections.authentication') }}</div>
+          <div class="datasources-page__form-grid">
+            @if (facade.isConnector('postgresql', 'mysql', 'mssql', 'arangodb', 'oracle')) {
+              <qo-form-field [label]="t('uiText.username')" [required]="true">
+                <qo-input formControlName="username" [placeholder]="t('uiText.enterUsername')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.password')" [required]="true">
+                <qo-input formControlName="secret" type="password" [placeholder]="t('uiText.encryptedValue')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('redis')) {
+              <qo-form-field [label]="t('uiText.username')">
+                <qo-input formControlName="username" [placeholder]="t('uiText.optionalUsername')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.password')">
+                <qo-input formControlName="secret" type="password" [placeholder]="t('uiText.optionalPassword')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.showMongoFields()) {
+              <qo-form-field [label]="t('uiText.authenticationDatabase')" [required]="true">
+                <qo-input formControlName="authDatabaseName" [placeholder]="t('uiText.admin')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.authenticationType')" [required]="true">
+                <qo-select formControlName="authenticationType" [options]="facade.mongoAuthOptions"></qo-select>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.username')" [required]="true">
+                <qo-input formControlName="username" [placeholder]="t('uiText.mongoUsername')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.password')" [required]="true">
+                <qo-input formControlName="secret" type="password" [placeholder]="t('uiText.encryptedMongoPassword')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('elasticsearch')) {
+              <qo-form-field [label]="t('uiText.usernameForBasicAuth')">
+                <qo-input formControlName="username" [placeholder]="t('uiText.optionalUsername')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.passwordForBasicAuth')">
+                <qo-input formControlName="secret" type="password" [placeholder]="t('uiText.optionalPassword')"></qo-input>
+              </qo-form-field>
+              <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.authorizationHeader')">
+                <qo-input formControlName="authorizationHeader" [placeholder]="t('uiText.bearerToken')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('snowflake')) {
+              <qo-form-field [label]="t('uiText.authenticationType')" [required]="true">
+                <qo-select formControlName="authType" [options]="facade.snowflakeAuthOptions"></qo-select>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.username')" [required]="true">
+                <qo-input formControlName="username" [placeholder]="t('uiText.snowflakeUsername')"></qo-input>
+              </qo-form-field>
+              @if (facade.showSnowflakeKeyPairFields()) {
+                <qo-form-field [label]="t('uiText.privateKey')" [required]="true">
+                  <qo-file-upload [label]="t('uiText.uploadPrivateKey')" (filesSelected)="onPrivateKeySelected($event)"></qo-file-upload>
+                </qo-form-field>
+                <qo-form-field [label]="t('uiText.passphrase')">
+                  <qo-input formControlName="privateKeyPassphrase" type="password" [placeholder]="t('uiText.optionalPassphrase')"></qo-input>
+                </qo-form-field>
+              } @else {
+                <qo-form-field [label]="t('uiText.password')" [required]="true">
+                  <qo-input formControlName="secret" type="password" [placeholder]="t('uiText.encryptedSnowflakePassword')"></qo-input>
+                </qo-form-field>
+              }
+            }
+
+            @if (facade.isConnector('databricks')) {
+              <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.personalAccessToken')" [required]="true">
+                <qo-input formControlName="personalAccessToken" type="password" [placeholder]="t('uiText.encryptedDatabricksPAT')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.showAuthenticatedApiFields()) {
+              <qo-form-field [label]="t('uiText.authenticationType')" [required]="true">
+                <qo-select formControlName="authenticationType" [options]="facade.generalAuthenticationOptions"></qo-select>
+              </qo-form-field>
+
+              @if (facade.showBasicFields()) {
+                <qo-form-field [label]="t('uiText.username')" [required]="true">
+                  <qo-input formControlName="username" [placeholder]="t('uiText.enterUsername')"></qo-input>
+                </qo-form-field>
+                <qo-form-field [label]="t('uiText.passwordSecret')" [required]="true">
+                  <qo-input formControlName="secret" type="password" [placeholder]="t('uiText.encryptedValue')"></qo-input>
+                </qo-form-field>
+              }
+
+              @if (facade.showApiKeyFields()) {
+                <qo-form-field [label]="t('uiText.aPIKeyLocation')">
+                  <qo-select formControlName="apiKeyLocation" [options]="facade.apiKeyLocationOptions"></qo-select>
+                </qo-form-field>
+                <qo-form-field [label]="t('uiText.aPIKeyName')" [required]="true">
+                  <qo-input formControlName="apiKeyName" [placeholder]="t('uiText.xApiKey')"></qo-input>
+                </qo-form-field>
+                <qo-form-field [label]="t('uiText.aPIKeyValue')" [required]="true">
+                  <qo-input formControlName="secret" type="password" [placeholder]="t('uiText.encryptedAPIKey')"></qo-input>
+                </qo-form-field>
+              }
+
+              @if (facade.showBearerFields()) {
+                <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.bearerToken2')" [required]="true">
+                  <qo-input formControlName="bearerToken" type="password" [placeholder]="t('uiText.encryptedBearerToken')"></qo-input>
+                </qo-form-field>
+              }
+
+              @if (facade.showOAuthFields()) {
+                <qo-form-field [label]="t('uiText.oAuthClientID')" [required]="true">
+                  <qo-input formControlName="oauthClientId" [placeholder]="t('uiText.clientID')"></qo-input>
+                </qo-form-field>
+                <qo-form-field [label]="t('uiText.oAuthClientSecret')" [required]="true">
+                  <qo-input formControlName="oauthClientSecret" type="password" [placeholder]="t('uiText.encryptedClientSecret')"></qo-input>
+                </qo-form-field>
+                <qo-form-field [label]="t('uiText.tokenURL')" [required]="true">
+                  <qo-input formControlName="oauthTokenUrl" [placeholder]="t('uiText.httpsAuthExampleComToken')"></qo-input>
+                </qo-form-field>
+                <qo-form-field [label]="t('uiText.scope')">
+                  <qo-input formControlName="oauthScope" [placeholder]="t('uiText.readAllWriteAll')"></qo-input>
+                </qo-form-field>
+              }
+            }
+          </div>
+        </section>
+        }
+
+        @if (facade.showSshFields()) {
+          <section class="datasources-page__form-card">
+            <div class="datasources-page__form-card-title">{{ t('configSections.sshTunnel') }}</div>
+            <div class="datasources-page__form-grid">
+              <qo-form-field [label]="t('uiText.sSHHostAddress')" [required]="true">
+                <qo-input formControlName="sshHost" [placeholder]="t('uiText.bastionInternal')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.sSHPort')" [required]="true">
+                <qo-input formControlName="sshPort" [placeholder]="t('uiText.22')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.sSHUsername')" [required]="true">
+                <qo-input formControlName="sshUsername" [placeholder]="t('uiText.ubuntu')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.sSHKey')" [required]="true">
+                <qo-file-upload [label]="t('uiText.uploadSSHPrivateKey')" (filesSelected)="onSshKeySelected($event)"></qo-file-upload>
+              </qo-form-field>
+              <div class="datasources-page__form-grid-span datasources-page__repeatable-card">
+                <div class="datasources-page__repeatable-header">
+                  <span>{{ t('configSections.addMoreSshHosts') }}</span>
+                  <qo-button variant="secondary" type="button" (click)="facade.addSshHost()">{{ t('configSections.addMoreSshHosts') }}</qo-button>
+                </div>
+                <div class="datasources-page__repeatable-grid">
+                  @for (hostGroup of facade.sshHostList.controls; track $index) {
+                    <div class="datasources-page__repeatable-row" [formGroup]="hostGroup">
+                      <qo-input formControlName="host" [placeholder]="t('uiText.sSHHost')"></qo-input>
+                      <qo-input formControlName="port" [placeholder]="t('uiText.22')"></qo-input>
+                      <qo-button variant="ghost" type="button" (click)="facade.removeSshHost($index)">{{ t('configSections.remove') }}</qo-button>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+        }
+
+        @if (facade.isConnector('postgresql', 'mysql', 'mongodb', 'elasticsearch', 'redis', 'mssql', 'arangodb', 'oracle')) {
+          <section class="datasources-page__form-card">
+            <div class="datasources-page__form-card-title">{{ t('configSections.host') }}</div>
+            <div class="datasources-page__form-grid">
+              <div class="datasources-page__form-grid-span datasources-page__repeatable-card">
+                <div class="datasources-page__repeatable-header">
+                  <span>{{ t('configSections.addMoreHosts') }}</span>
+                  <qo-button variant="secondary" type="button" (click)="facade.addHost()">{{ t('configSections.addMoreHosts') }}</qo-button>
+                </div>
+                <div class="datasources-page__repeatable-grid">
+                  @for (hostGroup of facade.hostList.controls; track $index) {
+                    <div class="datasources-page__repeatable-row" [formGroup]="hostGroup">
+                      <qo-input formControlName="host" [placeholder]="t('uiText.host')"></qo-input>
+                      <qo-input formControlName="port" [placeholder]="t('uiText.port')"></qo-input>
+                      <qo-button variant="ghost" type="button" (click)="facade.removeHost($index)">{{ t('configSections.remove') }}</qo-button>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+        }
+
+        @if (facade.showSslSection()) {
+          <section class="datasources-page__form-card">
+            <div class="datasources-page__form-card-title">{{ t('configSections.sslTls') }}</div>
+            <div class="datasources-page__form-grid">
+              <qo-form-field [label]="t('uiText.sSLMode')">
+                <qo-select
+                  formControlName="sslMode"
+                  [options]="
+                    facade.isConnector('redis')
+                      ? facade.redisSslModeOptions
+                      : facade.isConnector('mssql')
+                        ? facade.mssqlSslModeOptions
+                        : facade.isConnector('arangodb')
+                          ? facade.arangoSslModeOptions
+                          : facade.isConnector('oracle')
+                            ? facade.oracleSslModeOptions
+                            : facade.sslModeOptions
+                  "
+                ></qo-select>
+              </qo-form-field>
+
+              @if (facade.isConnector('arangodb')) {
+                <qo-form-field [label]="t('uiText.useCACertificate')">
+                  <qo-select formControlName="useCaCertificate" [options]="facade.caCertificateOptions"></qo-select>
+                </qo-form-field>
+
+                @if (facade.showArangoCertificateUpload()) {
+                  <qo-form-field [label]="t('uiText.cACertificateFile')" class="datasources-page__form-grid-span">
+                    <qo-file-upload [label]="t('uiText.uploadCACertificate')" (filesSelected)="onCaCertificateSelected($event)"></qo-file-upload>
+                  </qo-form-field>
+                }
+
+                @if (facade.showArangoCertificateBase64()) {
+                  <qo-form-field [label]="t('uiText.base64CertificateString')" class="datasources-page__form-grid-span">
+                    <qo-textarea formControlName="caCertificateBase64" [rows]="5" [placeholder]="t('uiText.pasteBase64EncodedCACertificate')"></qo-textarea>
+                  </qo-form-field>
+                }
+              }
+            </div>
+          </section>
+        }
+
+        @if (facade.showHeadersSection()) {
+          <section class="datasources-page__form-card">
+            <div class="datasources-page__form-card-title">{{ t('configSections.headers') }}</div>
+            <div class="datasources-page__form-grid">
+              <div class="datasources-page__form-grid-span datasources-page__repeatable-card">
+                <div class="datasources-page__repeatable-header">
+                  <span>{{ t('configSections.headersSpan') }}</span>
+                  <qo-button variant="secondary" type="button" (click)="facade.addHeaderRow()">{{ t('configSections.addMore') }}</qo-button>
+                </div>
+                <div class="datasources-page__repeatable-grid">
+                  @for (headerGroup of facade.headerRows.controls; track $index) {
+                    <div class="datasources-page__repeatable-row" [formGroup]="headerGroup">
+                      <qo-input formControlName="key" [placeholder]="t('uiText.key')"></qo-input>
+                      <qo-input formControlName="value" [placeholder]="t('uiText.value')"></qo-input>
+                      <qo-button variant="ghost" type="button" (click)="facade.removeHeaderRow($index)">{{ t('configSections.remove') }}</qo-button>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+        }
+
+        @if (facade.showQueryParamsSection()) {
+          <section class="datasources-page__form-card">
+            <div class="datasources-page__form-card-title">{{ t('configSections.queryParameters') }}</div>
+            <div class="datasources-page__form-grid">
+              <div class="datasources-page__form-grid-span datasources-page__repeatable-card">
+                <div class="datasources-page__repeatable-header">
+                  <span>{{ t('configSections.queryParametersSpan') }}</span>
+                  <qo-button variant="secondary" type="button" (click)="facade.addQueryParamRow()">{{ t('configSections.addMore') }}</qo-button>
+                </div>
+                <div class="datasources-page__repeatable-grid">
+                  @for (paramGroup of facade.queryParamRows.controls; track $index) {
+                    <div class="datasources-page__repeatable-row" [formGroup]="paramGroup">
+                      <qo-input formControlName="key" [placeholder]="t('uiText.key')"></qo-input>
+                      <qo-input formControlName="value" [placeholder]="t('uiText.value')"></qo-input>
+                      <qo-button variant="ghost" type="button" (click)="facade.removeQueryParamRow($index)">{{ t('configSections.remove') }}</qo-button>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+        }
+
+        @if (facade.showRestFields()) {
+          <section class="datasources-page__form-card">
+            <div class="datasources-page__form-card-title">{{ t('configSections.requestBody') }}</div>
+            <div class="datasources-page__form-grid">
+              <qo-form-field [label]="t('uiText.bodyType')">
+                <qo-select formControlName="bodyType" [options]="facade.bodyTypeOptions"></qo-select>
+              </qo-form-field>
+              <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.requestBody')">
+                <qo-textarea formControlName="requestBody" [rows]="6" [placeholder]="t('uiText.newlineQuoteStatusQuoteQuoteActiveQuoteNewline')"></qo-textarea>
+              </qo-form-field>
+            </div>
+          </section>
+        }
+
+        @if (facade.showRestFields() || facade.showGraphqlFields()) {
+          <section class="datasources-page__form-card">
+            <div class="datasources-page__form-card-title">{{ t('configSections.pagination') }}</div>
+            <div class="datasources-page__form-grid">
+              <qo-form-field [label]="t('uiText.paginationMode')">
+                <qo-select
+                  formControlName="paginationMode"
+                  [options]="facade.showGraphqlFields() ? facade.graphqlPaginationOptions : facade.restPaginationOptions"
+                ></qo-select>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.fieldVariable1')">
+                <qo-input formControlName="paginationFieldOne" [placeholder]="t('uiText.pageLimitCursorNextUrl')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.fieldVariable2')">
+                <qo-input formControlName="paginationFieldTwo" [placeholder]="t('uiText.pageNoOffsetPreviousCursor')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.fieldVariable3')">
+                <qo-input formControlName="paginationFieldThree" [placeholder]="t('uiText.pageSizeLimitValueNextCursor')"></qo-input>
+              </qo-form-field>
+              @if (facade.showGraphqlFields()) {
+                <qo-form-field [label]="t('uiText.startCursorVariable')">
+                  <qo-input formControlName="paginationFieldFour" [placeholder]="t('uiText.previousCursor')"></qo-input>
+                </qo-form-field>
+                <qo-form-field [label]="t('uiText.endCursorVariable')">
+                  <qo-input formControlName="paginationFieldFive" [placeholder]="t('uiText.nextCursor')"></qo-input>
+                </qo-form-field>
+              }
+            </div>
+          </section>
+        }
+
+        @if (facade.showGraphqlFields()) {
+          <section class="datasources-page__form-card">
+            <div class="datasources-page__form-card-title">{{ t('configSections.graphql') }}</div>
+            <div class="datasources-page__form-grid">
+              <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.query')" [required]="true">
+                <qo-textarea formControlName="graphqlQuery" [rows]="8" [placeholder]="t('uiText.queryExampleUsersIdName')"></qo-textarea>
+              </qo-form-field>
+              <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.queryVariables')">
+                <qo-textarea formControlName="graphqlVariables" [rows]="6" [placeholder]="t('uiText.newlineQuoteLimitQuote10Newline')"></qo-textarea>
+              </qo-form-field>
+            </div>
+          </section>
+        }
+
+        @if (facade.showAuthenticatedApiFields()) {
+          <section class="datasources-page__form-card">
+            <div class="datasources-page__form-card-title">{{ t('configSections.security') }}</div>
+            <div class="datasources-page__form-grid">
+              <div class="datasources-page__form-grid-span datasources-page__toggle-stack">
+                <qo-checkbox [checked]="facade.configForm.controls.sendSignatureHeader.value" (checkedChange)="facade.configForm.controls.sendSignatureHeader.setValue($event)">{{ t('configSections.sendAppsmithSignatureHeader') }}</qo-checkbox>
+                <qo-checkbox [checked]="facade.configForm.controls.useSelfSignedCertificate.value" (checkedChange)="facade.configForm.controls.useSelfSignedCertificate.setValue($event)">{{ t('configSections.useSelfSignedCertificate') }}</qo-checkbox>
+              </div>
+            </div>
+          </section>
+        }
+
+        @if (facade.showConfigRuntimeSection()) {
+          <section class="datasources-page__form-card">
+            <div class="datasources-page__form-card-title">{{ t('configSections.runtime') }}</div>
+            <div class="datasources-page__runtime-tabs">
+              @for (tab of ['Response', 'Headers', 'Logs', 'Linter', 'State']; track tab) {
+                <div
+                  class="datasources-page__runtime-tab"
+                  role="button"
+                  tabindex="0"
+                  type="button"
+                  [class.datasources-page__runtime-tab--active]="facade.configRuntimeTab() === tab"
+                  (click)="facade.setConfigRuntimeTab(tab)"
+                  (keydown.enter)="facade.setConfigRuntimeTab(tab)"
+                  (keydown.space)="facade.setConfigRuntimeTab(tab); $event.preventDefault()"
+                >
+                  {{ tab }}
+                </div>
+              }
+            </div>
+            <div class="datasources-page__runtime-panel">
+              @if (facade.configRuntimeTab() === 'Response') {
+                <pre class="datasources-page__runtime-block">{{ facade.configResponsePreview() }}</pre>
+              } @else if (facade.configRuntimeTab() === 'Headers') {
+                <pre class="datasources-page__runtime-block">{{ facade.configHeadersPreview() }}</pre>
+              } @else if (facade.configRuntimeTab() === 'Logs') {
+                <pre class="datasources-page__runtime-block">{{ facade.configLogsPreview() }}</pre>
+              } @else if (facade.configRuntimeTab() === 'Linter') {
+                <pre class="datasources-page__runtime-block">{{ facade.configLinterPreview() }}</pre>
+              } @else {
+                <pre class="datasources-page__runtime-block">{{ facade.configStatePreview() }}</pre>
+              }
+            </div>
+          </section>
+        }
+
+        <section class="datasources-page__form-card">
+          <div class="datasources-page__form-card-title">{{ t('configSections.queryType') }}</div>
+          <div class="datasources-page__query-type-card">
+            <div>
+              <div class="datasources-page__query-type-title">{{ t('configSections.customQuery') }}</div>
+              <div class="datasources-page__query-type-copy">{{ t('configSections.customQueryDescription') }}</div>
+              <div class="datasources-page__chip-row">
+                @for (chip of facade.selectedConnector()?.capabilityChips ?? []; track chip) {
+                  <qo-badge color="info">{{ chip }}</qo-badge>
+                }
+              </div>
+            </div>
+            <qo-icon class="datasources-page__query-type-marker" name="radio_button_checked"></qo-icon>
+          </div>
+        </section>
+

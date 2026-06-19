@@ -1,0 +1,48 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<section class="workflow-page">
+  <div class="workflow-page__section">
+    <qo-workflow-page-header
+      [title]="t('pages.formActions.title')"
+      [subtitle]="t('pages.formActions.subtitle')"
+    />
+  </div>
+
+  <div class="workflow-page__section">
+    <qo-workflow-toolbar
+      [createLabel]="t('toolbar.newFlow')"
+      [searchPlaceholder]="t('toolbar.searchFormActions')"
+      [countLabel]="facade.formActionCountLabel()"
+      [searchValue]="facade.getSearch('form-actions')"
+      (create)="onCreateFlow()"
+      (searchChange)="onSearchChange($event)"
+    />
+  </div>
+
+  @if (facade.error()) {
+    <p class="workflow-page__error">{{ facade.error() }}</p>
+  } @else if (facade.loading()) {
+    <p class="workflow-page__loading">{{ t('loading.formActionWorkflows') }}</p>
+  } @else {
+    <div class="workflow-page__section">
+      <app-workflow-form-action-list
+        [workflows]="facade.formActionWorkflows()"
+        [workflowDetails]="facade.workflowDetails()"
+        [selectedWorkflowId]="facade.selectedWorkflow()?.id ?? null"
+        [executionCounts]="executionCounts()"
+        (select)="onSelectWorkflow($event)"
+        (edit)="onEditWorkflow($event)"
+        (openHistory)="onOpenHistory($event)"
+      />
+    </div>
+  }
+
+  <app-workflow-flow-create-modal
+    [open]="createModalOpen()"
+    [form]="createFlowForm"
+    [formOptions]="formOptions()"
+    [saving]="creating()"
+    (close)="closeCreateFlow()"
+    (create)="createFlow()"
+  />
+</section>
+</ng-container>

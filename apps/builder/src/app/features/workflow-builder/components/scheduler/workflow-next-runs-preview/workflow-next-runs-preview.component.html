@@ -1,0 +1,13 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<section class="workflow-next-runs">
+  <p class="workflow-next-runs__title">{{ t('tables.nextThreeRuns') }}</p>
+  <div class="workflow-next-runs__list">
+    @for (run of nextRuns(); track run) {
+      <div class="workflow-next-runs__item">
+        <span class="workflow-next-runs__dot"></span>
+        <span>{{ run }}</span>
+      </div>
+    }
+  </div>
+</section>
+</ng-container>

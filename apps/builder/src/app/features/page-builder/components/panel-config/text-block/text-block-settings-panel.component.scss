@@ -1,0 +1,185 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.text-block-settings {
+  width: 100%;
+}
+
+.settings-card {
+  margin-bottom: var(--qo-space-3);
+  overflow: hidden;
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xl);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+}
+
+.settings-card__header {
+  padding: var(--qo-space-4);
+  background: var(--qo-color-neutral-100);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-semibold);
+}
+
+.settings-card__header--button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  text-align: left;
+}
+
+.settings-card__chevron {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-sm);
+  line-height: 1;
+}
+
+.settings-card--collapsed {
+  overflow: visible;
+}
+
+.settings-card__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qo-space-2);
+  padding: var(--qo-space-4);
+  border-top: 0.0625rem solid var(--qo-border-color);
+}
+
+.settings-field:first-child {
+  border-top: 0;
+}
+
+.settings-field__label,
+.settings-toggle__label {
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+}
+
+.settings-field__input {
+  display: block;
+  width: 100%;
+}
+
+.settings-field__input--select {
+  display: block;
+}
+
+.settings-field__hint {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-xs);
+  line-height: 1.4;
+}
+
+.settings-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+  padding: var(--qo-space-4);
+  border-top: 0.0625rem solid var(--qo-border-color);
+}
+
+.settings-segmented-control {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--qo-space-2);
+}
+
+.settings-segmented-control__option {
+  min-height: var(--qo-space-10);
+  border: 0.0625rem solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+  cursor: pointer;
+}
+
+.settings-segmented-control__option--active {
+  border-color: var(--qo-color-neutral-900);
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+}
+
+:host ::ng-deep .settings-field qo-input,
+:host ::ng-deep .settings-field qo-select,
+:host ::ng-deep .settings-toggle qo-toggle {
+  display: block;
+}
+
+:host ::ng-deep .settings-field .qo-input-wrapper,
+:host ::ng-deep .settings-field qo-textarea {
+  width: 100%;
+}
+
+:host ::ng-deep .settings-field .qo-input-element,
+:host ::ng-deep .settings-field .qo-textarea,
+:host ::ng-deep .settings-field .qo-select-trigger {
+  min-height: var(--qo-space-10);
+  border: 0.0625rem solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  box-shadow: none;
+}
+
+:host ::ng-deep .settings-field .qo-input-element {
+  padding: 0 var(--qo-space-3);
+}
+
+:host ::ng-deep .settings-field .qo-textarea {
+  min-height: 6.5rem;
+  padding: var(--qo-space-3);
+  resize: vertical;
+}
+
+:host ::ng-deep .settings-field .qo-select-sm,
+:host ::ng-deep .settings-field .qo-select-md {
+  padding: 0 var(--qo-space-3);
+}
+
+.settings-switch {
+  position: relative;
+  display: inline-flex;
+  width: 2.5rem;
+  height: 1.5rem;
+  align-items: center;
+  border: 0;
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-neutral-300);
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.settings-switch--active {
+  background: var(--qo-color-neutral-900);
+}
+
+.settings-switch__thumb {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-left: var(--qo-space-1);
+  border-radius: 50%;
+  background: var(--qo-color-neutral-0);
+  transition: transform 180ms ease;
+}
+
+.settings-switch--active .settings-switch__thumb {
+  transform: translateX(1rem);
+}
+

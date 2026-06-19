@@ -1,0 +1,32 @@
+{
+  "reportId": "leave-summary",
+  "reportLabel": "Leave Summary",
+  "sourceFormId": "employee-leave-form",
+  "sourceFormLabel": "Employee Leave Form",
+  "sourceTable": "leave_requests",
+  "columns": [
+    { "id": "employee_name", "label": "Employee Name", "dbColumn": "employee_name" },
+    { "id": "department", "label": "Department", "dbColumn": "department" },
+    { "id": "leave_type", "label": "Leave Type", "dbColumn": "leave_type" },
+    { "id": "start_date", "label": "From", "dbColumn": "start_date" },
+    { "id": "days", "label": "Days", "dbColumn": "days" },
+    { "id": "status", "label": "Status", "dbColumn": "status" }
+  ],
+  "rows": [
+    { "id": "1",  "values": ["Priya Sharma",       "HR",           "Sick Leave",     "2026-06-02", "3",  "Approved"] },
+    { "id": "2",  "values": ["Rahul Mehta",         "Engineering",  "Casual Leave",   "2026-06-05", "1",  "Approved"] },
+    { "id": "3",  "values": ["Ananya Krishnan",     "Product",      "Earned Leave",   "2026-05-26", "5",  "Approved"] },
+    { "id": "4",  "values": ["Vikram Nair",         "Sales",        "Sick Leave",     "2026-06-10", "2",  "Pending"] },
+    { "id": "5",  "values": ["Neha Gupta",          "Finance",      "Maternity Leave","2026-06-01", "90", "Approved"] },
+    { "id": "6",  "values": ["Arjun Patel",         "Engineering",  "Casual Leave",   "2026-06-12", "1",  "Approved"] },
+    { "id": "7",  "values": ["Kavitha Reddy",       "Operations",   "Sick Leave",     "2026-06-08", "2",  "Approved"] },
+    { "id": "8",  "values": ["Suresh Babu",         "IT Support",   "Earned Leave",   "2026-06-16", "3",  "Pending"] },
+    { "id": "9",  "values": ["Divya Iyer",          "Data Science", "Casual Leave",   "2026-06-14", "1",  "Approved"] },
+    { "id": "10", "values": ["Rohan Joshi",         "Marketing",    "Earned Leave",   "2026-05-19", "7",  "Approved"] },
+    { "id": "11", "values": ["Meena Saxena",        "Legal",        "Sick Leave",     "2026-06-03", "1",  "Approved"] },
+    { "id": "12", "values": ["Aditya Kumar",        "Engineering",  "Casual Leave",   "2026-06-11", "2",  "Pending"] },
+    { "id": "13", "values": ["Pooja Verma",         "HR",           "Earned Leave",   "2026-06-09", "4",  "Approved"] },
+    { "id": "14", "values": ["Rohit Shetty",        "IT Support",   "Sick Leave",     "2026-06-13", "5",  "Approved"] },
+    { "id": "15", "values": ["Swathi Menon",        "Legal",        "Casual Leave",   "2026-06-15", "1",  "Pending"] }
+  ]
+}

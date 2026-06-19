@@ -1,0 +1,17 @@
+<article class="payments-balance-card">
+  <div class="payments-balance-copy">
+    <div class="payments-label">{{ i18n.translate('settings.outstandingBalance') }}</div>
+    <div class="payments-balance-line">
+      <strong>{{ amount() }}</strong>
+      <span>{{ pendingCount() }}</span>
+    </div>
+    <p>{{ dueDetail() }}</p>
+  </div>
+
+  <qo-button variant="secondary" class="record-payment-button" (click)="recordPaymentRequested.emit()">
+    <span class="record-payment-icon" aria-hidden="true">
+      <qo-icon name="credit-card" size="sm"></qo-icon>
+    </span>
+    <span>{{ i18n.translate('settings.recordPayment') }}</span>
+  </qo-button>
+</article>

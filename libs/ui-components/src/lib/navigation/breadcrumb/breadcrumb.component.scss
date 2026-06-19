@@ -1,0 +1,25 @@
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-size-8);
+  width: fit-content;
+  min-height: var(--qo-size-22);
+  padding: 0;
+  border-radius: 0;
+  color: var(--qo-color-neutral-300);
+  box-shadow: none;
+  background: transparent;
+  border: 0;
+  font-size: var(--qo-size-12);
+}
+
+.crumb-muted,
+.crumb-separator {
+  color: var(--qo-color-neutral-500);
+}
+
+strong {
+  color: var(--qo-color-neutral-50);
+  text-transform: capitalize;
+  font-weight: 700;
+}

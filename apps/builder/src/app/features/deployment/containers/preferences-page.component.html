@@ -1,0 +1,197 @@
+<section class="preferences-page" aria-labelledby="preferences-title">
+  <div class="preferences-page__hero">
+    <p class="preferences-page__eyebrow">Deployment</p>
+    <h1 id="preferences-title">Preferences</h1>
+    <p>
+      Configure the visual identity, branding, language, and behaviour of the
+      deployed application.
+    </p>
+  </div>
+
+  <section class="preferences-card" aria-labelledby="branding-title">
+    <header>
+      <h2 id="branding-title">Branding</h2>
+      <qo-button type="button" size="sm">Save</qo-button>
+    </header>
+
+    <div class="preferences-card__body">
+      <div class="preferences-field-grid">
+        <label class="preferences-field">
+          <span>Application Name</span>
+          <qo-input value="HR Management System" readonly></qo-input>
+        </label>
+
+        <label class="preferences-field">
+          <span>Tagline</span>
+          <qo-input value="Manage your people" readonly></qo-input>
+        </label>
+      </div>
+
+      <div class="colour-token-section">
+        <h3>Colour Tokens</h3>
+
+        <div class="colour-token-grid">
+          @for (token of colourTokens(); track token.label) {
+            <label class="colour-token">
+              <span>{{ token.label }}</span>
+              <div>
+                <i [style.background]="token.value"></i>
+                <qo-input [value]="token.value" readonly></qo-input>
+              </div>
+            </label>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="preferences-card preferences-card--behaviour" aria-labelledby="behaviour-title">
+    <header>
+      <h2 id="behaviour-title">Behaviour</h2>
+    </header>
+
+    <div class="behaviour-list">
+      @for (setting of behaviourSettings(); track setting.title) {
+        <article class="behaviour-row">
+          <div>
+            <h3>{{ setting.title }}</h3>
+            <p>{{ setting.description }}</p>
+          </div>
+
+          <qo-button
+            class="preference-switch"
+            [class.preference-switch--on]="setting.enabled"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [attr.aria-pressed]="setting.enabled"
+            [attr.aria-label]="setting.title">
+            <span></span>
+          </qo-button>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="preferences-card" aria-labelledby="typography-title">
+    <header>
+      <h2 id="typography-title">Typography</h2>
+      <qo-button type="button" size="sm">Save</qo-button>
+    </header>
+
+    <div class="preferences-card__body">
+      <div class="preferences-field-grid preferences-field-grid--three">
+        <label class="preferences-field preferences-field--select">
+          <span>Headline Font</span>
+          <select>
+            <option>Manrope</option>
+          </select>
+        </label>
+
+        <label class="preferences-field preferences-field--select">
+          <span>Body Font</span>
+          <select>
+            <option>Inter</option>
+          </select>
+        </label>
+
+        <label class="preferences-field preferences-field--select">
+          <span>Base Font Size</span>
+          <select>
+            <option>14px (Default)</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="preferences-field-grid preferences-field-grid--asset">
+        <label class="preferences-field preferences-field--select">
+          <span>Border Radius</span>
+          <select>
+            <option>Default (4px)</option>
+          </select>
+        </label>
+
+        <div class="preferences-upload">
+          <span>Favicon</span>
+          <qo-button type="button" iconOnly iconLeft="image" variant="ghost" aria-label="Upload favicon"></qo-button>
+          <p>Upload .ico or 32x32 PNG</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="preferences-card" aria-labelledby="login-branding-title">
+    <header>
+      <h2 id="login-branding-title">Login Page Branding</h2>
+    </header>
+
+    <div class="preferences-card__body">
+      <div class="preferences-field-grid">
+        <label class="preferences-field">
+          <span>Welcome Message</span>
+          <qo-input value="Welcome to HR Management" readonly></qo-input>
+        </label>
+
+        <div class="preferences-upload preferences-upload--wide">
+          <span>Login Background</span>
+          <qo-button type="button" iconOnly iconLeft="upload" variant="ghost" aria-label="Upload login background"></qo-button>
+          <p>Upload background image (1920x1080)</p>
+        </div>
+      </div>
+
+      <div class="preferences-field-grid preferences-field-grid--login">
+        <label class="colour-token colour-token--login">
+          <span>Brand Colour on Login</span>
+          <div>
+            <i></i>
+            <qo-input value="var(--qo-color-neutral-900)" readonly></qo-input>
+          </div>
+        </label>
+
+        <label class="preferences-field">
+          <span>App Description</span>
+          <qo-input value="Short description shown on login screen..." readonly></qo-input>
+        </label>
+      </div>
+
+      <div class="preferences-card__actions">
+        <qo-button type="button">Save Login Branding</qo-button>
+      </div>
+    </div>
+  </section>
+
+  <section class="preferences-card" aria-labelledby="locale-title">
+    <header>
+      <h2 id="locale-title">Language &amp; Locale</h2>
+    </header>
+
+    <div class="preferences-card__body">
+      <div class="preferences-field-grid preferences-field-grid--three">
+        <label class="preferences-field preferences-field--select">
+          <span>Display Language</span>
+          <select>
+            <option>English (en)</option>
+          </select>
+        </label>
+
+        <label class="preferences-field preferences-field--select">
+          <span>Date Format</span>
+          <select>
+            <option>DD/MM/YYYY</option>
+          </select>
+        </label>
+
+        <label class="preferences-field preferences-field--select">
+          <span>Currency Symbol</span>
+          <select>
+            <option>₹ INR</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="preferences-card__actions">
+        <qo-button type="button">Save Locale</qo-button>
+      </div>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,34 @@
+<div class="datasources-page__content datasources-page__content--config">
+  <div class="datasources-page__header">
+    <div>
+      <div class="datasources-page__eyebrow">{{ t('common.datasourceConfiguration') }}</div>
+      <h1 class="datasources-page__title">{{ facade.selectedConnector()?.label }}</h1>
+    </div>
+
+    <qo-button class="datasources-page__config-back" variant="secondary" type="button" (click)="back.emit()">{{ t('externalApis.back') }}</qo-button>
+  </div>
+
+  <form class="datasources-page__config-stack" [formGroup]="facade.configForm">
+    <app-datasource-config-connection ></app-datasource-config-connection>
+    <app-datasource-config-options
+      
+      (privateKeySelected)="privateKeySelected.emit($event)"
+      (sshKeySelected)="sshKeySelected.emit($event)"
+      (caCertificateSelected)="caCertificateSelected.emit($event)"
+    ></app-datasource-config-options>
+  </form>
+
+  <div class="datasources-page__sticky-footer">
+    <div class="datasources-page__sticky-actions datasources-page__sticky-actions--leading">
+      <qo-button class="datasources-page__config-test" variant="secondary" type="button" (click)="facade.testConnection()">{{ t('common.testConnection') }}</qo-button>
+      @if (facade.showRunDebugActions()) {
+        <qo-button class="datasources-page__config-cancel" variant="secondary" type="button" (click)="facade.runConfigAction()">{{ t('common.run') }}</qo-button>
+        <qo-button class="datasources-page__config-cancel" variant="secondary" type="button" (click)="facade.debugConfigAction()">{{ t('common.debug') }}</qo-button>
+      }
+    </div>
+    <div class="datasources-page__sticky-actions">
+      <qo-button class="datasources-page__config-cancel" variant="secondary" type="button" (click)="cancel.emit()">{{ t('externalApis.cancel') }}</qo-button>
+      <qo-button class="datasources-page__config-save" variant="primary" type="button" [loading]="facade.savingSource()" (click)="facade.saveDatasource()">{{ facade.isEditingSource() ? t('externalApis.saveChanges') : t('common.saveDatasource') }}</qo-button>
+    </div>
+  </div>
+</div>

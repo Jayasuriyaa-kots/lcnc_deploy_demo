@@ -1,0 +1,251 @@
+<section class="media-card">
+  <div class="section-title">{{ 'layout.general' | transloco }}</div>
+  <div class="field field-row">
+    <span>{{ t('common.visible') }}</span>
+    <qo-toggle [checked]="facade.config().visible" (checkedChange)="facade.toggleVisible()"></qo-toggle>
+  </div>
+
+  <label class="field">
+    <span>Media type</span>
+    <qo-select
+      class="field-select"
+      [value]="facade.config().mediaType"
+      [options]="mediaTypeOptions"
+      (valueChange)="facade.updateMediaType($event)"
+    ></qo-select>
+  </label>
+</section>
+
+<section class="media-card">
+  <div class="section-title">{{ 'layout.content' | transloco }}</div>
+  @if (facade.supportsDatasourceBinding()) {
+    <label class="field">
+      <span>Source mode</span>
+      <qo-select
+        class="field-select"
+        [value]="facade.config().sourceMode"
+        [options]="sourceModeOptions"
+        (valueChange)="facade.updateSourceMode($event)"
+      ></qo-select>
+    </label>
+  }
+
+  <label class="field">
+    <span>Title</span>
+    <qo-input
+      class="field-input"
+      [value]="facade.config().title"
+      placeholder="Enter title"
+      (input)="facade.updateTitle($any($event.target).value)"
+    ></qo-input>
+  </label>
+
+  <label class="field">
+    <span>Caption</span>
+    <qo-input
+      class="field-input"
+      [value]="facade.config().caption"
+      placeholder="Enter caption"
+      (input)="facade.updateCaption($any($event.target).value)"
+    ></qo-input>
+  </label>
+
+  @if (!facade.supportsDatasourceBinding() || facade.config().sourceMode === 'static-url') {
+    <label class="field">
+      <span>{{ facade.sourceLabel() }}</span>
+      <qo-input
+        class="field-input"
+        [value]="facade.config().sourceUrl"
+        [placeholder]="facade.sourcePlaceholder()"
+        (input)="facade.updateSourceUrl($any($event.target).value)"
+      ></qo-input>
+    </label>
+  }
+
+  @if (facade.isDatasourceMode()) {
+    <label class="field">
+      <span>{{ 'fields.datasource' | transloco }}</span>
+      <qo-select
+        class="field-select"
+        [value]="facade.config().datasourceId"
+        [options]="facade.datasourceOptions()"
+        (valueChange)="facade.updateDatasource($event)"
+      ></qo-select>
+    </label>
+
+    <label class="field">
+      <span>Query / Binding</span>
+      <app-bindable-input
+        class="field-bindable"
+        [rows]="3"
+        [value]="facade.config().queryBinding || ''"
+        [rootKeys]="facade.bindingRootKeys()"
+        [placeholder]="'Type {{ }} and select a query or selected row binding'"
+        (valueChange)="facade.updateQueryBinding($event)"
+      ></app-bindable-input>
+    </label>
+
+    <!-- @if (facade.recordOptions().length) {
+      <label class="field">
+        <span>{{ t('media.settings.record') }}</span>
+        <qo-select
+          class="field-select"
+          [value]="facade.config().recordId"
+          [options]="facade.recordOptions()"
+          (valueChange)="facade.updateRecordId($event)"
+        ></qo-select>
+      </label>
+    } -->
+
+    @if (facade.fieldOptions().length) {
+      <!-- <label class="field">
+        <span>{{ facade.datasourceFieldLabel() }}</span>
+        <qo-select
+          class="field-select"
+          [value]="facade.config().imageField"
+          [options]="facade.fieldOptions()"
+          (valueChange)="facade.updateImageField($event)"
+        ></qo-select>
+      </label> -->
+
+      <!-- <label class="field">
+        <div class="field-row">
+          <span>Title field</span>
+          <qo-button
+            type="button"
+            variant="ghost"
+            size="sm"
+            class="toggle-pill"
+            [class.toggle-pill--on]="facade.config().showTitle"
+            (click)="facade.toggleShowTitle()"
+          >
+            <span class="toggle-dot"></span>
+          </qo-button>
+        </div>
+        <qo-select
+          class="field-select"
+          [value]="facade.config().titleField"
+          [disabled]="!facade.config().showTitle"
+          [options]="facade.fieldOptions()"
+          (valueChange)="facade.updateTitleField($event)"
+        ></qo-select>
+      </label> -->
+
+      <!-- <label class="field">
+        <div class="field-row">
+          <span>Caption field</span>
+          <qo-button
+            type="button"
+            variant="ghost"
+            size="sm"
+            class="toggle-pill"
+            [class.toggle-pill--on]="facade.config().showCaption"
+            (click)="facade.toggleShowCaption()"
+          >
+            <span class="toggle-dot"></span>
+          </qo-button>
+        </div>
+        <qo-select
+          class="field-select"
+          [value]="facade.config().captionField"
+          [disabled]="!facade.config().showCaption"
+          [options]="facade.fieldOptions()"
+          (valueChange)="facade.updateCaptionField($event)"
+        ></qo-select>
+      </label> -->
+    }
+  }
+</section>
+
+  @if (facade.config().mediaType === 'video') {
+  <section class="media-card">
+    <div class="section-title">Video Settings</div>
+    <div class="field field-row field-row--media-toggle">
+      <div class="field-copy">
+        <span>Auto Play</span>
+        <p class="field-hint field-hint--inline">{{ t('media.settings.autoPlayHint') }}</p>
+      </div>
+      <qo-toggle [checked]="facade.config().autoPlay" (checkedChange)="facade.toggleAutoPlay()"></qo-toggle>
+    </div>
+  </section>
+  }
+
+  @if (facade.config().mediaType === 'pdf') {
+  <section class="media-card">
+    <div class="section-title">PDF Settings</div>
+    <label class="field">
+      <span>Default Page</span>
+      <qo-input
+        class="field-input"
+        [value]="facade.config().pdfDefaultPage"
+        placeholder="1"
+        (input)="facade.updatePdfDefaultPage($any($event.target).value)"
+      ></qo-input>
+      <p class="field-hint field-hint--inline">{{ t('media.settings.defaultPageHint') }}</p>
+    </label>
+
+    <div class="field field-row field-row--media-toggle">
+      <div class="field-copy">
+        <span>Show Toolbar</span>
+        <p class="field-hint field-hint--inline">{{ t('media.settings.showToolbarHint') }}</p>
+      </div>
+      <qo-toggle [checked]="facade.config().pdfShowToolbar" (checkedChange)="facade.togglePdfShowToolbar()"></qo-toggle>
+    </div>
+
+    <div class="field field-row field-row--media-toggle">
+      <div class="field-copy">
+        <span>Allow Download</span>
+        <p class="field-hint field-hint--inline">{{ t('media.settings.allowDownloadHint') }}</p>
+      </div>
+      <qo-toggle [checked]="facade.config().pdfAllowDownload" (checkedChange)="facade.togglePdfAllowDownload()"></qo-toggle>
+    </div>
+
+    <div class="field field-row field-row--media-toggle">
+      <div class="field-copy">
+        <span>Allow Print</span>
+        <p class="field-hint field-hint--inline">{{ t('media.settings.allowPrintHint') }}</p>
+      </div>
+      <qo-toggle [checked]="facade.config().pdfAllowPrint" (checkedChange)="facade.togglePdfAllowPrint()"></qo-toggle>
+    </div>
+
+    <label class="field">
+      <span>Zoom Level</span>
+      <qo-input
+        class="field-input"
+        [value]="facade.config().pdfZoomLevel"
+        placeholder="100"
+        (input)="facade.updatePdfZoomLevel($any($event.target).value)"
+      ></qo-input>
+      <p class="field-hint field-hint--inline">{{ t('media.settings.zoomLevelHint') }}</p>
+    </label>
+
+    <div class="field field-row field-row--media-toggle">
+      <div class="field-copy">
+        <span>Fit to Width</span>
+        <p class="field-hint field-hint--inline">{{ t('media.settings.fitToWidthHint') }}</p>
+      </div>
+      <qo-toggle [checked]="facade.config().pdfFitToWidth" (checkedChange)="facade.togglePdfFitToWidth()"></qo-toggle>
+    </div>
+
+    <div class="field field-row field-row--media-toggle">
+      <div class="field-copy">
+        <span>Disabled</span>
+        <p class="field-hint field-hint--inline">{{ t('media.settings.disabledHint') }}</p>
+      </div>
+      <qo-toggle [checked]="facade.config().pdfDisabled" (checkedChange)="facade.togglePdfDisabled()"></qo-toggle>
+    </div>
+
+    <div class="field field-row field-row--media-toggle">
+      <div class="field-copy">
+        <span>Loading State</span>
+        <p class="field-hint field-hint--inline">Loading indicator</p>
+      </div>
+      <qo-toggle [checked]="facade.config().pdfLoadingState" (checkedChange)="facade.togglePdfLoadingState()"></qo-toggle>
+    </div>
+  </section>
+  }
+
+  <!-- @if (facade.config().mediaType === 'image' || facade.config().mediaType === 'video' || facade.config().mediaType === 'pdf') {
+    <p class="field-hint">{{ facade.localFileHint() }}</p>
+  } -->
+

@@ -1,0 +1,73 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<section class="workflow-page">
+  <div class="workflow-page__section">
+    <qo-workflow-page-header
+      [title]="t('pages.scheduler.title')"
+      [subtitle]="t('pages.scheduler.subtitle')"
+    />
+  </div>
+
+  <div class="workflow-page__section">
+    <qo-workflow-toolbar
+      [createLabel]="t('toolbar.newSchedule')"
+      [searchPlaceholder]="t('toolbar.searchSchedules')"
+      [countLabel]="facade.scheduleCountLabel()"
+      [searchValue]="facade.getSearch('scheduler')"
+      (create)="onCreateSchedule()"
+      (searchChange)="onSearchChange($event)"
+    />
+  </div>
+
+  @if (facade.error()) {
+    <p class="workflow-page__error">{{ facade.error() }}</p>
+  } @else if (facade.loading()) {
+    <p class="workflow-page__loading">{{ t('loading.scheduledWorkflows') }}</p>
+  } @else {
+    <div class="workflow-page__grid">
+      <app-workflow-schedule-list
+        [schedules]="facade.filteredScheduledWorkflows()"
+        (toggleEnabled)="onToggleSchedule($event)"
+        (edit)="onEditSchedule($event)"
+        (editCanvas)="onEditScheduleCanvas($event)"
+        (delete)="onDeleteSchedule($event)"
+      />
+    </div>
+  }
+
+  @if (scheduleModalOpen()) {
+    <qo-modal
+      title=""
+      size="xl"
+      [maxWidth]="scheduleMode() === 'dateField' ? '54rem' : '44rem'"
+      panelClass="workflow-schedule-modal"
+      (close)="closeScheduleModal()"
+    >
+      <app-workflow-schedule-form
+        [form]="scheduleForm"
+        [forms]="activeForms()"
+        [timezones]="timezoneOptions"
+        [nextRuns]="nextRuns()"
+        [saving]="saving()"
+        [mode]="editingScheduleId() ? 'edit' : 'create'"
+        [scheduleMode]="scheduleMode()"
+        [processMode]="processMode()"
+        (close)="closeScheduleModal()"
+        (save)="onSaveSchedule()"
+        (scheduleModeChange)="onScheduleModeChange($event)"
+        (processModeChange)="onProcessModeChange($event)"
+        (formChange)="onFormChange($event)"
+        (addCondition)="addCondition($event)"
+        (removeCondition)="removeCondition($event)"
+      />
+    </qo-modal>
+  }
+
+  @if (confirmConfig()) {
+    <qo-confirm-dialog
+      [config]="confirmConfig()!"
+      (confirmed)="confirmDeleteSchedule()"
+      (cancelled)="cancelDeleteSchedule()"
+    />
+  }
+</section>
+</ng-container>

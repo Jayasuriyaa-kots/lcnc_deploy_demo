@@ -1,0 +1,75 @@
+<div class="qo-color-picker" [class.qo-color-picker--disabled]="disabled()">
+  <button
+    type="button"
+    class="qo-color-picker__trigger"
+    [class.qo-color-picker__trigger--text-only]="triggerVariant() === 'text-only'"
+    (click)="togglePanel()"
+    [disabled]="disabled()"
+  >
+    @if (triggerVariant() === 'text-only') {
+      <span class="qo-color-picker__text-trigger" [style.color]="activeValue() ?? 'var(--qo-color-neutral-900)'">
+        {{ triggerLabel() }}
+      </span>
+    } @else {
+      <span
+        class="qo-color-picker__trigger-swatch"
+        [class.qo-color-picker__trigger-swatch--empty]="!activeValue()"
+        [style.background]="swatchStyle(activeValue())"
+      >
+        {{ triggerLabel() }}
+      </span>
+      <span class="qo-color-picker__trigger-icon">&#709;</span>
+    }
+  </button>
+
+  <!-- Panel rendered via CDK Overlay into document.body,
+       escaping any parent stacking context (e.g. modal animations) -->
+  <ng-template #panelTemplate>
+    <div class="qo-color-picker__panel">
+      @for (option of options(); track option.label) {
+        <button
+          type="button"
+          class="qo-color-picker__option"
+          [class.qo-color-picker__option--active]="isSelected(option.value)"
+          (click)="selectColor(option.value)"
+        >
+          <span
+            class="qo-color-picker__option-swatch"
+            [class.qo-color-picker__option-swatch--empty]="option.value === null"
+            [style.background]="swatchStyle(option.value)"
+          ></span>
+          <span>{{ option.label }}</span>
+        </button>
+      }
+
+      <div class="qo-color-picker__section-label">Preset Colors</div>
+
+      <div class="qo-color-picker__grid">
+        @for (color of presetColors(); track color) {
+          <button
+            type="button"
+            class="qo-color-picker__cell"
+            [class.qo-color-picker__cell--active]="isSelected(color)"
+            [style.background]="color"
+            (click)="selectColor(color)"
+          ></button>
+        }
+      </div>
+
+      @if (showMoreColors()) {
+        <button type="button" class="qo-color-picker__more" (click)="openMoreColors()">
+          <span>More Colors</span>
+          <span>&#8250;</span>
+        </button>
+      }
+    </div>
+  </ng-template>
+
+  <input
+    #moreColorsInput
+    class="qo-color-picker__native-input"
+    type="color"
+    [value]="nativeColorValue()"
+    (change)="handleNativeColorChange($event)"
+  />
+</div>

@@ -1,0 +1,111 @@
+:host {
+  display: block;
+}
+
+.qo-drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: color-mix(in srgb, black 40%, transparent);
+  z-index: 12000;
+  backdrop-filter: blur(var(--qo-size-2));
+  animation: bgFadeIn 0.3s ease-out;
+}
+
+.qo-drawer-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  background-color: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-xl);
+  display: flex;
+  flex-direction: column;
+  z-index: 12010;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+
+  // Closed states (translated off-screen)
+  &-pos-right {
+    right: 0;
+    transform: translateX(100%);
+    border-left: 1px solid var(--qo-border-color);
+  }
+
+  &-pos-left {
+    left: 0;
+    transform: translateX(-100%);
+    border-right: 1px solid var(--qo-border-color);
+  }
+
+  // Open state
+  &-open {
+    transform: translateX(0);
+  }
+
+}
+
+/* Match the classes set by drawer.component.ts: qo-drawer-size-* */
+.qo-drawer-size-sm { width: var(--qo-size-320); }
+.qo-drawer-size-md { width: var(--qo-size-440); }
+.qo-drawer-size-lg { width: 37.5rem; }
+.qo-drawer-size-xl { width: 50rem; }
+.qo-drawer-size-full { width: 100vw; }
+
+.qo-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--qo-space-5) var(--qo-space-6);
+  border-bottom: 1px solid var(--qo-border-color-strong);
+}
+
+.qo-drawer-title {
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-lg);
+  font-weight: var(--qo-font-semibold);
+  color: var(--qo-color-neutral-900);
+  margin: 0;
+}
+
+.qo-drawer-close {
+  background: transparent;
+  border: none;
+  color: var(--qo-color-neutral-500);
+  cursor: pointer;
+  padding: var(--qo-space-1);
+  border-radius: var(--qo-radius-md);
+  display: flex;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: var(--qo-color-neutral-100);
+    color: var(--qo-color-neutral-900);
+  }
+}
+
+.qo-drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--qo-space-6);
+}
+
+.qo-drawer-footer {
+  padding: var(--qo-space-4) var(--qo-space-6);
+  border-top: 1px solid var(--qo-border-color);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--qo-space-3);
+  background-color: var(--qo-color-neutral-50);
+  
+  &:empty {
+    display: none;
+  }
+}
+
+@keyframes bgFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

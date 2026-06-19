@@ -1,0 +1,17 @@
+<section class="workflow-mini-canvas" [class.workflow-mini-canvas--compact]="compact()">
+  <div class="workflow-mini-canvas__surface">
+    @for (node of orderedNodes(); track node.id; let last = $last) {
+      <qo-workflow-node
+        [label]="nodeKindLabel(node.type)"
+        [title]="node.label"
+        [description]="nodeDescription(node)"
+        [type]="node.type"
+        [accentColor]="accentColor(node.type)"
+      />
+
+      @if (!last) {
+        <span class="workflow-mini-canvas__connector" aria-hidden="true"></span>
+      }
+    }
+  </div>
+</section>

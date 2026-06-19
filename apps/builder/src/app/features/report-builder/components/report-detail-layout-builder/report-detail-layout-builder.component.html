@@ -1,0 +1,209 @@
+<div class="dlb">
+  <header class="dlb__topbar">
+    <div class="dlb__actions">
+      <qo-button type="button" variant="ghost" class="dlb__action-btn dlb__action-btn--block" (click)="addBlock()">
+        <span class="dlb__action-icon" aria-hidden="true">
+          <qo-icon name="layout-grid" size="sm" />
+        </span>
+        {{ t('generated.add_block') }}
+      </qo-button>
+
+      <qo-button type="button" variant="ghost" class="dlb__action-btn dlb__action-btn--tab" (click)="addTab()">
+        <span class="dlb__action-icon" aria-hidden="true">
+          <qo-icon name="panel-top" size="sm" />
+        </span>
+        {{ t('generated.add_tab') }}
+      </qo-button>
+    </div>
+
+    @if (tabs().length > 1) {
+      <nav class="dlb__tab-nav">
+        @for (tab of tabs(); track trackById($index, tab)) {
+          <qo-button
+            type="button"
+            variant="ghost"
+            class="dlb__tab-pill"
+            [class.dlb__tab-pill--active]="activeTabId() === tab.id"
+            (click)="selectTab(tab.id)">
+            {{ tab.title }}
+          </qo-button>
+        }
+      </nav>
+    }
+  </header>
+
+  <div class="dlb__shell">
+    <aside
+      class="dlb__fields-panel"
+      cdkDropList
+      id="available-fields"
+      [cdkDropListData]="[]">
+      <p class="dlb__fields-label">{{ t('generated.available_fields') }}</p>
+
+      <div class="dlb__field-group">
+        <p class="dlb__field-group-name">{{ t('generated.primary') }}</p>
+        @for (column of fieldGroups().primary; track column.id) {
+          <qo-button
+            type="button"
+            variant="ghost"
+            class="dlb__field-pill"
+            cdkDrag
+            [cdkDragData]="column.id"
+            (click)="activeTab()?.blocks?.[0] && addFieldToBlock(activeTab()!.blocks[0].id, column.id)">
+            <span class="dlb__field-drag-handle" aria-hidden="true">::</span>
+            {{ column.label }}
+          </qo-button>
+        }
+      </div>
+
+      @for (group of fieldGroups().joined; track group.formId) {
+        <div class="dlb__field-group">
+          <p class="dlb__field-group-name">{{ group.formId }}</p>
+          @for (column of group.items; track column.id) {
+            <qo-button
+              type="button"
+              variant="ghost"
+              class="dlb__field-pill"
+              cdkDrag
+              [cdkDragData]="column.id"
+              (click)="activeTab()?.blocks?.[0] && addFieldToBlock(activeTab()!.blocks[0].id, column.id)">
+              <span class="dlb__field-drag-handle" aria-hidden="true">::</span>
+              {{ column.label }}
+            </qo-button>
+          }
+        </div>
+      }
+    </aside>
+
+    <section class="dlb__canvas">
+      @if (activeTab(); as tab) {
+        @if (tabs().length > 1) {
+          <div class="dlb__tab-header">
+            <span class="dlb__tab-header-label">{{ t('generated.tab_2') }}</span>
+            <qo-input
+              class="dlb__tab-name-input"
+              [value]="tab.title"
+              (valueChange)="renameTab(tab.id, $event)" />
+            <qo-button
+              type="button"
+              variant="ghost"
+              [iconOnly]="true"
+              [attr.aria-label]="t('generated.delete_this_tab')"
+              class="dlb__tab-delete"
+              (click)="deleteTab(tab.id)">
+              <qo-icon name="x" size="sm" />
+            </qo-button>
+          </div>
+        }
+
+        @for (block of tab.blocks; track trackById($index, block)) {
+          <div class="dlb__block">
+            <div class="dlb__block-header">
+              <div class="dlb__block-header-left">
+                <span class="dlb__block-icon" aria-hidden="true">
+                  <qo-icon name="layout-grid" size="sm" />
+                </span>
+                <qo-input
+                  class="dlb__block-name-input"
+                  [value]="block.title"
+                  (valueChange)="renameBlock(tab.id, block.id, $event)" />
+              </div>
+
+              <div class="dlb__block-actions">
+                <qo-button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  [iconOnly]="true"
+                  iconLeft="columns"
+                  [disabled]="getBlockColumns(block).length >= 2"
+                  [attr.aria-label]="getBlockColumns(block).length >= 2 ? t('generated.max_2_columns_reached') : t('generated.split_into_2_columns')"
+                  class="dlb__block-split"
+                  [class.dlb__block-split--disabled]="getBlockColumns(block).length >= 2"
+                  (click)="splitBlock(tab.id, block.id)">
+                </qo-button>
+                @if (tab.blocks.length > 1) {
+                  <qo-button
+                    type="button"
+                    variant="ghost"
+                    [iconOnly]="true"
+                    [attr.aria-label]="t('generated.delete_this_block')"
+                    class="dlb__block-delete"
+                    (click)="deleteBlock(tab.id, block.id)">
+                    <qo-icon name="minus" size="sm" />
+                  </qo-button>
+                }
+              </div>
+            </div>
+
+            <div class="dlb__block-columns" [class.dlb__block-columns--split]="getBlockColumns(block).length > 1">
+              @for (column of getBlockColumns(block); track $index; let colIndex = $index) {
+                <div class="dlb__block-column">
+                  @if (getBlockColumns(block).length > 1) {
+                    <div class="dlb__column-header">
+                      <span>{{ t('generated.column', { index: colIndex + 1 }) }}</span>
+                      <qo-button
+                        type="button"
+                        variant="ghost"
+                        [iconOnly]="true"
+                        [attr.aria-label]="t('generated.remove_column')"
+                        (click)="removeBlockColumn(tab.id, block.id, colIndex)">
+                        <qo-icon name="x" size="sm" />
+                      </qo-button>
+                    </div>
+                  }
+
+                  <div
+                    class="dlb__block-fields"
+                    cdkDropList
+                    [id]="block.id + '__col' + colIndex"
+                    [cdkDropListData]="column"
+                    [cdkDropListConnectedTo]="getBlockDropIds(tab)"
+                    (cdkDropListDropped)="dropField($event, tab.id, block.id, colIndex)">
+                    @for (fieldId of column; track fieldId) {
+                      <div class="dlb__block-field" cdkDrag [cdkDragData]="fieldId">
+                        <span class="dlb__block-field-handle" aria-hidden="true">::</span>
+                        <span class="dlb__block-field-label">{{ getFieldLabel(fieldId) }}</span>
+                        <qo-button
+                          type="button"
+                          variant="ghost"
+                          [iconOnly]="true"
+                          [attr.aria-label]="t('generated.remove_field')"
+                          class="dlb__block-field-remove"
+                          (click)="removeFieldFromBlock(tab.id, block.id, fieldId)">
+                          <qo-icon name="x" size="sm" />
+                        </qo-button>
+                      </div>
+                    }
+
+                    @empty {
+                      <div class="dlb__block-empty">
+                        <span>{{ t('generated.drag_fields_here_or_use_add_fields') }}</span>
+                      </div>
+                    }
+                  </div>
+
+                  <qo-button
+                    type="button"
+                    variant="ghost"
+                    class="dlb__block-add-fields"
+                    (click)="openFieldPicker(block.id)">
+                    {{ t('generated.add_fields') }}
+                  </qo-button>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        <qo-button type="button" variant="ghost" class="dlb__add-block-btn" iconLeft="layout-grid" (click)="addBlock()">
+          {{ t('generated.add_block_2') }}
+        </qo-button>
+
+        <qo-button type="button" variant="ghost" class="dlb__add-tab-btn" iconLeft="panel-top" (click)="addTab()">
+          {{ t('generated.add_tab_2') }}
+        </qo-button>
+      }
+    </section>
+  </div>
+</div>

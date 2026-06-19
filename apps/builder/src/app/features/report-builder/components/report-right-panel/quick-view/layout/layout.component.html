@@ -1,0 +1,171 @@
+<section class="config-block">
+      <h3>{{ t('generated.quick_view_layout') }}</h3>
+      <p>
+        {{ t('generated.choose_the_list_or_card_layout_then_configure') }}
+      </p>
+
+      <div class="layout-grid">
+        <qo-button
+          class="layout-card layout-card--has-thumb"
+          variant="ghost"
+          [fullWidth]="true"
+          [class.layout-card--active]="quickLayout() === 'list'"
+          (click)="openListLayoutBuilder()">
+          <div class="layout-thumb layout-thumb--list" aria-hidden="true">
+            <!-- Header row -->
+            <div class="layout-thumb__row layout-thumb__row--header">
+              <span class="layout-thumb__cell layout-thumb__cell--lg"></span>
+              <span class="layout-thumb__cell layout-thumb__cell--md"></span>
+              <span class="layout-thumb__cell layout-thumb__cell--lg"></span>
+              <span class="layout-thumb__cell layout-thumb__cell--sm"></span>
+            </div>
+            <!-- Data row 1 -->
+            <div class="layout-thumb__row">
+              <span class="layout-thumb__cell layout-thumb__cell--lg"></span>
+              <span class="layout-thumb__cell layout-thumb__cell--md"></span>
+              <span class="layout-thumb__cell layout-thumb__cell--lg"></span>
+              <span class="layout-thumb__cell layout-thumb__cell--sm"></span>
+            </div>
+            <!-- Data row 2 -->
+            <div class="layout-thumb__row">
+              <span class="layout-thumb__cell layout-thumb__cell--md"></span>
+              <span class="layout-thumb__cell layout-thumb__cell--lg"></span>
+              <span class="layout-thumb__cell layout-thumb__cell--md"></span>
+              <span class="layout-thumb__cell layout-thumb__cell--sm"></span>
+            </div>
+          </div>
+          <strong>{{ t('common.listView') }}</strong>
+          <span class="pl">{{ t('createWizard.listViewDescription') }}</span>
+        </qo-button>
+
+        <qo-button
+          class="layout-card layout-card--has-thumb"
+          variant="ghost"
+          [fullWidth]="true"
+          [class.layout-card--active]="quickLayout() === 'card'"
+          (click)="openCardLayoutBuilder()">
+          <div class="layout-thumb layout-thumb--card" aria-hidden="true">
+            <!-- Card title line -->
+            <span class="layout-thumb__title-line"></span>
+            <!-- Body lines -->
+            <span class="layout-thumb__body-line layout-thumb__body-line--long"></span>
+            <span class="layout-thumb__body-line layout-thumb__body-line--short"></span>
+          </div>
+          <strong>{{ t('common.cardView') }}</strong>
+          <span class="pl">{{ t('createWizard.cardViewDescription') }}</span>
+        </qo-button>
+
+        <qo-button
+          class="layout-card layout-card--has-thumb"
+          variant="ghost"
+          [fullWidth]="true"
+          [class.layout-card--active]="quickLayout() === 'custom' && !customTemplateMode() && !createNewLayoutOpen()"
+          (click)="openCustomLayoutBuilder()">
+          <div class="layout-thumb layout-thumb--custom" aria-hidden="true">
+            <div class="layout-thumb__card-grid">
+              <div class="layout-thumb__mini-card">
+                <span class="layout-thumb__mini-img"></span>
+                <span class="layout-thumb__mini-line layout-thumb__mini-line--lg"></span>
+                <span class="layout-thumb__mini-line layout-thumb__mini-line--md"></span>
+              </div>
+              <div class="layout-thumb__mini-card">
+                <span class="layout-thumb__mini-img"></span>
+                <span class="layout-thumb__mini-line layout-thumb__mini-line--lg"></span>
+                <span class="layout-thumb__mini-line layout-thumb__mini-line--sm"></span>
+              </div>
+            </div>
+          </div>
+          <strong>{{ t('common.customLayout') }}</strong>
+          <span class="pl">{{ t('createWizard.customLayoutDescription') }}</span>
+        </qo-button>
+
+        <qo-button
+          class="layout-card layout-card--preview"
+          variant="ghost"
+          [fullWidth]="true"
+          [class.layout-card--active]="quickLayout() === 'custom' && customTemplateMode() && customTemplateVariant() === 'block'"
+          (click)="openCustomLayoutTemplateBuilder()">
+          <div class="custom-layout-preview" aria-hidden="true">
+            <span class="custom-layout-preview__line custom-layout-preview__line--lg"></span>
+            <span class="custom-layout-preview__line custom-layout-preview__line--md"></span>
+            <span class="custom-layout-preview__line custom-layout-preview__line--xl"></span>
+            <span class="custom-layout-preview__line custom-layout-preview__line--sm"></span>
+            <div class="custom-layout-preview__row">
+              <span class="custom-layout-preview__line custom-layout-preview__line--xs"></span>
+              <span class="custom-layout-preview__line custom-layout-preview__line--xs"></span>
+              <span class="custom-layout-preview__line custom-layout-preview__line--xs"></span>
+            </div>
+          </div>
+        </qo-button>
+
+        <qo-button
+          class="layout-card layout-card--template-row"
+          variant="ghost"
+          [fullWidth]="true"
+          [class.layout-card--active]="quickLayout() === 'custom' && customTemplateMode() && customTemplateVariant() === 'list'"
+          (click)="openCustomLayoutListTemplateBuilder()">
+          <div class="template-grid-preview" aria-hidden="true">
+            <div class="template-grid-preview__col">
+              <span class="template-grid-preview__line"></span>
+              <span class="template-grid-preview__line"></span>
+              <span class="template-grid-preview__line"></span>
+            </div>
+            <div class="template-grid-preview__col">
+              <span class="template-grid-preview__line"></span>
+              <span class="template-grid-preview__line"></span>
+              <span class="template-grid-preview__line"></span>
+            </div>
+          </div>
+        </qo-button>
+      </div>
+    </section>
+
+    <section class="config-block">
+      <qo-button
+        class="layout-card layout-card--create-new"
+        variant="ghost"
+        [fullWidth]="true"
+        [class.layout-card--active]="createNewLayoutOpen()"
+        (click)="openCreateNewLayoutBuilder()">
+        <span class="layout-card__plus" aria-hidden="true">+</span>
+        <strong class="pl">{{ t('generated.create_new_layout') }}</strong>
+      </qo-button>
+    </section>
+
+    @if (savedCustomLayouts().length > 0) {
+      <section class="config-block">
+        <h3>{{ t('generated.saved_custom_layouts') }}</h3>
+        <div class="saved-layout-list">
+          @for (layout of savedCustomLayouts(); track layout.id) {
+            <article
+              class="saved-layout-card"
+              [class.saved-layout-card--active]="layout.active"
+              (click)="openSavedLayout(layout.id)">
+              <div class="saved-layout-card__preview" aria-hidden="true">
+                <div class="saved-layout-card__thumb"></div>
+                <div class="saved-layout-card__lines">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+
+              <div class="saved-layout-card__title-row">
+                <strong>{{ layout.name }}</strong>
+                @if (layout.active) {
+                  <span class="saved-layout-card__badge">{{ t('generated.active') }}</span>
+                }
+              </div>
+
+              <p>{{ t('generated.cardLayoutSummary', { count: layout.elementsCount }) }}</p>
+
+              <div class="saved-layout-card__actions" (click)="$event.stopPropagation()">
+                <qo-button variant="secondary" size="sm" (click)="duplicateSavedLayout.emit(layout.id)">{{ common('duplicate') }}</qo-button>
+                <qo-button variant="secondary" size="sm" (click)="editSavedLayout.emit(layout.id)">{{ common('edit') }}</qo-button>
+                <qo-button variant="danger" size="sm" (click)="deleteSavedLayout.emit(layout.id)">{{ common('delete') }}</qo-button>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }

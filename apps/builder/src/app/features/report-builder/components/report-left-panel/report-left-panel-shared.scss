@@ -1,0 +1,280 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.panel-card {
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+}
+
+.panel-card + .panel-card {
+  margin-top: var(--qo-space-3);
+}
+
+.panel-card__header {
+  display: flex;
+  align-items: center;
+  min-height: calc(var(--qo-space-10) + var(--qo-space-1));
+  padding: 0 var(--qo-space-5);
+  border-block-end: var(--qo-border-width) solid var(--qo-border-color);
+
+  h2 {
+    margin: 0;
+    color: var(--qo-color-neutral-400);
+    font-size: var(--qo-text-xs);
+    font-weight: var(--qo-font-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+}
+
+.panel-card__header--split {
+  justify-content: space-between;
+}
+
+.panel-card__body {
+  padding: var(--qo-space-4) var(--qo-space-5) var(--qo-space-5);
+}
+
+.panel-card__body--stack {
+  display: grid;
+  gap: var(--qo-space-3);
+}
+
+.panel-note {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-xs);
+  line-height: var(--qo-leading-normal);
+}
+
+.field {
+  display: grid;
+  gap: var(--qo-space-2);
+
+  span {
+    color: var(--qo-color-neutral-400);
+    font-size: var(--qo-text-xs);
+    font-weight: var(--qo-font-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  select,
+  input,
+  qo-select,
+  qo-input {
+    width: 100%;
+    min-height: calc(var(--qo-space-8) + var(--qo-space-1));
+    padding: 0 var(--qo-space-0);
+    background: var(--qo-color-neutral-50);
+    color: var(--qo-color-neutral-900);
+    font-size: var(--qo-text-sm);
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: var(--qo-border-color-focus);
+      background: var(--qo-color-neutral-0);
+    }
+  }
+}
+
+.field__select {
+  width: 100%;
+  min-height: calc(var(--qo-space-8) + var(--qo-space-1));
+  padding: 0 var(--qo-space-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+
+  .material-symbols-outlined {
+    color: var(--qo-color-neutral-400);
+    font-size: var(--qo-text-lg);
+  }
+}
+
+.ghost-link {
+  border: 0;
+  background: transparent;
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.line-check {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-semibold);
+
+  input {
+    cursor: pointer;
+    accent-color: var(--qo-color-primary-700);
+  }
+
+  qo-toggle {
+    margin-inline-start: auto;
+  }
+}
+
+.line-check--inline {
+  justify-content: flex-start;
+  padding: var(--qo-space-4); // 16px
+}
+
+.filter-preset-list .line-check {
+  padding: var(--qo-space-3);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+}
+
+.filter-preset-list .line-check:hover {
+  background: var(--qo-color-neutral-100);
+}
+
+.filter-builder {
+  display: grid;
+  gap: var(--qo-space-2);
+  padding: var(--qo-space-3);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+}
+
+.filter-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--qo-space-2);
+}
+
+.filter-card {
+  position: relative;
+  display: grid;
+  gap: var(--qo-space-2);
+  padding: var(--qo-space-3);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+}
+
+.filter-remove {
+  position: absolute;
+  right: var(--qo-space-2);
+  bottom: var(--qo-space-2);
+  width: calc(var(--qo-space-6) + var(--qo-space-1));
+  height: calc(var(--qo-space-6) + var(--qo-space-1));
+  border: var(--qo-border-width) solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  .material-symbols-outlined {
+    font-size: var(--qo-text-lg);
+  }
+}
+
+.add-filter-link {
+  border: 0;
+  background: transparent;
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-2xl);
+  font-weight: var(--qo-font-semibold);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-align: left;
+}
+
+.filter-preset-list {
+  display: grid;
+  gap: var(--qo-space-2);
+}
+
+.panel-actions {
+  display: flex;
+  gap: var(--qo-space-2);
+}
+
+.panel-actions--double {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--qo-space-2);
+}
+
+:host ::ng-deep qo-button.btn-primary .qo-btn,
+:host ::ng-deep qo-button.btn-secondary .qo-btn {
+  width: 100%;
+  height: calc(var(--qo-space-8) + var(--qo-space-1));
+  border-radius: var(--qo-radius-sm);
+  padding: 0 var(--qo-space-3);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: var(--qo-border-width) solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep qo-button.btn-primary .qo-btn {
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+  border-color: var(--qo-color-neutral-900);
+
+  &:hover {
+    background: var(--qo-color-neutral-800);
+    border-color: var(--qo-color-neutral-800);
+  }
+}
+
+:host ::ng-deep qo-button.btn-secondary .qo-btn {
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-900);
+  border-color: var(--qo-border-color-strong);
+
+  &:hover {
+    background: var(--qo-color-neutral-100);
+  }
+}
+
+:host ::ng-deep qo-button.btn-primary .qo-btn:focus-visible,
+:host ::ng-deep qo-button.btn-secondary .qo-btn:focus-visible,
+:host ::ng-deep qo-button.ghost-link .qo-btn:focus-visible,
+:host ::ng-deep qo-button.filter-remove .qo-btn:focus-visible {
+  outline: calc(var(--qo-border-width) * 2) solid var(--qo-color-primary-500);
+  outline-offset: var(--qo-space-1);
+}
+
+.panel-actions--double qo-button.btn-primary,
+.panel-actions--double qo-button.btn-secondary {
+  display: block;
+  width: 100%;
+}
+
+.qo-btn-ghost {
+  border-radius: 50%;
+  padding: var(--qo-space-1);
+
+  &:hover {
+    background: var(--qo-color-neutral-900-alpha-6);
+  }
+}
+
+.mt-2{
+  margin-top: var(--qo-text-05em);
+}

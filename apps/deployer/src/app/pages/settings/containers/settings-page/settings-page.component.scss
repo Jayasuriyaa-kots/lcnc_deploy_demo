@@ -1,0 +1,117 @@
+:host {
+  display: block;
+}
+
+.settings-page {
+  display: grid;
+  gap: var(--qo-size-26);
+}
+
+.app-card {
+  background: var(--qo-deployer-card-background);
+  border: var(--qo-size-1) solid var(--qo-deployer-line);
+  border-radius: var(--qo-deployer-radius-lg);
+  box-shadow: var(--qo-deployer-card-shadow);
+  backdrop-filter: none;
+}
+
+.table-base {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-base th {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-deployer-table-heading-size);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.table-base th,
+.table-base td {
+  padding: var(--qo-deployer-table-cell-padding);
+  border-bottom: var(--qo-border-width) solid var(--qo-deployer-line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table-base tbody tr {
+  transition: background var(--qo-duration-slow) ease;
+}
+
+.table-base tbody tr:hover {
+  background: var(--qo-deployer-brand-soft);
+}
+
+.table-base tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.mini-label {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-deployer-label-size);
+  font-weight: 800;
+  letter-spacing: var(--qo-deployer-label-tracking);
+  text-transform: uppercase;
+}
+
+.field-shell {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-deployer-field-gap);
+  min-height: var(--qo-deployer-field-min-height);
+  border: var(--qo-size-1) solid var(--qo-deployer-line);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-deployer-field-background);
+  padding: var(--qo-deployer-field-padding);
+  box-shadow: var(--qo-deployer-field-shadow);
+  transition: border-color var(--qo-duration-slow) ease, background var(--qo-duration-slow) ease, box-shadow var(--qo-duration-slow) ease;
+}
+
+.field-shell:focus-within {
+  border-color: var(--qo-deployer-line-strong);
+  background: var(--qo-deployer-field-focus-background);
+  box-shadow: var(--qo-deployer-field-focus-shadow);
+}
+
+.value-strong {
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-deployer-value-size);
+  font-weight: 750;
+  letter-spacing: 0;
+  line-height: 1.02;
+}
+
+.settings-header {
+  display: grid;
+  gap: var(--qo-size-10);
+}
+
+.settings-breadcrumb {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-base);
+}
+
+h1 {
+  margin: 0;
+  color: var(--qo-deployer-text);
+  font-size: clamp(var(--qo-text-4xl), 4.2vw, var(--qo-text-5xl));
+  letter-spacing: 0;
+}
+
+qo-tabs.settings-tabs {
+  --qo-tabs-border-color: var(--qo-deployer-line);
+  --qo-tabs-gap: var(--qo-size-28);
+  --qo-tab-color: var(--qo-deployer-text-muted);
+  --qo-tab-hover-color: var(--qo-deployer-text);
+  --qo-tab-active-color: var(--qo-deployer-text);
+  --qo-tab-disabled-color: color-mix(in srgb, var(--qo-deployer-text-muted) 58%, transparent);
+  --qo-tab-hover-underline: var(--qo-deployer-line-strong);
+  --qo-tab-active-underline: var(--qo-deployer-text);
+  --qo-tab-padding: var(--qo-size-4) 0 var(--qo-size-14);
+  --qo-tab-font-size: var(--qo-text-base);
+  --qo-tab-font-weight: 600;
+  --qo-tabs-body-padding: var(--qo-size-26) 0 0;
+}
+

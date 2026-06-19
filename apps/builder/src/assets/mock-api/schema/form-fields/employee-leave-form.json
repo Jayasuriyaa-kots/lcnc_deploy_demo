@@ -1,0 +1,53 @@
+{
+  "formId": "employee-leave-form",
+  "formLabel": "Employee Leave Form",
+  "tableName": "leave_requests",
+  "actionLabels": ["Submit"],
+  "fields": [
+    {
+      "id": "employee_name",
+      "label": "Employee Name",
+      "dbColumn": "employee_name",
+      "type": "text",
+      "placeholder": "Enter employee name",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "leave_type",
+      "label": "Leave Type",
+      "dbColumn": "leave_type",
+      "type": "dropdown",
+      "placeholder": "Choose leave type",
+      "required": true,
+      "options": ["Sick Leave", "Casual Leave", "Earned Leave", "Maternity Leave"]
+    },
+    {
+      "id": "start_date",
+      "label": "Start Date",
+      "dbColumn": "start_date",
+      "type": "date",
+      "placeholder": "Select start date",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "end_date",
+      "label": "End Date",
+      "dbColumn": "end_date",
+      "type": "date",
+      "placeholder": "Select end date",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "reason",
+      "label": "Reason",
+      "dbColumn": "reason",
+      "type": "textarea",
+      "placeholder": "Enter leave reason",
+      "required": false,
+      "options": []
+    }
+  ]
+}

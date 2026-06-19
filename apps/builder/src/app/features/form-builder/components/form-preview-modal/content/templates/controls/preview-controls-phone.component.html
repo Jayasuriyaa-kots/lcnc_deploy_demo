@@ -1,0 +1,56 @@
+@let f = field();
+@if (ctx.isPhoneField(f)) {
+  <div class="preview-phone-control">
+    @if (ctx.getPhoneCountryOptions(f).length > 1) {
+      <qo-select
+        class="preview-phone-select"
+        [value]="ctx.getPhonePrefix(f)"
+        [options]="ctx.getPhoneCountrySelectOptions(f)"
+        [placeholder]="t('preview.codePlaceholder')"
+        (valueChange)="ctx.setPhoneCountryCode(f, String($event ?? ''))">
+      </qo-select>
+    } @else {
+      <span class="preview-phone-prefix">{{ ctx.getPhonePrefix(f) }}</span>
+    }
+    <qo-input class="preview-qo-input preview-qo-input--phone" type="tel" [value]="ctx.getPhoneDisplayValue(f)" [placeholder]="ctx.getPlaceholder(f)" (valueChange)="ctx.setValue(f.id, $event, f)"></qo-input>
+    @if (f.properties.userInputQrCode || f.properties.userInputBarcode) {
+      <div class="preview-phone-tools">
+        <div class="preview-phone-tools__actions">
+          @if (f.properties.userInputQrCode) {
+            <qo-button type="button" class="preview-inline-btn" variant="secondary" size="sm" (click)="ctx.openPhoneScanEditor(f, 'qr')">{{ t('preview.scanQr') }}</qo-button>
+          }
+          @if (f.properties.userInputBarcode) {
+            <qo-button type="button" class="preview-inline-btn preview-inline-btn--ghost" variant="ghost" size="sm" (click)="ctx.openPhoneScanEditor(f, 'barcode')">{{ t('preview.scanBarcode') }}</qo-button>
+          }
+        </div>
+        @if (ctx.isPhoneScanEditorOpen(f.id)) {
+          <div class="preview-phone-tools__editor">
+            @if (ctx.phoneScanEditors[f.id].cameraActive) {
+              <div class="preview-phone-tools__camera">
+                <video #phoneScannerVideo autoplay muted playsinline></video>
+                <div class="preview-phone-tools__camera-overlay">
+                  <qo-icon name="search" size="sm"></qo-icon>
+                  <span>{{ ctx.getPhoneScanFormatLabel(f.id) }} camera</span>
+                </div>
+              </div>
+            }
+            <label>
+              <span>{{ ctx.getPhoneScanLabel(f.id) }} value</span>
+              <input type="text" inputmode="numeric" [value]="ctx.phoneScanEditors[f.id].value" (input)="ctx.setPhoneScanEditorValue(f.id, ctx.getInputValue($event))" />
+            </label>
+            @if (ctx.phoneScanEditors[f.id].detectedValue) {
+              <small class="preview-phone-tools__camera-note">Detected: {{ ctx.phoneScanEditors[f.id].detectedValue }}</small>
+            }
+            @if (ctx.phoneScanEditors[f.id].cameraError) {
+              <small class="preview-phone-tools__camera-error">{{ ctx.phoneScanEditors[f.id].cameraError }}</small>
+            }
+            <div class="preview-phone-tools__editor-actions">
+              <qo-button type="button" class="preview-inline-btn" variant="secondary" size="sm" (click)="ctx.applyPhoneScanEditor(f)">{{ t('preview.apply') }}</qo-button>
+              <qo-button type="button" class="preview-inline-btn preview-inline-btn--ghost" variant="ghost" size="sm" (click)="ctx.closePhoneScanEditor(f.id)">{{ 'actions.cancel' | transloco }}</qo-button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

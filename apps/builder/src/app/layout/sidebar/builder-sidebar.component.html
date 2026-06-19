@@ -1,0 +1,161 @@
+<aside class="sidebar">
+  <div class="sidebar__toolbar">
+    <div class="sidebar__heading-row">
+      @if ((moduleConfig().sidebarMode ?? 'list') !== 'list') {
+        <qo-button
+          class="sidebar__back-button sidebar__back-button--heading"
+          variant="ghost"
+          size="sm"
+          type="button"
+          routerLink="/page-builder"
+          aria-label="Back to page builder"
+        >
+          <span class="material-symbols-outlined">arrow_back</span>
+        </qo-button>
+      }
+      <div class="sidebar__heading" [class.sidebar__heading--page-builder]="moduleConfig().id === 'page-builder'">
+        {{ moduleConfig().sidebarTitle }}
+      </div>
+    </div>
+
+    @if ((moduleConfig().sidebarMode ?? 'list') === 'list') {
+      <div class="sidebar__controls" [class.sidebar__controls--page-builder]="moduleConfig().id === 'page-builder'">
+        <qo-button
+          class="sidebar__new-button"
+          [class.sidebar__new-button--page-builder]="moduleConfig().id === 'page-builder'"
+          variant="primary"
+          type="button"
+          (click)="triggerPrimaryAction()"
+        >
+          + {{ moduleConfig().actionLabel }}
+        </qo-button>
+        <qo-search-bar
+          class="sidebar__search"
+          [class.sidebar__search--page-builder]="moduleConfig().id === 'page-builder'"
+          [placeholder]="moduleConfig().searchPlaceholder"
+          size="sm"
+          [debounceTime]="150"
+          (search)="onSearchInput($event)"
+        ></qo-search-bar>
+      </div>
+    }
+  </div>
+
+  @if ((moduleConfig().sidebarMode ?? 'list') === 'list') {
+    <div class="sidebar__list">
+      @for (item of visibleItems(); track item.id; let i = $index) {
+        <qo-sidebar-item
+          [active]="moduleConfig().id === 'form-builder' ? selectedFormId() === item.id : moduleConfig().id === 'report-builder' ? selectedReportId() === item.id : moduleConfig().id === 'page-builder' ? selectedPageId() === item.id : selectedIndex() === i"
+          [title]="item.name"
+          [meta]="item.typeLabel"
+          [statusActive]="item.status === 'live'"
+          [statusLabel]="getStatusLabel(item.status)"
+          [statusAriaLabel]="getStatusToggleLabel(item)"
+          (selected)="selectItem(i)"
+          (statusToggled)="toggleItemStatus(item, $event)"
+        >
+          <qo-button
+            slot="actions"
+            class="sidebar__item-action"
+            variant="ghost"
+            size="sm"
+            type="button"
+            [hidden]="moduleConfig().id !== 'page-builder'"
+            aria-label="Page settings"
+            (click)="openPageSettings(item.id, $event)"
+          >
+            <span class="material-symbols-outlined">settings</span>
+          </qo-button>
+          <qo-button
+            slot="actions"
+            class="sidebar__item-action"
+            variant="ghost"
+            size="sm"
+            type="button"
+            [hidden]="moduleConfig().id === 'page-builder'"
+            aria-label="Settings"
+            (click)="moduleConfig().id === 'report-builder'
+              ? openReportSettings(item.id, $event)
+              : openFormSettings(item.id, $event)"
+          >
+            <span class="material-symbols-outlined">settings</span>
+          </qo-button>
+          <qo-button slot="actions" class="sidebar__item-action" variant="ghost" size="sm" type="button" aria-label="Duplicate" (click)="duplicateItem(item.id, $event)">
+            <span class="material-symbols-outlined">content_copy</span>
+          </qo-button>
+          <qo-button slot="actions" class="sidebar__item-action" variant="ghost" size="sm" type="button" aria-label="Delete" (click)="deleteItem(item.id, $event)">
+            <span class="material-symbols-outlined">delete</span>
+          </qo-button>
+        </qo-sidebar-item>
+      }
+    </div>
+  } @else if (moduleConfig().sidebarMode === 'tabs') {
+    <nav class="sidebar__tab-list">
+      @for (tab of moduleConfig().tabs ?? []; track tab.id; let i = $index) {
+        @if (tab.route) {
+          <a
+            class="sidebar__tab"
+            [class.sidebar__tab--active]="isTabActive(tab.id, tab.route, i)"
+            [routerLink]="tab.route"
+            queryParamsHandling="preserve"
+          >
+            <span class="sidebar__tab-icon-wrap">
+              <span class="material-symbols-outlined sidebar__tab-icon">{{ tab.icon }}</span>
+            </span>
+            <span class="sidebar__tab-label">{{ tab.label }}</span>
+          </a>
+        } @else {
+          <button
+            class="sidebar__tab"
+            type="button"
+            [class.sidebar__tab--active]="isTabActive(tab.id, tab.route, i)"
+            (click)="selectTab(i)"
+          >
+            <span class="sidebar__tab-icon-wrap">
+              <span class="material-symbols-outlined sidebar__tab-icon">{{ tab.icon }}</span>
+            </span>
+            <span class="sidebar__tab-label">{{ tab.label }}</span>
+          </button>
+        }
+      }
+    </nav>
+  } @else {
+    <nav class="sidebar__palette-list">
+      @for (item of moduleConfig().paletteItems ?? []; track item.id; let i = $index) {
+        <button
+          class="sidebar__palette-item"
+          type="button"
+          [class.sidebar__palette-item--active]="selectedTabIndex() === i"
+          (click)="selectTab(i)"
+        >
+          <span class="sidebar__palette-icon-wrap">
+            <qo-icon [name]="item.icon" class="sidebar__palette-icon"></qo-icon>
+          </span>
+          <span class="sidebar__palette-label">{{ item.label }}</span>
+        </button>
+      }
+    </nav>
+  }
+</aside>
+
+@if (confirmConfig()) {
+  <qo-confirm-dialog
+    [config]="confirmConfig()!"
+    (confirmed)="onDialogConfirmed()"
+    (cancelled)="onDialogCancelled()">
+  </qo-confirm-dialog>
+}
+
+@if (showPageCreateModal()) {
+  <app-page-create-modal
+    [title]="editingPageId() ? 'Edit Page' : 'Create New Page'"
+    [subtitle]="editingPageId()
+      ? 'Update the page name and description.'
+      : 'Start with a page name and add optional context before opening the editor.'"
+    [submitLabel]="editingPageId() ? 'Save Changes' : 'Create Page'"
+    [initialName]="pageModalInitialName()"
+    [initialDescription]="pageModalInitialDescription()"
+    (closed)="closePageCreateModal()"
+    (created)="createPage($event)">
+  </app-page-create-modal>
+}

@@ -1,0 +1,28 @@
+:host {
+  display: inline-grid;
+  place-items: center;
+  position: relative;
+}
+
+.bell-icon {
+  color: var(--qo-color-neutral-300);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bell-icon svg {
+  width: var(--qo-size-17);
+  height: var(--qo-size-17);
+  overflow: visible;
+}
+
+.badge {
+  --qo-status-dot-gap: 0;
+  --qo-status-dot-size: var(--qo-size-8);
+  --qo-status-dot-shadow: 0 0 0 var(--qo-size-2) var(--qo-color-neutral-900);
+  position: absolute;
+  top: -var(--qo-size-3);
+  right: -var(--qo-size-3);
+}
+

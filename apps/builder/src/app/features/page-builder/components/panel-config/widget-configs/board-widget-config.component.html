@@ -1,0 +1,66 @@
+@if (activeTab() === 'display') {
+  <app-panel-display-settings
+    [selectedForm]="selectedBoardFormName()"
+    [state]="displaySettingsState()"
+    (selectedFormChange)="boardFormChanged.emit($event)"
+    (stateChange)="displaySettingsStateChange.emit($event)"
+  ></app-panel-display-settings>
+}
+
+@if (activeTab() === 'style') {
+  <div class="prop-group">
+    <label class="prop-label">Background color</label>
+    <div class="color-row">
+      <qo-color-picker
+        [value]="boardBackgroundColor()"
+        [presetColors]="colorPickerPalette()"
+        [showThemeColor]="true"
+        [triggerLabel]="'A'"
+        (valueChange)="onBoardBackgroundColorChanged($event)"
+      ></qo-color-picker>
+    </div>
+  </div>
+  <div class="prop-group">
+    <label class="prop-label">Layout type</label>
+    <qo-select
+      class="prop-select"
+      [value]="boardLayoutType()"
+      [options]="boardLayoutOptions()"
+      (valueChange)="onBoardLayoutTypeChanged($event)"
+    ></qo-select>
+  </div>
+  <div class="prop-group">
+    <label class="prop-label">Panels per row</label>
+    <qo-input
+      class="prop-input"
+      type="number"
+      [value]="boardPanelsPerRow()"
+      (valueChange)="onBoardPanelsPerRowInput($event)"
+    ></qo-input>
+  </div>
+  <div class="prop-group">
+    <label class="prop-label">Image source</label>
+    <qo-select
+      class="prop-select"
+      [value]="boardImageSource()"
+      [options]="boardImageSourceOptions()"
+      (valueChange)="onBoardImageSourceChanged($event)"
+    ></qo-select>
+  </div>
+  <div class="prop-group">
+    <label class="prop-label">Padding top</label>
+    <qo-input class="prop-input" type="number" [value]="boardPaddingTop()" (valueChange)="onBoardPaddingInput('boardPaddingTop', $event)"></qo-input>
+  </div>
+  <div class="prop-group">
+    <label class="prop-label">Padding right</label>
+    <qo-input class="prop-input" type="number" [value]="boardPaddingRight()" (valueChange)="onBoardPaddingInput('boardPaddingRight', $event)"></qo-input>
+  </div>
+  <div class="prop-group">
+    <label class="prop-label">Padding bottom</label>
+    <qo-input class="prop-input" type="number" [value]="boardPaddingBottom()" (valueChange)="onBoardPaddingInput('boardPaddingBottom', $event)"></qo-input>
+  </div>
+  <div class="prop-group">
+    <label class="prop-label">Padding left</label>
+    <qo-input class="prop-input" type="number" [value]="boardPaddingLeft()" (valueChange)="onBoardPaddingInput('boardPaddingLeft', $event)"></qo-input>
+  </div>
+}

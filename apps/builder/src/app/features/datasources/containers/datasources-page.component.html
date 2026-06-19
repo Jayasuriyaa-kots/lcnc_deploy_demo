@@ -1,0 +1,43 @@
+<section class="datasources-page">
+  @if (facade.isViewportBlocked()) {
+    <div class="datasources-page__viewport-blocker">
+      <qo-empty-state
+        icon="monitor"
+        [title]="t('common.desktopViewportRequiredTitle')"
+        [description]="t('common.desktopViewportRequiredDescription')"
+      >
+        <qo-button variant="secondary" type="button" (click)="openSourcesSection()">{{ t('common.returnToDataSources') }}</qo-button>
+      </qo-empty-state>
+    </div>
+  } @else if (showDashboard()) {
+    <app-datasource-dashboard
+      (addDatasource)="openPickerSection()"
+      (deleteQueryRequested)="confirmDeleteQuery($event)"
+      (deleteSourceRequested)="confirmDeleteSource($event)"
+    ></app-datasource-dashboard>
+  } @else if (showExternalApis()) {
+    <app-external-apis-page></app-external-apis-page>
+  } @else if (showPicker()) {
+    <app-datasource-picker (back)="openSourcesSection()"></app-datasource-picker>
+  } @else if (showConfig()) {
+    <app-datasource-config
+      (back)="onConfigBack()"
+      (cancel)="onConfigCancel()"
+      (privateKeySelected)="onPrivateKeySelected($event)"
+      (sshKeySelected)="onSshKeySelected($event)"
+      (caCertificateSelected)="onCaCertificateSelected($event)"
+    ></app-datasource-config>
+  } @else if (showEditor()) {
+  } @else if (showLogs()) {
+    <div class="datasources-page__content">
+      <qo-empty-state icon="table" [title]="t('common.dataLogsTitle')" [description]="t('common.dataLogsDescription')"></qo-empty-state>
+    </div>
+  } @else if (showCompliance()) {
+    <div class="datasources-page__content">
+      <qo-empty-state icon="shield" [title]="t('common.complianceTitle')" [description]="t('common.complianceDescription')"></qo-empty-state>
+    </div>
+  }
+
+  <app-datasource-query-editor ></app-datasource-query-editor>
+</section>
+

@@ -1,0 +1,51 @@
+import { featureCommon } from '@qo/lang';
+
+export const DEPLOYMENT_LANG = {
+  common: featureCommon({}),
+  save: {
+    saving: 'Saving...',
+    saved: 'Saved',
+    saveAndDeploy: 'Save & Deploy',
+  },
+  runtime: {
+    deployedTitle: 'HR Management Workspace',
+    previewTitle: 'Deployed App Layout',
+    deployedEyebrow: 'Deployed App',
+    previewEyebrow: 'Preview',
+  },
+  headerOptions: {
+    showLogo: 'Show Logo',
+    showAppName: 'Show App Name',
+    applicationSwitcher: 'Application Switcher',
+    addButton: '+ Add Button',
+    globalSearch: 'Global Search',
+    knowledgeBase: 'Knowledge Base',
+    notifications: 'Notifications',
+    appSettings: 'App Settings',
+    accountSettings: 'Account Settings',
+  },
+  footerOptions: {
+    totalRecords: 'Total Records Count',
+    pagination: 'Pagination (53/100)',
+    columnDropdown: 'Column Dropdown',
+    functionType: 'Function Type',
+    numericDisplay: 'Numeric Display',
+  },
+  workspaceTypes: {
+    formTitle: 'Form Type',
+    formDescription: 'Enter data into forms and submit to database. Save, draft, clear, and submit actions.',
+    reportTitle: 'Report Type',
+    reportDescription: 'View datasource records in card or list view. Supports custom views and action buttons.',
+    pageTitle: 'Page Type',
+    pageDescription: 'Full canvas page layout. Drag and drop widgets to design rich, custom page experiences.',
+  },
+  nav: {
+    noPrimaryPages: 'No primary pages yet.',
+    addFirstPage: 'Add your first page',
+  },
+  userManagement: {
+    removeUserTitle: 'Remove user from role',
+    removeAction: 'Remove',
+    cancelAction: 'Cancel',
+  },
+};

@@ -1,0 +1,82 @@
+    <section class="panel-card">
+      <header class="panel-card__header panel-card__header--split">
+        <h2>{{ t('leftPanel.filters') }}</h2>
+        <qo-button class="ghost-link" variant="ghost" size="sm" (click)="addFilter()">
+          {{ t('generated.add_filters') }}
+        </qo-button>
+      </header>
+
+      <div class="panel-card__body panel-card__body--stack">
+        <form [formGroup]="filtersForm">
+          <div formArrayName="rules" class="filter-preset-list">
+            @for (ruleGroup of ruleControls; track ruleGroup.controls.id.value; let i = $index) {
+              <div class="filter-card" [formGroupName]="i">
+                <div class="filter-card__top">
+                  <qo-button class="filter-remove filter-remove--top" variant="ghost" size="sm" (click)="removeFilter(i)" [attr.aria-label]="common('delete')">
+                    <qo-icon name="trash-2" size="sm" />
+                  </qo-button>
+                </div>
+
+                <!--
+                  §13.6 deviation (accepted): this panel uses a one-rule-per-field model
+                  (Add Filter → a row with a single-column qo-select + operator + value),
+                  not the multi-select-fields-into-chips pattern. Each rule targets exactly
+                  one column, so field selection is single-value qo-select by design.
+                -->
+                <qo-form-field [label]="t('generated.select_field')">
+                  <qo-select
+                    formControlName="columnId"
+                    [options]="getColumnOptions()"
+                    (valueChange)="onColumnSelectValueChange(i, $event)">
+                  </qo-select>
+                </qo-form-field>
+
+                <qo-form-field [label]="t('generated.condition')">
+                  <qo-select
+                    formControlName="operator"
+                    [options]="getConditionSelectOptions(ruleGroup.controls.columnId.value)"
+                    (valueChange)="onOperatorSelectValueChange(i, $event)">
+                  </qo-select>
+                </qo-form-field>
+
+                @if (filterNeedsValue(i)) {
+                  @if (!isBetweenOperator(i)) {
+                    <qo-form-field [label]="t('generated.value')">
+                      <qo-input
+                        formControlName="singleValue"
+                        [type]="getFilterInputType(i)"
+                        [placeholder]="getFilterValuePlaceholderText(i)">
+                      </qo-input>
+                    </qo-form-field>
+                  } @else {
+                    <qo-form-field [label]="t('generated.value')">
+                      <div class="filter-range" formGroupName="rangeValue">
+                        <qo-input
+                          formControlName="start"
+                          [type]="getFilterInputType(i)"
+                          [placeholder]="getFilterRangePlaceholderText(i, 'start')">
+                        </qo-input>
+                        <qo-input
+                          formControlName="end"
+                          [type]="getFilterInputType(i)"
+                          [placeholder]="getFilterRangePlaceholderText(i, 'end')">
+                        </qo-input>
+                      </div>
+                    </qo-form-field>
+                  }
+                }
+              </div>
+            }
+          </div>
+        </form>
+
+        <div class="panel-actions panel-actions--double">
+          <qo-button class="btn-secondary" variant="secondary" (click)="clearFilters()">
+            {{ t('generated.clear') }}
+          </qo-button>
+          <qo-button class="btn-primary" variant="primary" (click)="applyFilters()">
+            {{ t('generated.apply') }}
+          </qo-button>
+        </div>
+      </div>
+    </section>

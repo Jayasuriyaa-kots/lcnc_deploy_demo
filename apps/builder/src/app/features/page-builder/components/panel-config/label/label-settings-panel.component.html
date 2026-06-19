@@ -1,0 +1,96 @@
+<div class="label-settings" [formGroup]="facade.form">
+  <section class="settings-card">
+    <div class="settings-card__header">{{ 'fields.label' | transloco }}</div>
+    <div class="settings-card__body">
+      <qo-input
+        class="settings-field__input"
+        type="text"
+        [value]="label()"
+        (valueChange)="labelChange.emit($event)"
+      ></qo-input>
+    </div>
+  </section>
+
+  <section class="settings-card">
+    <div class="settings-card__header">{{ t('label.settings.data') }}</div>
+
+    <div class="settings-card__body">
+      <label class="settings-field settings-field--bindable">
+        <span class="settings-field__label">
+          {{ facade.form.controls.contentSource.value === 'datasource' ? ('fields.query' | transloco) : t('label.settings.textBox') }}
+        </span>
+        <app-bindable-input
+          class="settings-field__input"
+          [rows]="4"
+          [value]="facade.form.controls.text.value ?? ''"
+          [rootKeys]="facade.rootKeys()"
+          [placeholder]="t('label.settings.bindingPlaceholder')"
+          (valueChange)="updateText($event)"
+        ></app-bindable-input>
+      </label>
+
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('label.settings.source') }}</span>
+        <qo-select
+          class="settings-field__input settings-field__input--select"
+          formControlName="contentSource"
+          [value]="facade.form.controls.contentSource.getRawValue()"
+          [options]="contentSourceOptions()"
+          (valueChange)="facade.updateContentSource($event)"
+        ></qo-select>
+      </label>
+
+      @if (facade.form.controls.contentSource.value === 'datasource') {
+        <label class="settings-field">
+          <span class="settings-field__label">{{ 'fields.datasource' | transloco }}</span>
+          <qo-select
+            class="settings-field__input settings-field__input--select"
+            formControlName="datasourceId"
+            [options]="facade.datasourceOptions()"
+            [placeholder]="'fields.selectDatasource' | transloco"
+            (valueChange)="facade.updateDatasource($event)"
+          ></qo-select>
+        </label>
+
+        <p class="settings-helper">
+          {{ t('label.settings.datasourceBindingHelper') }}
+        </p>
+      }
+    </div>
+  </section>
+
+  <section class="settings-card">
+    <div class="settings-card__header">{{ t('label.settings.behavior') }}</div>
+
+    <div class="settings-card__body">
+      <div class="settings-field">
+        <span class="settings-field__label">{{ t('label.settings.overflowText') }}</span>
+        <div class="settings-segmented-control">
+          <button
+            type="button"
+            class="settings-segmented-control__option"
+            [class.settings-segmented-control__option--active]="facade.form.controls.overflowText.value === 'scroll'"
+            (click)="facade.updateOverflowText('scroll')"
+          >{{ t('label.settings.scroll') }}</button>
+          <button
+            type="button"
+            class="settings-segmented-control__option"
+            [class.settings-segmented-control__option--active]="facade.form.controls.overflowText.value === 'truncate'"
+            (click)="facade.updateOverflowText('truncate')"
+          >{{ t('label.settings.truncate') }}</button>
+          <button
+            type="button"
+            class="settings-segmented-control__option"
+            [class.settings-segmented-control__option--active]="facade.form.controls.overflowText.value === 'none'"
+            (click)="facade.updateOverflowText('none')"
+          >{{ 'fields.none' | transloco }}</button>
+        </div>
+      </div>
+
+      <div class="settings-toggle">
+        <span class="settings-toggle__label">{{ t('common.visible') }}</span>
+        <qo-toggle formControlName="visible" (checkedChange)="facade.updateBooleanField('visible', $event)"></qo-toggle>
+      </div>
+    </div>
+  </section>
+</div>

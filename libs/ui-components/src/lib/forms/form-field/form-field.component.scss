@@ -1,0 +1,54 @@
+:host {
+  display: block;
+  margin-bottom: var(--qo-form-field-margin-bottom, var(--qo-space-4));
+  --_qo-form-label-color: var(--qo-form-label-color, var(--qo-color-neutral-900));
+  --_qo-form-label-size: var(--qo-form-label-size, var(--qo-text-sm));
+  --_qo-form-label-weight: var(--qo-form-label-weight, var(--qo-font-medium));
+  --_qo-form-label-letter-spacing: var(--qo-form-label-letter-spacing, normal);
+  --_qo-form-label-transform: var(--qo-form-label-transform, none);
+  --_qo-form-label-margin-bottom: var(--qo-form-label-margin-bottom, var(--qo-space-2));
+  --_qo-form-required-color: var(--qo-form-required-color, var(--qo-color-danger-500));
+  --_qo-form-hint-color: var(--qo-form-hint-color, var(--qo-color-neutral-500));
+  --_qo-form-error-color: var(--qo-form-error-color, var(--qo-color-danger-500));
+  --_qo-form-message-size: var(--qo-form-message-size, var(--qo-text-xs));
+}
+
+.qo-form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.qo-form-label {
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--_qo-form-label-size);
+  font-weight: var(--_qo-form-label-weight);
+  color: var(--_qo-form-label-color);
+  margin-bottom: var(--_qo-form-label-margin-bottom);
+  display: inline-block;
+  letter-spacing: var(--_qo-form-label-letter-spacing);
+  text-transform: var(--_qo-form-label-transform);
+}
+
+.qo-form-required {
+  color: var(--_qo-form-required-color);
+  margin-left: var(--qo-space-1);
+}
+
+.qo-form-control-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.qo-form-hint {
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--_qo-form-message-size);
+  color: var(--_qo-form-hint-color);
+  margin-top: var(--qo-space-1);
+}
+
+.qo-form-error {
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--_qo-form-message-size);
+  color: var(--_qo-form-error-color);
+  margin-top: var(--qo-space-1);
+}

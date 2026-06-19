@@ -1,0 +1,46 @@
+<header class="topbar">
+  <div class="topbar__brand">
+    <div class="topbar__brand-mark">
+      <span class="material-symbols-outlined">grid_view</span>
+    </div>
+    <div>
+      <div class="topbar__brand-title">HR Management</div>
+      <div class="topbar__brand-subtitle">Builder</div>
+    </div>
+  </div>
+
+  <nav class="topbar__nav">
+    @for (moduleLink of modules(); track moduleLink.route) {
+      <a
+        [routerLink]="moduleLink.route"
+        class="topbar__nav-item"
+        [class.topbar__nav-item--active]="activeRoute().startsWith(moduleLink.route)"
+      >
+        <span class="topbar__nav-dot">&middot;</span>
+        {{ moduleLink.label }}
+      </a>
+    }
+  </nav>
+
+  <div class="topbar__actions">
+    <button class="topbar__action topbar__action--ghost" type="button">
+      <span class="material-symbols-outlined">save</span>
+      Save
+    </button>
+    <button class="topbar__action topbar__action--ghost" type="button">
+      <span class="material-symbols-outlined">play_arrow</span>
+      Preview
+    </button>
+    <button class="topbar__action topbar__action--solid" type="button">
+      <span class="material-symbols-outlined">rocket_launch</span>
+      Deploy
+    </button>
+    <div class="topbar__divider"></div>
+    <button class="topbar__icon" type="button" aria-label="Notifications">
+      <span class="material-symbols-outlined">notifications</span>
+    </button>
+    <div class="topbar__avatar">
+      <span class="material-symbols-outlined">person</span>
+    </div>
+  </div>
+</header>

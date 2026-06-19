@@ -1,0 +1,386 @@
+<div class="create-layout-backdrop" (click)="close()">
+  <section class="create-layout-modal" (click)="$event.stopPropagation()">
+
+    <!-- ── Header ── -->
+    <header class="create-layout-header">
+      <h2>{{ t('generated.custom_layout_2') }}</h2>
+      <div class="create-layout-header__actions">
+        <qo-button type="button" variant="secondary" (click)="close()">{{ common('cancel') }}</qo-button>
+        <qo-button type="button" variant="primary" (click)="saveLayout()">{{ t('common.saveLayout') }}</qo-button>
+      </div>
+    </header>
+
+    <div class="create-layout-body">
+
+      <!-- ── Left: Tool selector (Card / Text / Image / Icon / Button) ── -->
+      <aside class="create-layout-tools">
+        <qo-button variant="ghost"
+          type="button"
+          class="tool-btn"
+          [class.tool-btn--active]="activeTool() === 'card'"
+          (click)="setTool('card')"
+          [attr.aria-label]="t('generated.card_tool')">
+          <qo-icon name="square" size="sm" class="tool-btn__icon" />
+          <span class="tool-btn__label">{{ t('common.card') }}</span>
+        </qo-button>
+        <qo-button variant="ghost"
+          type="button"
+          class="tool-btn"
+          [class.tool-btn--active]="activeTool() === 'text'"
+          (click)="setTool('text')"
+          [attr.aria-label]="t('generated.text_tool')">
+          <qo-icon name="type" size="sm" class="tool-btn__icon" />
+          <span class="tool-btn__label">{{ t('generated.text') }}</span>
+        </qo-button>
+        <qo-button variant="ghost"
+          type="button"
+          class="tool-btn"
+          [class.tool-btn--active]="activeTool() === 'image'"
+          (click)="setTool('image')"
+          [attr.aria-label]="t('generated.image_tool')">
+          <qo-icon name="image" size="sm" class="tool-btn__icon" />
+          <span class="tool-btn__label">{{ t('generated.image') }}</span>
+        </qo-button>
+        <qo-button variant="ghost"
+          type="button"
+          class="tool-btn"
+          [class.tool-btn--active]="activeTool() === 'icon'"
+          (click)="setTool('icon')"
+          [attr.aria-label]="t('generated.icon_tool')">
+          <qo-icon name="shapes" size="sm" class="tool-btn__icon" />
+          <span class="tool-btn__label">{{ t('generated.icon') }}</span>
+        </qo-button>
+        <qo-button variant="ghost"
+          type="button"
+          class="tool-btn"
+          [class.tool-btn--active]="activeTool() === 'button'"
+          (click)="setTool('button')"
+          [attr.aria-label]="t('generated.button_tool')">
+          <qo-icon name="mouse-pointer-click" size="sm" class="tool-btn__icon" />
+          <span class="tool-btn__label">{{ t('generated.button') }}</span>
+        </qo-button>
+      </aside>
+
+      <!-- ── Second panel: Presets for the active tool ── -->
+      <aside class="create-layout-presets" [attr.data-tool]="activeTool()">
+
+        <!-- Card preset: shows the card thumbnail + size info -->
+        @if (activeTool() === 'card') {
+          <div class="card-preset-item card-preset-item--active">
+            <div class="card-preset-thumb">
+              <div class="card-preset-thumb__inner"></div>
+            </div>
+            <div class="card-preset-meta">
+              <strong>{{ t('common.card') }}</strong>
+              <span>{{ t('generated.default_card_size') }}</span>
+            </div>
+          </div>
+        }
+
+        <!-- Text presets: draggable styled text items -->
+        @if (activeTool() === 'text') {
+          @for (preset of textPresets; track preset.style) {
+            <div
+              class="text-preset-item"
+              [class.text-preset-item--active]="selectedElementData()?.textStyle === preset.style"
+              draggable="false"
+              (mousedown)="startPanelDrag($event, { type: 'text', textStyle: preset.style })">
+              <span class="text-preset-item__preview" [class]="'text-preview--' + preset.style">
+                {{ preset.label }}
+              </span>
+            </div>
+          }
+        }
+
+        <!-- Image presets: 3×3 grid (shape × size) -->
+        @if (activeTool() === 'image') {
+          @for (shape of imageShapes; track shape) {
+            <div class="image-group">
+              <span class="image-group__label">{{ shape | titlecase }}</span>
+              <div class="image-preset-row">
+                @for (size of imageSizes; track size) {
+                  <div
+                    class="image-preset-cell"
+                    role="button"
+                    [class.image-preset-cell--selected]="selectedElementData()?.imageShape === shape"
+                    [attr.aria-label]="shape + ' – ' + size"
+                    title="{{ shape }} – {{ size }}"
+                    (mousedown)="startPanelDrag($event, { type: 'image', imageShape: shape, imageSize: size })">
+                    <div class="image-preview"
+                         [class.image-preview--small]="size === 'small'"
+                         [class.image-preview--medium]="size === 'medium'"
+                         [class.image-preview--large]="size === 'large'"
+                         [style.border-radius]="imageBorderRadius(shape)">
+                      <qo-icon name="landscape" size="sm" />
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        }
+
+        <!-- Icon presets: outline/solid tabs + search + grid -->
+        @if (activeTool() === 'icon') {
+          <div class="icon-tabs">
+            <qo-button variant="ghost"
+              type="button"
+              class="icon-tab-btn"
+              [class.icon-tab-btn--active]="iconTab() === 'outline'"
+              (click)="setIconTab('outline')">
+              {{ t('generated.outline') }}
+            </qo-button>
+            <qo-button variant="ghost"
+              type="button"
+              class="icon-tab-btn"
+              [class.icon-tab-btn--active]="iconTab() === 'solid'"
+              (click)="setIconTab('solid')">
+              {{ t('generated.solid') }}
+            </qo-button>
+          </div>
+          <div class="icon-search">
+            <qo-icon name="search" size="sm" class="icon-search__icon" />
+            <qo-input
+              class="icon-search__input"
+              [placeholder]="t('generated.search')"
+              [value]="iconSearch()"
+              (valueChange)="onIconSearch($event)"
+            />
+          </div>
+          <div class="icon-grid">
+            @for (icon of filteredIcons(); track icon.glyph) {
+              <qo-button variant="ghost"
+                type="button"
+                class="icon-grid-cell"
+                [class.icon-grid-cell--solid]="iconTab() === 'solid'"
+                [title]="icon.label"
+                (mousedown)="startPanelDrag($event, { type: 'icon', iconGlyph: icon.glyph, iconTab: iconTab() })">
+                <qo-icon [name]="icon.glyph" [class.qo-icon--fill]="iconTab() === 'solid'" size="sm" />
+              </qo-button>
+            }
+          </div>
+        }
+
+        <!-- Button presets: 4 variants -->
+        @if (activeTool() === 'button') {
+          @for (btn of buttonPresets; track btn.variant + btn.shape) {
+            <div
+              class="button-preset-item"
+              (mousedown)="startPanelDrag($event, { type: 'button', buttonVariant: btn.variant, buttonShape: btn.shape })">
+              <div
+                class="button-preset-preview"
+                [class.button-preset-preview--filled]="btn.variant === 'filled'"
+                [class.button-preset-preview--outline]="btn.variant === 'outline'"
+                [style.border-radius]="buttonBorderRadius(btn.shape)">
+                {{ btn.label }}
+              </div>
+            </div>
+          }
+        }
+      </aside>
+
+      <!-- ── Canvas ── -->
+      <section class="create-layout-canvas-pane">
+        <div class="create-layout-canvas">
+          <div
+            class="canvas-container-card"
+            [style.width.px]="containerWidth()"
+            [style.height.px]="containerHeight()">
+            @for (item of elements(); track item.instanceId) {
+              <div
+                class="canvas-item"
+                [class.canvas-item--active]="selectedElement() === item.instanceId"
+                [style.left.px]="item.x"
+                [style.top.px]="item.y"
+                [style.width.px]="item.width"
+                [style.height.px]="item.height"
+                [style.text-align]="item.textAlign ?? 'left'"
+                (mousedown)="startMove($event, item.instanceId)"
+                (click)="selectElement(item.instanceId)">
+
+                @if (item.visualType === 'image') {
+                  <div class="canvas-item__image"
+                       [style.border-radius]="imageBorderRadius(item.imageShape)">
+                    <qo-icon name="image" size="sm" />
+                    <span>{{ t('generated.image') }}</span>
+                  </div>
+                } @else if (item.visualType === 'icon') {
+                  <div class="canvas-item__icon">
+                    <qo-icon [name]="item.iconGlyph || 'bookmark'" size="sm" />
+                  </div>
+                } @else if (item.visualType === 'button') {
+                  <div class="canvas-item__button"
+                       [class.canvas-item__button--filled]="item.buttonVariant === 'filled'"
+                       [class.canvas-item__button--outline]="item.buttonVariant !== 'filled'"
+                       [style.border-radius]="buttonBorderRadius(item.buttonShape)">
+                    {{ item.label }}
+                  </div>
+                } @else {
+                  <div class="canvas-item__text"
+                       [class]="textStyleClass(item.textStyle)"
+                       [style.font-size.px]="item.fontSize"
+                       [style.font-weight]="item.fontWeight"
+                       [style.color]="item.textColor ?? 'var(--qo-color-neutral-900)'"
+                       [style.background]="item.backgroundColor ?? 'transparent'">
+                    {{ item.label }}
+                  </div>
+                }
+
+                <qo-button variant="ghost"
+                  type="button"
+                  class="resize-handle"
+                  [attr.aria-label]="t('generated.resize_element')"
+                  (mousedown)="startResize($event, item.instanceId)">
+                </qo-button>
+              </div>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Inspector ── -->
+      <aside class="create-layout-inspector">
+        <div class="inspector-tabs">
+          <qo-button
+            variant="ghost"
+            [fullWidth]="true"
+            [class.inspector-tabs__active]="activeTab() === 'display'"
+            (click)="setTab('display')">
+            {{ t('generated.display') }}
+          </qo-button>
+          <qo-button
+            variant="ghost"
+            [fullWidth]="true"
+            [class.inspector-tabs__active]="activeTab() === 'style'"
+            (click)="setTab('style')">
+            {{ t('generated.style') }}
+          </qo-button>
+        </div>
+
+        <!-- Container config when Card tool is active -->
+        @if (activeTool() === 'card') {
+          <section class="position-grid position-grid--single">
+            <h3>{{ t('generated.container') }}</h3>
+            <label class="field">
+              <span>{{ t('common.layout') }}</span>
+              <qo-select value="card" [options]="containerLayoutOptions"></qo-select>
+            </label>
+            <label class="field">
+              <span>{{ t('generated.width') }}</span>
+              <qo-input type="number" [value]="containerWidth()" (valueChange)="updateContainerSize('width', $event)"></qo-input>
+            </label>
+            <label class="field">
+              <span>{{ t('generated.height') }}</span>
+              <qo-input type="number" [value]="containerHeight()" (valueChange)="updateContainerSize('height', $event)"></qo-input>
+            </label>
+          </section>
+        } @else {
+          <!-- Field assignment + position -->
+          <label class="field">
+            <span>{{ t('generated.field') }}</span>
+            <qo-select
+              [value]="selectedField()"
+              [options]="fieldOptions()"
+              (valueChange)="updateSelectedField($event)">
+            </qo-select>
+          </label>
+
+          <label class="field">
+            <span>{{ t('generated.label') }}</span>
+            <qo-input
+              [value]="selectedDisplayLabel()"
+              (valueChange)="updateSelectedElementLabel($event)">
+            </qo-input>
+          </label>
+
+          <section class="position-grid">
+            <h3>{{ t('generated.position_and_size') }}</h3>
+            <label class="field">
+              <span>{{ t('generated.x_2') }}</span>
+              <qo-input type="number" [value]="selectedElementData()?.x" (valueChange)="updateElementValue('x', $event)"></qo-input>
+            </label>
+            <label class="field">
+              <span>{{ t('generated.y') }}</span>
+              <qo-input type="number" [value]="selectedElementData()?.y" (valueChange)="updateElementValue('y', $event)"></qo-input>
+            </label>
+            <label class="field">
+              <span>{{ t('generated.width') }}</span>
+              <qo-input type="number" [value]="selectedElementData()?.width" (valueChange)="updateElementValue('width', $event)"></qo-input>
+            </label>
+            <label class="field">
+              <span>{{ t('generated.height') }}</span>
+              <qo-input type="number" [value]="selectedElementData()?.height" (valueChange)="updateElementValue('height', $event)"></qo-input>
+            </label>
+          </section>
+
+          @if (activeTab() === 'display') {
+            <section class="position-grid position-grid--single arrange-section">
+              <div class="arrange-header">
+                <h3>{{ t('generated.arrange') }}</h3>
+                <qo-button variant="ghost" size="sm" class="arrange-link" (click)="duplicateSelected()">{{ common('duplicate') }}</qo-button>
+              </div>
+              <div class="arrange-row">
+                <qo-button variant="secondary" size="sm" (click)="alignSelected('left')">{{ t('customLayout.left') }}</qo-button>
+                <qo-button variant="secondary" size="sm" (click)="alignSelected('center')">{{ t('generated.center') }}</qo-button>
+                <qo-button variant="secondary" size="sm" (click)="alignSelected('right')">{{ t('customLayout.right') }}</qo-button>
+              </div>
+              <div class="arrange-row">
+                <qo-button variant="secondary" size="sm" (click)="alignSelectedVertical('top')">{{ t('customLayout.top') }}</qo-button>
+                <qo-button variant="secondary" size="sm" (click)="alignSelectedVertical('middle')">{{ t('generated.middle') }}</qo-button>
+                <qo-button variant="secondary" size="sm" (click)="alignSelectedVertical('bottom')">{{ t('customLayout.bottom') }}</qo-button>
+              </div>
+              <p class="arrange-help">{{ t('generated.these_tools_align_the_selected_element_inside_the') }}</p>
+              <qo-button variant="secondary" size="sm" class="delete-element-btn" (click)="deleteSelected()">{{ t('generated.delete_element') }}</qo-button>
+            </section>
+          } @else {
+            <section class="position-grid position-grid--single">
+              <label class="field">
+                <span>{{ t('generated.font_size') }}</span>
+                <qo-input type="number"
+                  [value]="selectedElementData()?.fontSize ?? 14"
+                  (valueChange)="updateSelectedElementStyle('fontSize', $event)">
+                </qo-input>
+              </label>
+              <label class="field">
+                <span>{{ t('generated.font_weight') }}</span>
+                <qo-select
+                  [value]="selectedElementData()?.fontWeight ?? 600"
+                  [options]="fontWeightOptions"
+                  (valueChange)="updateSelectedElementStyle('fontWeight', $event)">
+                </qo-select>
+              </label>
+              <label class="field">
+                <span>{{ t('generated.text_align') }}</span>
+                <qo-select
+                  [value]="selectedElementData()?.textAlign ?? 'left'"
+                  [options]="textAlignOptions"
+                  (valueChange)="updateSelectedElementStyle('textAlign', $event)">
+                </qo-select>
+              </label>
+              <label class="field">
+                <span>{{ t('generated.color') }}</span>
+                <div class="color-row">
+                  <qo-color-picker
+                    [value]="selectedElementData()?.textColor ?? 'var(--qo-color-neutral-900)'"
+                    (valueChange)="updateSelectedElementStyle('textColor', $event)">
+                  </qo-color-picker>
+                  <qo-button variant="secondary" size="sm" (click)="resetSelectedElementStyle('textColor')">{{ t('generated.reset') }}</qo-button>
+                </div>
+              </label>
+              <label class="field">
+                <span>{{ t('generated.background') }}</span>
+                <div class="color-row">
+                  <qo-color-picker
+                    [value]="selectedElementData()?.backgroundColor ?? 'var(--qo-color-neutral-0)'"
+                    (valueChange)="updateSelectedElementStyle('backgroundColor', $event)">
+                  </qo-color-picker>
+                  <qo-button variant="secondary" size="sm" (click)="resetSelectedElementStyle('backgroundColor')">{{ t('generated.reset') }}</qo-button>
+                </div>
+              </label>
+            </section>
+          }
+        }
+      </aside>
+    </div>
+  </section>
+</div>

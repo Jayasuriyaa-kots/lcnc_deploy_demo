@@ -1,0 +1,25 @@
+<aside class="panel app-card">
+  <div class="panel-header">
+    <div>
+      <div class="mini-label">{{ i18n.translate('notifications.panelTitle') }}</div>
+      <h3>{{ i18n.translate('notifications.panelSubtitle') }}</h3>
+    </div>
+    <qo-button variant="ghost" class="notifications-close" (click)="close.emit()">{{ i18n.translate('notifications.close') }}</qo-button>
+  </div>
+
+  <div class="panel-list">
+    @for (notification of notifications(); track notification.id) {
+      <article class="notification-item" [class.notification-unread]="notification.unread">
+        <div class="notification-topline">
+          <div class="notification-copy">
+            <div class="mini-label">{{ notification.category }}</div>
+            <strong>{{ notification.title }}</strong>
+          </div>
+          <qo-badge [color]="badgeColorFor(notification)">{{ notification.tone }}</qo-badge>
+        </div>
+        <p>{{ notification.detail }}</p>
+        <span>{{ notification.time }}</span>
+      </article>
+    }
+  </div>
+</aside>

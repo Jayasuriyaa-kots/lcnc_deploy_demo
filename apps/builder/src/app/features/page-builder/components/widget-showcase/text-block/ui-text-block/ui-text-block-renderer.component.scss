@@ -1,0 +1,38 @@
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .text-block {
+      display: flex;
+      flex-direction: column;
+      gap: var(--qo-space-3);
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      font-family: var(--qo-font-family-sans);
+    }
+
+    .text-block__label {
+      color: var(--qo-color-neutral-900);
+      font-size: var(--qo-text-base);
+      font-weight: var(--qo-font-semibold);
+      line-height: 1.3;
+    }
+
+    .text-block__input {
+      display: flex;
+      align-items: center;
+      min-height: 2.875rem;
+      border: 0.0625rem solid var(--qo-color-neutral-300);
+      border-radius: var(--qo-radius-md, 0.625rem);
+      background: var(--qo-color-neutral-0);
+      padding: 0 var(--qo-space-4);
+      color: var(--qo-color-neutral-400);
+      font-size: var(--qo-text-sm);
+      box-sizing: border-box;
+      flex: 1 1 auto;
+    }
+  
+

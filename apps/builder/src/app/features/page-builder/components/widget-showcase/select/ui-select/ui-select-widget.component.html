@@ -1,0 +1,131 @@
+<div
+  class="select-widget"
+  [class.select-widget--hidden]="!resolvedConfig().visible"
+  [style.--select-bg]="resolvedConfig().backgroundColor"
+  [style.--select-text]="resolvedConfig().textColor"
+  [style.--select-border]="resolvedConfig().borderColor"
+>
+  @if (resolvedConfig().visible) {
+    @if (resolvedConfig().label.trim()) {
+      <label class="select-widget__label">{{ resolvedConfig().label }}</label>
+    }
+    @if (isMultiSelect()) {
+      <button
+        type="button"
+        class="select-widget__trigger select-widget__trigger--multi"
+        [class.select-widget__trigger--open]="isOpen()"
+        (mousedown)="$event.stopPropagation()"
+        (click)="toggleOpen($event)"
+      >
+        <span class="select-widget__multi-summary">
+          @if (selectedCount()) {
+            <span class="select-widget__multi-count">{{ selectedCount() }} {{ t('common.selected') }}</span>
+            <span class="select-widget__multi-text">{{ selectedSummary() }}</span>
+          } @else {
+            <span class="select-widget__multi-placeholder">{{ resolvedConfig().placeholder || t('select.showcase.chooseOptions') }}</span>
+          }
+        </span>
+        <span class="select-widget__caret" [class.select-widget__caret--open]="isOpen()">&#9662;</span>
+      </button>
+      @if (isOpen()) {
+        <div class="select-widget__dropdown select-widget__dropdown--multi" (mousedown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+          <div class="select-widget__multi-toolbar">
+            <button type="button" class="select-widget__toolbar-btn" (click)="toggleSelectAll($event)">
+              {{ allSelected() ? t('select.widget.unselectAll') : t('select.widget.selectAll') }}
+            </button>
+            @if (selectedCount()) {
+              <button type="button" class="select-widget__toolbar-btn" (click)="clearSelection($event)">
+                {{ t('common.clear') }}
+              </button>
+            }
+          </div>
+          @if (resolvedConfig().allowSearch) {
+            <div class="select-widget__search">
+              <input
+                type="text"
+                class="select-widget__search-input"
+                [value]="searchTerm()"
+                (mousedown)="$event.stopPropagation()"
+                (click)="$event.stopPropagation()"
+                (input)="updateSearchTerm($any($event.target).value)"
+                [placeholder]="t('select.widget.searchOptions')"
+              />
+            </div>
+          }
+          <div class="select-widget__options select-widget__options--multi">
+            @for (option of previewOptions(); track option.id) {
+              <button
+                type="button"
+                class="select-widget__option"
+                [class.select-widget__option--selected]="isSelected(option.id)"
+                (mousedown)="$event.stopPropagation()"
+                (click)="toggleOption(option.id, $event)"
+              >
+                <span class="select-widget__checkbox" [class.select-widget__checkbox--checked]="isSelected(option.id)"></span>
+                <span>{{ option.label }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      }
+    } @else if (resolvedConfig().variant === 'radio') {
+      <div class="select-widget__trigger">
+        <div class="select-widget__radio-group">
+          @for (option of previewOptions(); track option.id) {
+            <button type="button" class="select-widget__radio-option" (click)="selectRadio(option.id, $event)">
+              <span class="select-widget__radio-indicator" [class.select-widget__radio-indicator--checked]="isSelected(option.id)">
+                <span class="select-widget__radio-dot"></span>
+              </span>
+              <span>{{ option.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
+    } @else {
+      <button
+        type="button"
+        class="select-widget__trigger"
+        [class.select-widget__trigger--open]="isOpen()"
+        (mousedown)="$event.stopPropagation()"
+        (click)="toggleOpen($event)"
+      >
+        <span class="select-widget__value">
+          {{ selectedDisplayLabel() }}
+        </span>
+        <span class="select-widget__caret">&#9662;</span>
+      </button>
+      @if (isOpen()) {
+        <div class="select-widget__dropdown" (mousedown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+          @if (resolvedConfig().allowSearch) {
+            <div class="select-widget__search">
+              <input
+                type="text"
+                class="select-widget__search-input"
+                [value]="searchTerm()"
+                (mousedown)="$event.stopPropagation()"
+                (click)="$event.stopPropagation()"
+                (input)="updateSearchTerm($any($event.target).value)"
+                [placeholder]="t('select.widget.searchOptions')"
+              />
+            </div>
+          }
+          <div class="select-widget__options">
+            @for (option of previewOptions(); track option.id) {
+              <button
+                type="button"
+                class="select-widget__option"
+                [class.select-widget__option--selected]="isSelected(option.id)"
+                (click)="toggleOption(option.id, $event)"
+              >
+                <span>{{ option.label }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      }
+    }
+  } @else {
+    <div class="select-widget__hidden-state">{{ t('select.widget.hidden') }}</div>
+  }
+</div>
+

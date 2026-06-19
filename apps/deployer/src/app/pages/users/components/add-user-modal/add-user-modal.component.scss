@@ -1,0 +1,173 @@
+:host {
+  display: block;
+}
+
+qo-modal.user-modal-shell {
+  --qo-modal-surface: var(--deployer-surface);
+  --qo-modal-border: var(--deployer-border);
+  --qo-modal-title-color: var(--deployer-text);
+  --qo-modal-subtitle-color: var(--deployer-text-muted);
+  --qo-modal-close-color: var(--deployer-text-muted);
+  --qo-modal-close-hover-bg: var(--qo-deployer-hover-surface);
+  --qo-modal-close-hover-color: var(--deployer-text);
+  --qo-modal-radius: var(--qo-radius-2xl);
+  --qo-modal-shadow:
+    0 var(--qo-size-28) calc(var(--qo-size-64) + var(--qo-size-6)) color-mix(in srgb, var(--qo-color-neutral-900) 42%, transparent),
+    inset 0 var(--qo-size-1) 0 color-mix(in srgb, var(--qo-color-neutral-0) 3%, transparent);
+  --qo-modal-header-padding: var(--qo-space-6) var(--qo-space-8) var(--qo-space-3);
+  --qo-modal-header-border-color: var(--deployer-border);
+  --qo-modal-heading-gap: var(--qo-space-2);
+  --qo-modal-title-size: var(--qo-text-base);
+  --qo-modal-subtitle-size: var(--qo-text-xs);
+  --qo-modal-subtitle-max-width: var(--qo-size-360);
+  --qo-modal-close-margin-top: calc(var(--qo-space-1) * -1);
+  --qo-modal-close-padding: var(--qo-space-1);
+  --qo-modal-content-padding: var(--qo-space-3) var(--qo-space-8) var(--qo-space-3);
+  --qo-modal-footer-padding: var(--qo-space-5) var(--qo-space-8) var(--qo-space-6);
+  --qo-modal-footer-border-color: var(--deployer-border);
+  --qo-modal-footer-justify: space-between;
+  display: block;
+  max-width: var(--qo-size-480);
+}
+
+.user-modal,
+.user-modal__grid {
+  display: grid;
+  gap: var(--qo-space-4);
+}
+
+qo-form-field.user-modal__field {
+  --qo-form-field-margin-bottom: 0;
+  --qo-form-label-color: var(--deployer-text-muted);
+  --qo-form-label-size: var(--qo-text-xs);
+  --qo-form-label-weight: 700;
+  --qo-form-label-letter-spacing: 0.14em;
+  --qo-form-label-transform: uppercase;
+  --qo-form-label-margin-bottom: var(--qo-space-2);
+  --qo-form-hint-color: var(--deployer-text-muted);
+  --qo-form-error-color: color-mix(in srgb, var(--qo-color-danger-300) 88%, transparent);
+}
+
+.user-modal__grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-space-4);
+}
+
+.user-modal__note {
+  display: grid;
+  grid-template-columns: var(--qo-size-16) 1fr;
+  align-items: start;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-3);
+  background: var(--deployer-surface-raised);
+  border: var(--qo-size-1) solid var(--deployer-border);
+}
+
+.user-modal__note p {
+  margin: 0;
+  color: var(--deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  line-height: 1.35;
+}
+
+.user-modal__note-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--qo-size-18);
+  height: var(--qo-size-18);
+  border: var(--qo-size-1) solid var(--deployer-border);
+  border-radius: var(--qo-radius-full);
+  color: var(--deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: 700;
+  line-height: 1;
+}
+
+qo-input.user-modal__input {
+  --qo-input-height-md: var(--qo-size-44);
+  --qo-input-bg: var(--deployer-input-bg);
+  --qo-input-border-color: var(--deployer-input-border);
+  --qo-input-border-radius: var(--qo-size-7);
+  --qo-input-color: var(--deployer-text);
+  --qo-input-placeholder-color: var(--deployer-text-muted);
+  --qo-input-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-input-focus-shadow: var(--qo-deployer-field-focus-shadow);
+  --qo-input-padding-md: 0 var(--qo-space-3);
+}
+
+.user-modal__upload {
+  --qo-file-upload-min-height: var(--qo-size-44);
+  --qo-file-upload-padding: var(--qo-space-2) var(--qo-space-3);
+  --qo-file-upload-radius: var(--qo-size-7);
+  --qo-file-upload-border-color: var(--deployer-input-border);
+  --qo-file-upload-bg: var(--deployer-input-bg);
+  --qo-file-upload-color: var(--deployer-text-muted);
+  --qo-file-upload-font-size: var(--qo-text-sm);
+  --qo-file-upload-shadow: none;
+  --qo-file-upload-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-file-upload-focus-bg: var(--deployer-input-bg);
+  --qo-file-upload-focus-shadow: var(--qo-deployer-field-focus-shadow);
+  --qo-file-upload-icon-size: var(--qo-size-14);
+  --qo-file-upload-icon-bg: transparent;
+  --qo-file-upload-icon-color: var(--deployer-text-muted);
+}
+
+.user-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  width: 100%;
+}
+
+qo-button.user-modal__cancel {
+  --qo-button-padding: 0;
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: var(--deployer-text-muted);
+  --qo-button-hover-bg: transparent;
+  --qo-button-hover-color: var(--deployer-text);
+  --qo-button-hover-text-decoration: none;
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 700;
+}
+
+qo-button.user-modal__submit {
+  --qo-button-min-width: var(--qo-size-132);
+  --qo-button-min-height: var(--qo-size-44);
+  --qo-button-radius: var(--qo-radius-lg);
+  --qo-button-justify: center;
+  --qo-button-bg: var(--qo-color-neutral-50);
+  --qo-button-color: var(--qo-color-neutral-600);
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 800;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+}
+
+@media (max-width: var(--qo-size-640)) {
+  qo-modal.user-modal-shell {
+    --qo-modal-header-padding: var(--qo-space-5) var(--qo-space-5) var(--qo-space-3);
+    --qo-modal-content-padding: var(--qo-space-3) var(--qo-space-5) 0;
+    --qo-modal-footer-padding: var(--qo-space-4) var(--qo-space-5) var(--qo-space-5);
+  }
+
+  .user-modal__grid--two {
+    grid-template-columns: 1fr;
+  }
+
+  .user-modal__footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .user-modal__cancel,
+  .user-modal__submit {
+    width: 100%;
+  }
+
+  qo-button.user-modal__submit {
+    --qo-button-width: 100%;
+  }
+}

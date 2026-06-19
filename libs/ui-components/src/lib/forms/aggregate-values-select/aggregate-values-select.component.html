@@ -1,0 +1,57 @@
+<div class="aggregate-select">
+  @if (showLabel() && label()) {
+    <label class="aggregate-select__label">
+      {{ label() }}
+    </label>
+  }
+
+  <button
+    type="button"
+    class="aggregate-select__trigger"
+    [class.aggregate-select__trigger--placeholder]="!selectedLabel()"
+    [disabled]="disabled()"
+    (click)="toggleDropdown()"
+  >
+    {{ selectedLabel() || placeholder() }}
+  </button>
+
+  @if (isOpen()) {
+    <div class="aggregate-select__dropdown">
+      <div class="aggregate-select__tabs">
+        <button
+          type="button"
+          class="aggregate-select__tab"
+          [class.aggregate-select__tab--active]="activeTab() === 'sum'"
+          (click)="setTab('sum')"
+        >
+          Sum
+        </button>
+
+        <button
+          type="button"
+          class="aggregate-select__tab"
+          [class.aggregate-select__tab--active]="activeTab() === 'count'"
+          (click)="setTab('count')"
+        >
+          Count
+        </button>
+      </div>
+
+      @if (currentOptions().length === 0) {
+        <div class="aggregate-select__empty">{{ emptyStateLabel() }}</div>
+      } @else {
+        <div class="aggregate-select__list">
+          @for (option of currentOptions(); track option.value) {
+            <button
+              type="button"
+              class="aggregate-select__option"
+              (click)="selectOption(option)"
+            >
+              {{ option.label }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

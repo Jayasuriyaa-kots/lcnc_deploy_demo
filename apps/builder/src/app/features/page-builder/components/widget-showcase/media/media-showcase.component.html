@@ -1,0 +1,12 @@
+<div class="showcase-page">
+  @for (item of items; track item.label) {
+    <div
+      class="showcase-page__item"
+      draggable="true"
+      (dragstart)="startDrag($event, item)"
+      (dragend)="endDrag()"
+    >
+      <app-ui-media-widget [config]="item.mediaConfig"></app-ui-media-widget>
+    </div>
+  }
+</div>

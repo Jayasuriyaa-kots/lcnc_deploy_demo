@@ -1,0 +1,702 @@
+<div
+  class="panel-config-overlay"
+  [class.panel-config-overlay--right-only]="isRightSidebarOnly"
+  [style.--pc-right-only-top.px]="isRightSidebarOnly ? rightOnlyTopOffsetPx() : null"
+  [@.disabled]="isRightSidebarOnly"
+  @slideInRight
+>
+  <div class="pc-header">
+    <div class="pc-header-left">
+      <span class="pc-title-label">{{ t('panelConfig.title') }}</span>
+      <span class="pc-panel-name">
+        {{ panelName() }}
+        <qo-button class="icon-btn edit-btn" variant="ghost" size="sm" [iconOnly]="true" [attr.aria-label]="'actions.edit' | transloco">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </qo-button>
+      </span>
+    </div>
+
+    <!-- <div class="pc-header-center">
+      <qo-button class="view-toggle active" variant="ghost" size="sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M9 3v18M3 9h6M3 15h6"/>
+        </svg>
+        Design
+      </qo-button>
+      <qo-button class="view-toggle" variant="ghost" size="sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+        </svg>
+        Code
+      </qo-button>
+    </div> -->
+
+    <div class="pc-header-actions">
+      <qo-button class="header-action-btn header-action-btn--secondary" variant="ghost" size="sm" (click)="cancelChanges()">
+        {{ 'actions.cancel' | transloco }}
+      </qo-button>
+      <qo-button class="header-action-btn header-action-btn--primary" variant="primary" size="sm" (click)="applyChanges()">
+        {{ 'actions.apply' | transloco }}
+      </qo-button>
+      <qo-button class="icon-btn close-btn" variant="ghost" size="sm" [iconOnly]="true" (click)="hide()" [attr.aria-label]="'actions.close' | transloco">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </qo-button>
+    </div>
+  </div>
+
+  <div class="pc-body">
+    <div class="pc-left-panel" [class.open]="leftPanelOpen">
+      <qo-button class="left-panel-toggle" variant="ghost" size="sm" (click)="toggleLeftPanel()" [class.open]="leftPanelOpen">
+        @if (!leftPanelOpen) {
+          <span class="toggle-label">{{ t('panelConfig.addNewElements') }}</span>
+        }
+        <svg class="toggle-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          @if (!leftPanelOpen) {
+            <polyline points="9 18 15 12 9 6"/>
+          }
+          @if (leftPanelOpen) {
+            <polyline points="15 18 9 12 15 6"/>
+          }
+        </svg>
+      </qo-button>
+
+      @if (leftPanelOpen) {
+      <div class="picker-content" @slidePanel>
+        <div class="picker-tabs">
+          <qo-button class="picker-tab" variant="ghost" size="sm" [class.active]="activePickerType() === 'text'" (click)="setPickerType('text')">
+            <span>{{ t('panelConfig.pickerText') }}</span>
+          </qo-button>
+          <qo-button class="picker-tab" variant="ghost" size="sm" [class.active]="activePickerType() === 'image'" (click)="setPickerType('image')">
+            <span>{{ t('panelConfig.pickerImage') }}</span>
+          </qo-button>
+          <qo-button class="picker-tab" variant="ghost" size="sm" [class.active]="activePickerType() === 'button'" (click)="setPickerType('button')">
+            <span>{{ t('panelConfig.pickerButton') }}</span>
+          </qo-button>
+        </div>
+
+        @if (activePickerType() === 'text') {
+        <div class="text-picker">
+          <div class="text-style-list">
+            @for (style of textStyles; track style.label) {
+              <div
+                class="text-style-item"
+                [ngStyle]="{ 'font-weight': style.fontWeight, 'font-size': style.fontSize }"
+              >
+                {{ style.label }}
+              </div>
+            }
+          </div>
+          <div class="preset-label">Preset</div>
+          <div class="preset-grid">
+            @for (preset of textPresets; track preset.label) {
+              <div class="preset-item" [style.color]="preset.color">
+                {{ preset.label }}
+              </div>
+            }
+          </div>
+        </div>
+        }
+
+        @if (activePickerType() === 'image') {
+        <div class="image-picker">
+          <div class="picker-placeholder">
+            <span>{{ t('panelConfig.imagePickerPlaceholder') }}</span>
+          </div>
+        </div>
+        }
+
+        @if (activePickerType() === 'button') {
+        <div class="button-picker">
+          <div class="btn-style-list">
+            <qo-button class="btn-preset primary" variant="primary" size="sm">{{ t('panelConfig.primaryButton') }}</qo-button>
+            <qo-button class="btn-preset secondary" variant="secondary" size="sm">{{ t('panelConfig.secondaryButton') }}</qo-button>
+            <qo-button class="btn-preset outline" variant="ghost" size="sm">{{ t('panelConfig.outlineButton') }}</qo-button>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+
+    <div class="pc-canvas">
+      <div
+        class="canvas-inner"
+        [class.canvas-inner--board]="widgetType() === 'board'"
+        [class.canvas-inner--table]="widgetType() === 'table'"
+        [class.canvas-inner--select]="widgetType() === 'select'"
+        [class.canvas-inner--chart]="widgetType() === 'chart'"
+        [class.canvas-inner--report]="widgetType() === 'report'"
+        [class.canvas-inner--form]="
+          widgetType() === 'form' ||
+          widgetType() === 'form-button' ||
+          widgetType() === 'form-action-card'
+        "
+      >
+        <div class="canvas-element selected" [class.canvas-element--chart]="widgetType() === 'chart'">
+          @if (widgetType() === 'chart') {
+            <div class="canvas-chart">
+              <div class="canvas-chart__graphic">
+                <app-chart-thumbnail [type]="chartType()" [config]="chartDraftConfig()"></app-chart-thumbnail>
+              </div>
+            </div>
+          } @else {
+            @switch (widgetType()) {
+              @case ('form') {
+              <div class="canvas-form-widget">
+                <div class="canvas-form-embed">
+                  <span class="canvas-form-line"></span>
+                  <span class="canvas-form-box"></span>
+                  <span class="canvas-form-line"></span>
+                  <span class="canvas-form-box"></span>
+                  <span class="canvas-form-line"></span>
+                  <span class="canvas-form-box"></span>
+                </div>
+                <div class="canvas-form-label">{{ editableLabel() }}</div>
+              </div>
+              }
+
+              @case ('form-action-card') {
+              <div class="canvas-action-widget">
+                <div class="canvas-action-title">{{ editableLabel() }}</div>
+                <qo-button class="canvas-action-btn" type="button" variant="secondary" [ngStyle]="buttonPreviewStyles()">
+                  {{ t('editCanvas.addRecord') }}
+                </qo-button>
+              </div>
+              }
+
+              @case ('form-button') {
+              <qo-button class="canvas-btn" type="button" variant="secondary" [ngStyle]="buttonPreviewStyles()">
+                {{ editableLabel() }}
+              </qo-button>
+              }
+
+              @case ('button') {
+              @if (isButtonGroupWidget()) {
+                <div class="canvas-button-group">
+                  @for (groupButton of buttonGroupButtons(); track groupButton.id) {
+                    <app-widget-button
+                      [variant]="selectedWidget()?.buttonVariant ?? 'primary-filled'"
+                      [buttonStyleConfig]="groupButton.buttonStyleConfig ?? buttonStyleConfig()"
+                    >
+                      {{ groupButton.label }}
+                    </app-widget-button>
+                  }
+                </div>
+              } @else {
+                <app-widget-button
+                  [variant]="selectedWidget()?.buttonVariant ?? 'primary-filled'"
+                  [iconName]="selectedWidget()?.buttonIcon ?? null"
+                  [iconSize]="selectedWidget()?.buttonIconSize ?? 18"
+                  [iconImageSrc]="selectedWidget()?.buttonIconImageDataUrl ?? null"
+                  [iconOnly]="!!selectedWidget()?.buttonIcon || !!selectedWidget()?.buttonIconImageDataUrl"
+                  [buttonStyleConfig]="buttonStyleConfig()"
+                >
+                  {{ editableLabel() }}
+                </app-widget-button>
+              }
+              }
+
+              @case ('board') {
+              <div class="canvas-preview-widget">
+                <app-board-widget
+                  [variant]="boardVariant()"
+                  [backgroundColor]="boardBackgroundColor()"
+                  [interactive]="true"
+                  [selectedSectionId]="selectedBoardSectionId()"
+                  (sectionSelected)="onBoardSectionSelected($event)"
+                ></app-board-widget>
+              </div>
+              }
+
+              @case ('panel') {
+              <div class="canvas-preview-widget">
+                <app-panel-widget
+                  [config]="panelWidgetConfig()"
+                  [widgetId]="selectedWidget()?.id ?? ''"
+                  [widgetLabel]="selectedWidget()?.label ?? panelName()"
+                  [interactive]="true"
+                  [selectedSectionId]="panelSectionId()"
+                  [resolution]="panelResolution()"
+                  (sectionSelected)="onPanelSectionSelected($event)"
+                ></app-panel-widget>
+              </div>
+              }
+
+              @case ('table') {
+              <div class="canvas-table-widget">
+                <app-table-widget [config]="tableWidgetConfig()"></app-table-widget>
+              </div>
+              }
+
+              @case ('select') {
+              <div class="canvas-select-widget">
+                <app-select-widget [config]="selectWidgetConfig()" [widgetId]="selectedWidget()?.id ?? ''"></app-select-widget>
+              </div>
+              }
+
+              @case ('media') {
+              <div class="canvas-preview-widget">
+                <app-ui-media-widget [config]="selectedWidget()?.widgetProps?.mediaConfig"></app-ui-media-widget>
+              </div>
+              }
+
+              @case ('search') {
+              <div class="canvas-select-widget">
+                <app-widget-search
+                  [variant]="selectedWidget()?.searchVariant ?? 'icon-only'"
+                  [searchBoxShape]="searchStyleState().searchBoxShape"
+                  [searchBarFontFamily]="searchStyleState().fontFamily === 'Default font' ? 'inherit' : searchStyleState().fontFamily"
+                  [searchBarColor]="searchStyleState().searchBarColor"
+                  [searchBarFontSize]="searchStyleState().searchBarFontSize"
+                  [searchBarBold]="searchStyleState().isSearchBarBold"
+                  [searchBarItalic]="searchStyleState().isSearchBarItalic"
+                  [searchButtonColor]="searchStyleState().searchButtonColor"
+                  [searchButtonFontSize]="searchStyleState().searchButtonFontSize"
+                  [searchButtonBold]="searchStyleState().isSearchButtonBold"
+                  [searchButtonItalic]="searchStyleState().isSearchButtonItalic"
+                  [searchBackgroundColor]="searchStyleState().backgroundColor"
+                  [searchPaddingTop]="searchStyleState().paddingTop"
+                  [searchPaddingRight]="searchStyleState().paddingRight"
+                  [searchPaddingBottom]="searchStyleState().paddingBottom"
+                  [searchPaddingLeft]="searchStyleState().paddingLeft"
+                  [placeholder]="'actions.searchEllipsis' | transloco"
+                ></app-widget-search>
+              </div>
+              }
+
+              @case ('snippet') {
+              <div class="canvas-preview-widget">
+                <app-snippet-card
+                  [variant]="selectedWidget()?.snippetVariant ?? 'html'"
+                  [config]="snippetConfig()"
+                ></app-snippet-card>
+              </div>
+              }
+
+              @case ('text-block') {
+              <div class="canvas-preview-widget">
+                <app-text-block
+                  [variant]="textBlockWidgetConfig().inputType"
+                  [config]="textBlockWidgetConfig()"
+                ></app-text-block>
+              </div>
+              }
+
+              @case ('label') {
+              <div class="canvas-preview-widget">
+                <app-text-block
+                  variant="labeltext"
+                  [config]="textBlockWidgetConfig()"
+                ></app-text-block>
+              </div>
+              }
+
+              @case ('report') {
+                @switch (widgetSubType()) {
+                  @case ('report-embed') {
+                  <div class="canvas-report-widget">
+                    <div class="canvas-report-table">
+                      @for (_ of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; track $index) {
+                        <span></span>
+                      }
+                    </div>
+                    <div class="canvas-report-label">{{ editableLabel() }}</div>
+                  </div>
+                  }
+
+                  @case ('report-button') {
+                  <qo-button class="canvas-btn" type="button" variant="secondary" [ngStyle]="buttonPreviewStyles()">
+                    {{ editableLabel() }}
+                  </qo-button>
+                  }
+
+                  @case ('report-action-card') {
+                  <div class="canvas-action-widget">
+                    <div class="canvas-action-title">{{ editableLabel() }}</div>
+                    <qo-button class="canvas-action-btn" type="button" variant="secondary" [ngStyle]="buttonPreviewStyles()">{{ t('editCanvas.view') }}</qo-button>
+                  </div>
+                  }
+
+                  @default {
+                  <div class="canvas-report-widget">
+                    <div class="canvas-report-table">
+                      @for (_ of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; track $index) {
+                        <span></span>
+                      }
+                    </div>
+                    <div class="canvas-report-label">{{ editableLabel() }}</div>
+                  </div>
+                  }
+                }
+              }
+
+              @default {
+              <qo-button class="canvas-btn" type="button" variant="secondary">{{ editableLabel() }}</qo-button>
+              }
+            }
+          }
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="pc-right-panel"
+      [class.pc-right-panel--overflow-visible]="widgetType() === 'chart' || widgetType() === 'panel'"
+    >
+      @if (widgetType() === 'snippet') {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">
+          {{ 'layout.display' | transloco }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'content'" (click)="setRightTab('content')">
+          {{ 'layout.content' | transloco }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+      @if (isDefaultTabbedWidget() && widgetType() !== 'label' && !isActionlessTextBlock()) {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">
+          {{ 'layout.display' | transloco }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'action'" (click)="setRightTab('action')">
+          {{ t('panelConfig.tabAction') }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+      @if (isActionlessTextBlock() && widgetType() !== 'label') {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">
+          {{ 'layout.display' | transloco }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+      @if (widgetType() === 'label') {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">
+          {{ 'layout.display' | transloco }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+      @if (widgetType() === 'board') {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">
+          {{ 'layout.display' | transloco }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+      @if (widgetType() === 'panel') {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">
+          {{ 'layout.display' | transloco }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+      @if (widgetType() === 'chart') {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">
+          {{ 'layout.display' | transloco }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+      @if (widgetType() === 'table') {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">
+          {{ 'layout.display' | transloco }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+      @if (widgetType() === 'select') {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">{{ 'layout.content' | transloco }}</qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+      @if (widgetType() === 'search') {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">
+          {{ 'layout.properties' | transloco }}
+        </qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+      @if (widgetType() === 'media') {
+      <div class="right-tabs">
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'display'" (click)="setRightTab('display')">{{ 'layout.content' | transloco }}</qo-button>
+        <qo-button class="right-tab" variant="ghost" size="sm" [class.active]="rightTab() === 'style'" (click)="setRightTab('style')">
+          {{ 'layout.style' | transloco }}
+        </qo-button>
+      </div>
+      }
+
+
+
+        <div
+          class="right-content"
+          [class.right-content--overflow-visible]="widgetType() === 'chart' || widgetType() === 'panel'"
+        >
+          @switch (widgetType()) {
+            @case ('chart') {
+              <app-chart-settings-panel
+                [widgetId]="selectedWidget()?.id ?? ''"
+                [chartType]="chartType()"
+                [rightTab]="rightTab() === 'style' ? 'style' : 'display'"
+                [config]="chartDraftConfig()"
+                [colorPickerPalette]="colorPickerPalette"
+                (sourceFormChange)="onChartSourceFormChanged($event)"
+                (configChange)="onChartConfigChanged($event)"
+              ></app-chart-settings-panel>
+            }
+            @case ('form') {
+              @if (rightTab() === 'display') {
+                <app-form-submit-settings
+                  [activeTab]="panelState().formSubmitActiveTab"
+                  [config]="selectedWidget()?.widgetProps?.formConfig?.submitConfig"
+                  (activeTabChange)="panelStateChange.emit({ formSubmitActiveTab: $event })"
+                  (configChange)="formConfigChange.emit({
+                    ...(selectedWidget()?.widgetProps?.formConfig ?? {
+                      formId: '',
+                      applicationLabel: '',
+                      formLabel: editableLabel(),
+                      fields: [],
+                      actionLabels: [],
+                    }),
+                    submitConfig: $event,
+                    actionLabels: [
+                      $event.submitButtonText || (selectedWidget()?.widgetProps?.formConfig?.actionLabels?.[0] ?? t('common.submit'))
+                    ],
+                  })"
+                ></app-form-submit-settings>
+              }
+            }
+            @case ('form-button') {
+              <app-properties-panel
+                [label]="editableLabel()"
+                [styleConfig]="buttonStyleConfig()"
+                [activeTab]="panelState().propertiesActiveTab"
+                (labelChange)="onLabelEdited($event)"
+                (styleConfigChange)="onButtonStyleChanged($event)"
+                (activeTabChange)="panelStateChange.emit({ propertiesActiveTab: $event })"
+              ></app-properties-panel>
+            }
+            @case ('form-action-card') {
+              <app-properties-panel
+                [label]="editableLabel()"
+                [styleConfig]="buttonStyleConfig()"
+                [activeTab]="panelState().propertiesActiveTab"
+                (labelChange)="onLabelEdited($event)"
+                (styleConfigChange)="onButtonStyleChanged($event)"
+                (activeTabChange)="panelStateChange.emit({ propertiesActiveTab: $event })"
+              ></app-properties-panel>
+            }
+            @case ('search') {
+              @if (rightTab() === 'display') {
+                <app-search-result-component-panel [state]="searchResultState()" (stateChange)="searchResultStateChange.emit($event)"></app-search-result-component-panel>
+              }
+              @if (rightTab() === 'style') {
+                <app-search-style-panel
+                  [widget]="selectedWidget()"
+                  [state]="searchStyleState()"
+                  (widgetChange)="onSearchWidgetChanged($event)"
+                  (stateChange)="searchStyleStateChange.emit($event)"
+                ></app-search-style-panel>
+              }
+            }
+            @case ('media') {
+              <app-media-widget-config
+                [activeTab]="rightTab()"
+                [config]="mediaWidgetConfig()"
+                [colorPickerPalette]="colorPickerPalette"
+                (configChange)="onMediaConfigChanged($event)"
+              ></app-media-widget-config>
+            }
+            @case ('board') {
+              <app-board-widget-config
+                [activeTab]="rightTab()"
+                [selectedWidget]="selectedWidget()"
+                [displaySettingsState]="displaySettingsState()"
+                [selectedBoardFormName]="panelState().selectedBoardFormName"
+                [colorPickerPalette]="colorPickerPalette"
+                [boardLayoutOptions]="boardLayoutOptions"
+                [boardImageSourceOptions]="boardImageSourceOptions"
+                (boardWidgetChanged)="boardWidgetChanged.emit($event)"
+                (displaySettingsStateChange)="displaySettingsStateChange.emit($event)"
+                (boardFormChanged)="panelStateChange.emit({ selectedBoardFormName: $event })"
+              ></app-board-widget-config>
+            }
+            @case ('panel') {
+              <app-panel-settings-panel
+                [config]="panelWidgetConfig()"
+                [rightTab]="rightTab()"
+                [selectedSectionId]="panelSectionId()"
+                [colorPickerPalette]="colorPickerPalette"
+                (sectionSelected)="onPanelSectionSelected($event)"
+                (configChange)="panelConfigChange.emit($event)"
+              ></app-panel-settings-panel>
+            }
+            @case ('table') {
+              <app-table-widget-config
+                [label]="editableLabel()"
+                [activeTab]="rightTab()"
+                [config]="tableWidgetConfig()"
+                [colorPickerPalette]="colorPickerPalette"
+                (labelChange)="onLabelEdited($event)"
+                (configChange)="onTableConfigChanged($event)"
+              ></app-table-widget-config>
+            }
+            @case ('select') {
+              <app-select-widget-config
+                [label]="editableLabel()"
+                [activeTab]="rightTab()"
+                [config]="selectWidgetConfig()"
+                [colorPickerPalette]="colorPickerPalette"
+                (labelChange)="onLabelEdited($event)"
+                (configChange)="onSelectConfigChanged($event)"
+              ></app-select-widget-config>
+            }
+            @case ('text-block') {
+              <app-text-widget-config
+                [widgetType]="'text-block'"
+                [label]="editableLabel()"
+                [activeTab]="rightTab()"
+                [config]="textBlockWidgetConfig()"
+                [colorPickerPalette]="colorPickerPalette"
+                [fontFamilyOptions]="textBlockFontFamilyOptions"
+                [lineHeightOptions]="textBlockLineHeightOptions"
+                [letterSpacingOptions]="textBlockLetterSpacingOptions"
+                (labelChange)="onLabelEdited($event)"
+                (configChange)="onTextBlockConfigChanged($event)"
+              ></app-text-widget-config>
+            }
+            @case ('label') {
+              <app-text-widget-config
+                [widgetType]="'label'"
+                [label]="editableLabel()"
+                [activeTab]="rightTab()"
+                [config]="textBlockWidgetConfig()"
+                [colorPickerPalette]="colorPickerPalette"
+                [fontFamilyOptions]="textBlockFontFamilyOptions"
+                [lineHeightOptions]="textBlockLineHeightOptions"
+                [letterSpacingOptions]="textBlockLetterSpacingOptions"
+                (labelChange)="onLabelEdited($event)"
+                (configChange)="onTextBlockConfigChanged($event)"
+              ></app-text-widget-config>
+            }
+            @case ('report') {
+              @if (widgetSubType() === 'report-embed') {
+  <app-report-widget-config
+    [panelFacade]="facade"
+    [selectedWidget]="selectedWidget()"
+                  [panelState]="panelState()"
+                  [reportFieldOptions]="reportFieldOptions()"
+                  (panelStateChange)="panelStateChange.emit($event)"
+                  (reportConfigChange)="reportConfigChange.emit($event)"
+                ></app-report-widget-config>
+              }
+              @if (widgetSubType() === 'report-button' || widgetSubType() === 'report-action-card') {
+                <app-properties-panel
+                  [label]="editableLabel()"
+                  [styleConfig]="buttonStyleConfig()"
+                  [activeTab]="panelState().propertiesActiveTab"
+                  (labelChange)="onLabelEdited($event)"
+                  (styleConfigChange)="onButtonStyleChanged($event)"
+                  (activeTabChange)="panelStateChange.emit({ propertiesActiveTab: $event })"
+                ></app-properties-panel>
+              }
+            }
+            @case ('snippet') {
+              <app-snippet-settings-panel
+                [label]="editableLabel()"
+                [variant]="selectedWidget()?.snippetVariant ?? 'html'"
+                [rightTab]="rightTab()"
+                [config]="snippetConfig()"
+                [colorPickerPalette]="colorPickerPalette"
+                (labelChange)="onLabelEdited($event)"
+                (configChange)="onSnippetConfigChanged($event)"
+              ></app-snippet-settings-panel>
+            }
+            @case ('button') {
+<app-button-widget-config
+  [panelFacade]="facade"
+  [activeTab]="rightTab()"
+                [selectedWidget]="selectedWidget()"
+                [editableLabel]="editableLabel()"
+                [buttonStyleConfig]="buttonStyleConfig()"
+                [buttonActionConfig]="panelState().buttonActionConfig"
+                [selectedAction]="panelState().selectedAction"
+                [selectedButtonGroupButtonId]="panelState().selectedButtonGroupButtonId"
+                [buttonGroupButtons]="facade.getButtonGroupButtons(selectedWidget())"
+                [buttonDatasourceOptions]="buttonDatasourceOptions()"
+                [availableForms]="availableForms()"
+                [availableReports]="availableReports()"
+                [availablePageOptions]="availablePageOptions()"
+                (labelChange)="onLabelEdited($event)"
+                (buttonWidgetChanged)="buttonWidgetChanged.emit($event)"
+                (panelStateChange)="panelStateChange.emit($event)"
+                (buttonStyleConfigChange)="onButtonStyleChanged($event)"
+                (buttonVariantChanged)="buttonWidgetChanged.emit({ buttonVariant: $event })"
+              ></app-button-widget-config>
+            }
+          }
+
+      </div>
+
+      @if (isDeletableFromFooter()) {
+      <div class="right-footer">
+        <qo-button class="delete-btn" variant="ghost" size="sm" (click)="deleteSelected()">{{ t('panelConfig.deleteElement') }}</qo-button>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

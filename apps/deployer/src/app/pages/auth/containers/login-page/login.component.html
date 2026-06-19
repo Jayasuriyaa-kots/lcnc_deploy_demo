@@ -1,0 +1,43 @@
+<div class="login-page">
+  <div class="login-brand">
+    <div class="login-logo">{{ i18n.translate('auth.logoInitials') }}</div>
+    <h1>{{ i18n.translate('auth.brandName') }}</h1>
+    <p>{{ i18n.translate('auth.brandSubtitle') }}</p>
+  </div>
+
+  <div class="login-container">
+    <qo-card>
+      <div class="login-form-wrapper">
+        <h2>{{ i18n.translate('auth.signIn') }}</h2>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <qo-form-field [label]="i18n.translate('auth.emailAddress')" [error]="getEmailError()">
+            <qo-input
+              type="email"
+              formControlName="email"
+              [placeholder]="i18n.translate('auth.emailPlaceholder')">
+            </qo-input>
+          </qo-form-field>
+
+          <qo-form-field [label]="i18n.translate('auth.password')" [error]="getPasswordError()">
+            <qo-input
+              type="password"
+              formControlName="password"
+              [placeholder]="i18n.translate('auth.passwordPlaceholder')">
+            </qo-input>
+          </qo-form-field>
+
+          <div class="login-actions">
+            <qo-button
+              type="submit"
+              variant="primary"
+              [fullWidth]="true"
+              [loading]="loading()">
+              {{ i18n.translate('auth.signInButton') }}
+            </qo-button>
+          </div>
+        </form>
+      </div>
+    </qo-card>
+  </div>
+</div>

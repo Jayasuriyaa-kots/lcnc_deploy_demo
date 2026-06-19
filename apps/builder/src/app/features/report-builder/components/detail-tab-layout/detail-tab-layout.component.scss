@@ -1,0 +1,337 @@
+.dtl-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: transparent;
+}
+
+.dtl-prompt {
+  position: absolute;
+  top: 74px;
+  left: 50%;
+  z-index: 100;
+  display: grid;
+  gap: var(--qo-space-3);
+  width: 284px;
+  padding: var(--qo-space-4);
+  transform: translateX(-50%);
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-popover);
+}
+
+.dtl-prompt__heading {
+  margin: 0;
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-xs);
+  font-weight: 600;
+}
+
+.dtl-prompt__input {
+  display: block;
+  width: 100%;
+}
+
+.dtl-prompt__row {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--qo-space-2);
+}
+
+.dtl-shell {
+  position: relative;
+  display: grid;
+  gap: var(--qo-space-3);
+}
+
+.dtl-editor {
+  overflow: visible;
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+}
+
+.dtl-editor__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-3) var(--qo-space-4);
+  border-bottom: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg) var(--qo-radius-lg) 0 0;
+  background: color-mix(in srgb, var(--qo-color-neutral-50) 78%, var(--qo-color-neutral-0));
+}
+
+.dtl-editor__head h3 {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dtl-tab__rename {
+  flex: 1;
+  min-width: 0;
+}
+
+.dtl-editor__actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--qo-space-1);
+}
+
+/* Danger affordance on the delete-tab button (visuals owned by qo-button). */
+:host ::ng-deep .dtl-icon-btn--del:hover .qo-btn {
+  background: var(--qo-color-danger-100);
+  color: var(--qo-color-danger-500);
+}
+
+.dtl-tab__fields {
+  display: grid;
+  gap: var(--qo-space-2);
+  min-height: 52px;
+  padding: var(--qo-space-3);
+}
+
+.dtl-tab__fields.cdk-drop-list-dragging {
+  background: var(--qo-color-neutral-50);
+}
+
+.dtl-tab__field {
+  display: grid;
+  grid-template-columns: 18px 1fr auto;
+  align-items: center;
+  gap: var(--qo-space-2);
+  padding: var(--qo-space-3);
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+}
+
+.dtl-tab__field:hover {
+  border-color: var(--qo-color-neutral-400);
+}
+
+.dtl-tab__field.cdk-drag-placeholder {
+  border-style: dashed;
+  background: var(--qo-color-neutral-100);
+  opacity: .5;
+}
+
+.dtl-tab__field.cdk-drag-preview {
+  border-radius: var(--qo-radius-md);
+  box-shadow: var(--qo-shadow-md);
+}
+
+.dtl-tab__handle {
+  color: var(--qo-color-neutral-500);
+  font-weight: 700;
+  line-height: 1;
+  cursor: grab;
+  user-select: none;
+}
+
+.dtl-tab__field-name {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dtl-tab__remove {
+  flex: 0 0 auto;
+}
+
+.dtl-tab__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: var(--qo-space-2);
+  border: 1px dashed var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  color: var(--qo-color-neutral-400);
+  font-size: var(--qo-text-xs);
+  text-align: center;
+}
+
+.dtl-tab__footer {
+  padding: 0 var(--qo-space-3) var(--qo-space-3);
+}
+
+.dtl-tab__footer qo-select {
+  width: 100%;
+}
+
+:host ::ng-deep .dtl-tab__footer .qo-select-trigger {
+  border-color: var(--qo-color-neutral-400);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-800);
+}
+
+:host ::ng-deep .dtl-tab__footer .qo-select-placeholder {
+  color: var(--qo-color-neutral-700);
+  font-weight: 600;
+}
+
+.dtl-tab__footer-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--qo-space-2);
+  align-items: center;
+}
+
+.dtl-block {
+  margin: 0 var(--qo-space-3) var(--qo-space-3);
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+}
+
+.dtl-block__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-2) var(--qo-space-3);
+  border-bottom: 1px solid var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-xs);
+  font-weight: 700;
+}
+
+.dtl-block__rename {
+  flex: 1;
+  min-width: 0;
+}
+
+.dtl-block__actions {
+  display: inline-flex;
+  gap: var(--qo-space-2);
+  align-items: center;
+}
+
+.dtl-block__split--disabled {
+  opacity: .35;
+}
+
+.dtl-block__columns {
+  display: flex;
+  gap: 0;
+}
+
+.dtl-block__columns--split {
+  gap: 1px;
+  background: var(--qo-border-color);
+}
+
+.dtl-block__column {
+  flex: 1;
+  min-width: 0;
+  background: var(--qo-color-neutral-0);
+}
+
+.dtl-block__column-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--qo-space-2) var(--qo-space-3);
+  border-bottom: 1px solid var(--qo-border-color);
+  background: var(--qo-color-neutral-100);
+}
+
+.dtl-block__column-head span {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-2xs);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.dtl-block__fields {
+  padding-bottom: var(--qo-space-2);
+}
+
+.dtl-tab-rail {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--qo-space-1);
+  padding: 0 0 1px;
+  border: 0;
+  border-bottom: 1px solid var(--qo-border-color);
+  border-radius: 0;
+  background: var(--qo-color-neutral-0);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.dtl-tab-pill {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 7rem;
+  max-width: 14rem;
+  height: var(--qo-space-8);
+  padding: 0 var(--qo-space-4);
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: var(--qo-radius-md) var(--qo-radius-md) 0 0;
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-xs);
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dtl-tab-pill:hover {
+  border-color: var(--qo-color-neutral-400);
+  background: var(--qo-color-neutral-50);
+}
+
+.dtl-tab-pill--active {
+  border-color: var(--qo-color-neutral-900);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-900);
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 var(--qo-color-neutral-900);
+}
+
+.dtl-tab-pill--active:hover {
+  border-color: var(--qo-color-neutral-900);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-900);
+}
+
+/* Tab pill is a qo-button wrapper — the host keeps the segmented look,
+   the inner button is a transparent, full-size passthrough. */
+:host ::ng-deep .dtl-tab-pill .qo-btn {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.dtl-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+  border: 1px dashed var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-xs);
+}

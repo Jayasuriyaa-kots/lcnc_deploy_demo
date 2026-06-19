@@ -1,0 +1,92 @@
+@if (isDisplayTab()) {
+  <div class="prop-group">
+    <label class="prop-label">{{ t('snippet.settings.widgetLabel') }}</label>
+    <qo-input class="prop-input" [value]="label()" (valueChange)="updateLabel($event)"></qo-input>
+  </div>
+}
+
+@if (isContentTab()) {
+  <div class="prop-group">
+    <label class="prop-label">{{ contentLabel() }}</label>
+    <qo-textarea
+      class="prop-textarea"
+      [value]="config().markup"
+      (valueChange)="updateSnippetField('markup', $event)"
+    ></qo-textarea>
+  </div>
+
+  <div class="prop-group">
+    <label class="prop-label">{{ 'actions.preview' | transloco }}</label>
+    <div
+      class="snippet-preview"
+      [style.background]="config().backgroundColor"
+      [style.color]="config().textColor"
+      [style.padding]="config().padding"
+      [style.borderRadius]="config().borderRadius"
+    >
+      @if (variant() === 'html') {
+        <div class="snippet-preview__html" [innerHTML]="config().markup"></div>
+      } @else {
+        <div class="snippet-preview__topbar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <pre class="snippet-preview__code">{{ config().markup }}</pre>
+      }
+    </div>
+  </div>
+}
+
+@if (isStyleTab()) {
+  <div class="prop-section-card">
+    <div class="prop-section-card__header">{{ t('common.background') }}</div>
+    <div class="prop-section-card__row">
+      <label class="prop-row-label">{{ t('common.color') }}</label>
+      <qo-color-picker
+        class="prop-color-picker"
+        [value]="config().backgroundColor"
+        [presetColors]="colorPickerPalette()"
+        [showThemeColor]="true"
+        [triggerLabel]="'A'"
+        (valueChange)="updateSnippetField('backgroundColor', $event || 'var(--qo-color-neutral-0)')"
+      ></qo-color-picker>
+    </div>
+  </div>
+
+  <div class="prop-section-card">
+    <div class="prop-section-card__header">{{ t('common.text') }}</div>
+    <div class="prop-section-card__row">
+      <label class="prop-row-label">{{ t('common.color') }}</label>
+      <qo-color-picker
+        class="prop-color-picker"
+        [value]="config().textColor"
+        [presetColors]="colorPickerPalette()"
+        [showThemeColor]="true"
+        [triggerLabel]="'A'"
+        (valueChange)="updateSnippetField('textColor', $event || 'var(--qo-color-neutral-900)')"
+      ></qo-color-picker>
+    </div>
+  </div>
+
+  <div class="prop-section-card">
+    <div class="prop-section-card__header">{{ t('snippet.settings.spacing') }}</div>
+    <div class="prop-section-card__row">
+      <label class="prop-row-label">{{ t('common.padding') }}</label>
+      <qo-input
+        class="prop-input prop-input--compact prop-input--wide"
+        [value]="config().padding"
+        (valueChange)="updateSnippetField('padding', $event)"
+      ></qo-input>
+    </div>
+    <div class="prop-section-card__row prop-section-card__row--divided">
+      <label class="prop-row-label">{{ t('common.radius') }}</label>
+      <qo-input
+        class="prop-input prop-input--compact prop-input--wide"
+        [value]="config().borderRadius"
+        (valueChange)="updateSnippetField('borderRadius', $event)"
+      ></qo-input>
+    </div>
+  </div>
+}
+

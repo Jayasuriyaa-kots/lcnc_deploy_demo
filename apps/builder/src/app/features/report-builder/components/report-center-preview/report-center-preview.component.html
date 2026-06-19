@@ -1,0 +1,368 @@
+<section class="panel panel--center">
+  <div class="panel-card panel-card--stretch">
+    <header class="panel-card__header panel-card__header--split">
+      <h2>{{ t('common.dataframePreview') }}</h2>
+      <div class="preview-status">
+        {{ t('preview.showingResults', { start: rangeStart(), end: rangeEnd(), total: totalRecords() }) }}
+      </div>
+    </header>
+
+    @if (selectedCount() > 0) {
+      <div class="selection-toolbar">
+        <span class="selection-toolbar__count">
+          {{ t('preview.selectedCount', { count: selectedCount() }) }}
+        </span>
+
+        <div class="selection-toolbar__actions">
+          <qo-button variant="secondary" type="button">{{ common('edit') }}</qo-button>
+          <qo-button variant="secondary" type="button">{{ common('duplicate') }}</qo-button>
+          <qo-button variant="danger" type="button">
+            {{ t('generated.delete') }}
+          </qo-button>
+          <qo-button variant="secondary" type="button" (click)="clearSelection.emit()">
+            {{ t('generated.clear') }}
+          </qo-button>
+        </div>
+      </div>
+    }
+
+    <div class="preview-toolbar">
+      <div class="preview-toolbar__left">
+        <qo-button
+          class="preview-switch"
+          variant="secondary"
+          type="button"
+          [class.preview-switch--active]="report().viewType === 'List View'"
+          (click)="viewTypeChange.emit('List View'); openFieldConfig.emit()">
+          {{ t('generated.list') }}
+        </qo-button>
+
+        <qo-button
+          class="preview-switch"
+          variant="secondary"
+          type="button"
+          [class.preview-switch--active]="report().viewType === 'Card View'"
+          (click)="viewTypeChange.emit('Card View')">
+          {{ t('generated.card') }}
+        </qo-button>
+      </div>
+
+      <div class="preview-toolbar__right">
+        <qo-button class="icon-btn" variant="ghost" type="button" [attr.aria-label]="t('common.searchRecords')" (click)="openSearch.emit()">
+          <qo-icon name="search" size="sm" />
+        </qo-button>
+
+        <qo-button class="icon-btn" variant="ghost" type="button" [attr.aria-label]="t('common.configureFields')" (click)="openFieldConfig.emit()">
+          <qo-icon name="settings-2" size="sm" />
+        </qo-button>
+
+        <qo-button class="icon-btn" variant="ghost" type="button" [attr.aria-label]="t('common.moreActions')" (click)="openBulkEdit.emit()">
+          <qo-icon name="more-vertical" size="sm" />
+        </qo-button>
+      </div>
+    </div>
+
+    <div class="preview-content">
+      @if (report().viewType === 'List View') {
+        <div class="table-shell">
+          <table class="preview-table">
+            <thead>
+              <tr>
+                @for (column of visibleColumns(); track trackColumn($index, column)) {
+                  <th [style]="getColumnStyle(column)">{{ column.label }}</th>
+                }
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (row of records(); track trackRow($index, row); let rowIndex = $index) {
+                @if (shouldShowGroupHeader(rowIndex)) {
+                  <tr class="preview-table__group">
+                    <td [attr.colspan]="visibleColumns().length">
+                      <span class="preview-table__group-label">{{ row.groupLabel }}</span>
+
+                      @if (report().settings.showRecordCount) {
+                        <span class="preview-table__group-pill">
+                          {{ getGroupCount(row.groupLabel) }}
+                        </span>
+                      }
+                    </td>
+                  </tr>
+                }
+
+                <tr
+                  class="preview-table__row"
+                  [class.preview-table__row--selected]="isPreviewRowSelected(row.id)"
+                  (click)="toggleRow.emit(row.id)">
+                  @for (column of visibleColumns(); track trackColumn($index, column)) {
+                    <td [style]="getColumnStyle(column)">{{ row.fields[column.id] }}</td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="card-grid">
+        @for (row of records(); track trackRow($index, row); let rowIndex = $index) {
+          @if (isCustomCardView()) {
+            @if (hasDesignedCanvasLayout()) {
+              <article
+                class="record-card custom-card custom-card--designed"
+                [style]="getCustomCardStyle()"
+                [class.record-card--selected]="isPreviewRowSelected(row.id)"
+                (click)="toggleRow.emit(row.id)">
+                <div class="custom-card__designer-canvas" [style]="getDesignerContainerStyle()">
+                  @for (element of getDesignerElements(); track element.instanceId) {
+                    <div
+                      class="custom-card__designer-item"
+                      [style.left.px]="element.x"
+                      [style.top.px]="element.y"
+                      [style.width.px]="element.width"
+                      [style.height.px]="element.height"
+                      [style.textAlign]="element.textAlign ?? 'left'"
+                      [style.color]="element.textColor ?? 'var(--qo-color-neutral-700)'"
+                      [style.background]="element.backgroundColor ?? 'var(--qo-color-neutral-0)'"
+                      [style.fontSize.px]="element.fontSize ?? 14"
+                      [style.fontWeight]="element.fontWeight ?? 500">
+                      @if (element.visualType === 'image') {
+                        <div class="custom-card__designer-image">
+                          <qo-icon name="image" size="sm" />
+                          <span>{{ getDesignerElementText(row, element) || t('generated.image') }}</span>
+                        </div>
+                      } @else if (element.visualType === 'icon') {
+                        <div class="custom-card__designer-icon">
+                          <qo-icon [name]="element.iconGlyph || 'bookmark'" size="sm" />
+                          <span>{{ getDesignerElementText(row, element) }}</span>
+                        </div>
+                      } @else if (element.visualType === 'button') {
+                        <span
+                          class="custom-card__designer-button"
+                          [class.custom-card__designer-button--filled]="element.buttonVariant === 'filled'"
+                          [class.custom-card__designer-button--outline]="element.buttonVariant !== 'filled'">
+                          {{ getDesignerElementText(row, element) }}
+                        </span>
+                      } @else {
+                        <span class="custom-card__designer-text">{{ getDesignerElementText(row, element) }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </article>
+            } @else if (isTemplateCustomCardView() && !isListTemplateCustomCardView()) {
+              <article
+                class="record-card custom-card custom-card--template"
+                [style]="getCustomCardStyle()"
+                [class.record-card--selected]="isPreviewRowSelected(row.id)"
+                (click)="toggleRow.emit(row.id)">
+                <div
+                  class="custom-card__template-title"
+                  [style]="getSlotStyle('title')"
+                  [style.color]="report().settings.quickViewCustomLayout.styles.titleColor"
+                  [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.titleFontSize"
+                  [style.fontWeight]="report().settings.quickViewCustomLayout.styles.titleFontWeight">
+                  {{ getCustomSlotValue(row, 'title') || row.groupLabel }}
+                </div>
+
+                <div class="custom-card__template-body" [style]="getSlotStyle('body')">
+                  <p
+                    [style.color]="report().settings.quickViewCustomLayout.styles.bodyColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.bodyFontSize">
+                    {{ getCustomSlotValue(row, 'body') || report().sourceFormLabel }}
+                  </p>
+                </div>
+
+                <div class="custom-card__template-meta-row">
+                  <div class="custom-card__template-meta" [style]="getSlotStyle('meta_left')">
+                    {{ getCustomSlotValue(row, 'meta_left') || '-' }}
+                  </div>
+                  <div class="custom-card__template-meta" [style]="getSlotStyle('meta_right')">
+                    {{ getCustomSlotValue(row, 'meta_right') || '-' }}
+                  </div>
+                  <div class="custom-card__template-meta" [style]="getSlotStyle('body')">
+                    {{ getCustomSlotValue(row, 'body') || '-' }}
+                  </div>
+                </div>
+              </article>
+            } @else if (isListTemplateCustomCardView()) {
+              <article
+                class="record-card custom-card custom-card--list-template"
+                [style]="getCustomCardStyle()"
+                [class.record-card--selected]="isPreviewRowSelected(row.id)"
+                (click)="toggleRow.emit(row.id)">
+                <div class="custom-card__list-row" [style]="getSlotStyle('title')">
+                  <span>{{ getCustomSlotLabel('title') }}</span>
+                  <strong
+                    [style.color]="report().settings.quickViewCustomLayout.styles.titleColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.titleFontSize"
+                    [style.fontWeight]="report().settings.quickViewCustomLayout.styles.titleFontWeight">
+                    {{ getCustomSlotValue(row, 'title') || '-' }}
+                  </strong>
+                </div>
+                <div class="custom-card__list-row" [style]="getSlotStyle('meta_left')">
+                  <span>{{ getCustomSlotLabel('meta_left') }}</span>
+                  <strong
+                    [style.color]="report().settings.quickViewCustomLayout.styles.metaColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.metaFontSize">
+                    {{ getCustomSlotValue(row, 'meta_left') || '-' }}
+                  </strong>
+                </div>
+                <div class="custom-card__list-row" [style]="getSlotStyle('meta_right')">
+                  <span>{{ getCustomSlotLabel('meta_right') }}</span>
+                  <strong
+                    [style.color]="report().settings.quickViewCustomLayout.styles.metaColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.metaFontSize">
+                    {{ getCustomSlotValue(row, 'meta_right') || '-' }}
+                  </strong>
+                </div>
+                <div class="custom-card__list-row" [style]="getSlotStyle('body')">
+                  <span>{{ getCustomSlotLabel('body') }}</span>
+                  <strong
+                    [style.color]="report().settings.quickViewCustomLayout.styles.bodyColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.bodyFontSize">
+                    {{ getCustomSlotValue(row, 'body') || '-' }}
+                  </strong>
+                </div>
+                <div class="custom-card__list-row" [style]="getSlotStyle('body')">
+                  <span>{{ report().sourceFormLabel }}</span>
+                  <strong
+                    [style.color]="report().settings.quickViewCustomLayout.styles.bodyColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.bodyFontSize">
+                    {{ getCustomSlotValue(row, 'body') || '-' }}
+                  </strong>
+                </div>
+              </article>
+            } @else {
+              <article
+                class="record-card custom-card"
+                [style]="getCustomCardStyle()"
+                [class.record-card--selected]="isPreviewRowSelected(row.id)"
+                (click)="toggleRow.emit(row.id)">
+                <header class="record-card__header custom-card__header">
+                  <div
+                    class="custom-card__image"
+                    [style]="getSlotStyle('image')"
+                    [class]="getImageShapeClass()">
+                    @if (getCustomSlotValue(row, 'image')) {
+                      <span>{{ getCustomSlotValue(row, 'image') }}</span>
+                    } @else {
+                      <qo-icon name="image" size="sm" />
+                    }
+                  </div>
+
+                  <div class="custom-card__main">
+                    <h3
+                      [style]="getSlotStyle('title')"
+                      [style.color]="report().settings.quickViewCustomLayout.styles.titleColor"
+                      [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.titleFontSize"
+                      [style.fontWeight]="report().settings.quickViewCustomLayout.styles.titleFontWeight">
+                      {{ getCustomSlotValue(row, 'title') || row.groupLabel }}
+                    </h3>
+
+                    <p
+                      [style]="getSlotStyle('body')"
+                      [style.color]="report().settings.quickViewCustomLayout.styles.bodyColor"
+                      [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.bodyFontSize">
+                      {{ getCustomSlotValue(row, 'body') || report().sourceFormLabel }}
+                    </p>
+
+                    <div class="custom-card__meta">
+                      <div>
+                        <div [style]="getSlotStyle('meta_left')">
+                        <span>{{ getCustomSlotLabel('meta_left') }}</span>
+                        <strong
+                          [style.color]="report().settings.quickViewCustomLayout.styles.metaColor"
+                          [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.metaFontSize">
+                          {{ getCustomSlotValue(row, 'meta_left') || '-' }}
+                        </strong>
+                        </div>
+                      </div>
+                      <div>
+                        <div [style]="getSlotStyle('meta_right')">
+                        <span>{{ getCustomSlotLabel('meta_right') }}</span>
+                        <strong
+                          [style.color]="report().settings.quickViewCustomLayout.styles.metaColor"
+                          [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.metaFontSize">
+                          {{ getCustomSlotValue(row, 'meta_right') || '-' }}
+                        </strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <qo-button
+                    class="record-card__checkbox-btn"
+                    variant="ghost"
+                    type="button"
+                    [class.record-card__checkbox-btn--checked]="isPreviewRowSelected(row.id)"
+                    (click)="$event.stopPropagation(); toggleRow.emit(row.id)">
+                    <qo-icon [name]="isPreviewRowSelected(row.id) ? 'square-check' : 'square'" size="sm" />
+                    <span class="qo-sr-only">
+                      {{ isPreviewRowSelected(row.id) ? t('common.deselectRecord') : t('common.selectRecord') }}
+                    </span>
+                  </qo-button>
+                </header>
+              </article>
+            }
+          } @else {
+            <article
+              class="record-card"
+              [class.record-card--selected]="isPreviewRowSelected(row.id)"
+              (click)="toggleRow.emit(row.id)">
+              <header class="record-card__header">
+                <div>
+                  <h3>{{ getCardFieldValue(row, cardPrimaryColumn()) }}</h3>
+                  <p>{{ cardPrimaryColumn()?.label }}</p>
+                </div>
+
+                <qo-button
+                  class="record-card__checkbox-btn"
+                  variant="ghost"
+                  type="button"
+                  [class.record-card__checkbox-btn--checked]="isPreviewRowSelected(rowIndex)"
+                  (click)="$event.stopPropagation(); toggleRow.emit(rowIndex)">
+                  <qo-icon [name]="isPreviewRowSelected(rowIndex) ? 'square-check' : 'square'" size="sm" />
+                  <span class="qo-sr-only">
+                    {{ isPreviewRowSelected(rowIndex) ? t('common.deselectRecord') : t('common.selectRecord') }}
+                  </span>
+                </qo-button>
+              </header>
+
+              <div class="record-card__body">
+                @if (cardSecondaryColumn(); as secondary) {
+                  <div class="record-card__line">
+                    <span>{{ secondary.label }}</span>
+                    <strong
+                      [style.color]="report().settings.cardFieldTextColor"
+                      [style.fontSize.px]="report().settings.cardFieldFontSize">
+                      {{ getCardFieldValue(row, secondary) }}
+                    </strong>
+                  </div>
+                }
+              </div>
+            </article>
+          }
+        }
+        </div>
+      }
+    </div>
+
+    @if (records().length === 0 && totalRecords() === 0) {
+      <qo-empty-state
+        icon="file-text"
+        [title]="t('common.noRecordsFound')"
+        [description]="t('preview.emptyDescription')">
+      </qo-empty-state>
+    }
+
+    <div class="preview-pagination">
+      <qo-button class="preview-page-btn" variant="secondary" type="button" [disabled]="currentPage() <= 1" (click)="previousPage.emit()">
+        {{ t('generated.prev') }}
+      </qo-button>
+      <span class="preview-pagination__label">{{ t('preview.pageOf', { current: currentPage(), total: totalPages() }) }}</span>
+      <qo-button class="preview-page-btn" variant="secondary" type="button" [disabled]="currentPage() >= totalPages()" (click)="nextPage.emit()">
+        {{ t('generated.next') }}
+      </qo-button>
+    </div>
+  </div>
+</section>

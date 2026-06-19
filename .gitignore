@@ -1,0 +1,78 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+tmp/
+.tmp/
+coverage/
+reports/
+build/
+site/
+
+# Nx / Angular
+.angular/
+.angular/cache/
+.nx/
+.nx/cache/
+.nx/workspace-data/
+.cache/
+*.tsbuildinfo
+*.db
+*.db-shm
+*.db-wal
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+.venv/
+venv/
+env/
+ENV/
+
+# Packaging
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# IDE / Editor
+.idea/
+.vscode/
+.clinerules/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+.claude/worktrees

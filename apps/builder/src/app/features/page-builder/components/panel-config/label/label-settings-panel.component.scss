@@ -1,0 +1,144 @@
+:host {
+  display: block;
+}
+
+.label-settings {
+  display: grid;
+  gap: var(--qo-space-4);
+  min-width: 0;
+}
+
+.settings-card {
+  border: 0.0625rem solid var(--qo-color-neutral-200);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+  overflow: visible;
+  min-width: 0;
+}
+
+.settings-card__header {
+  padding: var(--qo-space-4) var(--qo-space-5);
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-base);
+  font-weight: var(--qo-font-semibold);
+}
+
+.settings-card__body {
+  display: grid;
+  gap: var(--qo-space-4);
+  padding: var(--qo-space-4) var(--qo-space-5) var(--qo-space-5);
+  min-width: 0;
+}
+
+.settings-field {
+  display: grid;
+  gap: var(--qo-space-2);
+  overflow: visible;
+  min-width: 0;
+}
+
+.settings-field--bindable {
+  position: relative;
+  z-index: 5;
+}
+
+.settings-field__label,
+.settings-toggle__label {
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+}
+
+.settings-helper {
+  margin: 0;
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-xs);
+  line-height: 1.5;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.settings-helper code {
+  color: var(--qo-color-neutral-700);
+  font-family: var(--qo-font-family-mono);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.settings-segmented-control {
+  display: flex;
+  gap: var(--qo-space-2);
+}
+
+.settings-segmented-control__option {
+  flex: 1 1 0;
+  min-height: 2.5rem;
+  border: 0.0625rem solid var(--qo-color-neutral-300);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  font: inherit;
+  cursor: pointer;
+}
+
+.settings-segmented-control__option--active {
+  border-color: var(--qo-color-neutral-900);
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+}
+
+.settings-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+}
+
+:host ::ng-deep .settings-field qo-select,
+:host ::ng-deep .settings-field app-bindable-input,
+:host ::ng-deep .settings-card__body > qo-input,
+:host ::ng-deep .settings-toggle qo-toggle {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+}
+
+:host ::ng-deep .settings-card__body > qo-input .qo-input-wrapper,
+:host ::ng-deep .settings-field .qo-input-wrapper,
+:host ::ng-deep .settings-field .qo-select-trigger,
+:host ::ng-deep .settings-field .qo-textarea {
+  width: 100%;
+  max-width: 100%;
+}
+
+:host ::ng-deep .settings-card__body > qo-input .qo-input-element,
+:host ::ng-deep .settings-field .qo-input-element,
+:host ::ng-deep .settings-field .qo-select-trigger,
+:host ::ng-deep .settings-field .qo-textarea {
+  min-height: var(--qo-space-10);
+  border: 0.0625rem solid var(--qo-color-neutral-300);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+:host ::ng-deep .settings-card__body > qo-input .qo-input-element,
+:host ::ng-deep .settings-field .qo-input-element {
+  padding: 0 var(--qo-space-3);
+}
+
+:host ::ng-deep .settings-field .qo-select-sm,
+:host ::ng-deep .settings-field .qo-select-md {
+  padding: 0 var(--qo-space-3);
+}
+
+:host ::ng-deep .settings-field .qo-textarea {
+  min-height: 6.5rem;
+  padding: var(--qo-space-3);
+  resize: vertical;
+}

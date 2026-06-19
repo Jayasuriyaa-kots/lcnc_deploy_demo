@@ -1,0 +1,62 @@
+{
+  "formId": "employee-exit-form",
+  "formLabel": "Employee Exit Form",
+  "tableName": "exit_interviews",
+  "actionLabels": ["Submit"],
+  "fields": [
+    {
+      "id": "employee_id",
+      "label": "Employee ID",
+      "dbColumn": "employee_id",
+      "type": "text",
+      "placeholder": "Enter employee code",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "last_working_day",
+      "label": "Last Working Day",
+      "dbColumn": "last_working_day",
+      "type": "date",
+      "placeholder": "Select date",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "reason_for_leaving",
+      "label": "Primary Reason for Leaving",
+      "dbColumn": "exit_reason",
+      "type": "dropdown",
+      "placeholder": "Select reason",
+      "required": true,
+      "options": ["Better Opportunity", "Higher Education", "Relocation", "Personal Reasons", "Work-Life Balance", "Compensation", "Management Issues", "Other"]
+    },
+    {
+      "id": "overall_experience",
+      "label": "Overall Experience at QuantaOps",
+      "dbColumn": "overall_rating",
+      "type": "dropdown",
+      "placeholder": "Select rating",
+      "required": true,
+      "options": ["Excellent", "Good", "Average", "Poor"]
+    },
+    {
+      "id": "recommend_company",
+      "label": "Would you recommend QuantaOps to others?",
+      "dbColumn": "recommend_flag",
+      "type": "dropdown",
+      "placeholder": "Select",
+      "required": true,
+      "options": ["Yes", "Maybe", "No"]
+    },
+    {
+      "id": "additional_comments",
+      "label": "Additional Comments",
+      "dbColumn": "comments",
+      "type": "textarea",
+      "placeholder": "Share any feedback to help us improve",
+      "required": false,
+      "options": []
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+<section class="workflow-history">
+  @if (loading()) {
+    <p class="workflow-history__state">Loading execution history...</p>
+  } @else if (!runs().length) {
+    <qo-empty-state
+      icon="clock"
+      title="No workflow runs yet"
+      description="Execution history will appear here once the workflow is triggered."
+    />
+  } @else {
+    <div class="workflow-history__list">
+      @for (run of runs(); track run.id) {
+        <button
+          type="button"
+          class="workflow-history__row"
+          [class.workflow-history__row--selected]="selectedRunId() === run.id"
+          (click)="selectRun.emit(run.id)"
+        >
+          <div class="workflow-history__cell">
+            <span class="workflow-history__label">Run</span>
+            <strong class="workflow-history__value">{{ run.id }}</strong>
+          </div>
+          <div class="workflow-history__cell">
+            <span class="workflow-history__label">Started</span>
+            <span class="workflow-history__value">{{ run.startedAt }}</span>
+          </div>
+          <div class="workflow-history__cell">
+            <span class="workflow-history__label">Finished</span>
+            <span class="workflow-history__value">{{ run.finishedAt ?? 'In progress' }}</span>
+          </div>
+          <qo-workflow-status-badge [status]="run.status" />
+        </button>
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../../../libs/ui-components/src/styles/reset';
+@import '../../../libs/ui-components/src/styles/tokens';
+@import '../../../libs/ui-components/src/styles/typography';
+
+:root {
+  background-color: var(--qo-color-primary-50);
+  color: var(--qo-color-neutral-900);
+}

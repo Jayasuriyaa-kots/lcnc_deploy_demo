@@ -1,0 +1,64 @@
+<div class="users-page">
+  <section class="users-hero">
+    <div class="users-breadcrumb">
+      {{ i18n.translate('users.breadcrumb', { organisationName: selectedOrganisation()?.name ?? i18n.translate('organisations.noOrganisationSelected') }) }}
+    </div>
+
+    <div class="users-hero__row">
+      <div class="users-hero__copy">
+        <h1>{{ i18n.translate('users.usersPageTitle') }}</h1>
+        <p>{{ i18n.translate('users.usersPageDescription') }}</p>
+      </div>
+
+      <qo-button variant="secondary" class="users-add-button" (click)="openAddUserModal()">
+        <span class="users-add-icon" aria-hidden="true">
+          <qo-icon name="user-plus" size="sm"></qo-icon>
+        </span>
+        <span>{{ i18n.translate('users.addUser') }}</span>
+      </qo-button>
+    </div>
+  </section>
+
+  <section class="users-info-banner">
+    <span class="users-info-icon" aria-hidden="true">i</span>
+    <p>
+      <strong>{{ i18n.translate('users.userDetailsOnlyHeading') }}</strong>
+      {{ i18n.translate('users.userDetailsOnlyDescription') }}
+    </p>
+  </section>
+
+  <app-user-filter-bar
+    [activeFilter]="activeFilter()"
+    [count]="filteredUsers().length"
+    (searchChange)="search.set($event)"
+    (activeFilterChange)="activeFilter.set($event)"
+  />
+
+  @if (selectedOrganisation()) {
+    <app-user-table
+      [users]="filteredUsers()"
+      [userMeta]="userMeta()"
+      (edit)="openEditUser($event)"
+      (resetPassword)="sendPasswordReset($event)"
+      (toggleStatus)="toggleUserStatus($event)"
+    />
+  }
+
+  <p class="users-helper-note">
+    {{ i18n.translate('users.resetNote') }}
+  </p>
+</div>
+
+@if (userModalOpen()) {
+  <app-add-user-modal
+    [user]="editingUser()"
+    [organisationName]="selectedOrganisation()?.name ?? 'selected organisation'"
+    [form]="userForm"
+    [department]="editingDepartment()"
+    [selectedPhotoName]="selectedPhotoName()"
+    (close)="closeUserModal()"
+    (photoSelected)="handleUserPhotoSelected($event)"
+    (createUser)="addUser($event)"
+    (saveChanges)="saveUserChanges($event)"
+  />
+}

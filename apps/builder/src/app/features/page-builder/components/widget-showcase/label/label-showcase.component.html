@@ -1,0 +1,13 @@
+<div class="showcase-page">
+  <article class="card card-dashed" draggable="true" (dragstart)="startDrag($event)" (dragend)="endDrag()">
+    <div class="label-card">
+      <div class="label-card__meta">
+        <span class="label-card__badge">LABEL</span>
+        <span class="label-card__hint">Drag onto canvas</span>
+      </div>
+      <div class="label-card__preview">
+        <app-text-block variant="labeltext" [config]="previewConfig"></app-text-block>
+      </div>
+    </div>
+  </article>
+</div>

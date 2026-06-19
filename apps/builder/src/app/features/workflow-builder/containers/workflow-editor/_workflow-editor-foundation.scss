@@ -1,0 +1,36 @@
+.workflow-editor {
+  --workflow-editor-sidebar-width: var(--qo-size-220);
+  --workflow-editor-config-width: var(--qo-size-540);
+  --workflow-editor-sidebar-width-compact: var(--qo-size-188);
+  --workflow-editor-node-width: var(--qo-size-188);
+  --workflow-editor-grid-size: var(--qo-size-18);
+  --workflow-editor-bg: var(--qo-color-neutral-50);
+  --workflow-editor-surface: var(--qo-color-neutral-0);
+  --workflow-editor-surface-muted: var(--qo-color-primary-50);
+  --workflow-editor-border: var(--qo-border-color);
+  --workflow-editor-border-strong: var(--qo-border-color-strong);
+  --workflow-editor-text: var(--qo-color-neutral-900);
+  --workflow-editor-text-muted: var(--qo-color-neutral-600);
+  --workflow-editor-text-subtle: var(--qo-color-neutral-400);
+  --workflow-editor-grid-dot: var(--qo-color-neutral-200);
+  --workflow-editor-edge: var(--qo-color-neutral-400);
+  display: grid;
+  grid-template-columns: var(--workflow-editor-sidebar-width) minmax(0, 1fr) var(--workflow-editor-config-width);
+  min-height: 100%;
+  background: var(--workflow-editor-bg);
+  color: var(--workflow-editor-text);
+  font-family: var(--qo-font-family-sans);
+}
+
+app-workflow-editor {
+  display: block;
+  min-height: 100%;
+}
+
+.workflow-editor--config-collapsed {
+  grid-template-columns: var(--workflow-editor-sidebar-width) minmax(0, 1fr) 0;
+}
+
+.workflow-editor__viewport-blocker {
+  display: none;
+}

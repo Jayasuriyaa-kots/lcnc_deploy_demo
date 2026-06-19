@@ -1,0 +1,342 @@
+<div class="layout-modal-backdrop" (click)="close()">
+  <section class="layout-modal" (click)="$event.stopPropagation()">
+    <header class="layout-modal__header">
+      <h2>{{ t('common.customLayout') }}</h2>
+      <qo-button type="button" variant="ghost" iconLeft="x" [iconOnly]="true" [attr.aria-label]="common('close')" (click)="close()"></qo-button>
+    </header>
+
+    <form class="layout-modal__body" [formGroup]="form">
+      <div class="layout-canvas" [class.layout-canvas--template]="templateMode()" [style]="getCardPreviewStyle()">
+        @if (!templateMode()) {
+          <qo-button
+            variant="ghost"
+            size="sm"
+            class="layout-slot layout-slot--image"
+            [class.layout-slot--active]="selectedSlot() === 'image'"
+            [style]="getSlotPreviewStyle('image')"
+            (click)="setSlot('image')">
+            <qo-icon name="image" size="sm" />
+            <span>{{ getSlotLabel('image') }}</span>
+          </qo-button>
+
+          <qo-button
+            variant="ghost"
+            size="sm"
+            class="layout-slot layout-slot--title"
+            [class.layout-slot--active]="selectedSlot() === 'title'"
+            [style]="getSlotPreviewStyle('title')"
+            (click)="setSlot('title')">
+            {{ getSlotLabel('title') }}
+          </qo-button>
+
+          <qo-button
+            variant="ghost"
+            size="sm"
+            class="layout-slot layout-slot--body"
+            [class.layout-slot--active]="selectedSlot() === 'body'"
+            [style]="getSlotPreviewStyle('body')"
+            (click)="setSlot('body')">
+            {{ getSlotLabel('body') }}
+          </qo-button>
+
+          <qo-button
+            variant="ghost"
+            size="sm"
+            class="layout-slot"
+            [class.layout-slot--active]="selectedSlot() === 'meta_left'"
+            [style]="getSlotPreviewStyle('meta_left')"
+            (click)="setSlot('meta_left')">
+            {{ getSlotLabel('meta_left') }}
+          </qo-button>
+
+          <qo-button
+            variant="ghost"
+            size="sm"
+            class="layout-slot"
+            [class.layout-slot--active]="selectedSlot() === 'meta_right'"
+            [style]="getSlotPreviewStyle('meta_right')"
+            (click)="setSlot('meta_right')">
+            {{ getSlotLabel('meta_right') }}
+          </qo-button>
+        } @else if (templateVariant() === 'block') {
+          <section class="template-canvas" [attr.aria-label]="t('customLayout.templatePreviewCanvas')">
+            <qo-button
+              type="button"
+              variant="ghost"
+              size="sm"
+              class="template-slot template-slot--title"
+              [class.template-slot--active]="selectedSlot() === 'title'"
+              (click)="setSlot('title')">
+              {{ getSlotLabel('title') }}
+            </qo-button>
+
+            <qo-button
+              type="button"
+              variant="ghost"
+              size="sm"
+              class="template-slot template-slot--body"
+              [class.template-slot--active]="selectedSlot() === 'body'"
+              (click)="setSlot('body')">
+              <span class="template-canvas__line template-canvas__line--xl"></span>
+              <span class="template-canvas__line template-canvas__line--xl"></span>
+              <span class="template-canvas__line template-canvas__line--md"></span>
+              <qo-icon name="info" size="sm" />
+            </qo-button>
+
+            <div class="template-canvas__meta-row">
+              <qo-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                class="template-slot template-slot--meta"
+                [class.template-slot--active]="selectedSlot() === 'meta_left'"
+                (click)="setSlot('meta_left')">
+                {{ getSlotLabel('meta_left') }}
+              </qo-button>
+              <qo-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                class="template-slot template-slot--meta"
+                [class.template-slot--active]="selectedSlot() === 'meta_right'"
+                (click)="setSlot('meta_right')">
+                {{ getSlotLabel('meta_right') }}
+              </qo-button>
+              <qo-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                class="template-slot template-slot--meta"
+                [class.template-slot--active]="selectedSlot() === 'body'"
+                (click)="setSlot('body')">
+                {{ getSlotLabel('body') }}
+              </qo-button>
+            </div>
+          </section>
+        } @else {
+          <section class="template-list-canvas" [attr.aria-label]="t('customLayout.templateListCanvas')">
+            @for (slot of slotRows; track slot; let i = $index) {
+              <qo-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                class="template-list-row"
+                [class.template-list-row--active]="selectedSlot() === (slot === 'image' ? 'body' : slot)"
+                (click)="setSlot(slot === 'image' ? 'body' : slot)">
+                <qo-icon name="grip-vertical" size="sm" />
+                <span>{{ getSlotLabel(slot === 'image' ? 'body' : slot) }}</span>
+                @if (i === 4) {
+                  <qo-icon name="info" size="sm" class="template-list-row__info" />
+                }
+              </qo-button>
+            }
+            <qo-button type="button" variant="ghost" size="sm" class="template-list-add">
+              {{ t('generated.add_fields') }}
+            </qo-button>
+          </section>
+        }
+      </div>
+
+      <aside
+        class="layout-inspector"
+        [class.layout-inspector--template]="templateMode()"
+        [class.layout-inspector--style]="activeTab() === 'style'">
+        <div class="tab-switch" [class.tab-switch--template]="templateMode()">
+          <qo-button
+            variant="ghost"
+            size="sm"
+            [fullWidth]="true"
+            [class.tab-switch__item--active]="activeTab() === 'display'"
+            (click)="setTab('display')">
+            @if (templateMode()) {
+              <qo-icon name="settings" size="sm" />
+            }
+            Display
+          </qo-button>
+          <qo-button
+            variant="ghost"
+            size="sm"
+            [fullWidth]="true"
+            [class.tab-switch__item--active]="activeTab() === 'style'"
+            (click)="setTab('style')">
+            @if (templateMode()) {
+              <qo-icon name="palette" size="sm" />
+            }
+            Style
+          </qo-button>
+        </div>
+
+        <div class="layout-inspector__scroll">
+          @if (activeTab() === 'display') {
+            <label class="field">
+              <span>{{ templateMode() && templateVariant() === 'list' ? t('generated.display_name') : t('generated.field') }}</span>
+              <qo-select
+                [value]="getSelectedSlotField()"
+                [options]="getSlotFieldOptions()"
+                [placeholder]="t('common.none')"
+                (valueChange)="onSelectedSlotFieldChange($event)">
+              </qo-select>
+            </label>
+
+            @if (templateMode()) {
+              <label class="field">
+                <span>{{ t('customLayout.displayOption') }}</span>
+                <qo-select
+                  [value]="'day_of_month'"
+                  [options]="displayOptionOptions">
+                </qo-select>
+              </label>
+            }
+          } @else {
+            <section class="style-card">
+              <h4>{{ t('customLayout.cardStyle') }}</h4>
+              <div class="field">
+                <span>{{ t('customLayout.backgroundColor') }}</span>
+                <qo-color-picker
+                  [value]="form.controls.cardBackgroundColor.value"
+                  (valueChange)="form.controls.cardBackgroundColor.setValue($event ?? form.controls.cardBackgroundColor.value)">
+                </qo-color-picker>
+              </div>
+
+              <div class="field">
+                <span>{{ t('customLayout.padding') }}</span>
+                <div class="padding-grid">
+                  <label>
+                    <qo-input type="number" formControlName="cardPaddingTop"></qo-input>
+                    <small>{{ t('customLayout.top') }}</small>
+                  </label>
+                  <label>
+                    <qo-input type="number" formControlName="cardPaddingRight"></qo-input>
+                    <small>{{ t('customLayout.right') }}</small>
+                  </label>
+                  <label>
+                    <qo-input type="number" formControlName="cardPaddingBottom"></qo-input>
+                    <small>{{ t('customLayout.bottom') }}</small>
+                  </label>
+                  <label>
+                    <qo-input type="number" formControlName="cardPaddingLeft"></qo-input>
+                    <small>{{ t('customLayout.left') }}</small>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <section class="style-card">
+              <h4>{{ getSlotLabel(selectedSlot()) }} Style</h4>
+
+              <label class="field">
+                <span>{{ t('customLayout.columnAlign') }}</span>
+                <qo-select
+                  [value]="getSelectedSlotAlign()"
+                  [options]="alignOptions"
+                  (valueChange)="onSelectedSlotAlignChange($event)">
+                </qo-select>
+              </label>
+
+              <div class="field">
+                <span>{{ t('customLayout.backgroundColor') }}</span>
+                <qo-color-picker
+                  [value]="getSelectedSlotBackgroundColor()"
+                  (valueChange)="onSelectedSlotBackgroundColorChange($event)">
+                </qo-color-picker>
+              </div>
+
+              <div class="field">
+                <span>{{ t('customLayout.padding') }}</span>
+                <div class="padding-grid">
+                  <label>
+                    <qo-input
+                      type="number"
+                      [value]="getSelectedSlotPadding('top')"
+                      (valueChange)="onSelectedSlotPaddingChange('top', $event)">
+                    </qo-input>
+                    <small>{{ t('customLayout.top') }}</small>
+                  </label>
+                  <label>
+                    <qo-input
+                      type="number"
+                      [value]="getSelectedSlotPadding('right')"
+                      (valueChange)="onSelectedSlotPaddingChange('right', $event)">
+                    </qo-input>
+                    <small>{{ t('customLayout.right') }}</small>
+                  </label>
+                  <label>
+                    <qo-input
+                      type="number"
+                      [value]="getSelectedSlotPadding('bottom')"
+                      (valueChange)="onSelectedSlotPaddingChange('bottom', $event)">
+                    </qo-input>
+                    <small>{{ t('customLayout.bottom') }}</small>
+                  </label>
+                  <label>
+                    <qo-input
+                      type="number"
+                      [value]="getSelectedSlotPadding('left')"
+                      (valueChange)="onSelectedSlotPaddingChange('left', $event)">
+                    </qo-input>
+                    <small>{{ t('customLayout.left') }}</small>
+                  </label>
+                </div>
+              </div>
+
+              @if (selectedSlot() === 'image') {
+                <label class="field">
+                  <span>{{ t('customLayout.imageShape') }}</span>
+                  <qo-select formControlName="imageShape" [options]="imageShapeOptions"></qo-select>
+                </label>
+              } @else if (selectedSlot() === 'title') {
+                <div class="field">
+                  <span>{{ t('customLayout.titleColor') }}</span>
+                  <qo-color-picker
+                    [value]="form.controls.titleColor.value"
+                    (valueChange)="form.controls.titleColor.setValue($event ?? form.controls.titleColor.value)">
+                  </qo-color-picker>
+                </div>
+                <label class="field">
+                  <span>{{ t('customLayout.titleSize') }}</span>
+                  <qo-input type="number" formControlName="titleFontSize"></qo-input>
+                </label>
+                <label class="field">
+                  <span>{{ t('customLayout.titleWeight') }}</span>
+                  <qo-select formControlName="titleFontWeight" [options]="titleWeightOptions"></qo-select>
+                </label>
+              } @else if (selectedSlot() === 'body') {
+                <div class="field">
+                  <span>{{ t('customLayout.bodyColor') }}</span>
+                  <qo-color-picker
+                    [value]="form.controls.bodyColor.value"
+                    (valueChange)="form.controls.bodyColor.setValue($event ?? form.controls.bodyColor.value)">
+                  </qo-color-picker>
+                </div>
+                <label class="field">
+                  <span>{{ t('customLayout.bodySize') }}</span>
+                  <qo-input type="number" formControlName="bodyFontSize"></qo-input>
+                </label>
+              } @else {
+                <div class="field">
+                  <span>{{ t('customLayout.metaColor') }}</span>
+                  <qo-color-picker
+                    [value]="form.controls.metaColor.value"
+                    (valueChange)="form.controls.metaColor.setValue($event ?? form.controls.metaColor.value)">
+                  </qo-color-picker>
+                </div>
+                <label class="field">
+                  <span>{{ t('customLayout.metaSize') }}</span>
+                  <qo-input type="number" formControlName="metaFontSize"></qo-input>
+                </label>
+              }
+            </section>
+          }
+        </div>
+      </aside>
+    </form>
+
+    <footer class="layout-modal__footer">
+      @if (templateMode() && templateVariant() === 'list') {
+        <qo-button type="button" variant="ghost">{{ t('common.deleteField') }}</qo-button>
+      }
+      <qo-button type="button" variant="secondary" (click)="close()">{{ common('cancel') }}</qo-button>
+      <qo-button type="button" variant="primary" (click)="save()">{{ t('common.saveLayout') }}</qo-button>
+    </footer>
+  </section>
+</div>

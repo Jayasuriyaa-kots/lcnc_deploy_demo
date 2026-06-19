@@ -1,0 +1,218 @@
+:host {
+  display: block;
+}
+
+qo-modal.edit-user-modal-shell {
+  --qo-modal-surface: var(--deployer-surface);
+  --qo-modal-border: var(--deployer-border);
+  --qo-modal-title-color: var(--deployer-text);
+  --qo-modal-subtitle-color: var(--deployer-text-muted);
+  --qo-modal-close-color: var(--deployer-text-muted);
+  --qo-modal-close-hover-bg: var(--qo-deployer-hover-surface);
+  --qo-modal-close-hover-color: var(--deployer-text);
+  --qo-modal-radius: var(--qo-radius-2xl);
+  --qo-modal-shadow:
+    0 var(--qo-size-28) calc(var(--qo-size-64) + var(--qo-size-6)) color-mix(in srgb, var(--qo-color-neutral-900) 42%, transparent),
+    inset 0 var(--qo-size-1) 0 color-mix(in srgb, var(--qo-color-neutral-0) 3%, transparent);
+  --qo-modal-header-padding: var(--qo-space-6) var(--qo-space-8) var(--qo-space-3);
+  --qo-modal-header-border-color: var(--deployer-border);
+  --qo-modal-heading-gap: var(--qo-space-2);
+  --qo-modal-title-size: var(--qo-text-base);
+  --qo-modal-subtitle-size: var(--qo-text-xs);
+  --qo-modal-subtitle-max-width: var(--qo-size-360);
+  --qo-modal-close-margin-top: calc(var(--qo-space-1) * -1);
+  --qo-modal-close-padding: var(--qo-space-1);
+  --qo-modal-content-padding: var(--qo-space-3) var(--qo-space-8) var(--qo-space-3);
+  --qo-modal-footer-padding: var(--qo-space-5) var(--qo-space-8) var(--qo-space-6);
+  --qo-modal-footer-border-color: var(--deployer-border);
+  --qo-modal-footer-justify: space-between;
+  display: block;
+  max-width: var(--qo-size-480);
+}
+
+.edit-user-modal,
+.edit-user-modal__grid {
+  display: grid;
+  gap: var(--qo-space-4);
+}
+
+.edit-user-modal qo-form-field {
+  --qo-form-field-margin-bottom: 0;
+  --qo-form-label-color: var(--deployer-text-muted);
+  --qo-form-label-size: var(--qo-text-xs);
+  --qo-form-label-weight: 700;
+  --qo-form-label-letter-spacing: 0.14em;
+  --qo-form-label-transform: uppercase;
+  --qo-form-label-margin-bottom: var(--qo-space-2);
+}
+
+.edit-user-modal qo-input {
+  --qo-input-bg: var(--deployer-input-bg);
+  --qo-input-border-color: var(--deployer-input-border);
+  --qo-input-border-radius: var(--qo-size-7);
+  --qo-input-color: var(--deployer-text);
+  --qo-input-placeholder-color: var(--deployer-text-muted);
+  --qo-input-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-input-focus-shadow: var(--qo-deployer-field-focus-shadow);
+  --qo-input-height-md: var(--qo-size-44);
+  --qo-input-padding-md: 0 var(--qo-space-3);
+}
+
+.edit-user-modal__grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-space-4);
+}
+
+label {
+  display: grid;
+  gap: var(--qo-space-2);
+}
+
+.edit-user-modal .mini-label {
+  color: var(--deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.edit-user-modal__input {
+  width: 100%;
+  min-height: var(--qo-size-44);
+  border-radius: var(--qo-size-7);
+  border-color: var(--deployer-input-border);
+  background: var(--deployer-input-bg);
+  box-shadow: none;
+  color: var(--deployer-text);
+  font-size: var(--qo-text-sm);
+  line-height: 1.2;
+  padding-inline: var(--qo-space-3);
+  -webkit-text-fill-color: var(--deployer-text);
+}
+
+.edit-user-modal__input:focus {
+  border-color: var(--qo-deployer-line-strong);
+  background: var(--deployer-input-bg);
+  box-shadow: var(--qo-deployer-field-focus-shadow);
+}
+
+.edit-user-modal__divider {
+  height: var(--qo-size-1);
+  margin-top: var(--qo-space-1);
+  background: var(--deployer-border);
+}
+
+.account-status-row,
+.edit-user-modal__footer,
+.edit-user-modal__actions {
+  display: flex;
+  align-items: center;
+}
+
+.account-status-row,
+.edit-user-modal__footer {
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+}
+
+.account-status-row {
+  padding-bottom: var(--qo-space-4);
+}
+
+.account-status-row div {
+  display: grid;
+  gap: var(--qo-space-1);
+}
+
+.account-status-row strong {
+  color: var(--deployer-text);
+  font-size: var(--qo-text-base);
+  font-weight: 800;
+}
+
+.account-status-row p {
+  margin: 0;
+  color: var(--deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  line-height: 1.35;
+}
+
+qo-toggle.account-status-toggle {
+  --qo-toggle-width: var(--qo-size-40);
+  --qo-toggle-height: var(--qo-size-20);
+  --qo-toggle-track-bg: var(--deployer-border);
+  --qo-toggle-track-checked-bg: var(--qo-color-success-500);
+  --qo-toggle-thumb-size: var(--qo-size-16);
+  --qo-toggle-thumb-bg: var(--deployer-surface);
+  --qo-toggle-thumb-checked-transform: translateX(var(--qo-size-20));
+}
+
+.edit-user-modal__footer {
+  width: 100%;
+}
+
+.edit-user-modal__actions {
+  gap: var(--qo-space-3);
+  margin-left: auto;
+}
+
+qo-button.edit-user-modal__cancel,
+qo-button.edit-user-modal__reset {
+  --qo-button-padding: 0;
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: var(--deployer-text-muted);
+  --qo-button-hover-bg: transparent;
+  --qo-button-hover-color: var(--deployer-text);
+  --qo-button-hover-text-decoration: none;
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 700;
+}
+
+qo-button.edit-user-modal__reset {
+  --qo-button-gap: var(--qo-space-2);
+  --qo-button-color: var(--deployer-text-muted);
+}
+
+qo-button.edit-user-modal__save {
+  --qo-button-min-width: var(--qo-size-132);
+  --qo-button-min-height: var(--qo-size-44);
+  --qo-button-radius: var(--qo-radius-lg);
+  --qo-button-justify: center;
+  --qo-button-bg: var(--qo-color-neutral-50);
+  --qo-button-color: var(--qo-color-neutral-600);
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 800;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+}
+
+@media (max-width: var(--qo-size-640)) {
+  qo-modal.edit-user-modal-shell {
+    --qo-modal-header-padding: var(--qo-space-5) var(--qo-space-5) var(--qo-space-3);
+    --qo-modal-content-padding: var(--qo-space-3) var(--qo-space-5) 0;
+    --qo-modal-footer-padding: var(--qo-space-4) var(--qo-space-5) var(--qo-space-5);
+  }
+
+  .edit-user-modal__grid--two {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-user-modal__footer,
+  .edit-user-modal__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .edit-user-modal__actions,
+  .edit-user-modal__reset,
+  .edit-user-modal__cancel,
+  .edit-user-modal__save {
+    width: 100%;
+  }
+
+  qo-button.edit-user-modal__save {
+    --qo-button-width: 100%;
+  }
+}

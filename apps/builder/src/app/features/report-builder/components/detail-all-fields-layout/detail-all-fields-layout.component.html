@@ -1,0 +1,27 @@
+<section class="layout-card">
+  <h4>{{ t('detailLayout.overview') }}</h4>
+  <div cdkDropList [cdkDropListData]="fieldIds()" (cdkDropListDropped)="drop($event)">
+    @for (fieldId of fieldIds(); track fieldId) {
+      <div class="field-row" cdkDrag>
+        <span class="field-row__handle" cdkDragHandle aria-hidden="true">::</span>
+        <span class="field-row__name">{{ getFieldLabel(fieldId) }}</span>
+        <qo-button
+          class="field-row__remove"
+          type="button"
+          variant="ghost"
+          size="sm"
+          [iconOnly]="true"
+          iconLeft="x"
+          [attr.aria-label]="t('generated.remove_field')"
+          (click)="remove.emit(fieldId)">
+        </qo-button>
+      </div>
+    }
+  </div>
+  <div class="add-row">
+    <qo-select
+      [options]="addableFieldOptions()"
+      [placeholder]="t('generated.add_fields')"
+      (valueChange)="onAdd(asText($event))"></qo-select>
+  </div>
+</section>

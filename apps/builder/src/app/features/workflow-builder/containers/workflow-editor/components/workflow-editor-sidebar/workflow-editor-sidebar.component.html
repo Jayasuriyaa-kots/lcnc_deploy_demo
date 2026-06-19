@@ -1,0 +1,67 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<aside class="workflow-editor__sidebar">
+  <qo-button variant="ghost" size="sm" type="button" iconLeft="arrow-left" (click)="back.emit()">{{ 'actions.back' | transloco }}</qo-button>
+
+  <div class="workflow-editor__identity">
+    <h1>{{ workflowName() }}</h1>
+    <p>{{ workflowStatusLabel() }} · {{ workflowVersionLabel() }}</p>
+  </div>
+
+  <label class="workflow-editor__palette-search">
+    <span>{{ t('formLabels.searchNodes') }}</span>
+    <qo-input
+      size="sm"
+      type="search"
+      [placeholder]="t('placeholders.searchNodes')"
+      [value]="paletteSearch()"
+      (valueChange)="paletteSearchChange.emit($event)"
+    />
+  </label>
+
+  <div class="workflow-editor__palette">
+    @if (paletteEmpty()) {
+      <qo-empty-state
+        icon="search"
+        [title]="t('emptyStates.nodes.title')"
+        [description]="t('emptyStates.nodes.description')"
+      />
+    }
+
+    @for (group of paletteGroups(); track group.label) {
+      <section class="workflow-editor__palette-group">
+        <h2>{{ group.label }}</h2>
+
+        <div class="workflow-editor__palette-list">
+          @for (node of group.nodes; track node.id) {
+            <button
+              class="workflow-editor__palette-node"
+              type="button"
+              draggable="true"
+              (dragstart)="paletteDragStart.emit({ event: $event, node })"
+            >
+              <span class="workflow-editor__palette-icon" [attr.data-type]="node.type">
+                <qo-icon [name]="node.icon" size="sm"></qo-icon>
+              </span>
+              <span>{{ node.label }}</span>
+            </button>
+          }
+        </div>
+      </section>
+    }
+  </div>
+
+  <div class="workflow-editor__sidebar-footer">
+    <qo-button
+      variant="primary"
+      size="sm"
+      type="button"
+      [fullWidth]="true"
+      iconLeft="save"
+      [loading]="saving()"
+      (click)="saveWorkflow.emit()"
+    >
+      {{ t('common.saveWorkflow') }}
+    </qo-button>
+  </div>
+</aside>
+</ng-container>

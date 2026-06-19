@@ -1,0 +1,67 @@
+<article class="app-card application-card">
+  <div class="application-main">
+    <div class="application-identity">
+      <qo-avatar-badge [name]="application().iconLabel" />
+      <div class="identity-copy">
+        <h3>{{ application().name }}</h3>
+        <p>{{ application().description }}</p>
+      </div>
+    </div>
+
+    <div class="row-metric">
+      <span class="mini-label">{{ i18n.translate('dashboard.metricUsers') }}</span>
+      <strong>{{ application().users }}</strong>
+    </div>
+
+    <div class="row-metric">
+      <span class="mini-label">{{ i18n.translate('dashboard.metricLatency') }}</span>
+      <strong>{{ application().latency }}</strong>
+    </div>
+
+    <div class="row-metric">
+      <span class="mini-label">{{ i18n.translate('dashboard.metricResume') }}</span>
+      <strong>{{ application().lastActivity }}</strong>
+    </div>
+
+    <div class="row-metric">
+      <span class="mini-label">{{ i18n.translate('dashboard.metricPeriod') }}</span>
+      <strong>{{ application().dataUsage }}</strong>
+    </div>
+
+    <qo-badge [color]="badgeColor(application().status)">{{ application().status }}</qo-badge>
+
+    <div class="footer-actions">
+      <qo-button variant="text" size="sm" class="row-action" (click)="requestBuilderOpen()">{{ i18n.translate('dashboard.builder') }}</qo-button>
+      <qo-button variant="text" size="sm" class="row-action">
+        {{ application().healthy ? i18n.translate('dashboard.preview') : i18n.translate('dashboard.activate') }}
+      </qo-button>
+
+      <div class="application-actions-menu" (click)="$event.stopPropagation()">
+        <qo-button
+          variant="text"
+          size="sm"
+          class="row-action row-action-more"
+          [attr.aria-label]="i18n.translate('dashboard.applicationOptions')"
+          iconLeft="ellipsis-vertical"
+          [iconOnly]="true"
+          [attr.aria-expanded]="actionsOpen()"
+          (click)="toggleActionsMenu($event)"
+        />
+
+        @if (actionsOpen()) {
+          <div class="application-actions-popover" role="menu">
+            <qo-button
+              variant="ghost"
+              size="sm"
+              class="application-actions-popover__item application-actions-popover__item--danger"
+              role="menuitem"
+              (click)="requestDelete()"
+            >
+              {{ i18n.translate('dashboard.deleteApplication') }}
+            </qo-button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</article>

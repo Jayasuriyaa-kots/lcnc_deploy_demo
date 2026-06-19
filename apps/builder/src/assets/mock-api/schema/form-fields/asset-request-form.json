@@ -1,0 +1,62 @@
+{
+  "formId": "asset-request-form",
+  "formLabel": "Asset Request",
+  "tableName": "asset_requests",
+  "actionLabels": ["Submit Request"],
+  "fields": [
+    {
+      "id": "employee_id",
+      "label": "Employee ID",
+      "dbColumn": "employee_id",
+      "type": "text",
+      "placeholder": "Enter employee code",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "asset_type",
+      "label": "Asset Type",
+      "dbColumn": "asset_type",
+      "type": "dropdown",
+      "placeholder": "Select asset type",
+      "required": true,
+      "options": ["Laptop", "Monitor", "Mouse & Keyboard", "Headset", "Mobile Phone", "Desk Chair", "Access Card", "Other"]
+    },
+    {
+      "id": "asset_model",
+      "label": "Preferred Model / Spec",
+      "dbColumn": "asset_model",
+      "type": "text",
+      "placeholder": "e.g. Dell XPS 15, MacBook Pro M3",
+      "required": false,
+      "options": []
+    },
+    {
+      "id": "business_justification",
+      "label": "Business Justification",
+      "dbColumn": "justification",
+      "type": "textarea",
+      "placeholder": "Explain why this asset is needed",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "required_by",
+      "label": "Required By Date",
+      "dbColumn": "required_by",
+      "type": "date",
+      "placeholder": "Select date",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "priority",
+      "label": "Priority",
+      "dbColumn": "priority",
+      "type": "dropdown",
+      "placeholder": "Select priority",
+      "required": true,
+      "options": ["Critical", "High", "Medium", "Low"]
+    }
+  ]
+}

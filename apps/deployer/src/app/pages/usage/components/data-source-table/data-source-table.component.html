@@ -1,0 +1,83 @@
+<qo-table [data]="sourceRows()" [detailWhen]="detailWhen">
+  <ng-template qoTableColumn="source" [header]="i18n.translate('usage.colSource')" let-source>
+    <div class="source-cell">
+      <span class="source-dot" [class]="'is-' + source.dotTone"></span>
+      <strong>{{ source.source }}</strong>
+    </div>
+  </ng-template>
+
+  <ng-template qoTableColumn="application" [header]="i18n.translate('usage.colApplication')" let-source>
+    <span class="subtle-cell">{{ source.application }}</span>
+  </ng-template>
+
+  <ng-template qoTableColumn="type" [header]="i18n.translate('usage.colType')" let-source>
+    <span class="type-chip">{{ source.type }}</span>
+  </ng-template>
+
+  <ng-template qoTableColumn="availability" [header]="i18n.translate('usage.colAvailPct')" let-source>
+    <span class="metric-cell" [class]="'is-' + source.availabilityTone">{{ source.availability }}</span>
+  </ng-template>
+
+  <ng-template qoTableColumn="latency" [header]="i18n.translate('usage.colP95Lat')" let-source>
+    {{ source.latency }}
+  </ng-template>
+
+  <ng-template qoTableColumn="rpm" [header]="i18n.translate('usage.colRpm')" let-source>
+    {{ source.rpm }}
+  </ng-template>
+
+  <ng-template qoTableColumn="errors" [header]="i18n.translate('usage.colErrors')" let-source>
+    <span class="metric-cell" [class]="'is-' + source.errorTone">{{ source.errors }}</span>
+  </ng-template>
+
+  <ng-template qoTableColumn="auth" [header]="i18n.translate('usage.colAuth')" let-source>
+    <span class="metric-cell" [class]="'is-' + source.authTone">{{ source.auth }}</span>
+  </ng-template>
+
+  <ng-template qoTableColumn="jobs" [header]="i18n.translate('usage.colJobs')" let-source>
+    {{ source.jobs }}
+  </ng-template>
+
+  <ng-template qoTableColumn="eps" [header]="i18n.translate('usage.colEps')" let-source>
+    {{ source.eps }}
+  </ng-template>
+
+  <ng-template qoTableColumn="actions" [header]="i18n.translate('usage.colActions')" let-source>
+    <div class="table-actions">
+      <qo-button
+        variant="ghost"
+        size="sm"
+        class="table-action"
+        (click)="onExpandButtonClick($event, source.id)"
+      >
+        {{ isExpanded(source.id) ? i18n.translate('usage.collapse') : i18n.translate('usage.expand') }}
+      </qo-button>
+      <qo-button variant="ghost" size="sm" class="table-action" (click)="onLogsButtonClick($event)">
+        {{ i18n.translate('usage.logs') }}
+      </qo-button>
+    </div>
+  </ng-template>
+
+  <ng-template qoTableDetail let-source>
+    <div class="usage-detail-block">
+      <div class="usage-detail-block__header">
+        <div class="usage-detail-block__title">
+          <span class="usage-detail-block__label">{{ i18n.translate('usage.layer3Label') }}</span>
+          <span>{{ i18n.translate('usage.endpointsForSource', { source: source.source }) }}</span>
+        </div>
+        <div class="usage-detail-block__counts">
+          <span>{{ i18n.translate('usage.readCount', { count: source.readCount }) }}</span>
+          <span>{{ i18n.translate('usage.writeCount', { count: source.writeCount }) }}</span>
+        </div>
+      </div>
+      <app-endpoint-subtable [endpoints]="source.endpoints" />
+    </div>
+  </ng-template>
+
+  <ng-template qoTableEmpty>
+    <qo-empty-state
+      [title]="i18n.translate('usage.noUsageSources')"
+      [description]="i18n.translate('usage.noUsageSourcesDescription')"
+    />
+  </ng-template>
+</qo-table>

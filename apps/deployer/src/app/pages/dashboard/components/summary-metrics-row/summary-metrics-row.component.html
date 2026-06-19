@@ -1,0 +1,10 @@
+<section class="kpi-grid">
+  @for (kpi of kpis(); track kpi.label) {
+    <qo-stat-card
+      [label]="kpi.label"
+      [value]="kpi.value"
+      [trend]="kpi.delta"
+      [trendDirection]="trendDirection(kpi.tone)"
+    />
+  }
+</section>

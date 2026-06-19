@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.payments-table-wrapper {
+  border-radius: var(--qo-radius-2xl);
+  overflow: hidden;
+}
+
+qo-table.payments-table-wrapper {
+  --qo-table-border-color: var(--qo-deployer-line);
+  --qo-table-border-radius: var(--qo-radius-2xl);
+  --qo-table-bg: var(--qo-deployer-card-background);
+  --qo-table-heading-bg: var(--qo-deployer-surface);
+  --qo-table-heading-color: var(--qo-deployer-text-muted);
+  --qo-table-heading-padding: var(--qo-space-4) var(--qo-space-6);
+  --qo-table-heading-letter-spacing: 0.14em;
+  --qo-table-row-bg: var(--qo-deployer-card-background);
+  --qo-table-row-hover-bg: var(--qo-deployer-brand-soft);
+  --qo-table-row-border-color: var(--qo-deployer-line);
+  --qo-table-cell-color: var(--qo-deployer-text);
+  --qo-table-cell-padding: var(--qo-space-4) var(--qo-space-6);
+}
+
+.payment-reference,
+.payment-invoice {
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-text-sm);
+  font-weight: 800;
+}
+
+.payment-muted {
+  color: var(--qo-deployer-text-muted);
+}
+
+.payment-status {
+  font-size: var(--qo-text-xs);
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.payment-status--full,
+.payment-status--settled {
+  color: var(--qo-color-success-500);
+}
+
+.payment-status--partial {
+  color: var(--qo-color-warning-500);
+}
+
+
+

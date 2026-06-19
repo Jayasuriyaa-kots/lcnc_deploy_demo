@@ -1,0 +1,69 @@
+@if (fields().length > 0) {
+  <div
+    class="fields-list">
+    @for (field of fields(); track field.id; let i = $index) {
+      <div
+        class="builder-row"
+        [class.builder-row--active]="selectedFieldId() === field.id"
+        [class.builder-row--dragging]="draggedIndex() === i"
+        [class.builder-row--drop-target]="dropTargetIndex() === i && draggedIndex() !== i"
+        draggable="true"
+        (click)="selectField(field)"
+        (dragstart)="startDrag(i, $event)"
+        (dragover)="dragOver(i, $event)"
+        (drop)="onDrop(i, $event)"
+        (dragend)="clearDragState()">
+        <div class="builder-row__drag-handle" (click)="$event.stopPropagation()">
+          <span class="material-symbols-outlined">drag_indicator</span>
+        </div>
+
+        <div class="builder-row__line"></div>
+
+        <div class="builder-row__content">
+          <div class="builder-row__main">
+            <span class="builder-row__icon-badge">
+              <span class="material-symbols-outlined">{{ field.icon }}</span>
+            </span>
+            <div class="builder-row__text">
+              <div class="builder-row__headline">
+                <span class="builder-row__name">{{ field.label }}</span>
+                <span class="builder-row__type">{{ field.type }}</span>
+              </div>
+              <span class="builder-row__binding">{{ field.binding }}</span>
+            </div>
+          </div>
+
+          <div class="builder-row__meta">
+            <div class="builder-row__flags">
+              @for (flag of getFlags(field); track flag) {
+                <span class="builder-row__flag" [class.builder-row__flag--accent]="flag === 'required'" [class.builder-row__flag--muted]="flag === 'optional'">
+                  {{ t('fieldsList.' + flag) }}
+                </span>
+              }
+            </div>
+            <div class="builder-row__actions">
+              <qo-button class="builder-row__act-btn" variant="ghost" size="sm" type="button" (click)="moveField(field.id, -1, $event)">
+                <span class="material-symbols-outlined">arrow_upward</span>
+              </qo-button>
+              <qo-button class="builder-row__act-btn" variant="ghost" size="sm" type="button" (click)="moveField(field.id, 1, $event)">
+                <span class="material-symbols-outlined">arrow_downward</span>
+              </qo-button>
+              <qo-button class="builder-row__act-btn" variant="ghost" size="sm" type="button" (click)="openInspector(field, $event)">
+                <span class="material-symbols-outlined">settings</span>
+              </qo-button>
+              <qo-button class="builder-row__act-btn builder-row__act-btn--danger" variant="ghost" size="sm" type="button" (click)="deleteField(field.id, $event)">
+                <span class="material-symbols-outlined">delete</span>
+              </qo-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="fields-empty">
+    <span class="material-symbols-outlined">dynamic_form</span>
+    <p>{{ t('fieldsList.emptyPrefix') }} <strong>+ {{ t('library.addField') }}</strong> {{ t('fieldsList.emptySuffix') }}</p>
+    <qo-button variant="secondary" type="button" (click)="addFieldClicked.emit()">{{ t('library.addField') }}</qo-button>
+  </div>
+}

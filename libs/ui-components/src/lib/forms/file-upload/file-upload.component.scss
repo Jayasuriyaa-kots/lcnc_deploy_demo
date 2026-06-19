@@ -1,0 +1,70 @@
+:host {
+  display: block;
+}
+
+.qo-file-upload {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-2);
+  width: 100%;
+  min-height: var(--qo-file-upload-min-height, var(--qo-size-36));
+  padding: var(--qo-file-upload-padding, var(--qo-space-2) var(--qo-space-3));
+  border: var(--qo-border-width) solid var(--qo-file-upload-border-color, var(--qo-border-color));
+  border-radius: var(--qo-file-upload-radius, var(--qo-radius-md));
+  background: var(--qo-file-upload-bg, var(--qo-color-neutral-0));
+  color: var(--qo-file-upload-color, var(--qo-color-neutral-800));
+  cursor: pointer;
+  font-size: var(--qo-file-upload-font-size, var(--qo-text-sm));
+  font-weight: var(--qo-file-upload-font-weight, var(--qo-font-medium));
+  box-shadow: var(--qo-file-upload-shadow, none);
+  transition:
+    border-color var(--qo-duration-slow) ease,
+    background var(--qo-duration-slow) ease,
+    color var(--qo-duration-slow) ease,
+    box-shadow var(--qo-duration-slow) ease;
+}
+
+.qo-file-upload:focus-within {
+  outline: none;
+  border-color: var(--qo-file-upload-focus-border-color, var(--qo-border-color-focus));
+  background: var(--qo-file-upload-focus-bg, var(--qo-file-upload-bg, var(--qo-color-neutral-0)));
+  box-shadow: var(--qo-file-upload-focus-shadow, inset 0 0 0 var(--qo-size-1) var(--qo-border-color-focus));
+}
+
+.qo-file-upload-disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.qo-file-upload-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--qo-file-upload-icon-size, var(--qo-size-20));
+  height: var(--qo-file-upload-icon-size, var(--qo-size-20));
+  border-radius: var(--qo-file-upload-icon-radius, var(--qo-radius-full));
+  background: var(--qo-file-upload-icon-bg, var(--qo-color-neutral-100));
+  color: var(--qo-file-upload-icon-color, var(--qo-color-neutral-700));
+  flex: 0 0 auto;
+}
+
+.qo-file-upload-icon qo-icon {
+  display: inline-flex;
+}
+
+.qo-file-upload-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qo-file-upload-input {
+  position: absolute;
+  width: var(--qo-size-1);
+  height: var(--qo-size-1);
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}

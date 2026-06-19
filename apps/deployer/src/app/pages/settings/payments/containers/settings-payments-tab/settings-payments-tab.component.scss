@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.payments-panel {
+  display: grid;
+  gap: var(--qo-size-32);
+}
+
+@media (max-width: var(--qo-size-980)) {
+  .payments-panel {
+    overflow-x: auto;
+  }
+}

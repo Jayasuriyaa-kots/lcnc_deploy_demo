@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  min-height: 100%;
+  --datasources-dashboard-width: var(--qo-size-container-xl);
+  --builder-primary: var(--qo-color-primary-600);
+  --builder-editor-bg: color-mix(in srgb, var(--qo-color-neutral-950) 88%, var(--qo-color-primary-700) 12%);
+  --builder-editor-tab-color: var(--qo-color-neutral-500);
+  --builder-editor-border-color: var(--qo-color-neutral-200);
+  --builder-editor-border-strong: var(--qo-color-neutral-300);
+  --builder-editor-empty-color: var(--qo-color-neutral-500);
+  --datasources-page-content-padding-top: calc(var(--qo-space-10) + var(--qo-space-1));
+  --datasources-editor-surface-min-height: calc(var(--qo-size-400) + var(--qo-size-40) + var(--qo-size-20));
+  --datasources-editor-code-padding-block: calc(var(--qo-space-5) + var(--qo-size-2));
+  --datasources-editor-code-padding-inline: calc(var(--qo-space-6) + var(--qo-size-4));
+  --datasources-editor-control-height: var(--qo-size-32);
+  --datasources-editor-tab-gap: var(--qo-space-6);
+  --datasources-editor-result-min-height: var(--qo-size-40);
+  --datasources-editor-result-panel-min-height: calc(var(--qo-size-128) + var(--qo-size-4) + var(--qo-size-2));
+}
+
+.datasources-page {
+  width: 100%;
+  min-height: calc(100dvh - var(--qo-size-56));
+}
+.datasources-page__content {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--datasources-dashboard-width);
+  margin: 0 auto;
+  padding: var(--qo-space-8) var(--qo-space-6) var(--qo-space-6);
+}
+.datasources-page__content--picker,
+.datasources-page__content--config { padding-bottom: var(--qo-space-20); }
+.datasources-page__viewport-blocker {
+  display: grid;
+  place-items: center;
+  min-height: calc(100dvh - var(--qo-size-56));
+  padding: var(--qo-space-8);
+}

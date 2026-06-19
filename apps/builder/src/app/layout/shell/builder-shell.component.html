@@ -1,0 +1,20 @@
+<div class="builder-shell">
+  <app-builder-topbar
+    [modules]="moduleLinks"
+    [activeRoute]="currentRoute()"
+    [applicationName]="builderContext()?.applicationName ?? ''"
+  />
+
+  <div
+    class="builder-shell__body"
+    [class.builder-shell__body--compact-sidebar]="activeModule().sidebarMode === 'palette'"
+  >
+    <app-builder-sidebar [moduleConfig]="activeModule()" [activeRoute]="currentRoute()" />
+
+    <main class="builder-shell__content">
+      <router-outlet />
+    </main>
+  </div>
+
+  <app-builder-statusbar />
+</div>

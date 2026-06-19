@@ -1,0 +1,33 @@
+<div class="datasources-page__header external-apis__header">
+  <div>
+    <div class="datasources-page__eyebrow">{{ t('externalApis.selectExternalApiEyebrow') }}</div>
+    <h1 class="datasources-page__title">{{ t('externalApis.chooseConnector') }}</h1>
+    <p class="datasources-page__description">{{ t('externalApis.chooseConnectorDescription') }}</p>
+  </div>
+
+  <qo-button class="datasources-page__config-back" variant="secondary" type="button" (click)="store.showExternalDashboard()">{{ t('externalApis.back') }}</qo-button>
+</div>
+
+<qo-input
+  class="external-apis__connector-search"
+  [value]="store.connectorSearch()"
+  [placeholder]="t('uiText.searchIntegrations')"
+  prefixIcon="search"
+  (valueChange)="store.onConnectorSearch($event)"
+></qo-input>
+
+<div class="external-apis__connector-grid">
+  @for (connector of store.filteredExternalConnectors(); track store.externalConnectorTrack(connector)) {
+    <qo-button class="external-apis__connector" variant="secondary" type="button" (click)="store.selectExternalConnector(connector)">
+      <span class="external-apis__connector-body">
+        <span class="external-apis__logo" [attr.aria-label]="connector.name + ' logo'">
+          <qo-connector-icon [type]="store.externalConnectorIconType(connector.id)" size="card" appearance="plain"></qo-connector-icon>
+        </span>
+        <span class="external-apis__connector-copy">
+          <strong>{{ connector.name }}</strong>
+          <span>{{ connector.authSummary }}</span>
+        </span>
+      </span>
+    </qo-button>
+  }
+</div>

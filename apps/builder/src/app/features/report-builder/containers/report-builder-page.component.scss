@@ -1,0 +1,257 @@
+:host {
+  --rb-text-muted: var(--qo-color-neutral-400);
+  --rb-text-primary: var(--qo-color-neutral-900);
+  --rb-text-secondary: var(--qo-color-neutral-600);
+  --rb-surface: var(--qo-color-neutral-0);
+  --rb-surface-hover: var(--qo-color-neutral-100);
+  --rb-border: var(--qo-border-color);
+  --rb-border-soft: var(--qo-color-neutral-200);
+  --rb-shadow-soft: var(--qo-shadow-sm);
+  --rb-hero-title-min: var(--qo-text-3xl);
+  --rb-hero-title-max: var(--qo-text-4xl);
+  --rb-toggle-size: var(--qo-space-7);
+  --rb-toggle-offset: calc(var(--rb-toggle-size) / -2);
+
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.report-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  padding: var(--qo-space-8) var(--qo-space-6) var(--qo-space-6);
+}
+
+.report-page__hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--qo-space-5);
+  margin-bottom: var(--qo-space-5);
+  flex-shrink: 0;
+}
+
+.report-page__eyebrow {
+  margin: 0 0 var(--qo-space-2);
+  color: var(--rb-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.report-page__title {
+  margin: 0;
+  color: var(--rb-text-primary);
+  font-family: var(--qo-font-family-sans);
+  font-size: clamp(var(--rb-hero-title-min), 3.7vw, var(--rb-hero-title-max));
+  line-height: 1.05;
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: -0.04em;
+}
+
+.report-page__description {
+  max-width: 47.5rem;
+  margin: var(--qo-space-2) 0 0;
+  color: var(--rb-text-secondary);
+  font-size: var(--qo-text-sm);
+  line-height: 1.6;
+}
+
+.report-page__hero-actions {
+  display: flex;
+  gap: var(--qo-space-2);
+  flex-shrink: 0;
+}
+
+.report-workspace {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+}
+
+.report-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20rem;
+  gap: var(--qo-space-4);
+  align-items: stretch;
+  min-height: 0;
+  height: 100%;
+}
+
+app-report-center-preview,
+app-report-right-panel {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+app-report-left-panel {
+  display: block;
+  width: 21.5rem;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+  background: var(--rb-surface);
+  border: var(--qo-border-width) solid var(--rb-border-soft);
+}
+
+.sidebar-slot {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+
+.sidebar-slot--right {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.left-edge-dock {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--qo-space-6) * -1);
+  z-index: 7;
+  display: flex;
+  align-items: flex-start;
+  min-height: 0;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: var(--qo-space-2);
+  z-index: 4;
+}
+
+:host ::ng-deep qo-button.sidebar-toggle .qo-btn {
+  width: var(--rb-toggle-size);
+  height: var(--rb-toggle-size);
+  min-width: var(--rb-toggle-size);
+  border: var(--qo-border-width) solid var(--rb-border-soft);
+  border-radius: var(--qo-radius-full);
+  background: var(--rb-surface);
+  color: var(--rb-text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--rb-shadow-soft);
+
+  .material-symbols-outlined {
+    font-size: var(--qo-text-lg);
+  }
+}
+
+:host ::ng-deep qo-button.sidebar-toggle .qo-btn:focus-visible {
+  outline: calc(var(--qo-border-width) * 2) solid var(--qo-color-primary-500);
+  outline-offset: var(--qo-space-1);
+}
+
+.sidebar-toggle--right {
+  left: var(--rb-toggle-offset);
+}
+
+:host ::ng-deep qo-button.left-edge-toggle .qo-btn {
+  width: 0.875rem;
+  min-width: 0.875rem;
+  height: 6.5rem;
+  border-radius: 0;
+  border: var(--qo-border-width) solid var(--rb-border-soft);
+  border-left: 0;
+  background: var(--qo-color-neutral-100);
+  color: var(--rb-text-primary);
+  padding: 0;
+  box-shadow: none;
+
+  .material-symbols-outlined {
+    font-size: var(--qo-text-base);
+  }
+}
+
+:host ::ng-deep qo-button.left-edge-toggle .qo-btn:focus-visible {
+  outline: calc(var(--qo-border-width) * 2) solid var(--qo-color-primary-500);
+  outline-offset: var(--qo-space-1);
+}
+
+:host ::ng-deep qo-button.report-page__hero-button .qo-btn {
+  min-height: var(--qo-space-10);
+  padding: 0 var(--qo-size-18);
+  border-radius: var(--qo-radius-lg);
+  font-size: var(--qo-size-14);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+  border: var(--qo-border-width) solid transparent;
+  transition: background 120ms;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+
+
+
+:host ::ng-deep qo-button.report-page__hero-button--primary .qo-btn {
+  background: var(--rb-text-primary);
+  color: var(--rb-surface);
+  border-color: var(--rb-text-primary);
+}
+
+:host ::ng-deep qo-button.report-page__hero-button--primary .qo-btn:hover {
+  background: var(--qo-color-neutral-800);
+}
+
+:host ::ng-deep qo-button.report-page__hero-button--secondary .qo-btn {
+  background: var(--rb-surface);
+  color: var(--rb-text-primary);
+  border-color: var(--rb-border-soft);
+}
+
+:host ::ng-deep qo-button.report-page__hero-button--secondary .qo-btn:hover {
+  background: var(--rb-surface-hover);
+}
+
+:host ::ng-deep qo-button.report-page__hero-button .qo-btn:disabled {
+  background: var(--qo-color-neutral-500);
+  color: var(--rb-surface);
+  border-color: var(--qo-color-neutral-500);
+  opacity: 1;
+}
+
+:host ::ng-deep qo-button.report-page__hero-button .qo-btn:focus-visible {
+  outline: calc(var(--qo-border-width) * 2) solid var(--qo-color-primary-500);
+  outline-offset: var(--qo-space-1);
+}
+
+@media (max-width: 82.5rem) {
+  .report-layout {
+    grid-template-columns: minmax(0, 1fr) 18.25rem;
+  }
+}
+
+@media (max-width: 67.5rem) {
+  .report-page {
+    padding: var(--qo-space-5) var(--qo-space-4) var(--qo-space-5);
+  }
+
+  .report-page__hero {
+    flex-direction: column;
+  }
+
+  .report-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-toggle,
+  .left-edge-dock {
+    display: none;
+  }
+}

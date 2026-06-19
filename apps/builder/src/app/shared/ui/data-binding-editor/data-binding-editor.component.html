@@ -1,0 +1,45 @@
+<div class="data-binding-editor">
+  <section class="data-binding-editor__section">
+    <label class="prop-row-label" for="binding-editor-input">Binding</label>
+    <app-bindable-input
+      id="binding-editor-input"
+      class="data-binding-editor__bindable"
+      [rows]="4"
+      [value]="bindingInputValue()"
+      [rootKeys]="bindingRootKeys()"
+      [placeholder]="'Type plain text or use {{ }} bindings and formulas'"
+      (valueChange)="updateBindingInput($event)"
+    ></app-bindable-input>
+    <p class="data-binding-editor__hint">
+      Plain text stays static. Use <code>{{ '{{ ... }}' }}</code> for datasource paths, widget values, page values, and formulas.
+    </p>
+  </section>
+
+  <section class="data-binding-editor__section data-binding-editor__section--compact">
+    <div class="data-binding-editor__field-grid">
+      <div class="data-binding-editor__field">
+        <label class="prop-row-label">Fallback</label>
+        <qo-input class="prop-input full-width" [value]="binding().fallbackValue" (valueChange)="updateField('fallbackValue', $event)"></qo-input>
+      </div>
+
+      <div class="data-binding-editor__field">
+        <label class="prop-row-label">Format</label>
+        <qo-input class="prop-input full-width" [value]="binding().format" (valueChange)="updateField('format', $event)"></qo-input>
+      </div>
+    </div>
+    <p class="data-binding-editor__hint">
+      Use format for light output hints like <code>%</code>, <code>Lakhs</code>, or <code>currency</code>.
+    </p>
+  </section>
+
+  <section class="data-binding-editor__section">
+    <label class="prop-row-label">Examples</label>
+    <div class="data-binding-editor__examples">
+      @for (example of helperExamples; track example) {
+        <button type="button" class="data-binding-editor__example" (click)="applyExample(example)" [title]="example">
+          <span class="data-binding-editor__example-text">{{ example }}</span>
+        </button>
+      }
+    </div>
+  </section>
+</div>

@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.dialog-stack {
+  display: grid;
+  gap: var(--qo-size-16);
+}
+
+.dialog-stack div {
+  display: grid;
+  gap: var(--qo-size-6);
+}
+

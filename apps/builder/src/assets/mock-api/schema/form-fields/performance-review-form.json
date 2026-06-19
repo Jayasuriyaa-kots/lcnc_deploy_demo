@@ -1,0 +1,80 @@
+{
+  "formId": "performance-review-form",
+  "formLabel": "Performance Review",
+  "tableName": "performance_reviews",
+  "actionLabels": ["Submit Review"],
+  "fields": [
+    {
+      "id": "employee_id",
+      "label": "Employee ID",
+      "dbColumn": "employee_id",
+      "type": "text",
+      "placeholder": "Enter employee code (e.g. EMP-0001)",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "review_period",
+      "label": "Review Period",
+      "dbColumn": "review_period",
+      "type": "dropdown",
+      "placeholder": "Select period",
+      "required": true,
+      "options": ["Q1 2026", "Q2 2026", "Q3 2026", "Q4 2026", "Annual 2025"]
+    },
+    {
+      "id": "overall_rating",
+      "label": "Overall Rating",
+      "dbColumn": "overall_rating",
+      "type": "dropdown",
+      "placeholder": "Select rating",
+      "required": true,
+      "options": ["5 - Exceptional", "4 - Exceeds Expectations", "3 - Meets Expectations", "2 - Needs Improvement", "1 - Unsatisfactory"]
+    },
+    {
+      "id": "goals_achieved",
+      "label": "Goals Achieved (%)",
+      "dbColumn": "goals_pct",
+      "type": "number",
+      "placeholder": "0–100",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "strengths",
+      "label": "Key Strengths",
+      "dbColumn": "strengths",
+      "type": "textarea",
+      "placeholder": "Describe top 2–3 strengths",
+      "required": false,
+      "options": []
+    },
+    {
+      "id": "development_areas",
+      "label": "Development Areas",
+      "dbColumn": "dev_areas",
+      "type": "textarea",
+      "placeholder": "Areas for growth in next cycle",
+      "required": false,
+      "options": []
+    },
+    {
+      "id": "reviewer_name",
+      "label": "Reviewer Name",
+      "dbColumn": "reviewer",
+      "type": "text",
+      "placeholder": "Enter reviewer full name",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "review_date",
+      "label": "Review Date",
+      "dbColumn": "review_date",
+      "type": "date",
+      "placeholder": "Select date",
+      "required": true,
+      "options": []
+    }
+  ]
+}

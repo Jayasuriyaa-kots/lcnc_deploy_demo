@@ -1,0 +1,118 @@
+<section class="user-management-page" aria-labelledby="user-management-title">
+  <div class="user-management-page__hero">
+    <div>
+      <p class="user-management-page__eyebrow">Deployment</p>
+      <h1 id="user-management-title">User Management</h1>
+      <p>
+        Assign users from the Deployer and configure role-based permissions for
+        every form, field, and report in this application.
+      </p>
+    </div>
+
+    <qo-button class="user-management-page__assign" type="button" iconLeft="plus">Assign User</qo-button>
+  </div>
+
+  <aside class="user-management-note" aria-label="User management note">
+    <qo-icon name="info" aria-hidden="true"></qo-icon>
+    <p>
+      Users must be registered in the <strong>Deployer</strong> first. You can only assign
+      existing Deployer-registered users here. Roles defined here are <strong>app-specific</strong>
+      and independent from Deployer roles.
+    </p>
+  </aside>
+
+  <nav class="role-tabs" aria-label="Role tabs">
+    @for (role of roles(); track role.label) {
+      <qo-button class="role-tab" [class.role-tab--active]="role.active" type="button" variant="ghost">
+        <span>{{ role.label }}</span>
+        <strong>{{ role.count }}</strong>
+      </qo-button>
+    }
+    <qo-button class="role-tab role-tab--new" type="button" variant="ghost" iconLeft="plus">New Role</qo-button>
+  </nav>
+
+  <div class="user-management-grid">
+    <section class="role-users-card" aria-labelledby="role-users-title">
+      <header>
+        <h2 id="role-users-title">Users in this role</h2>
+        <qo-button type="button" size="sm" iconLeft="plus">Assign</qo-button>
+      </header>
+
+      <div class="role-users-card__list">
+        @for (user of users(); track user.email) {
+          <article class="role-user">
+            <span>{{ user.initials }}</span>
+            <div>
+              <h3>{{ user.name }}</h3>
+              <p>{{ user.email }}</p>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="permission-card" aria-labelledby="permission-matrix-title">
+      <header>
+        <h2 id="permission-matrix-title">Permission Matrix - Viewer Role</h2>
+      </header>
+
+      <div class="permission-table" role="table" aria-label="Permission matrix for viewer role">
+        <div class="permission-table__head" role="row">
+          <span role="columnheader">Form / Report / Page</span>
+          <span role="columnheader">View</span>
+          <span role="columnheader">Create</span>
+          <span role="columnheader">Edit</span>
+          <span role="columnheader">Delete</span>
+        </div>
+
+        @for (group of permissionGroups(); track group.label) {
+          <div class="permission-table__group">{{ group.label }}</div>
+
+          @for (item of group.items; track item.name) {
+            <div class="permission-table__row" role="row">
+              <span class="permission-table__resource" role="cell">
+                <qo-icon
+                  [name]="item.icon"
+                  class="permission-table__icon"
+                  [class.permission-table__icon--purple]="item.tone === 'purple'"
+                  [class.permission-table__icon--green]="item.tone === 'green'"
+                  aria-hidden="true">
+                </qo-icon>
+                {{ item.name }}
+              </span>
+              <label class="permission-check" role="cell" aria-label="View permission">
+                <input type="checkbox" checked />
+              </label>
+              <label class="permission-check" role="cell" aria-label="Create permission">
+                <input type="checkbox" />
+              </label>
+              <label class="permission-check" role="cell" aria-label="Edit permission">
+                <input type="checkbox" />
+              </label>
+              <label class="permission-check" role="cell" aria-label="Delete permission">
+                <input type="checkbox" />
+              </label>
+            </div>
+          }
+        }
+      </div>
+
+      <section class="field-permissions" aria-labelledby="field-permissions-title">
+        <h2 id="field-permissions-title">Field-level permissions</h2>
+
+        <div class="field-permissions__list">
+          @for (field of fieldPermissions(); track field.name) {
+            <article class="field-permission">
+              <qo-icon name="lock" aria-hidden="true"></qo-icon>
+              <div>
+                <h3>{{ field.name }}</h3>
+                <p>{{ field.type }}</p>
+              </div>
+              <strong>{{ field.rule }}</strong>
+            </article>
+          }
+        </div>
+      </section>
+    </section>
+  </div>
+</section>

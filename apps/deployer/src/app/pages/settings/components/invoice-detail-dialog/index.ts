@@ -1,0 +1,1 @@
+export { InvoiceDetailDialogComponent } from './invoice-detail-dialog.component';

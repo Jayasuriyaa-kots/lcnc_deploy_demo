@@ -1,0 +1,44 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<section class="workflow-action-button-table">
+  @if (!actions().length) {
+    <qo-empty-state
+      icon="cursor-click"
+      [title]="t('emptyStates.actionButtons.title')"
+      [description]="t('emptyStates.actionButtons.description')"
+    />
+  } @else {
+    <qo-table [data]="actionRows()">
+      <ng-template qoTableColumn="actionName" [header]="t('tables.actionName')" let-row>
+        <strong>{{ actionRow(row).actionName }}</strong>
+      </ng-template>
+
+      <ng-template qoTableColumn="linkedWorkflow" [header]="t('tables.linkedWorkflow')" let-row>
+        {{ actionRow(row).linkedWorkflow }}
+      </ng-template>
+
+      <ng-template qoTableColumn="scope" [header]="t('tables.scope')" let-row>
+        <span class="workflow-action-button-table__scope">{{ actionRow(row).scope }}</span>
+      </ng-template>
+
+      <ng-template qoTableColumn="source" [header]="t('tables.source')" let-row>
+        <span class="workflow-action-button-table__muted">{{ actionRow(row).source }}</span>
+      </ng-template>
+
+      <ng-template qoTableColumn="usedIn" [header]="t('tables.usedIn')" let-row>
+        {{ actionRow(row).usedIn }}
+      </ng-template>
+
+      <ng-template qoTableColumn="status" [header]="t('tables.status')" let-row>
+        <qo-workflow-status-badge [status]="actionRow(row).status" />
+      </ng-template>
+
+      <ng-template qoTableColumn="actions" [header]="t('tables.actions')" let-row>
+        <div class="workflow-action-button-table__actions">
+          <qo-button variant="ghost" size="sm" type="button" (click)="edit.emit(actionRow(row).id)">{{ 'actions.edit' | transloco }}</qo-button>
+          <qo-button variant="ghost" size="sm" type="button" (click)="delete.emit(actionRow(row).id)">{{ 'actions.delete' | transloco }}</qo-button>
+        </div>
+      </ng-template>
+    </qo-table>
+  }
+</section>
+</ng-container>

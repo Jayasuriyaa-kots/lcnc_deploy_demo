@@ -1,0 +1,188 @@
+<article class="datasource-card" [class.datasource-card--expanded]="source().expanded">
+  <div class="datasource-card__summary">
+    <div class="datasource-card__identity">
+      <qo-status-dot class="datasource-card__status" [color]="statusColor()"></qo-status-dot>
+      <div class="datasource-card__icon-shell">
+        <qo-connector-icon [type]="source().connectorId" size="card" appearance="plain"></qo-connector-icon>
+      </div>
+      <div class="datasource-card__copy">
+        <div class="datasource-card__name">{{ source().name }}</div>
+        <div class="datasource-card__subtitle">{{ source().subtitle }}</div>
+      </div>
+    </div>
+
+    <div class="metrics-group">
+      @for (metric of metricItems(); track metric.label) {
+        <div class="datasource-card__metric">
+          <span class="datasource-card__metric-label">{{ metric.label }}</span>
+          <strong
+            class="datasource-card__metric-value"
+            [class.datasource-card__metric-value--good]="metric.tone === 'good'"
+            [class.datasource-card__metric-value--warning]="metric.tone === 'warning'"
+            [class.datasource-card__metric-value--danger]="metric.tone === 'danger'"
+          >
+            @if (metric.label === 'AUTH') {
+              <span class="datasource-card__auth-value">
+                <span class="datasource-card__auth-mark">{{ authMarker(metric.value) }}</span>
+                <span>{{ metric.value }}</span>
+              </span>
+            } @else {
+              {{ metric.value }}
+            }
+          </strong>
+        </div>
+      }
+    </div>
+
+    <div class="datasource-actions">
+      <div class="datasource-status-cell" [class.datasource-status-cell--inactive]="!source().active">
+        <qo-toggle
+          [checked]="source().active"
+          [label]="source().active ? t('common.active') : t('common.inactive')"
+          (checkedChange)="toggleSourceActive()"
+        ></qo-toggle>
+      </div>
+      <qo-button class="datasource-card__action datasource-card__action--expand" variant="secondary" size="sm" type="button" (click)="onToggle()">
+        {{ source().expanded ? t('common.collapse') : t('common.expand') }}
+      </qo-button>
+      <qo-button class="datasource-card__action datasource-card__action--edit" variant="secondary" size="sm" type="button" (click)="editDatasource(source().id)">
+        {{ t('externalApis.edit') }}
+      </qo-button>
+      <qo-button class="datasource-card__action datasource-card__action--schema" variant="secondary" size="sm" type="button" [disabled]="!source().active" (click)="onSchema()">
+        {{ t('common.schema') }}
+      </qo-button>
+      <qo-button class="datasource-card__action datasource-card__action--add" variant="secondary" size="sm" type="button" [disabled]="!source().active" (click)="onAddQuery()">
+        <span class="datasource-card__action-add-label">
+          <span>{{ t('card.addLabel') }}</span>
+          <span>{{ t('card.queryLabel') }}</span>
+        </span>
+      </qo-button>
+      <qo-button
+        class="datasource-card__action datasource-card__action--delete"
+        variant="ghost"
+        size="sm"
+        type="button"
+        (click)="requestSourceDelete()"
+      >
+        {{ t('externalApis.delete') }}
+      </qo-button>
+    </div>
+  </div>
+
+  @if (source().expanded) {
+    <div class="datasource-card__detail">
+      <div class="datasource-card__detail-heading">
+        {{ t('card.endpointsHeading', { name: uppercase(source().name), count: source().queries.length }) }}
+      </div>
+
+      <div class="datasource-card__detail-search">
+        <div class="datasource-card__detail-search-field">
+          <qo-input
+            class="datasource-card__detail-search-input"
+            [value]="querySearch()"
+            [placeholder]="querySearchPlaceholder()"
+            prefixIcon="search"
+            (valueChange)="onQuerySearch($event)"
+          ></qo-input>
+          @if (querySearch()) {
+            <qo-button class="datasource-card__detail-search-clear" variant="ghost" size="sm" type="button" (click)="clearQuerySearch()">
+              {{ t('externalApis.clear') }}
+            </qo-button>
+          }
+        </div>
+      </div>
+
+      <qo-table [data]="visibleQueries()" [trackBy]="trackQuery">
+        <ng-template qoTableColumn="name" [header]="t('card.colQueryEndpoint')" let-query>
+          <div class="datasource-card__query-name" [class.datasource-card__query-muted]="isQueryMuted(query)">{{ query.name }}</div>
+        </ng-template>
+
+        <ng-template qoTableColumn="method" [header]="t('card.colMethod')" let-query>
+          <span [class.datasource-card__query-muted]="isQueryMuted(query)">
+            <qo-badge [color]="methodBadgeColor(query.method)">{{ query.method }}</qo-badge>
+          </span>
+        </ng-template>
+
+        <ng-template qoTableColumn="calls" [header]="t('card.colCalls')" let-query>
+          <span [class.datasource-card__query-muted]="isQueryMuted(query)">{{ query.calls }}</span>
+        </ng-template>
+        <ng-template qoTableColumn="p50" [header]="t('card.colP50')" let-query>
+          <span [class.datasource-card__query-muted]="isQueryMuted(query)">{{ query.p50 }}</span>
+        </ng-template>
+        <ng-template qoTableColumn="p95" [header]="t('card.colP95')" let-query>
+          <span [class.datasource-card__query-muted]="isQueryMuted(query)">{{ query.p95 }}</span>
+        </ng-template>
+
+        <ng-template qoTableColumn="errors" [header]="t('card.colErrPct')" let-query>
+          <span
+            class="datasource-card__table-tone"
+            [class.datasource-card__query-muted]="isQueryMuted(query)"
+            [class.datasource-card__table-tone--danger]="query.errorRate !== '0.0%' && !isQueryMuted(query)"
+          >
+            {{ query.errorRate }}
+          </span>
+        </ng-template>
+
+        <ng-template qoTableColumn="retries" [header]="t('card.colRetries')" let-query>
+          <span [class.datasource-card__query-muted]="isQueryMuted(query)">{{ query.retries }}</span>
+        </ng-template>
+
+        <ng-template qoTableColumn="auth" [header]="t('card.colAuth')" let-query>
+          <span
+            class="datasource-card__table-tone"
+            [class.datasource-card__query-muted]="isQueryMuted(query)"
+            [class.datasource-card__table-tone--good]="query.authHealthy && !isQueryMuted(query)"
+          >
+            {{ query.authHealthy ? t('common.authOk') : t('common.authExpired') }}
+          </span>
+        </ng-template>
+
+        <ng-template qoTableColumn="access" [header]="t('card.colAccess')" let-query>
+          <span [class.datasource-card__query-muted]="isQueryMuted(query)">{{ query.accessCount }}</span>
+        </ng-template>
+
+        <ng-template qoTableColumn="status" [header]="t('card.colStatus')" let-query>
+          <div
+            class="datasource-card__query-status datasource-status-cell"
+            [class.datasource-status-cell--inactive]="!query.active"
+            [class.datasource-card__query-status--muted]="isQueryMuted(query)"
+            (click)="$event.stopPropagation()"
+          >
+            <qo-toggle
+              [checked]="query.active"
+              [label]="query.active ? t('common.active') : t('common.inactive')"
+              (checkedChange)="toggleQueryActive(query.id)"
+            ></qo-toggle>
+          </div>
+        </ng-template>
+
+        <ng-template qoTableColumn="actions" [header]="t('card.colActions')" let-query>
+          <div class="datasource-card__query-actions">
+            <qo-button class="datasource-card__table-action" variant="ghost" size="sm" type="button" (click)="openDetail(query.id); $event.stopPropagation()">
+              {{ t('common.detail') }}
+            </qo-button>
+            <qo-button class="datasource-card__table-action datasource-card__table-action--danger" variant="ghost" size="sm" type="button" (click)="requestDelete(query.id); $event.stopPropagation()">
+              {{ t('externalApis.delete') }}
+            </qo-button>
+          </div>
+        </ng-template>
+
+        <ng-template qoTableEmpty>
+          @if (querySearchActive()) {
+            <qo-empty-state
+              icon="search"
+              [title]="t('card.noMatchingQueriesTitle')"
+              [description]="t('card.tryDifferentQueryOrEndpointSearch')"
+            ></qo-empty-state>
+          } @else {
+            <qo-empty-state
+              icon="database"
+              [title]="t('card.noSavedQueriesYet')"
+              [description]="t('card.noSavedQueriesDescription')"
+            ></qo-empty-state>
+          }
+        </ng-template>
+      </qo-table>
+    </div>
+  }
+</article>

@@ -1,0 +1,47 @@
+.layout-card {
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  padding: var(--qo-space-3);
+  display: grid;
+  gap: var(--qo-space-2);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: var(--qo-space-5) 1fr auto;
+  gap: var(--qo-space-2);
+  align-items: center;
+  border: 1px dashed var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  padding: var(--qo-space-2) var(--qo-space-3);
+  font-size: var(--qo-text-sm);
+}
+
+.field-row__handle {
+  font-size: var(--qo-text-sm);
+  line-height: 1;
+  cursor: grab;
+  user-select: none;
+}
+
+.field-row__name {
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-normal);
+  color: var(--qo-color-neutral-800);
+  line-height: var(--qo-leading-tight);
+}
+
+.add-row {
+  width: 100%;
+}
+
+:host ::ng-deep .add-row .qo-select-trigger {
+  border-color: var(--qo-color-neutral-400);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-800);
+}
+
+:host ::ng-deep .add-row .qo-select-placeholder {
+  color: var(--qo-color-neutral-700);
+  font-weight: var(--qo-font-semibold);
+}

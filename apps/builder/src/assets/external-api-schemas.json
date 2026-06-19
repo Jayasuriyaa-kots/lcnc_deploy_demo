@@ -1,0 +1,581 @@
+{
+  "connectors": [
+    {
+      "key": "airtable",
+      "name": "Airtable",
+      "category": "Custom / API",
+      "authSummary": "OAuth / API Key",
+      "defaultAuth": "OAuth 2.0",
+      "logo": "airtable",
+      "seed": {
+        "status": "Connected",
+        "lastSync": "Today, 06:40 AM",
+        "usedIn": "Reports",
+        "clientIdOrApiKey": "airtable-client-id",
+        "clientSecretOrToken": "airtable-client-secret",
+        "redirectUrl": "https://builder.quantaops.app/oauth/airtable/callback",
+        "workspaceTenantDomain": "acme-airtable",
+        "permissionsScopes": "data.records:read schema.bases:read",
+        "endpoints": [
+          {
+            "resourceName": "Records",
+            "httpMethod": "GET",
+            "endpointUrl": "https://api.airtable.com/v0/base/table",
+            "usage": "Reports",
+            "syncMode": "Auto sync",
+            "fieldMappings": [
+              { "externalField": "Name", "internalField": "name", "fieldType": "Text", "required": true },
+              { "externalField": "Email", "internalField": "email", "fieldType": "Email", "required": false }
+            ],
+            "advancedOptions": {
+              "requestHeaders": [{ "key": "Authorization", "value": "Bearer " }],
+              "queryParameters": [{ "key": "view", "value": "Grid view" }],
+              "responseMappings": [{ "responsePath": "records[0].fields.Email", "targetField": "email" }],
+              "retryCount": "3",
+              "timeout": "5000",
+              "fallbackMessage": "Unable to complete this request right now."
+            }
+          }
+        ]
+      },
+      "schema": {
+        "connectorKey": "airtable",
+        "displayName": "Airtable",
+        "authenticationType": "OAuth 2.0",
+        "sections": [
+          {
+            "title": "Connection Details",
+            "fields": [
+              { "key": "connectionName", "label": "Connection Name", "type": "text", "required": true, "defaultValue": "Airtable" },
+              {
+                "key": "status",
+                "label": "Status",
+                "type": "select",
+                "defaultValue": "Connected",
+                "options": [
+                  { "label": "Connected", "value": "Connected" },
+                  { "label": "Expired Token", "value": "Expired Token" },
+                  { "label": "Error", "value": "Error" },
+                  { "label": "Not Connected", "value": "Not Connected" }
+                ]
+              },
+              {
+                "key": "useIn",
+                "label": "Use In",
+                "type": "select",
+                "defaultValue": "Forms, Reports, Workflows",
+                "options": [
+                  { "label": "Forms, Reports, Workflows", "value": "Forms, Reports, Workflows" },
+                  { "label": "Forms", "value": "Forms" },
+                  { "label": "Reports", "value": "Reports" },
+                  { "label": "Workflows", "value": "Workflows" },
+                  { "label": "Not used", "value": "Not used" }
+                ]
+              },
+              { "key": "workspaceTenantDomain", "label": "Workspace / Tenant / Domain", "type": "text", "defaultValue": "acme-airtable" },
+              { "key": "active", "label": "Active", "type": "toggle", "defaultValue": true }
+            ]
+          },
+          {
+            "title": "Authentication",
+            "fields": [
+              {
+                "key": "authenticationType",
+                "label": "Authentication Type",
+                "type": "select",
+                "required": true,
+                "defaultValue": "OAuth 2.0",
+                "options": [
+                  { "label": "OAuth 2.0", "value": "OAuth 2.0" },
+                  { "label": "API Key", "value": "API Key" },
+                  { "label": "Bearer Token", "value": "Bearer Token" },
+                  { "label": "Basic Auth", "value": "Basic Auth" },
+                  { "label": "No Auth", "value": "No Auth" }
+                ]
+              },
+              { "key": "clientIdOrApiKey", "label": "Client ID / API Key", "type": "text", "required": true },
+              { "key": "clientSecretOrToken", "label": "Client Secret / Token", "type": "password", "required": true },
+              { "key": "redirectUrl", "label": "Redirect URL", "type": "url", "defaultValue": "https://builder.quantaops.app/oauth/airtable/callback" },
+              { "key": "permissionsScopes", "label": "Permissions / Scopes", "type": "textarea", "rows": 4, "defaultValue": "" }
+            ]
+          },
+          {
+            "title": "Request Setup",
+            "fields": [
+              { "key": "resourceName", "label": "Resource Name", "type": "text", "required": true, "defaultValue": "Records" },
+              {
+                "key": "httpMethod",
+                "label": "HTTP Method",
+                "type": "select",
+                "defaultValue": "GET",
+                "options": [
+                  { "label": "GET", "value": "GET" },
+                  { "label": "POST", "value": "POST" },
+                  { "label": "PUT", "value": "PUT" },
+                  { "label": "PATCH", "value": "PATCH" },
+                  { "label": "DELETE", "value": "DELETE" }
+                ]
+              },
+              { "key": "endpointUrl", "label": "Endpoint URL", "type": "url", "required": true, "defaultValue": "https://api.airtable.com/v0/base/table" },
+              {
+                "key": "resourceUsage",
+                "label": "Usage",
+                "type": "select",
+                "defaultValue": "Reports",
+                "options": [
+                  { "label": "Forms", "value": "Forms" },
+                  { "label": "Reports", "value": "Reports" },
+                  { "label": "Workflows", "value": "Workflows" },
+                  { "label": "Not used", "value": "Not used" }
+                ]
+              },
+              {
+                "key": "syncMode",
+                "label": "Sync Mode",
+                "type": "select",
+                "defaultValue": "Auto sync",
+                "options": [
+                  { "label": "Auto sync", "value": "Auto sync" },
+                  { "label": "Manual", "value": "Manual" },
+                  { "label": "Scheduled", "value": "Scheduled" }
+                ]
+              },
+              {
+                "key": "requestMappings",
+                "label": "Request Mapping",
+                "type": "mappingList",
+                "sourceLabel": "Quanta Field",
+                "targetLabel": "API Request Path",
+                "sourcePlaceholder": "email",
+                "targetPlaceholder": "properties.email",
+                "options": [
+                  { "label": "Text", "value": "Text" },
+                  { "label": "Number", "value": "Number" },
+                  { "label": "Email", "value": "Email" },
+                  { "label": "Phone", "value": "Phone" },
+                  { "label": "Boolean", "value": "Boolean" },
+                  { "label": "Date", "value": "Date" },
+                  { "label": "Enum", "value": "Enum" }
+                ],
+                "mappingDefaults": [
+                  { "sourcePath": "email", "targetField": "fields.Email", "fieldType": "Email", "required": false }
+                ]
+              },
+              {
+                "key": "responseMappings",
+                "label": "Response Mapping",
+                "type": "mappingList",
+                "sourceLabel": "API Response Path",
+                "targetLabel": "Quanta Field",
+                "sourcePlaceholder": "records[0].fields.Email",
+                "targetPlaceholder": "email",
+                "options": [
+                  { "label": "Text", "value": "Text" },
+                  { "label": "Number", "value": "Number" },
+                  { "label": "Email", "value": "Email" },
+                  { "label": "Phone", "value": "Phone" },
+                  { "label": "Boolean", "value": "Boolean" },
+                  { "label": "Date", "value": "Date" },
+                  { "label": "Enum", "value": "Enum" }
+                ],
+                "mappingDefaults": [
+                  { "sourcePath": "records[0].fields.Email", "targetField": "email", "fieldType": "Email", "required": false }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "aws-lambda",
+      "name": "AWS Lambda",
+      "category": "Custom / API",
+      "authSummary": "OAuth / API Key",
+      "defaultAuth": "API Key",
+      "logo": "aws-lambda",
+      "seed": {
+        "status": "Connected",
+        "lastSync": "Today, 10:30 AM",
+        "usedIn": "Workflows",
+        "clientIdOrApiKey": "lambda-api-key",
+        "clientSecretOrToken": "lambda-secret",
+        "redirectUrl": "https://builder.quantaops.app/oauth/aws-lambda/callback",
+        "workspaceTenantDomain": "ap-south-1",
+        "permissionsScopes": "lambda:InvokeFunction",
+        "endpoints": [
+          {
+            "resourceName": "Invoke Function",
+            "httpMethod": "POST",
+            "endpointUrl": "https://lambda.ap-south-1.amazonaws.com/2015-03-31/functions/name/invocations",
+            "usage": "Workflows",
+            "syncMode": "Manual",
+            "fieldMappings": [
+              { "externalField": "payload.customerId", "internalField": "customerId", "fieldType": "Text", "required": true },
+              { "externalField": "payload.status", "internalField": "status", "fieldType": "Enum", "required": false }
+            ],
+            "advancedOptions": {
+              "requestHeaders": [{ "key": "x-api-key", "value": "lambda-api-key" }],
+              "queryParameters": [{ "key": "", "value": "" }],
+              "responseMappings": [{ "responsePath": "payload.status", "targetField": "status" }],
+              "retryCount": "3",
+              "timeout": "5000",
+              "fallbackMessage": "Unable to complete this request right now."
+            }
+          }
+        ]
+      },
+      "schema": {
+        "connectorKey": "aws-lambda",
+        "displayName": "AWS Lambda",
+        "authenticationType": "API Key",
+        "sections": [
+          {
+            "title": "Connection Details",
+            "fields": [
+              { "key": "connectionName", "label": "Connection Name", "type": "text", "required": true, "defaultValue": "AWS Lambda" },
+              { "key": "status", "label": "Status", "type": "select", "defaultValue": "Connected", "options": [{ "label": "Connected", "value": "Connected" }, { "label": "Expired Token", "value": "Expired Token" }, { "label": "Error", "value": "Error" }, { "label": "Not Connected", "value": "Not Connected" }] },
+              { "key": "useIn", "label": "Use In", "type": "select", "defaultValue": "Workflows", "options": [{ "label": "Forms, Reports, Workflows", "value": "Forms, Reports, Workflows" }, { "label": "Forms", "value": "Forms" }, { "label": "Reports", "value": "Reports" }, { "label": "Workflows", "value": "Workflows" }, { "label": "Not used", "value": "Not used" }] },
+              { "key": "workspaceTenantDomain", "label": "Workspace / Tenant / Domain", "type": "text", "defaultValue": "ap-south-1" },
+              { "key": "active", "label": "Active", "type": "toggle", "defaultValue": true }
+            ]
+          },
+          {
+            "title": "Authentication",
+            "fields": [
+              { "key": "authenticationType", "label": "Authentication Type", "type": "select", "required": true, "defaultValue": "API Key", "options": [{ "label": "OAuth 2.0", "value": "OAuth 2.0" }, { "label": "API Key", "value": "API Key" }, { "label": "Bearer Token", "value": "Bearer Token" }, { "label": "Basic Auth", "value": "Basic Auth" }, { "label": "No Auth", "value": "No Auth" }] },
+              { "key": "clientIdOrApiKey", "label": "Client ID / API Key", "type": "text", "required": true },
+              { "key": "clientSecretOrToken", "label": "Client Secret / Token", "type": "password" },
+              { "key": "redirectUrl", "label": "Redirect URL", "type": "url", "defaultValue": "https://builder.quantaops.app/oauth/aws-lambda/callback" },
+              { "key": "permissionsScopes", "label": "Permissions / Scopes", "type": "textarea", "rows": 4, "defaultValue": "" }
+            ]
+          },
+          {
+            "title": "Request Setup",
+            "fields": [
+              { "key": "resourceName", "label": "Resource Name", "type": "text", "required": true, "defaultValue": "Invoke Function" },
+              { "key": "httpMethod", "label": "HTTP Method", "type": "select", "defaultValue": "POST", "options": [{ "label": "GET", "value": "GET" }, { "label": "POST", "value": "POST" }, { "label": "PUT", "value": "PUT" }, { "label": "PATCH", "value": "PATCH" }, { "label": "DELETE", "value": "DELETE" }] },
+              { "key": "endpointUrl", "label": "Endpoint URL", "type": "url", "required": true, "defaultValue": "https://lambda.ap-south-1.amazonaws.com/2015-03-31/functions/name/invocations" },
+              { "key": "resourceUsage", "label": "Usage", "type": "select", "defaultValue": "Workflows", "options": [{ "label": "Forms", "value": "Forms" }, { "label": "Reports", "value": "Reports" }, { "label": "Workflows", "value": "Workflows" }, { "label": "Not used", "value": "Not used" }] },
+              { "key": "syncMode", "label": "Sync Mode", "type": "select", "defaultValue": "Manual", "options": [{ "label": "Auto sync", "value": "Auto sync" }, { "label": "Manual", "value": "Manual" }, { "label": "Scheduled", "value": "Scheduled" }] },
+              { "key": "requestMappings", "label": "Request Mapping", "type": "mappingList", "sourceLabel": "Quanta Field", "targetLabel": "API Request Path", "sourcePlaceholder": "customerId", "targetPlaceholder": "payload.customerId", "options": [{ "label": "Text", "value": "Text" }, { "label": "Number", "value": "Number" }, { "label": "Email", "value": "Email" }, { "label": "Phone", "value": "Phone" }, { "label": "Boolean", "value": "Boolean" }, { "label": "Date", "value": "Date" }, { "label": "Enum", "value": "Enum" }], "mappingDefaults": [{ "sourcePath": "customerId", "targetField": "payload.customerId", "fieldType": "Text", "required": true }] },
+              { "key": "responseMappings", "label": "Response Mapping", "type": "mappingList", "sourceLabel": "API Response Path", "targetLabel": "Quanta Field", "sourcePlaceholder": "payload.status", "targetPlaceholder": "status", "options": [{ "label": "Text", "value": "Text" }, { "label": "Number", "value": "Number" }, { "label": "Email", "value": "Email" }, { "label": "Phone", "value": "Phone" }, { "label": "Boolean", "value": "Boolean" }, { "label": "Date", "value": "Date" }, { "label": "Enum", "value": "Enum" }], "mappingDefaults": [{ "sourcePath": "payload.status", "targetField": "status", "fieldType": "Enum", "required": false }] }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "googleSheets",
+      "name": "Google Sheets",
+      "category": "Spreadsheets",
+      "authSummary": "OAuth / API Key",
+      "defaultAuth": "OAuth 2.0",
+      "logo": "googleSheets",
+      "seed": {
+        "status": "Connected",
+        "lastSync": "Today, 07:20 AM",
+        "usedIn": "Reports",
+        "clientIdOrApiKey": "google-client-id",
+        "clientSecretOrToken": "google-client-secret",
+        "redirectUrl": "https://builder.quantaops.app/oauth/google/callback",
+        "workspaceTenantDomain": "acme-google-workspace",
+        "permissionsScopes": "https://www.googleapis.com/auth/spreadsheets.readonly",
+        "endpoints": [
+          {
+            "resourceName": "Rows",
+            "httpMethod": "GET",
+            "endpointUrl": "https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}",
+            "usage": "Reports",
+            "syncMode": "Scheduled",
+            "fieldMappings": [
+              { "externalField": "A", "internalField": "name", "fieldType": "Text", "required": true },
+              { "externalField": "B", "internalField": "email", "fieldType": "Email", "required": false }
+            ],
+            "advancedOptions": {
+              "requestHeaders": [{ "key": "Authorization", "value": "Bearer " }],
+              "queryParameters": [{ "key": "majorDimension", "value": "ROWS" }],
+              "responseMappings": [{ "responsePath": "values[0][1]", "targetField": "email" }],
+              "retryCount": "3",
+              "timeout": "5000",
+              "fallbackMessage": "Unable to complete this request right now."
+            }
+          }
+        ]
+      },
+      "schema": {
+        "connectorKey": "googleSheets",
+        "displayName": "Google Sheets",
+        "authenticationType": "OAuth 2.0",
+        "sections": [
+          {
+            "title": "Connection Details",
+            "fields": [
+              { "key": "connectionName", "label": "Connection Name", "type": "text", "required": true, "defaultValue": "Google Sheets" },
+              { "key": "status", "label": "Status", "type": "select", "defaultValue": "Connected", "options": [{ "label": "Connected", "value": "Connected" }, { "label": "Expired Token", "value": "Expired Token" }, { "label": "Error", "value": "Error" }, { "label": "Not Connected", "value": "Not Connected" }] },
+              { "key": "useIn", "label": "Use In", "type": "select", "defaultValue": "Reports", "options": [{ "label": "Forms, Reports, Workflows", "value": "Forms, Reports, Workflows" }, { "label": "Forms", "value": "Forms" }, { "label": "Reports", "value": "Reports" }, { "label": "Workflows", "value": "Workflows" }, { "label": "Not used", "value": "Not used" }] },
+              { "key": "workspaceTenantDomain", "label": "Workspace / Tenant / Domain", "type": "text", "defaultValue": "acme-google-workspace" },
+              { "key": "active", "label": "Active", "type": "toggle", "defaultValue": true }
+            ]
+          },
+          {
+            "title": "Authentication",
+            "fields": [
+              { "key": "authenticationType", "label": "Authentication Type", "type": "select", "required": true, "defaultValue": "OAuth 2.0", "options": [{ "label": "OAuth 2.0", "value": "OAuth 2.0" }, { "label": "API Key", "value": "API Key" }, { "label": "Bearer Token", "value": "Bearer Token" }, { "label": "Basic Auth", "value": "Basic Auth" }, { "label": "No Auth", "value": "No Auth" }] },
+              { "key": "clientIdOrApiKey", "label": "Client ID / API Key", "type": "text", "required": true },
+              { "key": "clientSecretOrToken", "label": "Client Secret / Token", "type": "password", "required": true },
+              { "key": "redirectUrl", "label": "Redirect URL", "type": "url", "defaultValue": "https://builder.quantaops.app/oauth/google/callback" },
+              { "key": "permissionsScopes", "label": "Permissions / Scopes", "type": "textarea", "rows": 4, "defaultValue": "" }
+            ]
+          },
+          {
+            "title": "Request Setup",
+            "fields": [
+              { "key": "resourceName", "label": "Resource Name", "type": "text", "required": true, "defaultValue": "Rows" },
+              { "key": "httpMethod", "label": "HTTP Method", "type": "select", "defaultValue": "GET", "options": [{ "label": "GET", "value": "GET" }, { "label": "POST", "value": "POST" }, { "label": "PUT", "value": "PUT" }, { "label": "PATCH", "value": "PATCH" }, { "label": "DELETE", "value": "DELETE" }] },
+              { "key": "endpointUrl", "label": "Endpoint URL", "type": "url", "required": true, "defaultValue": "https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}" },
+              { "key": "resourceUsage", "label": "Usage", "type": "select", "defaultValue": "Reports", "options": [{ "label": "Forms", "value": "Forms" }, { "label": "Reports", "value": "Reports" }, { "label": "Workflows", "value": "Workflows" }, { "label": "Not used", "value": "Not used" }] },
+              { "key": "syncMode", "label": "Sync Mode", "type": "select", "defaultValue": "Scheduled", "options": [{ "label": "Auto sync", "value": "Auto sync" }, { "label": "Manual", "value": "Manual" }, { "label": "Scheduled", "value": "Scheduled" }] },
+              { "key": "requestMappings", "label": "Request Mapping", "type": "mappingList", "sourceLabel": "Quanta Field", "targetLabel": "API Request Path", "sourcePlaceholder": "sheetId", "targetPlaceholder": "spreadsheetId", "options": [{ "label": "Text", "value": "Text" }, { "label": "Number", "value": "Number" }, { "label": "Email", "value": "Email" }, { "label": "Phone", "value": "Phone" }, { "label": "Boolean", "value": "Boolean" }, { "label": "Date", "value": "Date" }, { "label": "Enum", "value": "Enum" }], "mappingDefaults": [{ "sourcePath": "sheetId", "targetField": "spreadsheetId", "fieldType": "Text", "required": true }] },
+              { "key": "responseMappings", "label": "Response Mapping", "type": "mappingList", "sourceLabel": "API Response Path", "targetLabel": "Quanta Field", "sourcePlaceholder": "values[0][1]", "targetPlaceholder": "email", "options": [{ "label": "Text", "value": "Text" }, { "label": "Number", "value": "Number" }, { "label": "Email", "value": "Email" }, { "label": "Phone", "value": "Phone" }, { "label": "Boolean", "value": "Boolean" }, { "label": "Date", "value": "Date" }, { "label": "Enum", "value": "Enum" }], "mappingDefaults": [{ "sourcePath": "values[0][1]", "targetField": "email", "fieldType": "Email", "required": false }] }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "hubspot",
+      "name": "HubSpot",
+      "category": "CRM",
+      "authSummary": "Bearer Token",
+      "defaultAuth": "Bearer Token",
+      "logo": "hubspot",
+      "seed": {
+        "status": "Expired Token",
+        "lastSync": "Yesterday, 06:45 PM",
+        "usedIn": "Workflows",
+        "clientIdOrApiKey": "hubspot-private-app",
+        "clientSecretOrToken": "hubspot-token",
+        "redirectUrl": "https://builder.quantaops.app/oauth/hubspot/callback",
+        "workspaceTenantDomain": "acme-hubspot",
+        "permissionsScopes": "crm.objects.contacts.read automation",
+        "endpoints": [
+          {
+            "resourceName": "Contacts",
+            "httpMethod": "GET",
+            "endpointUrl": "https://api.hubapi.com/crm/v3/objects/contacts",
+            "usage": "Workflows",
+            "syncMode": "Manual",
+            "fieldMappings": [
+              { "externalField": "firstname", "internalField": "firstName", "fieldType": "Text", "required": true },
+              { "externalField": "email", "internalField": "email", "fieldType": "Email", "required": true }
+            ],
+            "advancedOptions": {
+              "requestHeaders": [{ "key": "Authorization", "value": "Bearer " }],
+              "queryParameters": [{ "key": "limit", "value": "100" }],
+              "responseMappings": [{ "responsePath": "results[0].properties.email", "targetField": "email" }],
+              "retryCount": "3",
+              "timeout": "5000",
+              "fallbackMessage": "Unable to complete this request right now."
+            }
+          }
+        ]
+      },
+      "schema": {
+        "connectorKey": "hubspot",
+        "displayName": "HubSpot",
+        "authenticationType": "Bearer Token",
+        "sections": [
+          {
+            "title": "Connection Details",
+            "fields": [
+              { "key": "connectionName", "label": "Connection Name", "type": "text", "required": true, "defaultValue": "HubSpot" },
+              { "key": "status", "label": "Status", "type": "select", "defaultValue": "Expired Token", "options": [{ "label": "Connected", "value": "Connected" }, { "label": "Expired Token", "value": "Expired Token" }, { "label": "Error", "value": "Error" }, { "label": "Not Connected", "value": "Not Connected" }] },
+              { "key": "useIn", "label": "Use In", "type": "select", "defaultValue": "Workflows", "options": [{ "label": "Forms, Reports, Workflows", "value": "Forms, Reports, Workflows" }, { "label": "Forms", "value": "Forms" }, { "label": "Reports", "value": "Reports" }, { "label": "Workflows", "value": "Workflows" }, { "label": "Not used", "value": "Not used" }] },
+              { "key": "workspaceTenantDomain", "label": "Workspace / Tenant / Domain", "type": "text", "defaultValue": "acme-hubspot" },
+              { "key": "active", "label": "Active", "type": "toggle", "defaultValue": true }
+            ]
+          },
+          {
+            "title": "Authentication",
+            "fields": [
+              { "key": "authenticationType", "label": "Authentication Type", "type": "select", "required": true, "defaultValue": "Bearer Token", "options": [{ "label": "OAuth 2.0", "value": "OAuth 2.0" }, { "label": "API Key", "value": "API Key" }, { "label": "Bearer Token", "value": "Bearer Token" }, { "label": "Basic Auth", "value": "Basic Auth" }, { "label": "No Auth", "value": "No Auth" }] },
+              { "key": "clientIdOrApiKey", "label": "Client ID / API Key", "type": "text" },
+              { "key": "clientSecretOrToken", "label": "Client Secret / Token", "type": "password", "required": true },
+              { "key": "redirectUrl", "label": "Redirect URL", "type": "url", "defaultValue": "https://builder.quantaops.app/oauth/hubspot/callback" },
+              { "key": "permissionsScopes", "label": "Permissions / Scopes", "type": "textarea", "rows": 4, "defaultValue": "" }
+            ]
+          },
+          {
+            "title": "Request Setup",
+            "fields": [
+              { "key": "resourceName", "label": "Resource Name", "type": "text", "required": true, "defaultValue": "Contacts" },
+              { "key": "httpMethod", "label": "HTTP Method", "type": "select", "defaultValue": "GET", "options": [{ "label": "GET", "value": "GET" }, { "label": "POST", "value": "POST" }, { "label": "PUT", "value": "PUT" }, { "label": "PATCH", "value": "PATCH" }, { "label": "DELETE", "value": "DELETE" }] },
+              { "key": "endpointUrl", "label": "Endpoint URL", "type": "url", "required": true, "defaultValue": "https://api.hubapi.com/crm/v3/objects/contacts" },
+              { "key": "resourceUsage", "label": "Usage", "type": "select", "defaultValue": "Workflows", "options": [{ "label": "Forms", "value": "Forms" }, { "label": "Reports", "value": "Reports" }, { "label": "Workflows", "value": "Workflows" }, { "label": "Not used", "value": "Not used" }] },
+              { "key": "syncMode", "label": "Sync Mode", "type": "select", "defaultValue": "Manual", "options": [{ "label": "Auto sync", "value": "Auto sync" }, { "label": "Manual", "value": "Manual" }, { "label": "Scheduled", "value": "Scheduled" }] },
+              { "key": "requestMappings", "label": "Request Mapping", "type": "mappingList", "sourceLabel": "Quanta Field", "targetLabel": "API Request Path", "sourcePlaceholder": "email", "targetPlaceholder": "properties.email", "options": [{ "label": "Text", "value": "Text" }, { "label": "Number", "value": "Number" }, { "label": "Email", "value": "Email" }, { "label": "Phone", "value": "Phone" }, { "label": "Boolean", "value": "Boolean" }, { "label": "Date", "value": "Date" }, { "label": "Enum", "value": "Enum" }], "mappingDefaults": [{ "sourcePath": "email", "targetField": "properties.email", "fieldType": "Email", "required": true }] },
+              { "key": "responseMappings", "label": "Response Mapping", "type": "mappingList", "sourceLabel": "API Response Path", "targetLabel": "Quanta Field", "sourcePlaceholder": "results[0].properties.email", "targetPlaceholder": "email", "options": [{ "label": "Text", "value": "Text" }, { "label": "Number", "value": "Number" }, { "label": "Email", "value": "Email" }, { "label": "Phone", "value": "Phone" }, { "label": "Boolean", "value": "Boolean" }, { "label": "Date", "value": "Date" }, { "label": "Enum", "value": "Enum" }], "mappingDefaults": [{ "sourcePath": "results[0].properties.email", "targetField": "email", "fieldType": "Email", "required": true }] }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "twilio",
+      "name": "Twilio",
+      "category": "Communication",
+      "authSummary": "API Key / Basic Auth",
+      "defaultAuth": "API Key",
+      "logo": "twilio",
+      "seed": {
+        "status": "Connected",
+        "lastSync": "Today, 09:15 AM",
+        "usedIn": "Workflows",
+        "clientIdOrApiKey": "twilio-account-sid",
+        "clientSecretOrToken": "twilio-auth-token",
+        "redirectUrl": "https://builder.quantaops.app/oauth/twilio/callback",
+        "workspaceTenantDomain": "acme-twilio",
+        "permissionsScopes": "messages:read messages:create",
+        "endpoints": [
+          {
+            "resourceName": "Messages",
+            "httpMethod": "POST",
+            "endpointUrl": "https://api.twilio.com/2010-04-01/Accounts/{AccountSid}/Messages.json",
+            "usage": "Workflows",
+            "syncMode": "Manual",
+            "fieldMappings": [
+              { "externalField": "to", "internalField": "phone", "fieldType": "Phone", "required": true },
+              { "externalField": "body", "internalField": "message", "fieldType": "Text", "required": true }
+            ],
+            "advancedOptions": {
+              "requestHeaders": [{ "key": "Authorization", "value": "Basic " }],
+              "queryParameters": [{ "key": "PageSize", "value": "50" }],
+              "responseMappings": [{ "responsePath": "to", "targetField": "phone" }],
+              "retryCount": "3",
+              "timeout": "5000",
+              "fallbackMessage": "Unable to complete this request right now."
+            }
+          }
+        ]
+      },
+      "schema": {
+        "connectorKey": "twilio",
+        "displayName": "Twilio",
+        "authenticationType": "API Key",
+        "sections": [
+          {
+            "title": "Connection Details",
+            "fields": [
+              { "key": "connectionName", "label": "Connection Name", "type": "text", "required": true, "defaultValue": "Twilio" },
+              { "key": "status", "label": "Status", "type": "select", "defaultValue": "Connected", "options": [{ "label": "Connected", "value": "Connected" }, { "label": "Expired Token", "value": "Expired Token" }, { "label": "Error", "value": "Error" }, { "label": "Not Connected", "value": "Not Connected" }] },
+              { "key": "useIn", "label": "Use In", "type": "select", "defaultValue": "Workflows", "options": [{ "label": "Forms, Reports, Workflows", "value": "Forms, Reports, Workflows" }, { "label": "Forms", "value": "Forms" }, { "label": "Reports", "value": "Reports" }, { "label": "Workflows", "value": "Workflows" }, { "label": "Not used", "value": "Not used" }] },
+              { "key": "workspaceTenantDomain", "label": "Workspace / Tenant / Domain", "type": "text", "defaultValue": "acme-twilio" },
+              { "key": "active", "label": "Active", "type": "toggle", "defaultValue": true }
+            ]
+          },
+          {
+            "title": "Authentication",
+            "fields": [
+              { "key": "authenticationType", "label": "Authentication Type", "type": "select", "required": true, "defaultValue": "API Key", "options": [{ "label": "OAuth 2.0", "value": "OAuth 2.0" }, { "label": "API Key", "value": "API Key" }, { "label": "Bearer Token", "value": "Bearer Token" }, { "label": "Basic Auth", "value": "Basic Auth" }, { "label": "No Auth", "value": "No Auth" }] },
+              { "key": "accountSid", "label": "Client ID / API Key", "type": "text", "required": true },
+              { "key": "authToken", "label": "Client Secret / Token", "type": "password", "required": true },
+              { "key": "redirectUrl", "label": "Redirect URL", "type": "url", "defaultValue": "https://builder.quantaops.app/oauth/twilio/callback" },
+              { "key": "permissionsScopes", "label": "Permissions / Scopes", "type": "textarea", "rows": 4, "defaultValue": "" }
+            ]
+          },
+          {
+            "title": "Request Setup",
+            "fields": [
+              { "key": "resourceName", "label": "Resource Name", "type": "text", "required": true, "defaultValue": "Messages" },
+              { "key": "httpMethod", "label": "HTTP Method", "type": "select", "defaultValue": "POST", "options": [{ "label": "GET", "value": "GET" }, { "label": "POST", "value": "POST" }, { "label": "PUT", "value": "PUT" }, { "label": "PATCH", "value": "PATCH" }, { "label": "DELETE", "value": "DELETE" }] },
+              { "key": "endpointUrl", "label": "Endpoint URL", "type": "url", "required": true, "defaultValue": "https://api.twilio.com/2010-04-01/Accounts/{AccountSid}/Messages.json" },
+              { "key": "resourceUsage", "label": "Usage", "type": "select", "defaultValue": "Workflows", "options": [{ "label": "Forms", "value": "Forms" }, { "label": "Reports", "value": "Reports" }, { "label": "Workflows", "value": "Workflows" }, { "label": "Not used", "value": "Not used" }] },
+              { "key": "syncMode", "label": "Sync Mode", "type": "select", "defaultValue": "Manual", "options": [{ "label": "Auto sync", "value": "Auto sync" }, { "label": "Manual", "value": "Manual" }, { "label": "Scheduled", "value": "Scheduled" }] },
+              { "key": "requestMappings", "label": "Request Mapping", "type": "mappingList", "sourceLabel": "Quanta Field", "targetLabel": "API Request Path", "sourcePlaceholder": "phone", "targetPlaceholder": "to", "options": [{ "label": "Text", "value": "Text" }, { "label": "Number", "value": "Number" }, { "label": "Email", "value": "Email" }, { "label": "Phone", "value": "Phone" }, { "label": "Boolean", "value": "Boolean" }, { "label": "Date", "value": "Date" }, { "label": "Enum", "value": "Enum" }], "mappingDefaults": [{ "sourcePath": "phone", "targetField": "to", "fieldType": "Phone", "required": true }] },
+              { "key": "responseMappings", "label": "Response Mapping", "type": "mappingList", "sourceLabel": "API Response Path", "targetLabel": "Quanta Field", "sourcePlaceholder": "body", "targetPlaceholder": "message", "options": [{ "label": "Text", "value": "Text" }, { "label": "Number", "value": "Number" }, { "label": "Email", "value": "Email" }, { "label": "Phone", "value": "Phone" }, { "label": "Boolean", "value": "Boolean" }, { "label": "Date", "value": "Date" }, { "label": "Enum", "value": "Enum" }], "mappingDefaults": [{ "sourcePath": "body", "targetField": "message", "fieldType": "Text", "required": true }] }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "amplitude",
+      "name": "Amplitude",
+      "category": "Custom / API",
+      "authSummary": "OAuth / API Key",
+      "defaultAuth": "API Key",
+      "logo": "amplitude",
+      "seed": {
+        "status": "Connected",
+        "lastSync": "Today, 08:50 AM",
+        "usedIn": "Reports",
+        "clientIdOrApiKey": "amplitude-api-key",
+        "clientSecretOrToken": "amplitude-secret",
+        "redirectUrl": "https://builder.quantaops.app/oauth/amplitude/callback",
+        "workspaceTenantDomain": "acme-amplitude",
+        "permissionsScopes": "events:read cohorts:read",
+        "endpoints": [
+          {
+            "resourceName": "Events",
+            "httpMethod": "GET",
+            "endpointUrl": "https://amplitude.com/api/2/events/list",
+            "usage": "Reports",
+            "syncMode": "Scheduled",
+            "fieldMappings": [
+              { "externalField": "user_id", "internalField": "userId", "fieldType": "Text", "required": true },
+              { "externalField": "event_type", "internalField": "eventName", "fieldType": "Text", "required": true }
+            ],
+            "advancedOptions": {
+              "requestHeaders": [{ "key": "Authorization", "value": "Api-Key " }],
+              "queryParameters": [{ "key": "", "value": "" }],
+              "responseMappings": [{ "responsePath": "events[0].event_type", "targetField": "eventName" }],
+              "retryCount": "3",
+              "timeout": "5000",
+              "fallbackMessage": "Unable to complete this request right now."
+            }
+          }
+        ]
+      },
+      "schema": {
+        "connectorKey": "amplitude",
+        "displayName": "Amplitude",
+        "authenticationType": "API Key",
+        "sections": [
+          {
+            "title": "Connection Details",
+            "fields": [
+              { "key": "connectionName", "label": "Connection Name", "type": "text", "required": true, "defaultValue": "Amplitude" },
+              { "key": "status", "label": "Status", "type": "select", "defaultValue": "Connected", "options": [{ "label": "Connected", "value": "Connected" }, { "label": "Expired Token", "value": "Expired Token" }, { "label": "Error", "value": "Error" }, { "label": "Not Connected", "value": "Not Connected" }] },
+              { "key": "useIn", "label": "Use In", "type": "select", "defaultValue": "Reports", "options": [{ "label": "Forms, Reports, Workflows", "value": "Forms, Reports, Workflows" }, { "label": "Forms", "value": "Forms" }, { "label": "Reports", "value": "Reports" }, { "label": "Workflows", "value": "Workflows" }, { "label": "Not used", "value": "Not used" }] },
+              { "key": "workspaceTenantDomain", "label": "Workspace / Tenant / Domain", "type": "text", "defaultValue": "acme-amplitude" },
+              { "key": "active", "label": "Active", "type": "toggle", "defaultValue": true }
+            ]
+          },
+          {
+            "title": "Authentication",
+            "fields": [
+              { "key": "authenticationType", "label": "Authentication Type", "type": "select", "required": true, "defaultValue": "API Key", "options": [{ "label": "OAuth 2.0", "value": "OAuth 2.0" }, { "label": "API Key", "value": "API Key" }, { "label": "Bearer Token", "value": "Bearer Token" }, { "label": "Basic Auth", "value": "Basic Auth" }, { "label": "No Auth", "value": "No Auth" }] },
+              { "key": "clientIdOrApiKey", "label": "Client ID / API Key", "type": "text", "required": true },
+              { "key": "clientSecretOrToken", "label": "Client Secret / Token", "type": "password" },
+              { "key": "redirectUrl", "label": "Redirect URL", "type": "url", "defaultValue": "https://builder.quantaops.app/oauth/amplitude/callback" },
+              { "key": "permissionsScopes", "label": "Permissions / Scopes", "type": "textarea", "rows": 4, "defaultValue": "" }
+            ]
+          },
+          {
+            "title": "Request Setup",
+            "fields": [
+              { "key": "resourceName", "label": "Resource Name", "type": "text", "required": true, "defaultValue": "Events" },
+              { "key": "httpMethod", "label": "HTTP Method", "type": "select", "defaultValue": "GET", "options": [{ "label": "GET", "value": "GET" }, { "label": "POST", "value": "POST" }, { "label": "PUT", "value": "PUT" }, { "label": "PATCH", "value": "PATCH" }, { "label": "DELETE", "value": "DELETE" }] },
+              { "key": "endpointUrl", "label": "Endpoint URL", "type": "url", "required": true, "defaultValue": "https://amplitude.com/api/2/events/list" },
+              { "key": "resourceUsage", "label": "Usage", "type": "select", "defaultValue": "Reports", "options": [{ "label": "Forms", "value": "Forms" }, { "label": "Reports", "value": "Reports" }, { "label": "Workflows", "value": "Workflows" }, { "label": "Not used", "value": "Not used" }] },
+              { "key": "syncMode", "label": "Sync Mode", "type": "select", "defaultValue": "Scheduled", "options": [{ "label": "Auto sync", "value": "Auto sync" }, { "label": "Manual", "value": "Manual" }, { "label": "Scheduled", "value": "Scheduled" }] },
+              { "key": "requestMappings", "label": "Request Mapping", "type": "mappingList", "sourceLabel": "Quanta Field", "targetLabel": "API Request Path", "sourcePlaceholder": "userId", "targetPlaceholder": "user_id", "options": [{ "label": "Text", "value": "Text" }, { "label": "Number", "value": "Number" }, { "label": "Email", "value": "Email" }, { "label": "Phone", "value": "Phone" }, { "label": "Boolean", "value": "Boolean" }, { "label": "Date", "value": "Date" }, { "label": "Enum", "value": "Enum" }], "mappingDefaults": [{ "sourcePath": "userId", "targetField": "user_id", "fieldType": "Text", "required": true }] },
+              { "key": "responseMappings", "label": "Response Mapping", "type": "mappingList", "sourceLabel": "API Response Path", "targetLabel": "Quanta Field", "sourcePlaceholder": "events[0].event_type", "targetPlaceholder": "eventName", "options": [{ "label": "Text", "value": "Text" }, { "label": "Number", "value": "Number" }, { "label": "Email", "value": "Email" }, { "label": "Phone", "value": "Phone" }, { "label": "Boolean", "value": "Boolean" }, { "label": "Date", "value": "Date" }, { "label": "Enum", "value": "Enum" }], "mappingDefaults": [{ "sourcePath": "events[0].event_type", "targetField": "eventName", "fieldType": "Text", "required": true }] }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

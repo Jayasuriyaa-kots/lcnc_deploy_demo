@@ -1,0 +1,192 @@
+@if (activeTab() === 'display' && widgetType() === 'text-block') {
+  <app-text-block-settings-panel
+    [config]="config()"
+    (configChange)="configChange.emit(normalizeConfig($event))"
+  ></app-text-block-settings-panel>
+}
+
+@if (activeTab() === 'display' && widgetType() === 'label') {
+  <app-label-settings-panel
+    [label]="label()"
+    [config]="config()"
+    (labelChange)="labelChange.emit($event)"
+    (configChange)="configChange.emit(normalizeConfig($event))"
+  ></app-label-settings-panel>
+}
+
+@if (activeTab() === 'style') {
+  <div class="prop-section-card">
+    <div class="prop-section-card__header">{{ t('common.background') }}</div>
+    <div class="prop-section-card__row">
+      <label class="prop-row-label">{{ t('common.color') }}</label>
+      <qo-color-picker
+        class="prop-color-picker"
+        [value]="config().backgroundColor"
+        [presetColors]="colorPickerPalette()"
+        [showThemeColor]="true"
+        [triggerLabel]="'A'"
+        (valueChange)="onBackgroundColorChanged($event)"
+      ></qo-color-picker>
+    </div>
+  </div>
+
+  @if (!isLabelTextStyleWidget()) {
+    <div class="prop-section-card">
+      <div class="prop-section-card__header">{{ t('common.border') }}</div>
+      <div class="prop-section-card__row">
+        <label class="prop-row-label">{{ t('common.color') }}</label>
+        <qo-color-picker
+          class="prop-color-picker"
+          [value]="config().borderColor"
+          [presetColors]="colorPickerPalette()"
+          [showThemeColor]="true"
+          [triggerLabel]="'A'"
+          (valueChange)="onBorderColorChanged($event)"
+        ></qo-color-picker>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--divided">
+        <label class="prop-row-label">{{ t('common.width') }}</label>
+        <qo-input
+          class="prop-input prop-input--compact"
+          [value]="config().borderWidth"
+          (valueChange)="updateStyleField('borderWidth', $event)"
+        ></qo-input>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--divided">
+        <label class="prop-row-label">{{ t('common.radius') }}</label>
+        <qo-input
+          class="prop-input prop-input--compact prop-input--wide"
+          [value]="config().borderRadius"
+          (valueChange)="updateStyleField('borderRadius', $event)"
+        ></qo-input>
+      </div>
+    </div>
+  }
+
+  @if (isLabelTextStyleWidget()) {
+    <div class="prop-section-card">
+      <div class="prop-section-card__header">{{ t('panelConfig.font') }}</div>
+      <div class="prop-section-card__row">
+        <label class="prop-row-label">{{ t('common.color') }}</label>
+        <qo-color-picker
+          class="prop-color-picker"
+          [value]="config().labelColor"
+          [presetColors]="colorPickerPalette()"
+          [showThemeColor]="true"
+          [triggerLabel]="'A'"
+          (valueChange)="onLabelColorChanged($event)"
+        ></qo-color-picker>
+      </div>
+    </div>
+    <div class="prop-section-card prop-section-card--overflow-visible">
+      <div class="prop-section-card__header">{{ t('panelConfig.typography') }}</div>
+      <div class="prop-section-card__row prop-section-card__row--divided prop-section-card__row--align-center">
+        <label class="prop-row-label">{{ t('panelConfig.fontFamily') }}</label>
+        <qo-select
+          class="prop-select"
+          [options]="fontFamilyOptions()"
+          [value]="config().fontFamily"
+          (valueChange)="updateStyleField('fontFamily', getSelectValue($event, 'system-ui, sans-serif'))"
+        ></qo-select>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--divided prop-section-card__row--align-center">
+        <label class="prop-row-label">{{ t('panelConfig.fontSize') }}</label>
+        <qo-input
+          class="prop-input prop-input--compact"
+          [value]="fontSizeInputValue()"
+          (valueChange)="updateFontSizeInput($event)"
+        ></qo-input>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--divided prop-section-card__row--align-center">
+        <label class="prop-row-label">{{ t('panelConfig.lineHeight') }}</label>
+        <qo-select
+          class="prop-select"
+          [options]="lineHeightOptions()"
+          [value]="config().lineHeight"
+          (valueChange)="updateStyleField('lineHeight', getSelectValue($event, '1.5'))"
+        ></qo-select>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--divided prop-section-card__row--align-center">
+        <label class="prop-row-label">{{ t('panelConfig.letterSpacing') }}</label>
+        <qo-select
+          class="prop-select"
+          [options]="letterSpacingOptions()"
+          [value]="config().letterSpacing"
+          (valueChange)="updateStyleField('letterSpacing', getSelectValue($event, 'normal'))"
+        ></qo-select>
+      </div>
+    </div>
+    <div class="prop-section-card">
+      <div class="prop-section-card__header">{{ t('panelConfig.textFormatting') }}</div>
+      <div class="prop-section-card__row prop-section-card__row--stacked">
+        <div class="prop-segmented-control prop-segmented-control--icons">
+          <button
+            type="button"
+            class="prop-segmented-control__option prop-segmented-control__option--icon"
+            [class.prop-segmented-control__option--active]="config().bold"
+            (click)="toggleStyleFlag('bold')"
+            aria-label="Bold"
+          >
+            <b>B</b>
+          </button>
+          <button
+            type="button"
+            class="prop-segmented-control__option prop-segmented-control__option--icon prop-segmented-control__option--italic"
+            [class.prop-segmented-control__option--active]="config().italic"
+            (click)="toggleStyleFlag('italic')"
+            aria-label="Italic"
+          >
+            <i>I</i>
+          </button>
+          <button
+            type="button"
+            class="prop-segmented-control__option prop-segmented-control__option--icon"
+            [class.prop-segmented-control__option--active]="config().underline"
+            (click)="toggleStyleFlag('underline')"
+            aria-label="Underline"
+          >
+            <u>U</u>
+          </button>
+          <button
+            type="button"
+            class="prop-segmented-control__option prop-segmented-control__option--icon"
+            [class.prop-segmented-control__option--active]="config().lineThrough"
+            (click)="toggleStyleFlag('lineThrough')"
+            aria-label="Line Through"
+          >
+            <span class="prop-segmented-control__strike">S</span>
+          </button>
+        </div>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--stacked">
+        <label class="prop-row-label">{{ t('panelConfig.textAlignment') }}</label>
+        <div class="prop-segmented-control">
+          <button
+            type="button"
+            class="prop-segmented-control__option"
+            [class.prop-segmented-control__option--active]="config().textAlign === 'left'"
+            (click)="updateTextAlign('left')"
+          >
+            {{ 'layout.left' | transloco }}
+          </button>
+          <button
+            type="button"
+            class="prop-segmented-control__option"
+            [class.prop-segmented-control__option--active]="config().textAlign === 'center'"
+            (click)="updateTextAlign('center')"
+          >
+            {{ 'layout.center' | transloco }}
+          </button>
+          <button
+            type="button"
+            class="prop-segmented-control__option"
+            [class.prop-segmented-control__option--active]="config().textAlign === 'right'"
+            (click)="updateTextAlign('right')"
+          >
+            {{ 'layout.right' | transloco }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+}

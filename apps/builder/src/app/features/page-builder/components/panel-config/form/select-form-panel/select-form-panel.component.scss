@@ -1,0 +1,88 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.select-form-panel {
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  box-sizing: border-box;
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-sm);
+}
+
+.form-card {
+  background: var(--qo-color-neutral-0);
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xl);
+  overflow: hidden;
+  box-shadow: var(--qo-shadow-sm);
+}
+
+.card-header {
+  background: var(--qo-color-neutral-100);
+  padding: var(--qo-space-4) var(--qo-space-5);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-semibold);
+  color: var(--qo-color-neutral-600);
+}
+
+.form-row {
+  display: block;
+  width: 100%;
+  border: none;
+  border-top: 0.0625rem solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+}
+
+:host ::ng-deep .form-row .qo-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 3.25rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: var(--qo-space-4) var(--qo-space-5);
+  font-family: inherit;
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+  color: var(--qo-color-neutral-700);
+  line-height: 1.4;
+  text-align: left;
+  white-space: normal;
+  box-shadow: none;
+}
+
+:host ::ng-deep .form-row .qo-btn:hover {
+  background: var(--qo-color-neutral-50);
+}
+
+:host ::ng-deep .form-row--selected .qo-btn {
+  background: var(--qo-color-primary-50);
+  color: var(--qo-color-primary-700);
+}
+
+:host ::ng-deep .form-row--selected .qo-btn:hover {
+  background: var(--qo-color-primary-100);
+}
+
+.card-footer {
+  border-top: 0.0625rem solid var(--qo-border-color);
+  padding: var(--qo-space-4) var(--qo-space-5);
+  font-size: var(--qo-text-sm);
+  color: var(--qo-color-neutral-500);
+  line-height: 1.5;
+}
+
+.card-footer a {
+  color: var(--qo-color-primary-500);
+  text-decoration: none;
+}
+
+.card-footer a:hover {
+  text-decoration: underline;
+}
+

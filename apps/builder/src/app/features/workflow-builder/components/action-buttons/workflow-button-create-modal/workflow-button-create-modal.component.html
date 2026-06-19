@@ -1,0 +1,54 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+@if (open()) {
+  <qo-modal
+    [title]="mode() === 'create' ? t('modals.actionButton.createTitle') : t('modals.actionButton.editTitle')"
+    size="md"
+    [maxWidth]="'var(--qo-size-640)'"
+    (close)="close.emit()"
+  >
+    <form class="workflow-button-modal" [formGroup]="form()" (ngSubmit)="save.emit()">
+      <qo-form-field [label]="t('formLabels.name')" [required]="true" [error]="fieldError('name', t('formLabels.name'))">
+        <qo-input formControlName="name" type="text" [placeholder]="t('placeholders.actionName')" />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.actionType')" [required]="true" [error]="fieldError('actionType', t('formLabels.actionType'))">
+        <qo-select formControlName="actionType" [options]="actionTypeOptions" />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.linkedWorkflow')" [required]="true" [error]="fieldError('linkedWorkflowId', t('formLabels.linkedWorkflow'))">
+        <qo-select formControlName="linkedWorkflowId" [placeholder]="t('placeholders.selectWorkflow')" [options]="workflowOptions()" />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.scope')" [required]="true" [error]="fieldError('scope', t('formLabels.scope'))">
+        <qo-select formControlName="scope" [options]="scopeOptions" />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.source')" [required]="true" [error]="fieldError('source', t('formLabels.source'))">
+        <qo-input formControlName="source" type="text" [placeholder]="t('placeholders.actionSource')" />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.usedIn')" [required]="true" [error]="fieldError('usedIn', t('formLabels.usedIn'))">
+        <qo-input formControlName="usedIn" type="text" [placeholder]="t('placeholders.usedIn')" />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.status')" [required]="true" [error]="fieldError('status', t('formLabels.status'))">
+        <qo-select formControlName="status" [options]="statusOptions" />
+      </qo-form-field>
+
+      <div qo-modal-footer class="workflow-button-modal__footer">
+        <qo-button variant="secondary" type="button" [disabled]="saving()" (click)="close.emit()">
+          {{ 'actions.cancel' | transloco }}
+        </qo-button>
+        <qo-button
+          variant="primary"
+          type="submit"
+          [loading]="saving()"
+          [disabled]="form().invalid || saving()"
+        >
+          {{ mode() === 'create' ? t('common.createButton') : t('common.saveButton') }}
+        </qo-button>
+      </div>
+    </form>
+  </qo-modal>
+}
+</ng-container>

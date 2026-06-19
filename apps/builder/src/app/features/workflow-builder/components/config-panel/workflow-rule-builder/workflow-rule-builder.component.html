@@ -1,0 +1,107 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<div class="workflow-rule-builder">
+  <div class="workflow-rule-builder__toolbar">
+    <label>
+      <span>{{ t('formLabels.defaultLogic') }}</span>
+      <qo-select
+        size="sm"
+        [options]="logicOptions"
+        [value]="rules().logic"
+        (valueChange)="updateDefaultLogic($any($event))"
+      />
+    </label>
+    <span>{{ t('tables.validationCount', { count: rules().items.length }) }}</span>
+  </div>
+
+  <div class="workflow-rule-builder__rows">
+    @for (rule of rules().items; track trackRule($index, rule); let index = $index) {
+      <div class="workflow-rule-builder__row">
+        @if (index > 0) {
+          <div class="workflow-rule-builder__connector">
+            <button
+              type="button"
+              [class.workflow-rule-builder__connector-button--active]="rule.connector !== 'OR'"
+              (click)="updateConnector(rule.id, 'AND')"
+            >
+              {{ t('options.logic.and') }}
+            </button>
+            <button
+              type="button"
+              [class.workflow-rule-builder__connector-button--active]="rule.connector === 'OR'"
+              (click)="updateConnector(rule.id, 'OR')"
+            >
+              {{ t('options.logic.or') }}
+            </button>
+          </div>
+        }
+
+        <div class="workflow-rule-builder__controls">
+          <label class="workflow-rule-builder__control workflow-rule-builder__control--field">
+            <span>{{ t('formLabels.field') }}</span>
+            <qo-select
+              size="md"
+              [placeholder]="t('placeholders.ruleField')"
+              [options]="fieldOptions()"
+              [value]="rule.field"
+              (valueChange)="updateRule(rule.id, 'field', $any($event))"
+            />
+          </label>
+
+          <label class="workflow-rule-builder__control workflow-rule-builder__control--operator">
+            <span>{{ t('formLabels.operator') }}</span>
+            <qo-select
+              size="md"
+              [placeholder]="t('placeholders.ruleOperator')"
+              [options]="operatorOptions()"
+              [value]="rule.operator"
+              (valueChange)="updateRule(rule.id, 'operator', $any($event))"
+            />
+          </label>
+
+          <label class="workflow-rule-builder__control workflow-rule-builder__control--value">
+            <span>{{ t('formLabels.value') }}</span>
+            <qo-input
+              size="md"
+              type="text"
+              [placeholder]="t('placeholders.ruleValue')"
+              [disabled]="!!rule.operator && !operatorRequiresValue(rule.operator)"
+              [value]="rule.value"
+              (valueChange)="updateRule(rule.id, 'value', $event)"
+            />
+          </label>
+
+          <label class="workflow-rule-builder__control workflow-rule-builder__control--message">
+            <span>{{ t('formLabels.errorMessage') }}</span>
+            <qo-input
+              size="md"
+              type="text"
+              [placeholder]="t('placeholders.ruleMessage')"
+              [value]="rule.message"
+              (valueChange)="updateRule(rule.id, 'message', $event)"
+            />
+          </label>
+
+          <button
+            class="workflow-rule-builder__delete"
+            type="button"
+            [attr.aria-label]="t('accessibility.deleteValidation')"
+            [title]="t('accessibility.deleteValidation')"
+            (click)="removeRule(rule.id)"
+          >
+            <qo-icon name="trash" size="sm"></qo-icon>
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div class="workflow-rule-builder__empty">
+        <p>{{ t('emptyStates.validations') }}</p>
+      </div>
+    }
+  </div>
+
+  <button class="workflow-rule-builder__add" type="button" (click)="addRule()">
+    <qo-icon name="plus" size="sm"></qo-icon>
+    {{ t('common.addNew') }}
+  </button>
+</div>
+</ng-container>

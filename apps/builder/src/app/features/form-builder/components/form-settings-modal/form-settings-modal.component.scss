@@ -1,0 +1,63 @@
+:host {
+  display: block;
+}
+
+.settings-modal__body {
+  display: grid;
+  gap: var(--qo-space-5);
+}
+
+.settings-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-space-4);
+}
+
+.settings-modal__field {
+  min-width: 0;
+}
+
+.settings-modal__field--wide {
+  grid-column: 1 / -1;
+}
+
+.settings-modal__toggles {
+  display: grid;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-4);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-50);
+}
+
+.settings-modal__toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+}
+
+.settings-modal__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--qo-space-2);
+}
+
+.settings-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--qo-space-3);
+}
+
+@media (max-width: 48rem) {
+  .settings-modal__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-modal__footer {
+    flex-wrap: wrap;
+  }
+}

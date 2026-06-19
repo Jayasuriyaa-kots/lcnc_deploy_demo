@@ -1,0 +1,174 @@
+@if (resolvedConfig().visible) {
+  <div class="media-widget">
+    <input
+      #imageFileInput
+      class="media-widget__file-input"
+      type="file"
+      [accept]="fileInputAccept()"
+      (click)="$event.stopPropagation()"
+      (change)="onImageSelected($event)"
+    />
+
+    <div class="media-widget__frame" [style.background]="resolvedConfig().backgroundColor">
+      <div class="media-widget__badge">{{ mediaTypeLabel() }}</div>
+
+      <div
+        class="media-widget__surface"
+        [class.media-widget__surface--video]="isVideo()"
+        [class.media-widget__surface--pdf]="isPdf()"
+        [class.media-widget__surface--clickable]="canOpenLocalPicker()"
+        (click)="openImagePicker($event)"
+      >
+        @if (isVideo()) {
+          @if (hasVideoSource()) {
+            <button
+              class="media-widget__video-expand-btn"
+              type="button"
+              [attr.aria-label]="t('media.widget.expandVideoAria')"
+              (click)="toggleVideoExpanded($event)"
+            >
+              <span>{{ isVideoExpanded() ? '-' : '[]' }}</span>
+            </button>
+            <video
+              class="media-widget__video"
+              [src]="currentVideoSource()"
+              controls
+              [autoplay]="resolvedConfig().autoPlay"
+              [muted]="resolvedConfig().autoPlay"
+              controlsList="nofullscreen noremoteplayback"
+              playsinline
+              preload="metadata"
+              (click)="$event.stopPropagation()"
+            ></video>
+          } @else {
+              <div class="media-widget__empty-image">
+                <div class="media-widget__play">
+                  <span class="media-widget__play-triangle"></span>
+                </div>
+              @if (canOpenLocalPicker()) {
+                <span class="media-widget__empty-copy">{{ t('media.widget.clickChooseVideo') }}</span>
+              }
+            </div>
+          }
+        } @else if (isPdf()) {
+          @if (hasPdfSource()) {
+            @if (resolvedConfig().pdfAllowDownload || resolvedConfig().pdfAllowPrint) {
+              <div class="media-widget__pdf-actions">
+                @if (resolvedConfig().pdfAllowDownload) {
+                  <button class="media-widget__pdf-action-btn" type="button" (click)="downloadPdf($event)">{{ 'common.download' | transloco }}</button>
+                }
+                @if (resolvedConfig().pdfAllowPrint) {
+                  <button class="media-widget__pdf-action-btn" type="button" (click)="printPdf($event)">{{ t('common.print') }}</button>
+                }
+              </div>
+            }
+            @if (resolvedConfig().pdfLoadingState) {
+              <div class="media-widget__pdf-status">{{ t('media.widget.loadingPdf') }}</div>
+            } @else {
+              <iframe
+                class="media-widget__pdf-frame"
+                [src]="safePdfViewerSource()"
+                title="PDF preview"
+                [attr.tabindex]="resolvedConfig().pdfDisabled ? -1 : 0"
+                (click)="$event.stopPropagation()"
+              ></iframe>
+            }
+            @if (resolvedConfig().pdfDisabled) {
+              <div class="media-widget__pdf-disabled-mask">{{ t('media.widget.pdfViewerDisabled') }}</div>
+            }
+          } @else {
+            <div class="media-widget__empty-image">
+              <div class="media-widget__pdf-sheet">
+                <div class="media-widget__pdf-fold"></div>
+                <div class="media-widget__pdf-accent">PDF</div>
+                <div class="media-widget__pdf-line"></div>
+                <div class="media-widget__pdf-line media-widget__pdf-line--short"></div>
+                <div class="media-widget__pdf-line"></div>
+              </div>
+              @if (canOpenLocalPicker()) {
+                <span class="media-widget__empty-copy">{{ t('media.widget.clickChoosePdf') }}</span>
+              }
+            </div>
+          }
+        } @else {
+          @if (hasImageSource()) {
+            @if (canShowZoomControls()) {
+              <div class="media-widget__zoom-controls">
+                <button class="media-widget__zoom-btn" type="button" [attr.aria-label]="t('media.widget.zoomOutAria')" (click)="zoomOut($event)">-</button>
+                <button class="media-widget__zoom-btn" type="button" [attr.aria-label]="t('media.widget.resetZoomAria')" (click)="resetZoom($event)">1:1</button>
+                <button class="media-widget__zoom-btn" type="button" [attr.aria-label]="t('media.widget.zoomInAria')" (click)="zoomIn($event)">+</button>
+              </div>
+            }
+            <div
+              #imageViewport
+              class="media-widget__image-viewport"
+              [class.media-widget__image-viewport--draggable]="canDragImage()"
+              [class.media-widget__image-viewport--dragging]="isDraggingImage()"
+              (mousedown)="startImageDrag($event)"
+              (mousemove)="onImageDrag($event)"
+              (mouseup)="endImageDrag()"
+              (mouseleave)="endImageDrag()"
+            >
+              <img
+                class="media-widget__image"
+                [src]="currentImageSource()"
+                [alt]="resolvedTitle() || t('media.widget.imageAlt')"
+                [style.transform]="imageTransform()"
+              />
+            </div>
+          } @else {
+            <div class="media-widget__empty-image">
+              <div class="media-widget__image-mark">
+                <span class="media-widget__image-sun"></span>
+                <span class="media-widget__image-mountain media-widget__image-mountain--back"></span>
+                <span class="media-widget__image-mountain media-widget__image-mountain--front"></span>
+              </div>
+              @if (canOpenLocalPicker()) {
+                <span class="media-widget__empty-copy">{{ t('media.widget.clickChooseImage') }}</span>
+              }
+            </div>
+          }
+        }
+      </div>
+
+      @if (isVideo() && hasVideoSource() && isVideoExpanded()) {
+        <div class="media-widget__video-overlay" (click)="toggleVideoExpanded($event)">
+          <div class="media-widget__video-overlay-inner" (click)="$event.stopPropagation()">
+            <button
+              class="media-widget__video-overlay-close"
+              type="button"
+              [attr.aria-label]="t('media.widget.closeExpandedVideoAria')"
+              (click)="toggleVideoExpanded($event)"
+            >
+              x
+            </button>
+            <video
+              class="media-widget__video media-widget__video--expanded"
+              [src]="currentVideoSource()"
+              controls
+              [autoplay]="resolvedConfig().autoPlay"
+              [muted]="resolvedConfig().autoPlay"
+              controlsList="nofullscreen noremoteplayback"
+              playsinline
+              preload="metadata"
+            ></video>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (displayTitle() || displayCaption()) {
+      <div class="media-widget__meta">
+        @if (displayTitle()) {
+          <div class="media-widget__title">{{ displayTitle() }}</div>
+        }
+        @if (displayCaption()) {
+          <div class="media-widget__caption">{{ displayCaption() }}</div>
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <div class="media-widget__hidden-state">{{ t('media.widget.mediaHidden') }}</div>
+}
+

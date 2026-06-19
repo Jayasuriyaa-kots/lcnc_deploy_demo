@@ -1,0 +1,9 @@
+@media (max-width: 72rem) {
+  .inspector__grid--two {
+    grid-template-columns: 1fr;
+  }
+
+  .inspector__input--full {
+    grid-column: auto;
+  }
+}

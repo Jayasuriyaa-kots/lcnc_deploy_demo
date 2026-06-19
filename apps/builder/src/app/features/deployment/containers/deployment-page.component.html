@@ -1,0 +1,2002 @@
+<section class="deployment-page" aria-labelledby="deployment-title">
+  <div class="deployment-page__hero">
+    <div>
+      <p class="deployment-page__eyebrow">Deployment</p>
+      <h1 id="deployment-title" class="deployment-page__title">Desktop Web</h1>
+      <p class="deployment-page__description">
+        Configure the navigation layout and workspace sections for the desktop browser view.
+        Top Action Bar and Right Tool Selector are configured in the Report Builder.
+      </p>
+    </div>
+
+    <aside class="deployment-status" aria-label="Application status">
+      <div class="deployment-status__row">
+        <span class="deployment-status__label">App Status</span>
+        <qo-status-dot color="success" label="Live"></qo-status-dot>
+      </div>
+      <qo-button
+        class="deployment-status__button"
+        variant="primary"
+        type="button"
+        [disabled]="saveState() === 'saving'"
+        (click)="saveDeploymentLayout(); openDeployedApp()">
+        {{ saveButtonLabel() }}
+      </qo-button>
+    </aside>
+  </div>
+
+  <section class="deployment-card deployment-card--wide" aria-labelledby="header-section-title">
+    <header class="deployment-card__header">
+      <div>
+        <span>Mandatory - Independent</span>
+        <h2 id="header-section-title">Header</h2>
+      </div>
+      <strong>Always visible</strong>
+    </header>
+
+    <div class="deployment-card__body deployment-card__body--header">
+      <div class="deployment-option-group">
+        <h3>Left Header</h3>
+        @for (option of leftHeaderOptions(); track option.id) {
+          <qo-checkbox
+            [label]="option.label"
+            [checked]="option.checked"
+            (checkedChange)="toggleHeaderOption('left', option.id, $event)">
+          </qo-checkbox>
+        }
+      </div>
+
+      <div class="deployment-option-group deployment-option-group--center">
+        <h3>Centre Header</h3>
+        <p>Static - no configurable options</p>
+      </div>
+
+      <div class="deployment-option-group">
+        <h3>Right Header</h3>
+        @for (option of rightHeaderOptions(); track option.id) {
+          <qo-checkbox
+            [label]="option.label"
+            [checked]="option.checked"
+            (checkedChange)="toggleHeaderOption('right', option.id, $event)">
+          </qo-checkbox>
+        }
+      </div>
+    </div>
+  </section>
+
+  <div class="deployment-flow">
+    <section class="deployment-card" aria-labelledby="primary-page-selector-title">
+      <header class="deployment-card__header">
+        <div>
+          <span>Mandatory - Independent</span>
+          <h2 id="primary-page-selector-title">Primary Page Selector</h2>
+        </div>
+      </header>
+
+      <div class="deployment-card__body">
+        <p class="deployment-card__description">
+          Vertical icon nav - the root of the hierarchy. Each button maps to a form, report,
+          or page. Choose whether clicking a button displays a page directly, or activates the
+          Left / Top page selectors.
+        </p>
+
+        <div class="deployment-fieldset deployment-fieldset--inline" aria-label="Button click behaviour">
+          <h3>Button Click Behaviour</h3>
+          <label class="deployment-radio">
+            <input
+              type="radio"
+              name="button-click-behaviour"
+              [checked]="primaryClickBehaviour() === 'direct'"
+              (change)="setPrimaryClickBehaviour('direct')" />
+            <span>Direct Page Display</span>
+          </label>
+          <label class="deployment-radio">
+            <input
+              type="radio"
+              name="button-click-behaviour"
+              [checked]="primaryClickBehaviour() === 'selectors'"
+              (change)="setPrimaryClickBehaviour('selectors')" />
+            <span>Enable Other Page Selectors</span>
+          </label>
+        </div>
+
+        <div class="deployment-fieldset">
+          <h3>Assigned Navigation Buttons</h3>
+          <div
+            class="deployment-page-bank"
+            cdkDropList
+            cdkDropListOrientation="mixed"
+            [cdkDropListData]="primaryPages()"
+            (cdkDropListDropped)="reorderPrimaryPages($event)">
+            @for (page of primaryPages(); track page.id) {
+              <div class="deployment-page-chip-wrapper" cdkDrag>
+                <div
+                  class="deployment-page-chip deployment-page-chip--removable"
+                  [class.deployment-page-chip--purple]="page.tone === 'purple'">
+                  <qo-icon name="drag" class="deployment-page-chip__drag" cdkDragHandle aria-hidden="true"></qo-icon>
+                  <qo-icon name="layout-dashboard" aria-hidden="true"></qo-icon>
+                  <input
+                    class="deployment-page-chip__label"
+                    type="text"
+                    [value]="page.label"
+                    [attr.aria-label]="'Rename ' + (page.label || 'page')"
+                    (input)="renamePrimaryPage(page.id, $any($event.target).value)" />
+                  <button
+                    type="button"
+                    class="deployment-page-chip__remove"
+                    [attr.aria-label]="'Remove ' + page.label"
+                    (click)="removePrimaryPage(page.id)">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </div>
+
+                @if (primaryClickBehaviour() === 'direct') {
+                  <div class="deployment-page-target">
+                    @if (pageTargetLabels()[page.id]) {
+                      <div
+                        class="deployment-page-target__assigned"
+                        [attr.data-target-type]="pageTargets()[page.id]?.assetType">
+                        <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                        <span>{{ pageTargetLabels()[page.id] }}</span>
+                        <button type="button" [attr.aria-label]="'Unassign content from ' + page.label" (click)="clearPageTarget(page.id)">
+                          <qo-icon name="x" aria-hidden="true"></qo-icon>
+                        </button>
+                      </div>
+                    } @else {
+                      <button class="deployment-page-target__assign" type="button" (click)="togglePageConfig(page.id)">
+                        <qo-icon name="plus" aria-hidden="true"></qo-icon>
+                        Assign Content
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <button class="deployment-add-button" type="button" (click)="addPrimaryPage()">+ Add Page</button>
+      </div>
+    </section>
+
+    <div class="deployment-selector-row">
+    <section
+      class="deployment-card deployment-card--stateful"
+      [class.deployment-card--disabled]="!isLeftSelectorEnabled()"
+      [attr.aria-disabled]="!isLeftSelectorEnabled()"
+      aria-labelledby="left-page-selector-title">
+        <header class="deployment-card__header">
+          <div>
+            <span>Optional - Dependent on Primary</span>
+            <h2 id="left-page-selector-title">Left Page Selector</h2>
+          </div>
+          <strong>{{ isLeftSelectorEnabled() ? 'Enabled' : 'Disabled' }}</strong>
+        </header>
+
+        <div class="deployment-card__body deployment-card__body--scrollable">
+          <p class="deployment-card__description">
+            Collapsible left sidebar. Supports left pages with nested subpages. Dependent on
+            the Primary Page Selector selection.
+          </p>
+
+          <div class="deployment-fieldset">
+            <h3>Primary Pages, Left Pages &amp; Subpages</h3>
+            @for (group of leftPageGroups(); track group.main.id) {
+              <div class="deployment-page-group">
+                <div class="deployment-page-group__top">
+                  <div
+                    class="deployment-page-chip"
+                    [class.deployment-page-chip--purple]="group.main.tone === 'purple'">
+                    <qo-icon name="layout-dashboard" aria-hidden="true"></qo-icon>
+                    <input
+                      class="deployment-page-chip__label"
+                      type="text"
+                      [value]="group.main.label"
+                      [disabled]="!areOtherPageSelectorsEnabled()"
+                      [attr.aria-label]="'Rename ' + (group.main.label || 'main page')"
+                      (input)="renamePrimaryPage(group.main.id, $any($event.target).value)" />
+                  </div>
+                  <button
+                    class="deployment-subpage-button"
+                    [disabled]="!areOtherPageSelectorsEnabled() || !!pageTargets()[group.main.id] || (topDependencySource() === 'primary' && (topTabPagesBySourceId()[group.main.id] ?? []).length > 0)"
+                    type="button"
+                    (click)="addLeftPage(group.main.id)">
+                    + Left Page
+                  </button>
+                </div>
+
+                @if (group.children.length) {
+                  <div
+                    class="deployment-subpage-list"
+                    cdkDropList
+                    cdkDropListOrientation="mixed"
+                    [cdkDropListData]="group.children"
+                    (cdkDropListDropped)="reorderLeftPages(group.main.id, $event)">
+                    @for (child of group.children; track child.page.id) {
+                      <div class="deployment-left-page-block" cdkDrag>
+                        <div class="deployment-page-chip deployment-page-chip--purple deployment-page-chip--removable">
+                          <qo-icon name="drag" class="deployment-page-chip__drag" cdkDragHandle aria-hidden="true"></qo-icon>
+                          <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                          <input
+                            class="deployment-page-chip__label"
+                            type="text"
+                            [value]="child.page.label"
+                            [disabled]="!areOtherPageSelectorsEnabled()"
+                            [attr.aria-label]="'Rename ' + (child.page.label || 'left page')"
+                            (input)="renameLeftPage(group.main.id, child.page.id, $any($event.target).value)" />
+                          <button
+                            type="button"
+                            class="deployment-page-chip__remove"
+                            [disabled]="!areOtherPageSelectorsEnabled()"
+                            [attr.aria-label]="'Remove ' + child.page.label"
+                            (click)="removeLeftPage(group.main.id, child.page.id)">
+                            <qo-icon name="x" aria-hidden="true"></qo-icon>
+                          </button>
+                        </div>
+
+                        @if (!child.subPages.length && topDependencySource() !== 'left') {
+                          <div class="deployment-page-target">
+                            @if (pageTargetLabels()[child.page.id]) {
+                              <div
+                                class="deployment-page-target__assigned"
+                                [attr.data-target-type]="pageTargets()[child.page.id]?.assetType">
+                                <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                                <span>{{ pageTargetLabels()[child.page.id] }}</span>
+                                <button type="button" (click)="clearPageTarget(child.page.id)">
+                                  <qo-icon name="x" aria-hidden="true"></qo-icon>
+                                </button>
+                              </div>
+                            } @else {
+                              <button class="deployment-page-target__assign" type="button" [disabled]="!areOtherPageSelectorsEnabled()" (click)="togglePageConfig(child.page.id)">
+                                <qo-icon name="plus" aria-hidden="true"></qo-icon>
+                                Assign Content
+                              </button>
+                            }
+                          </div>
+                        }
+
+                        <button
+                          class="deployment-subpage-button deployment-subpage-button--nested"
+                          [disabled]="!areOtherPageSelectorsEnabled() || !!pageTargets()[child.page.id] || (topDependencySource() === 'left' && (topTabPagesBySourceId()[child.page.id] ?? []).length > 0)"
+                          type="button"
+                          (click)="addLeftSubPage(child.page.id)">
+                          + Subpage
+                        </button>
+
+                        @if (child.subPages.length) {
+                          <div
+                            class="deployment-subpage-list deployment-subpage-list--nested"
+                            cdkDropList
+                            cdkDropListOrientation="mixed"
+                            [cdkDropListData]="child.subPages"
+                            (cdkDropListDropped)="reorderLeftSubPages(child.page.id, $event)">
+                            @for (subPage of child.subPages; track subPage.id) {
+                              <div cdkDrag>
+                                <div class="deployment-page-chip deployment-page-chip--blue deployment-page-chip--removable">
+                                  <qo-icon name="drag" class="deployment-page-chip__drag" cdkDragHandle aria-hidden="true"></qo-icon>
+                                  <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                                  <input
+                                    class="deployment-page-chip__label"
+                                    type="text"
+                                    [value]="subPage.label"
+                                    [disabled]="!areOtherPageSelectorsEnabled()"
+                                    [attr.aria-label]="'Rename ' + (subPage.label || 'subpage')"
+                                    (input)="renameLeftSubPage(child.page.id, subPage.id, $any($event.target).value)" />
+                                  <button
+                                    type="button"
+                                    class="deployment-page-chip__remove"
+                                    [disabled]="!areOtherPageSelectorsEnabled()"
+                                    [attr.aria-label]="'Remove ' + subPage.label"
+                                    (click)="removeLeftSubPage(child.page.id, subPage.id)">
+                                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                                  </button>
+                                </div>
+                                @if (topDependencySource() !== 'left') {
+                                  <div class="deployment-page-target deployment-page-target--nested">
+                                    @if (pageTargetLabels()[subPage.id]) {
+                                      <div
+                                        class="deployment-page-target__assigned"
+                                        [attr.data-target-type]="pageTargets()[subPage.id]?.assetType">
+                                        <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                                        <span>{{ pageTargetLabels()[subPage.id] }}</span>
+                                        <button type="button" (click)="clearPageTarget(subPage.id)">
+                                          <qo-icon name="x" aria-hidden="true"></qo-icon>
+                                        </button>
+                                      </div>
+                                    } @else {
+                                      <button class="deployment-page-target__assign" type="button" [disabled]="!areOtherPageSelectorsEnabled()" (click)="togglePageConfig(subPage.id)">
+                                        <qo-icon name="plus" aria-hidden="true"></qo-icon>
+                                        Assign
+                                      </button>
+                                    }
+                                  </div>
+                                }
+                              </div>
+                            }
+                          </div>
+                        } @else if (child.note) {
+                          <p class="deployment-page-group__note">{{ child.note }}</p>
+                        }
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  @if (!(topDependencySource() === 'primary' && (topTabPagesBySourceId()[group.main.id] ?? []).length > 0)) {
+                    <div class="deployment-page-target">
+                      @if (pageTargetLabels()[group.main.id]) {
+                        <div
+                          class="deployment-page-target__assigned"
+                          [attr.data-target-type]="pageTargets()[group.main.id]?.assetType">
+                          <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                          <span>{{ pageTargetLabels()[group.main.id] }}</span>
+                          <button type="button" [attr.aria-label]="'Unassign content from ' + group.main.label" (click)="clearPageTarget(group.main.id)">
+                            <qo-icon name="x" aria-hidden="true"></qo-icon>
+                          </button>
+                        </div>
+                      } @else {
+                        <button class="deployment-page-target__assign" type="button" [disabled]="!areOtherPageSelectorsEnabled()" (click)="togglePageConfig(group.main.id)">
+                          <qo-icon name="plus" aria-hidden="true"></qo-icon>
+                          Assign Content
+                        </button>
+                      }
+                    </div>
+                  }
+                  @if (group.note) {
+                    <p class="deployment-page-group__note">{{ group.note }}</p>
+                  }
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="deployment-card deployment-card--stateful"
+        [class.deployment-card--disabled]="!areOtherPageSelectorsEnabled()"
+        [attr.aria-disabled]="!areOtherPageSelectorsEnabled()"
+        aria-labelledby="top-page-selector-title">
+        <header class="deployment-card__header">
+          <div>
+            <span>Optional - Dependent on Left / Primary</span>
+            <h2 id="top-page-selector-title">Top Page Selector</h2>
+          </div>
+          <strong>{{ areOtherPageSelectorsEnabled() ? 'Enabled' : 'Disabled' }}</strong>
+        </header>
+
+        <div class="deployment-card__body deployment-card__body--scrollable">
+          <p class="deployment-card__description">
+            Horizontal tab strip at the top of the workspace. Scrollable left/right. Tabs change
+            based on the selected Left or Primary page.
+          </p>
+
+          <div class="deployment-fieldset">
+            <h3>Tab Pages</h3>
+            <div class="deployment-top-page-groups">
+              @for (group of topPageGroups(); track group.source.id) {
+                <div class="deployment-page-group">
+                  <div class="deployment-page-group__top">
+                    <div class="deployment-page-chip">
+                      <qo-icon [name]="topDependencySource() === 'left' ? 'article' : 'web_asset'" aria-hidden="true"></qo-icon>
+                      <input
+                        class="deployment-page-chip__label"
+                        type="text"
+                        [value]="group.source.label"
+                        disabled
+                        [attr.aria-label]="group.source.label" />
+                    </div>
+                    <button
+                      class="deployment-subpage-button"
+                      [disabled]="!areOtherPageSelectorsEnabled() || (topDependencySource() === 'left' && !!pageTargets()[group.source.id])"
+                      type="button"
+                      (click)="addTopTabPage(group.source.id)">
+                      + Tab Page
+                    </button>
+                  </div>
+
+                  @if (group.tabs.length) {
+                    <div class="deployment-subpage-list">
+                      @for (tab of group.tabs; track tab.id) {
+                        <div>
+                          <div class="deployment-page-chip deployment-page-chip--removable">
+                            <qo-icon name="list" aria-hidden="true"></qo-icon>
+                            <input
+                              class="deployment-page-chip__label"
+                              type="text"
+                              [value]="tab.label"
+                              [disabled]="!areOtherPageSelectorsEnabled()"
+                              [attr.aria-label]="'Rename ' + (tab.label || 'tab page')"
+                              (input)="renameTopTabPage(group.source.id, tab.id, $any($event.target).value)" />
+                            <button
+                              type="button"
+                              class="deployment-page-chip__remove"
+                              [disabled]="!areOtherPageSelectorsEnabled()"
+                              [attr.aria-label]="'Remove ' + tab.label"
+                              (click)="removeTopTabPage(group.source.id, tab.id)">
+                              <qo-icon name="x" aria-hidden="true"></qo-icon>
+                            </button>
+                          </div>
+                          <div class="deployment-page-target deployment-page-target--nested">
+                            @if (pageTargetLabels()[tab.id]) {
+                              <div
+                                class="deployment-page-target__assigned"
+                                [attr.data-target-type]="pageTargets()[tab.id]?.assetType">
+                                <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                                <span>{{ pageTargetLabels()[tab.id] }}</span>
+                                <button type="button" (click)="clearPageTarget(tab.id)">
+                                  <qo-icon name="x" aria-hidden="true"></qo-icon>
+                                </button>
+                              </div>
+                            } @else {
+                              <button class="deployment-page-target__assign" type="button" [disabled]="!areOtherPageSelectorsEnabled()" (click)="togglePageConfig(tab.id)">
+                                <qo-icon name="plus" aria-hidden="true"></qo-icon>
+                                Assign
+                              </button>
+                            }
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  } @else {
+                    @if (topDependencySource() === 'left') {
+                      <div class="deployment-page-target deployment-page-target--nested">
+                        @if (pageTargetLabels()[group.source.id]) {
+                          <div
+                            class="deployment-page-target__assigned"
+                            [attr.data-target-type]="pageTargets()[group.source.id]?.assetType">
+                            <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                            <span>{{ pageTargetLabels()[group.source.id] }}</span>
+                            <button type="button" (click)="clearPageTarget(group.source.id)">
+                              <qo-icon name="x" aria-hidden="true"></qo-icon>
+                            </button>
+                          </div>
+                        } @else {
+                          <button class="deployment-page-target__assign" type="button" [disabled]="!areOtherPageSelectorsEnabled()" (click)="togglePageConfig(group.source.id)">
+                            <qo-icon name="plus" aria-hidden="true"></qo-icon>
+                            Assign Content
+                          </button>
+                        }
+                      </div>
+                    } @else {
+                      <p class="deployment-page-group__note">No tab pages - click + Tab Page to add</p>
+                    }
+                  }
+                </div>
+              } @empty {
+                <p class="deployment-page-group__note">No source pages available for this dependency.</p>
+              }
+            </div>
+          </div>
+
+          <div class="deployment-divider"></div>
+
+          <div class="deployment-fieldset deployment-fieldset--inline deployment-fieldset--dependency" aria-label="Dependency source">
+            <h3>Dependency Source</h3>
+            <label class="deployment-radio">
+              <input
+                type="radio"
+                name="dependency-source"
+                [disabled]="!areOtherPageSelectorsEnabled()"
+                [checked]="topDependencySource() === 'left'"
+                (change)="setTopDependencySource('left')" />
+              <span>Left Page Selector</span>
+            </label>
+            <label class="deployment-radio">
+              <input
+                type="radio"
+                name="dependency-source"
+                [disabled]="!areOtherPageSelectorsEnabled()"
+                [checked]="topDependencySource() === 'primary'"
+                (change)="setTopDependencySource('primary')" />
+              <span>Primary Page Selector</span>
+            </label>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="deployment-card deployment-card--stateful" aria-labelledby="footer-title">
+      <header class="deployment-card__header">
+        <div>
+          <span>Optional - Independent</span>
+          <h2 id="footer-title">Footer</h2>
+        </div>
+        <strong>Enabled</strong>
+      </header>
+
+      <div class="deployment-card__body">
+        <div class="deployment-footer-config">
+          <div class="deployment-footer-column">
+            <h3>Left Footer</h3>
+            <div class="deployment-footer-box">
+              @for (button of leftFooterButtons(); track button.id) {
+                <div class="deployment-footer-button-row">
+                  @if (button.type === 'custom') {
+                    <input
+                      type="text"
+                      [value]="button.label"
+                      [attr.aria-label]="'Rename left footer button ' + button.label"
+                      (input)="renameFooterButton('left', button.id, $any($event.target).value)" />
+                  } @else {
+                    <button type="button">{{ button.label }}</button>
+                  }
+                  <button
+                    class="deployment-footer-remove"
+                    type="button"
+                    [attr.aria-label]="'Remove left footer button ' + button.label"
+                    (click)="removeFooterButton('left', button.id)">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </div>
+              }
+            </div>
+            <button class="deployment-inline-add" type="button" (click)="addFooterButton('left')">+ Add</button>
+          </div>
+
+          <div class="deployment-footer-column">
+            <h3>Centre <span>(pre-built)</span></h3>
+            <div class="deployment-footer-options">
+              @for (option of footerOptions(); track option.id) {
+                <qo-checkbox
+                  [label]="option.label"
+                  [checked]="option.checked"
+                  (checkedChange)="toggleFooterOption(option.id, $event)">
+                </qo-checkbox>
+              }
+            </div>
+          </div>
+
+          <div class="deployment-footer-column">
+            <h3>Right Footer</h3>
+            <div class="deployment-footer-box">
+              @for (button of rightFooterButtons(); track button.id) {
+                <div class="deployment-footer-button-row">
+                  @if (button.type === 'custom') {
+                    <input
+                      type="text"
+                      [value]="button.label"
+                      [attr.aria-label]="'Rename right footer button ' + button.label"
+                      (input)="renameFooterButton('right', button.id, $any($event.target).value)" />
+                  } @else {
+                    <button type="button">{{ button.label }}</button>
+                  }
+                  <button
+                    class="deployment-footer-remove"
+                    type="button"
+                    [attr.aria-label]="'Remove right footer button ' + button.label"
+                    (click)="removeFooterButton('right', button.id)">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </div>
+              }
+            </div>
+            <button class="deployment-inline-add" type="button" (click)="addFooterButton('right')">+ Add</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="deployment-card deployment-card--wide" aria-labelledby="workspace-type-title">
+    <header class="deployment-card__header">
+      <div>
+        <span>Mandatory</span>
+        <h2 id="workspace-type-title">Default Workspace Type</h2>
+      </div>
+    </header>
+
+    <div class="deployment-card__body">
+      <p class="deployment-card__description">
+        Sets how the main workspace area renders. Report and Custom Page types also enable
+        the Top Action Bar and Right Tool Selector - configured in the Report Builder.
+      </p>
+
+      <div class="deployment-workspace-types" aria-label="Default workspace type options">
+        @for (type of workspaceTypes(); track type.id) {
+          <button
+            class="deployment-workspace-card"
+            [class.deployment-workspace-card--active]="type.active"
+            type="button"
+            [attr.aria-pressed]="type.active"
+            (click)="selectWorkspaceType(type.id)">
+            <qo-icon [name]="type.icon" aria-hidden="true"></qo-icon>
+            <span class="deployment-workspace-card__content">
+              <span class="deployment-workspace-card__title">
+                {{ type.title }}
+                @if (type.active) {
+                  <strong>Active</strong>
+                }
+              </span>
+              <span class="deployment-workspace-card__description">{{ type.description }}</span>
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="deployment-card deployment-card--wide deployment-card--muted" aria-labelledby="url-environments-title">
+    <header class="deployment-card__header">
+      <div>
+        <h2 id="url-environments-title">URL &amp; Environments</h2>
+      </div>
+    </header>
+
+    <div class="deployment-card__body">
+      <div class="deployment-url-grid">
+        <label class="deployment-url-field">
+          <span>Custom Domain</span>
+          <input
+            type="text"
+            [value]="customDomain()"
+            (input)="updateCustomDomain($any($event.target).value)" />
+        </label>
+
+        <label class="deployment-url-field">
+          <span>Base Path</span>
+          <input
+            type="text"
+            [value]="basePath()"
+            (input)="updateBasePath($any($event.target).value)" />
+        </label>
+      </div>
+
+      <div class="deployment-environments" aria-label="Deployment environments">
+        @for (environment of environments(); track environment.id) {
+          <article
+            class="deployment-environment-card"
+            [class.deployment-environment-card--highlighted]="selectedEnvironmentId() === environment.id"
+            (click)="selectEnvironment(environment.id)">
+            <div>
+              <h3>{{ environment.name }}</h3>
+              <p>{{ environment.url }} - {{ environment.status }}</p>
+              <span>{{ environment.users }}</span>
+            </div>
+            <button type="button" (click)="selectEnvironment(environment.id); $event.stopPropagation()">Deploy</button>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  @if (showPreview()) {
+    <div
+      class="deployment-modal-backdrop"
+      [class.deployment-modal-backdrop--runtime]="runtimeMode() === 'deployed'"
+      (click)="closePreview()">
+      <section
+        class="deployment-modal"
+        [class.deployment-modal--fullscreen]="previewFullScreen()"
+        [class.deployment-modal--runtime]="runtimeMode() === 'deployed'"
+        aria-label="Deployment preview"
+        (click)="$event.stopPropagation()">
+        <header class="deployment-modal__header">
+          <div>
+            <p class="deployment-page__eyebrow">{{ runtimeEyebrow() }}</p>
+            <h2>{{ runtimeTitle() }}</h2>
+          </div>
+          <div class="deployment-modal__actions">
+            <button type="button" aria-label="Close preview" (click)="closePreview()">
+              <qo-icon name="x" aria-hidden="true"></qo-icon>
+            </button>
+          </div>
+        </header>
+
+        <div
+          class="app-preview"
+          [style.--preview-header-bg]="activeLayoutPayload().layout.theme.headerBg"
+          [style.--preview-header-text]="activeLayoutPayload().layout.theme.headerText"
+          [style.--preview-sidebar-bg]="activeLayoutPayload().layout.theme.sidebarBg"
+          [style.--preview-sidebar-text]="activeLayoutPayload().layout.theme.sidebarText"
+          [style.--preview-active-bg]="activeLayoutPayload().layout.theme.sidebarActiveBg"
+          [style.--preview-active-text]="activeLayoutPayload().layout.theme.sidebarActiveText"
+          [style.--preview-workspace-bg]="activeLayoutPayload().layout.theme.workspaceBg"
+          [style.--preview-border]="activeLayoutPayload().layout.theme.borderColor">
+          <header class="app-preview__header">
+            <div class="app-preview__brand">
+              @if (activeLayoutPayload().layout.header.leftHeader.showLogo) {
+                <img [src]="activeLayoutPayload().layout.header.leftHeader.logoUrl" alt="" />
+              }
+              @if (activeLayoutPayload().layout.header.leftHeader.showAppSwitcher) {
+                <div class="app-preview__app-switcher">
+                  <button type="button" class="app-preview__app-switcher-trigger"
+                    aria-label="Switch application"
+                    [attr.aria-expanded]="appSwitcherOpen()"
+                    (click)="toggleAppSwitcher()">
+                    <qo-icon name="layout-dashboard" aria-hidden="true"></qo-icon>
+                    @if (activeLayoutPayload().layout.header.leftHeader.showAppName) {
+                      <span class="app-preview__app-name">{{ activeLayoutPayload().layout.appName }}</span>
+                    }
+                    <span class="app-preview__app-switcher-caret" aria-hidden="true"></span>
+                  </button>
+                  @if (appSwitcherOpen()) {
+                    <div class="app-preview__app-switcher-backdrop" (click)="closeAppSwitcher()"></div>
+                    <div class="app-preview__app-switcher-dropdown" role="menu">
+                      <div class="app-preview__app-switcher-label">Your Applications</div>
+                      @for (app of mockApps; track app.id) {
+                        <button
+                          type="button"
+                          role="menuitem"
+                          class="app-preview__app-switcher-item"
+                          [class.app-preview__app-switcher-item--active]="app.id === activeLayoutPayload().layout.applicationId"
+                          (click)="closeAppSwitcher()">
+                          <span class="app-preview__app-switcher-icon">
+                            <qo-icon [name]="app.icon" aria-hidden="true"></qo-icon>
+                          </span>
+                          <span>{{ app.name }}</span>
+                          @if (app.id === activeLayoutPayload().layout.applicationId) {
+                            <qo-icon name="check" aria-hidden="true" class="app-preview__app-switcher-check"></qo-icon>
+                          }
+                        </button>
+                      }
+                    </div>
+                  }
+                </div>
+              } @else if (activeLayoutPayload().layout.header.leftHeader.showAppName) {
+                <strong>{{ activeLayoutPayload().layout.appName }}</strong>
+              }
+            </div>
+
+            <div class="app-preview__header-actions">
+              @if (activeLayoutPayload().layout.header.rightHeader.showAdd) {
+                <qo-icon name="plus" aria-hidden="true"></qo-icon>
+              }
+              @if (activeLayoutPayload().layout.header.rightHeader.showGlobalSearch) {
+                <qo-icon name="search" aria-hidden="true"></qo-icon>
+              }
+              @if (activeLayoutPayload().layout.header.rightHeader.showKnowledgeBase) {
+                <qo-icon name="info" aria-hidden="true"></qo-icon>
+              }
+              @if (activeLayoutPayload().layout.header.rightHeader.showNotifications) {
+                <qo-icon name="info" aria-hidden="true"></qo-icon>
+              }
+              @if (activeLayoutPayload().layout.header.rightHeader.showAppSettings) {
+                <qo-icon name="settings" aria-hidden="true"></qo-icon>
+              }
+              @if (activeLayoutPayload().layout.header.rightHeader.showAccountSettings) {
+                <qo-icon name="users" aria-hidden="true"></qo-icon>
+              }
+            </div>
+          </header>
+
+          <div
+            class="app-preview__layout"
+            [class.app-preview__layout--with-leftnav]="previewNavigationPages().length && previewLeftSelectorOpen()"
+            [class.app-preview__layout--leftnav-collapsed]="previewNavigationPages().length && !previewLeftSelectorOpen()"
+            [class.app-preview__layout--with-filters]="showPreviewFiltersPanel()"
+            [class.app-preview__layout--with-sort]="showPreviewSortPanel()"
+            [class.app-preview__layout--with-view-builder]="viewBuilderOpen()"
+            [class.app-preview__layout--with-showcase]="showcasePanelOpen()">
+            <aside class="app-preview__sidebar">
+              <div class="app-preview__rail-top">
+                <qo-icon name="layout-dashboard" aria-hidden="true"></qo-icon>
+              </div>
+              <nav>
+                @for (page of previewPrimaryPages(); track page.id) {
+                  <button
+                    [attr.aria-label]="page.label"
+                    type="button"
+                    [class.app-preview__nav-button--active]="selectedPreviewPrimaryPage()?.id === page.id"
+                    (click)="selectPreviewPage(page.id)">
+                    <qo-icon name="layout-dashboard" aria-hidden="true"></qo-icon>
+                    <span>{{ page.label }}</span>
+                  </button>
+                }
+              </nav>
+            </aside>
+
+            @if (previewNavigationPages().length && previewLeftSelectorOpen()) {
+              <aside class="app-preview__leftnav" aria-label="Preview left pages">
+                <div class="app-preview__leftnav-heading">
+                  <span>{{ selectedPreviewPrimaryPage()?.label }}</span>
+                  <button
+                    type="button"
+                    class="app-preview__leftnav-toggle"
+                    aria-label="Close left page selector"
+                    (click)="closePreviewLeftSelector()">
+                    <qo-icon name="chevron-left" aria-hidden="true"></qo-icon>
+                  </button>
+                </div>
+                <nav>
+                  @for (page of previewNavigationPages(); track page.id) {
+                    <div class="app-preview__leftnav-group">
+                      <button
+                        type="button"
+                        [class.app-preview__nav-button--active]="selectedPreviewLeftPage()?.id === page.id"
+                        (click)="selectPreviewLeftPage(page.id)">
+                        <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                        <span>{{ page.label }}</span>
+                      </button>
+
+                      @if (page.subPages.length) {
+                        <div class="app-preview__submenu">
+                          @for (subPage of page.subPages; track subPage.id) {
+                            <button
+                              type="button"
+                              [class.app-preview__submenu-button--active]="selectedPreviewSubPage()?.id === subPage.id"
+                              (click)="selectPreviewSubPage(subPage.id)">
+                              {{ subPage.label }}
+                            </button>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+                </nav>
+              </aside>
+            }
+
+            @if (previewNavigationPages().length && !previewLeftSelectorOpen()) {
+              <button
+                type="button"
+                class="app-preview__leftnav-reopen"
+                aria-label="Open left page selector"
+                (click)="openPreviewLeftSelector()">
+                <qo-icon name="chevron-right" aria-hidden="true"></qo-icon>
+              </button>
+            }
+
+            <main class="app-preview__workspace">
+              @if (previewTopTabs().length) {
+                <div class="app-preview__tabs">
+                  @for (tab of previewTopTabs(); track tab.id) {
+                    <button
+                      type="button"
+                      [class.app-preview__tab--active]="selectedPreviewTopTab()?.id === tab.id"
+                      (click)="selectPreviewTopTab(tab.id)">
+                      <span>{{ tab.label }}</span>
+                      @if (tab.label === 'All Employees') {
+                        <strong>{{ previewTabRowCount(tab.id) }}</strong>
+                      } @else if (tab.label === 'Active') {
+                        <strong class="app-preview__tab-count--success">{{ previewTabRowCount(tab.id) }}</strong>
+                      } @else if (tab.label === 'On Leave') {
+                        <strong class="app-preview__tab-count--warning">{{ previewTabRowCount(tab.id) }}</strong>
+                      } @else if (tab.label === 'New Joiners') {
+                        <strong class="app-preview__tab-count--info">{{ previewTabRowCount(tab.id) }}</strong>
+                      }
+                    </button>
+                  }
+                </div>
+              }
+
+              <div class="app-preview__report">
+                <div class="app-preview__report-actions">
+                  <div class="app-preview__report-actions-left">
+                    <div class="app-preview__views-wrap">
+                      <button type="button" class="app-preview__views-btn"
+                        [class.app-preview__views-btn--active]="activeViewId() !== null"
+                        (click)="toggleViewsDropdown()">
+                        <qo-icon name="layout-list" aria-hidden="true"></qo-icon>
+                        @if (activeViewId() !== null) {
+                          {{ savedViews()[ savedViews().findIndex(v => v.id === activeViewId()) ]?.name || 'Views' }}
+                        } @else {
+                          Views
+                        }
+                        <qo-icon name="chevron-down" aria-hidden="true"></qo-icon>
+                      </button>
+                      @if (viewsDropdownOpen()) {
+                        <div class="app-preview__views-dropdown">
+                          <div class="app-preview__views-list">
+                            <button type="button" class="app-preview__views-all"
+                              [class.app-preview__views-all--active]="activeViewId() === null"
+                              (click)="clearView()">
+                              <qo-icon name="table-2" aria-hidden="true"></qo-icon>
+                              All records
+                              @if (activeViewId() === null) {
+                                <qo-icon name="check" aria-hidden="true" class="app-preview__views-check"></qo-icon>
+                              }
+                            </button>
+                            @for (view of savedViews(); track view.id) {
+                              <div class="app-preview__views-item">
+                                <button type="button" class="app-preview__views-item-btn"
+                                  [class.app-preview__views-item-btn--active]="activeViewId() === view.id"
+                                  (click)="applyView(view.id)">
+                                  <qo-icon name="filter" aria-hidden="true"></qo-icon>
+                                  <span>{{ view.name }}</span>
+                                  @if (activeViewId() === view.id) {
+                                    <qo-icon name="check" aria-hidden="true" class="app-preview__views-check"></qo-icon>
+                                  }
+                                </button>
+                                <button type="button" class="app-preview__views-delete" (click)="deleteView(view.id)" aria-label="Delete view">
+                                  <qo-icon name="trash-2" aria-hidden="true"></qo-icon>
+                                </button>
+                              </div>
+                            }
+                            @if (!savedViews().length) {
+                              <p class="app-preview__views-empty">No saved views yet.</p>
+                            }
+                          </div>
+                          <div class="app-preview__views-footer">
+                            <button type="button" class="app-preview__views-add" (click)="openViewBuilder()">
+                              <qo-icon name="plus" aria-hidden="true"></qo-icon> Create view
+                            </button>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                    <div class="app-preview__view-toggle" aria-label="View mode">
+                      <button
+                        type="button"
+                        [class.app-preview__view-toggle-button--active]="previewViewMode() === 'list'"
+                        aria-label="List view"
+                        (click)="setPreviewViewMode('list')">
+                        <qo-icon name="list" aria-hidden="true"></qo-icon>
+                      </button>
+                      <button
+                        type="button"
+                        [class.app-preview__view-toggle-button--active]="previewViewMode() === 'grid'"
+                        aria-label="Grid view"
+                        (click)="setPreviewViewMode('grid')">
+                        <qo-icon name="layout-dashboard" aria-hidden="true"></qo-icon>
+                      </button>
+                    </div>
+                    <label class="app-preview__search">
+                      <qo-icon name="search" aria-hidden="true"></qo-icon>
+                      <input
+                        type="text"
+                        placeholder="Search employees..."
+                        [value]="previewSearchQuery()"
+                        (input)="updatePreviewSearchQuery($any($event.target).value)" />
+                    </label>
+                    <button
+                      type="button"
+                      [class.app-preview__toolbar-button--active]="showPreviewFiltersPanel()"
+                      (click)="togglePreviewFiltersPanel()">
+                      <qo-icon name="filter" aria-hidden="true"></qo-icon>
+                      Filter
+                    </button>
+                    <button
+                      type="button"
+                      [class.app-preview__toolbar-button--active]="showPreviewSortPanel()"
+                      (click)="togglePreviewSortPanel()">
+                      <qo-icon name="sort" aria-hidden="true"></qo-icon>
+                      Sort
+                    </button>
+                  </div>
+
+                  <div class="app-preview__report-actions-right">
+                    <div class="app-preview__export-wrap">
+                      <button
+                        type="button"
+                        class="app-preview__export-btn"
+                        [class.app-preview__export-btn--open]="showExportDropdown()"
+                        (click)="toggleExportDropdown()">
+                        <qo-icon name="download" aria-hidden="true"></qo-icon>
+                        Export
+                        <qo-icon name="chevron-down" aria-hidden="true"></qo-icon>
+                      </button>
+                      @if (showExportDropdown()) {
+                        <div class="app-preview__export-backdrop" (click)="closeExportDropdown()"></div>
+                        <div class="app-preview__export-menu" role="menu">
+                          <button type="button" role="menuitem" (click)="exportCsv()">
+                            <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                            <span>
+                              <strong>CSV</strong>
+                              <small>Comma-separated values</small>
+                            </span>
+                          </button>
+                          <button type="button" role="menuitem" (click)="exportPdf()">
+                            <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                            <span>
+                              <strong>PDF</strong>
+                              <small>Portable document format</small>
+                            </span>
+                          </button>
+                          <button type="button" role="menuitem" (click)="exportJson()">
+                            <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                            <span>
+                              <strong>JSON</strong>
+                              <small>Structured data format</small>
+                            </span>
+                          </button>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="app-preview__report-body">
+                @if (currentPageTargetType() === 'page') {
+                  <div
+                    class="app-preview__page-canvas"
+                    [style.min-height.px]="currentPageCanvasHeight()">
+                    @if (currentPageWidgets().length) {
+                      @for (widget of currentPageWidgets(); track widget.id) {
+                        <div
+                          class="app-preview__canvas-widget"
+                          [style.left.%]="widget.x / 1224 * 100"
+                          [style.top.px]="widget.y"
+                          [style.width.%]="widget.width / 1224 * 100"
+                          [style.height.px]="widget.height">
+                          @if (widget.type === 'media-showcase') {
+                            <div class="app-preview__cw-media">
+                              @if (widget.widgetProps?.mediaConfig?.uploadedImageDataUrl) {
+                                <img [src]="widget.widgetProps!.mediaConfig!.uploadedImageDataUrl" alt="" class="app-preview__cw-media-img" />
+                              } @else {
+                                <div class="app-preview__cw-media-placeholder">
+                                  <qo-icon name="image" aria-hidden="true"></qo-icon>
+                                </div>
+                              }
+                              @if (widget.widgetProps?.mediaConfig?.showTitle && widget.widgetProps?.mediaConfig?.title) {
+                                <strong class="app-preview__cw-media-title">{{ widget.widgetProps!.mediaConfig!.title }}</strong>
+                              }
+                              @if (widget.widgetProps?.mediaConfig?.showCaption && widget.widgetProps?.mediaConfig?.caption) {
+                                <small class="app-preview__cw-media-caption">{{ widget.widgetProps!.mediaConfig!.caption }}</small>
+                              }
+                            </div>
+                          } @else if (widget.type === 'table-showcase') {
+                            <div class="app-preview__cw-table">
+                              @if (widget.widgetProps?.tableConfig?.showSearch || widget.widgetProps?.tableConfig?.showDownload) {
+                                <div class="app-preview__cw-table-toolbar">
+                                  @if (widget.widgetProps?.tableConfig?.showSearch) {
+                                    <span class="app-preview__cw-table-search">Search...</span>
+                                  }
+                                  @if (widget.widgetProps?.tableConfig?.showDownload) {
+                                    <span class="app-preview__cw-table-btn">Download</span>
+                                  }
+                                </div>
+                              }
+                              <div class="app-preview__cw-table-body">
+                                <table>
+                                  <thead>
+                                    <tr>
+                                      @for (col of getVisibleTableColumns(widget); track col.key) {
+                                        <th>{{ col.label }}</th>
+                                      }
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    @for (row of getTableRows(widget); track $index) {
+                                      <tr>
+                                        @for (cell of row; track $index) {
+                                          <td>{{ cell }}</td>
+                                        }
+                                      </tr>
+                                    }
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          } @else if (widget.type === 'report-embed') {
+                            <div class="app-preview__cw-table">
+                              @if (widget.widgetProps?.reportConfig?.reportLabel) {
+                                <div class="app-preview__cw-report-label">{{ widget.widgetProps!.reportConfig!.reportLabel }}</div>
+                              }
+                              <table>
+                                <thead>
+                                  <tr>
+                                    @for (col of (widget.widgetProps?.reportConfig?.columns ?? []); track col.id) {
+                                      <th>{{ col.label }}</th>
+                                    }
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  @for (row of (widget.widgetProps?.reportConfig?.rows ?? []); track row.id) {
+                                    <tr>
+                                      @for (val of row.values; track $index) {
+                                        <td>{{ val }}</td>
+                                      }
+                                    </tr>
+                                  }
+                                </tbody>
+                              </table>
+                            </div>
+                          } @else if (widget.type === 'panel-showcase') {
+                            <div class="app-preview__cw-panel">
+                              <strong class="app-preview__cw-panel-value">{{ widget.widgetProps?.panelConfig?.value || '--' }}</strong>
+                              <span class="app-preview__cw-panel-title">{{ widget.widgetProps?.panelConfig?.title }}</span>
+                              @if (widget.widgetProps?.panelConfig?.subtitle) {
+                                <small class="app-preview__cw-panel-sub">{{ widget.widgetProps!.panelConfig!.subtitle }}</small>
+                              }
+                            </div>
+                          } @else if (widget.type === 'text-block-showcase') {
+                            <div class="app-preview__cw-text">
+                              {{ widget.widgetProps?.textBlockConfig?.text || widget.widgetProps?.textBlockConfig?.defaultValue || widget.label }}
+                            </div>
+                          } @else if (widget.type === 'chart-showcase') {
+                            <div class="app-preview__cw-chart"
+                                 [style.--chart-clr]="widget.widgetProps?.chartConfig?.chartColor || '#2563eb'">
+                              <div class="app-preview__cw-chart-title">{{ widget.label }}</div>
+                              @if (widget.chartType === 'bar' || widget.chartType === 'stacked-bar') {
+                                <svg class="app-preview__cw-chart-svg" viewBox="0 0 180 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                  <line x1="0" y1="85" x2="180" y2="85" stroke="var(--qo-color-neutral-200)" stroke-width="1"/>
+                                  <rect x="4" y="22" width="30" height="62" fill="var(--chart-clr)" rx="2" opacity="0.85"/>
+                                  <rect x="4" y="48" width="30" height="36" fill="var(--chart-clr)" rx="2" opacity="0.45"/>
+                                  <rect x="40" y="10" width="30" height="74" fill="var(--chart-clr)" rx="2" opacity="0.85"/>
+                                  <rect x="76" y="32" width="30" height="52" fill="var(--chart-clr)" rx="2" opacity="0.85"/>
+                                  <rect x="76" y="52" width="30" height="32" fill="var(--chart-clr)" rx="2" opacity="0.45"/>
+                                  <rect x="112" y="18" width="30" height="66" fill="var(--chart-clr)" rx="2" opacity="0.85"/>
+                                  <rect x="148" y="40" width="30" height="44" fill="var(--chart-clr)" rx="2" opacity="0.85"/>
+                                </svg>
+                              } @else if (widget.chartType === 'line' || widget.chartType === 'area' || widget.chartType === 'stacked-area') {
+                                <svg class="app-preview__cw-chart-svg" viewBox="0 0 180 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                  <line x1="0" y1="85" x2="180" y2="85" stroke="var(--qo-color-neutral-200)" stroke-width="1"/>
+                                  <line x1="0" y1="55" x2="180" y2="55" stroke="var(--qo-color-neutral-200)" stroke-width="0.5" stroke-dasharray="4,4"/>
+                                  <line x1="0" y1="30" x2="180" y2="30" stroke="var(--qo-color-neutral-200)" stroke-width="0.5" stroke-dasharray="4,4"/>
+                                  @if (widget.chartType === 'area' || widget.chartType === 'stacked-area') {
+                                    <polygon points="0,85 0,65 30,45 60,55 90,28 120,38 150,18 180,32 180,85" fill="var(--chart-clr)" opacity="0.15"/>
+                                  }
+                                  <polyline points="0,65 30,45 60,55 90,28 120,38 150,18 180,32" fill="none" stroke="var(--chart-clr)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                  <circle cx="0"   cy="65" r="3.5" fill="var(--qo-color-neutral-0,#fff)" stroke="var(--chart-clr)" stroke-width="2"/>
+                                  <circle cx="30"  cy="45" r="3.5" fill="var(--qo-color-neutral-0,#fff)" stroke="var(--chart-clr)" stroke-width="2"/>
+                                  <circle cx="60"  cy="55" r="3.5" fill="var(--qo-color-neutral-0,#fff)" stroke="var(--chart-clr)" stroke-width="2"/>
+                                  <circle cx="90"  cy="28" r="3.5" fill="var(--qo-color-neutral-0,#fff)" stroke="var(--chart-clr)" stroke-width="2"/>
+                                  <circle cx="120" cy="38" r="3.5" fill="var(--qo-color-neutral-0,#fff)" stroke="var(--chart-clr)" stroke-width="2"/>
+                                  <circle cx="150" cy="18" r="3.5" fill="var(--qo-color-neutral-0,#fff)" stroke="var(--chart-clr)" stroke-width="2"/>
+                                  <circle cx="180" cy="32" r="3.5" fill="var(--qo-color-neutral-0,#fff)" stroke="var(--chart-clr)" stroke-width="2"/>
+                                </svg>
+                              } @else {
+                                <svg class="app-preview__cw-chart-svg" viewBox="0 0 180 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                  <line x1="0" y1="85" x2="180" y2="85" stroke="var(--qo-color-neutral-200)" stroke-width="1"/>
+                                  <line x1="0" y1="55" x2="180" y2="55" stroke="var(--qo-color-neutral-200)" stroke-width="0.5" stroke-dasharray="4,4"/>
+                                  <line x1="0" y1="30" x2="180" y2="30" stroke="var(--qo-color-neutral-200)" stroke-width="0.5" stroke-dasharray="4,4"/>
+                                  <rect x="6"   y="42" width="18" height="42" fill="var(--chart-clr)" rx="2"/>
+                                  <rect x="29"  y="18" width="18" height="66" fill="var(--chart-clr)" rx="2"/>
+                                  <rect x="52"  y="32" width="18" height="52" fill="var(--chart-clr)" rx="2"/>
+                                  <rect x="75"  y="12" width="18" height="72" fill="var(--chart-clr)" rx="2"/>
+                                  <rect x="98"  y="28" width="18" height="56" fill="var(--chart-clr)" rx="2"/>
+                                  <rect x="121" y="48" width="18" height="36" fill="var(--chart-clr)" rx="2"/>
+                                  <rect x="144" y="22" width="18" height="62" fill="var(--chart-clr)" rx="2"/>
+                                  <rect x="167" y="36" width="18" height="48" fill="var(--chart-clr)" rx="2"/>
+                                </svg>
+                              }
+                              <div class="app-preview__cw-chart-type">{{ widget.chartType || 'chart' }}</div>
+                            </div>
+                          } @else {
+                            <div class="app-preview__cw-generic">
+                              <span>{{ widget.label || widget.type }}</span>
+                            </div>
+                          }
+                        </div>
+                      }
+                    } @else {
+                      <div class="app-preview__page-canvas-empty">
+                        <qo-icon name="web_asset" aria-hidden="true"></qo-icon>
+                        <span>No published content for "{{ currentPageTargetName() }}" yet</span>
+                      </div>
+                    }
+                  </div>
+                } @else if (currentPageTargetType() === 'form') {
+                  <div class="app-preview__form-preview">
+                    @if (currentTargetForm(); as form) {
+                      <div class="app-preview__form-header">
+                        <h3 class="app-preview__form-title">{{ form.name }}</h3>
+                        @if (form.description) {
+                          <p class="app-preview__form-desc">{{ form.description }}</p>
+                        }
+                      </div>
+                      <div class="app-preview__form-fields">
+                        @for (field of form.fields; track field.id) {
+                          <div class="app-preview__form-field">
+                            <label class="app-preview__form-label" [for]="'pf-' + field.id">{{ field.label }}</label>
+                            @if (field.type === 'textarea') {
+                              <textarea
+                                [id]="'pf-' + field.id"
+                                class="app-preview__form-input app-preview__form-input--textarea"
+                                [placeholder]="field.label"
+                                rows="3"></textarea>
+                            } @else if (field.type === 'select' || field.type === 'dropdown') {
+                              <select [id]="'pf-' + field.id" class="app-preview__form-input app-preview__form-input--select">
+                                <option value="" disabled selected>Select...</option>
+                              </select>
+                            } @else if (field.type === 'checkbox') {
+                              <div class="app-preview__form-check">
+                                <input [id]="'pf-' + field.id" type="checkbox" class="app-preview__form-checkmark" />
+                              </div>
+                            } @else if (field.type === 'date') {
+                              <input [id]="'pf-' + field.id" type="date" class="app-preview__form-input" />
+                            } @else if (field.type === 'number') {
+                              <input [id]="'pf-' + field.id" type="number" class="app-preview__form-input" [placeholder]="field.label" />
+                            } @else {
+                              <input [id]="'pf-' + field.id" type="text" class="app-preview__form-input" [placeholder]="field.label" />
+                            }
+                          </div>
+                        }
+                        @if (!form.fields?.length) {
+                          <p class="app-preview__form-empty">No fields configured</p>
+                        }
+                      </div>
+                      <div class="app-preview__form-actions">
+                        <button class="app-preview__form-submit" type="button" disabled>Submit</button>
+                      </div>
+                    } @else {
+                      <div class="app-preview__page-canvas-empty">
+                        <qo-icon name="list_alt" aria-hidden="true"></qo-icon>
+                        <span>Form not found</span>
+                      </div>
+                    }
+                  </div>
+                } @else if (previewViewMode() === 'list') {
+                  @if (selectedIndices().size > 0) {
+                    <div class="app-preview__bulk-bar">
+                      <span class="app-preview__bulk-count">{{ selectedIndices().size }} selected</span>
+                      <button type="button" class="app-preview__bulk-action" (click)="bulkExportSelected()">
+                        <qo-icon name="download" aria-hidden="true"></qo-icon> Export
+                      </button>
+                      <button type="button" class="app-preview__bulk-action app-preview__bulk-action--danger" (click)="clearSelection()">
+                        <qo-icon name="x" aria-hidden="true"></qo-icon> Deselect all
+                      </button>
+                    </div>
+                  }
+                  <div class="app-preview__table-scroll">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th class="app-preview__checkbox-cell">
+                            <input type="checkbox"
+                              [checked]="allPageSelected()"
+                              [indeterminate]="somePageSelected() && !allPageSelected()"
+                              (change)="toggleAllPageRows()" />
+                          </th>
+                          @for (column of previewDataset().columns; track column) {
+                            <th>{{ column }}</th>
+                          }
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (row of paginatedRows(); track $index) {
+                          <tr [class.app-preview__row--selected]="isRowSelected($index)">
+                            <td class="app-preview__checkbox-cell">
+                              <input type="checkbox" [checked]="isRowSelected($index)" (change)="toggleRowSelection($index)" />
+                            </td>
+                            @for (cell of row; track $index) {
+                              @if (previewDataset().columns[$index] === 'Employee') {
+                                <td class="app-preview__employee-cell">
+                                  <span class="app-preview__avatar">{{ cell.split('|')[2] || cell.slice(0, 2) }}</span>
+                                  <span class="app-preview__employee-copy">
+                                    <strong>{{ cell.split('|')[0] }}</strong>
+                                    <small>{{ cell.split('|')[1] }}</small>
+                                  </span>
+                                </td>
+                              } @else if (previewDataset().columns[$index] === 'Status') {
+                                <td>
+                                  <span
+                                    class="app-preview__status"
+                                    [class.app-preview__status--leave]="cell === 'On Leave'"
+                                    [class.app-preview__status--new]="cell === 'New Joiner'">
+                                    {{ cell }}
+                                  </span>
+                                </td>
+                              } @else {
+                                <td>{{ cell }}</td>
+                              }
+                            }
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                } @else {
+                  <div class="app-preview__card-grid">
+                    @for (row of paginatedRows(); track row[0]) {
+                      <article class="app-preview__employee-card">
+                        <header>
+                          <span class="app-preview__avatar">{{ row[0].split('|')[2] || row[0].slice(0, 2) }}</span>
+                          <span class="app-preview__employee-copy">
+                            <strong>{{ row[0].split('|')[0] }}</strong>
+                            <small>{{ row[3] }}</small>
+                          </span>
+                        </header>
+                        <p><qo-icon name="database" aria-hidden="true"></qo-icon>{{ row[2] }}</p>
+                        <p><qo-icon name="external-link" aria-hidden="true"></qo-icon>{{ row[1] }}</p>
+                        <footer>
+                          <span
+                            class="app-preview__status"
+                            [class.app-preview__status--leave]="row[4] === 'On Leave'"
+                            [class.app-preview__status--new]="row[4] === 'New Joiner'">
+                            {{ row[4] }}
+                          </span>
+                          <small>{{ row[5] }}</small>
+                        </footer>
+                      </article>
+                    }
+                  </div>
+                }
+                </div>
+
+                <footer class="app-preview__footer">
+                  <div class="app-preview__footer-zone app-preview__footer-zone--left">
+                    @for (button of runtimeLeftFooterButtons(); track button.id) {
+                      <button type="button">{{ button.label }}</button>
+                    }
+                  </div>
+                  <div class="app-preview__footer-center">
+                    @if (activeLayoutPayload().layout.footer.centerFooter.showRecordCount) {
+                      <span class="app-preview__record-count">
+                        {{ paginationStart() }}–{{ paginationEnd() }} of {{ sortedFilteredRows().length }}{{ appliedFilterRows().length ? ' (filtered from ' + previewDataset().rows.length + ')' : '' }}
+                      </span>
+                    }
+                    @if (activeLayoutPayload().layout.footer.centerFooter.showPagination) {
+                      <div class="app-preview__pagination">
+                        <button type="button" class="app-preview__page-btn" [disabled]="currentPage() <= 1" (click)="prevPage()">
+                          <qo-icon name="chevron-left" aria-hidden="true"></qo-icon>
+                        </button>
+                        <span class="app-preview__page-info">{{ currentPage() }} / {{ totalPages() }}</span>
+                        <button type="button" class="app-preview__page-btn" [disabled]="currentPage() >= totalPages()" (click)="nextPage()">
+                          <qo-icon name="chevron-right" aria-hidden="true"></qo-icon>
+                        </button>
+                        <select class="app-preview__page-size" [value]="pageSize()" (change)="setPageSize(+$any($event.target).value)">
+                          <option value="25">25 / page</option>
+                          <option value="50">50 / page</option>
+                          <option value="100">100 / page</option>
+                        </select>
+                      </div>
+                    }
+                    @if (activeLayoutPayload().layout.footer.centerFooter.showColumnDropdown) {
+                      <div class="app-preview__column-menu">
+                        <button
+                          type="button"
+                          aria-haspopup="menu"
+                          [attr.aria-expanded]="showPreviewColumnDropdown()"
+                          (click)="togglePreviewColumnDropdown()">
+                          Columns
+                        </button>
+                        @if (showPreviewColumnDropdown()) {
+                          <div class="app-preview__column-dropdown" role="menu" aria-label="Visible columns">
+                            @for (column of previewDataset().columns; track column) {
+                              <span role="menuitem">{{ column }}</span>
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                  <div class="app-preview__footer-zone app-preview__footer-zone--right">
+                    @for (button of runtimeRightFooterButtons(); track button.id) {
+                      <button type="button">{{ button.label }}</button>
+                    }
+                  </div>
+                </footer>
+              </div>
+            </main>
+
+            @if (showPreviewFiltersPanel()) {
+              <aside class="app-preview__filter-panel" aria-label="Preview filters panel">
+                <header>
+                  <div class="app-preview__filter-header-left">
+                    <strong>Filters</strong>
+                    @if (filterRows().length) {
+                      <span class="app-preview__filter-badge">{{ filterRows().length }}</span>
+                    }
+                  </div>
+                  <button type="button" aria-label="Close filters" (click)="closePreviewFiltersPanel()">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </header>
+
+                <div class="app-preview__filter-body">
+                  @if (!filterRows().length) {
+                    <div class="app-preview__filter-empty-state">
+                      <qo-icon name="filter" aria-hidden="true"></qo-icon>
+                      <p>No filters applied</p>
+                      <small>Add a filter to narrow down results</small>
+                    </div>
+                  }
+
+                  @for (row of filterRows(); track row.id) {
+                    <div class="app-preview__filter-row">
+                      <div class="app-preview__filter-row-field">
+                        <select
+                          class="app-preview__filter-select"
+                          [value]="row.column"
+                          (change)="updateFilterRowColumn(row.id, $any($event.target).value)">
+                          <option value="" disabled>Select column...</option>
+                          @for (col of previewDataset().columns; track col) {
+                            <option [value]="col">{{ col }}</option>
+                          }
+                        </select>
+                      </div>
+                      <div class="app-preview__filter-row-condition">
+                        <select
+                          class="app-preview__filter-select"
+                          [value]="row.operator"
+                          (change)="updateFilterRowOperator(row.id, $any($event.target).value)">
+                          @for (op of filterOperators; track op.value) {
+                            <option [value]="op.value">{{ op.label }}</option>
+                          }
+                        </select>
+                        <button
+                          type="button"
+                          class="app-preview__filter-remove"
+                          aria-label="Remove filter"
+                          (click)="removeFilterRow(row.id)">
+                          <qo-icon name="x" aria-hidden="true"></qo-icon>
+                        </button>
+                      </div>
+                      @if (row.operator !== 'is_empty') {
+                        <input
+                          type="text"
+                          class="app-preview__filter-value"
+                          [placeholder]="row.column ? 'Enter ' + row.column + '...' : 'Enter value...'"
+                          [value]="row.value"
+                          (input)="updateFilterRowValue(row.id, $any($event.target).value)" />
+                      }
+                    </div>
+                  }
+
+                  @if (previewDataset().columns.length) {
+                    <button
+                      type="button"
+                      class="app-preview__filter-add"
+                      (click)="addFilterRow('')">
+                      <qo-icon name="plus" aria-hidden="true"></qo-icon>
+                      Add filter
+                    </button>
+                  }
+                </div>
+
+                <footer>
+                  <button type="button" class="app-preview__filter-apply" (click)="applyFilters()">
+                    Apply Filters
+                  </button>
+                  @if (filterRows().length) {
+                    <button type="button" class="app-preview__filter-clear" (click)="clearAllFilters()">
+                      Clear all
+                    </button>
+                  }
+                </footer>
+              </aside>
+            }
+
+            @if (showPreviewSortPanel()) {
+              <aside class="app-preview__sort-panel" aria-label="Preview sort panel">
+                <header>
+                  <strong>Sort</strong>
+                  <button type="button" aria-label="Close sort" (click)="closePreviewSortPanel()">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </header>
+
+                <div class="app-preview__sort-body">
+                  @if (!sortRows().length) {
+                    <p class="app-preview__sort-empty">No sorts applied. Add one below.</p>
+                  }
+                  @for (row of sortRows(); track row.id) {
+                    <div class="app-preview__sort-row">
+                      <select class="app-preview__sort-select" [value]="row.column"
+                        (change)="updateSortColumn(row.id, $any($event.target).value)">
+                        <option value="" disabled>Select column...</option>
+                        @for (col of previewDataset().columns; track col) {
+                          <option [value]="col">{{ col }}</option>
+                        }
+                      </select>
+                      <div class="app-preview__sort-dir-toggle">
+                        <button type="button"
+                          [class.app-preview__sort-dir-btn--active]="row.direction === 'asc'"
+                          (click)="updateSortDirection(row.id, 'asc')">
+                          {{ getSortDirectionLabel(row.column, 'asc') }}
+                        </button>
+                        <button type="button"
+                          [class.app-preview__sort-dir-btn--active]="row.direction === 'desc'"
+                          (click)="updateSortDirection(row.id, 'desc')">
+                          {{ getSortDirectionLabel(row.column, 'desc') }}
+                        </button>
+                      </div>
+                      <button type="button" class="app-preview__sort-remove" (click)="removeSortRow(row.id)">
+                        <qo-icon name="x" aria-hidden="true"></qo-icon>
+                      </button>
+                    </div>
+                  }
+                  <button type="button" class="app-preview__sort-add" (click)="addSortRow()">
+                    <qo-icon name="plus" aria-hidden="true"></qo-icon> Add sort
+                  </button>
+                </div>
+
+                <footer>
+                  <button type="button" class="app-preview__filter-apply" (click)="applySorts()">Apply Sort</button>
+                  @if (sortRows().length) {
+                    <button type="button" class="app-preview__filter-clear" (click)="clearAllSorts()">Clear all</button>
+                  }
+                </footer>
+              </aside>
+            }
+
+            @if (viewBuilderOpen()) {
+              <aside class="app-preview__view-builder-panel" aria-label="Create view">
+                <header>
+                  <strong>Create View</strong>
+                  <button type="button" aria-label="Close" (click)="closeViewBuilder()">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </header>
+
+                <div class="app-preview__view-builder-body">
+                  <div class="app-preview__view-name-row">
+                    <label class="app-preview__view-label" for="view-draft-name">View name</label>
+                    <input
+                      id="view-draft-name"
+                      type="text"
+                      class="app-preview__view-name-input"
+                      placeholder="e.g. Active Employees, Vacant Flats..."
+                      [value]="viewDraftName()"
+                      (input)="viewDraftName.set($any($event.target).value)" />
+                  </div>
+
+                  <div class="app-preview__view-filters-section">
+                    <span class="app-preview__view-filters-label">Filters</span>
+                    @if (!viewDraftFilters().length) {
+                      <div class="app-preview__filter-empty-state">
+                        <qo-icon name="filter" aria-hidden="true"></qo-icon>
+                        <p>No filters added</p>
+                        <small>Filters are optional</small>
+                      </div>
+                    }
+                    @for (row of viewDraftFilters(); track row.id) {
+                      <div class="app-preview__filter-row">
+                        <div class="app-preview__filter-row-field">
+                          <select class="app-preview__filter-select" [value]="row.column"
+                            (change)="updateViewDraftFilterColumn(row.id, $any($event.target).value)">
+                            <option value="" disabled>Select column...</option>
+                            @for (col of previewDataset().columns; track col) {
+                              <option [value]="col">{{ col }}</option>
+                            }
+                          </select>
+                        </div>
+                        <div class="app-preview__filter-row-condition">
+                          <select class="app-preview__filter-select" [value]="row.operator"
+                            (change)="updateViewDraftFilterOperator(row.id, $any($event.target).value)">
+                            @for (op of filterOperators; track op.value) {
+                              <option [value]="op.value">{{ op.label }}</option>
+                            }
+                          </select>
+                          <button type="button" class="app-preview__filter-remove"
+                            (click)="removeViewDraftFilterRow(row.id)">
+                            <qo-icon name="x" aria-hidden="true"></qo-icon>
+                          </button>
+                        </div>
+                        @if (row.operator !== 'is_empty') {
+                          <input type="text" class="app-preview__filter-value"
+                            [placeholder]="row.column ? 'Enter ' + row.column + '...' : 'Enter value...'"
+                            [value]="row.value"
+                            (input)="updateViewDraftFilterValue(row.id, $any($event.target).value)" />
+                        }
+                      </div>
+                    }
+                    <button type="button" class="app-preview__filter-add" (click)="addViewDraftFilterRow()">
+                      <qo-icon name="plus" aria-hidden="true"></qo-icon> Add filter condition
+                    </button>
+                  </div>
+                </div>
+
+                <footer>
+                  <button type="button" class="app-preview__filter-apply"
+                    [disabled]="!viewDraftName().trim()"
+                    (click)="saveView()">Save View</button>
+                  <button type="button" class="app-preview__filter-clear" (click)="closeViewBuilder()">Cancel</button>
+                </footer>
+              </aside>
+            }
+
+            @if (showcasePanelOpen()) {
+              <aside class="app-preview__showcase-panel" aria-label="Application modules panel">
+                <header class="app-preview__showcase-header">
+                  <strong>Application Modules</strong>
+                  <button type="button" aria-label="Close modules" (click)="closeShowcasePanel()">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </header>
+
+                <div class="app-preview__showcase-tabs">
+                  <button
+                    type="button"
+                    [class.app-preview__showcase-tab--active]="showcaseActiveModule() === 'forms'"
+                    (click)="setShowcaseModule('forms')">
+                    Forms
+                  </button>
+                  <button
+                    type="button"
+                    [class.app-preview__showcase-tab--active]="showcaseActiveModule() === 'reports'"
+                    (click)="setShowcaseModule('reports')">
+                    Reports
+                  </button>
+                  <button
+                    type="button"
+                    [class.app-preview__showcase-tab--active]="showcaseActiveModule() === 'pages'"
+                    (click)="setShowcaseModule('pages')">
+                    Pages
+                  </button>
+                </div>
+
+                <div class="app-preview__showcase-body">
+                  @if (showcaseActiveModule() === 'forms') {
+                    @if (showcaseForms().length) {
+                      @for (form of showcaseForms(); track form.id) {
+                        <button
+                          type="button"
+                          class="app-preview__showcase-item"
+                          (click)="openFormRuntime(form.id)">
+                          <qo-icon name="assignment" aria-hidden="true"></qo-icon>
+                          <span class="app-preview__showcase-item-name">{{ form.name }}</span>
+                          <span
+                            class="app-preview__showcase-badge"
+                            [class.app-preview__showcase-badge--live]="form.status === 'live'">
+                            {{ form.status }}
+                          </span>
+                        </button>
+                      }
+                    } @else {
+                      <p class="app-preview__showcase-empty">No forms created yet.</p>
+                    }
+                  }
+
+                  @if (showcaseActiveModule() === 'reports') {
+                    @if (showcaseReports().length) {
+                      @for (report of showcaseReports(); track report.id) {
+                        <div class="app-preview__showcase-item app-preview__showcase-item--readonly">
+                          <qo-icon name="bar-chart-3" aria-hidden="true"></qo-icon>
+                          <span class="app-preview__showcase-item-name">{{ report.name }}</span>
+                          <span
+                            class="app-preview__showcase-badge"
+                            [class.app-preview__showcase-badge--live]="report.status === 'live'">
+                            {{ report.status }}
+                          </span>
+                        </div>
+                      }
+                    } @else {
+                      <p class="app-preview__showcase-empty">No reports created yet.</p>
+                    }
+                  }
+
+                  @if (showcaseActiveModule() === 'pages') {
+                    @if (showcasePages().length) {
+                      @for (page of showcasePages(); track page.id) {
+                        <div class="app-preview__showcase-item app-preview__showcase-item--readonly">
+                          <qo-icon name="layout-dashboard" aria-hidden="true"></qo-icon>
+                          <span class="app-preview__showcase-item-name">{{ page.name }}</span>
+                          <span
+                            class="app-preview__showcase-badge"
+                            [class.app-preview__showcase-badge--live]="page.status === 'live'">
+                            {{ page.status }}
+                          </span>
+                        </div>
+                      }
+                    } @else {
+                      <p class="app-preview__showcase-empty">No pages created yet.</p>
+                    }
+                  }
+                </div>
+              </aside>
+            }
+
+          </div>
+
+          @if (showPreviewEmployeeModal()) {
+            <div class="app-preview__employee-modal-backdrop" (click)="closePreviewEmployeeModal()">
+              <section
+                class="app-preview__employee-modal"
+                aria-labelledby="add-employee-title"
+                (click)="$event.stopPropagation()">
+                <header>
+                  <div>
+                    <h2 id="add-employee-title">Add Employee</h2>
+                    <p>Register a new employee in the HR system</p>
+                  </div>
+                  <button type="button" aria-label="Close add employee" (click)="closePreviewEmployeeModal()">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </header>
+
+                <form>
+                  <label>
+                    <span>First Name *</span>
+                    <input type="text" placeholder="First name" />
+                  </label>
+                  <label>
+                    <span>Last Name *</span>
+                    <input type="text" placeholder="Last name" />
+                  </label>
+                  <label class="app-preview__employee-modal-field--wide">
+                    <span>Email Address *</span>
+                    <input type="email" placeholder="employee@acme.co" />
+                  </label>
+                  <label>
+                    <span>Department *</span>
+                    <select>
+                      <option>Engineering</option>
+                      <option>HR &amp; Admin</option>
+                      <option>Finance</option>
+                      <option>Operations</option>
+                      <option>Sales</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Designation *</span>
+                    <input type="text" placeholder="e.g. Software Engineer" />
+                  </label>
+                  <label>
+                    <span>Joining Date *</span>
+                    <input type="text" placeholder="dd-mm-yyyy" />
+                  </label>
+                  <label>
+                    <span>Employment Type</span>
+                    <select>
+                      <option>Full-time</option>
+                      <option>Part-time</option>
+                      <option>Contract</option>
+                      <option>Intern</option>
+                    </select>
+                  </label>
+                </form>
+
+                <footer>
+                  <button type="button" class="app-preview__employee-modal-cancel" (click)="closePreviewEmployeeModal()">
+                    Cancel
+                  </button>
+                  <div>
+                    <button type="button" class="app-preview__employee-modal-secondary" (click)="closePreviewEmployeeModal()">
+                      Save Draft
+                    </button>
+                    <button type="button" class="app-preview__employee-modal-primary" (click)="closePreviewEmployeeModal()">
+                      <qo-icon name="check" aria-hidden="true"></qo-icon>
+                      Add Employee
+                    </button>
+                  </div>
+                </footer>
+              </section>
+            </div>
+          }
+
+          @if (showFormRuntimeModal() && selectedShowcaseForm(); as form) {
+            <div class="app-preview__employee-modal-backdrop" (click)="closeFormRuntime()">
+              <section
+                class="app-preview__employee-modal app-preview__form-runtime-modal"
+                [attr.aria-labelledby]="'form-runtime-title'"
+                (click)="$event.stopPropagation()">
+                <header>
+                  <div>
+                    <h2 id="form-runtime-title">{{ form.name }}</h2>
+                    <p>{{ form.description }}</p>
+                  </div>
+                  <button type="button" aria-label="Close form" (click)="closeFormRuntime()">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </header>
+
+                <form (submit)="$event.preventDefault(); submitFormRuntime()">
+                  @for (field of form.fields; track field.id) {
+                    <label
+                      [class.app-preview__employee-modal-field--wide]="field.properties.fieldLayout === 'One Column'">
+                      <span>
+                        {{ field.label }}
+                        @if (field.properties.required || field.properties.mandatory) { <span aria-hidden="true"> *</span> }
+                      </span>
+
+                      @if (field.type === 'Long Text') {
+                        <textarea
+                          [placeholder]="field.properties.placeholder || field.label"
+                          [value]="formRuntimeValues()[field.id] || ''"
+                          (input)="updateFormFieldValue(field.id, $any($event.target).value)">
+                        </textarea>
+                      } @else if (field.type === 'Dropdown' || field.type === 'Radio' || field.type === 'Multi Select') {
+                        <select
+                          [value]="formRuntimeValues()[field.id] || ''"
+                          (change)="updateFormFieldValue(field.id, $any($event.target).value)">
+                          <option value="">Select {{ field.label }}</option>
+                          @for (opt of field.properties.options; track opt) {
+                            <option [value]="opt">{{ opt }}</option>
+                          }
+                        </select>
+                      } @else if (field.type === 'Date Picker' || field.type === 'Date-Time' || field.type === 'Time') {
+                        <input
+                          type="text"
+                          [placeholder]="field.type === 'Time' ? 'hh:mm' : 'dd-mm-yyyy'"
+                          [value]="formRuntimeValues()[field.id] || ''"
+                          (input)="updateFormFieldValue(field.id, $any($event.target).value)" />
+                      } @else if (field.type === 'Decision Box' || field.type === 'Checkbox') {
+                        <label class="app-preview__form-toggle">
+                          <input
+                            type="checkbox"
+                            [checked]="formRuntimeValues()[field.id] === 'true'"
+                            (change)="updateFormFieldValue(field.id, $any($event.target).checked ? 'true' : '')" />
+                          <span>{{ field.properties.decisionTrueLabel || 'Yes' }}</span>
+                        </label>
+                      } @else if (field.type === 'Email') {
+                        <input
+                          type="email"
+                          [placeholder]="field.properties.placeholder || field.label"
+                          [value]="formRuntimeValues()[field.id] || ''"
+                          (input)="updateFormFieldValue(field.id, $any($event.target).value)" />
+                      } @else if (field.type === 'Phone') {
+                        <input
+                          type="tel"
+                          [placeholder]="field.properties.placeholder || field.label"
+                          [value]="formRuntimeValues()[field.id] || ''"
+                          (input)="updateFormFieldValue(field.id, $any($event.target).value)" />
+                      } @else if (field.type === 'Number' || field.type === 'Decimal' || field.type === 'Currency' || field.type === 'Percent') {
+                        <input
+                          type="number"
+                          [placeholder]="field.properties.placeholder || field.label"
+                          [value]="formRuntimeValues()[field.id] || ''"
+                          (input)="updateFormFieldValue(field.id, $any($event.target).value)" />
+                      } @else {
+                        <input
+                          type="text"
+                          [placeholder]="field.properties.placeholder || field.label"
+                          [value]="formRuntimeValues()[field.id] || ''"
+                          (input)="updateFormFieldValue(field.id, $any($event.target).value)" />
+                      }
+
+                      @if (formRuntimeErrors()[field.id]) {
+                        <span class="app-preview__field-error" role="alert">
+                          {{ formRuntimeErrors()[field.id] }}
+                        </span>
+                      }
+                    </label>
+                  }
+                </form>
+
+                <footer>
+                  <button
+                    type="button"
+                    class="app-preview__employee-modal-cancel"
+                    (click)="closeFormRuntime()">
+                    Cancel
+                  </button>
+                  <div>
+                    <button
+                      type="button"
+                      class="app-preview__employee-modal-secondary"
+                      [disabled]="formRuntimeSubmitting()"
+                      (click)="closeFormRuntime()">
+                      Save Draft
+                    </button>
+                    <button
+                      type="button"
+                      class="app-preview__employee-modal-primary"
+                      [disabled]="formRuntimeSubmitting()"
+                      (click)="submitFormRuntime()">
+                      <qo-icon [name]="formRuntimeSubmitting() ? 'sync' : 'check'" aria-hidden="true"></qo-icon>
+                      {{ formRuntimeSubmitting() ? 'Submitting...' : 'Submit' }}
+                    </button>
+                  </div>
+                </footer>
+              </section>
+            </div>
+          }
+
+          @if (workflowExecutionOpen()) {
+            <div class="app-preview__workflow-backdrop" role="dialog" aria-labelledby="wf-exec-title">
+              <section class="app-preview__workflow-panel">
+                <header class="app-preview__workflow-header">
+                  <div>
+                    <h2 id="wf-exec-title">Workflow Execution</h2>
+                    <p>Triggered by: <strong>{{ workflowExecutionFormName() }}</strong></p>
+                  </div>
+                  @if (workflowExecutionComplete()) {
+                    <button type="button" aria-label="Close workflow panel" (click)="closeWorkflowExecution()">
+                      <qo-icon name="x" aria-hidden="true"></qo-icon>
+                    </button>
+                  }
+                </header>
+
+                <div class="app-preview__workflow-steps">
+                  @for (step of workflowExecutionSteps(); track step.id) {
+                    <div
+                      class="app-preview__workflow-step"
+                      [class.app-preview__workflow-step--running]="step.status === 'running'"
+                      [class.app-preview__workflow-step--complete]="step.status === 'complete'">
+                      <span class="app-preview__workflow-step-icon">
+                        @if (step.status === 'complete') {
+                          <qo-icon name="check_circle" aria-hidden="true"></qo-icon>
+                        } @else if (step.status === 'running') {
+                          <qo-icon name="sync" aria-hidden="true"></qo-icon>
+                        } @else {
+                          <qo-icon name="radio_button_unchecked" aria-hidden="true"></qo-icon>
+                        }
+                      </span>
+                      <span class="app-preview__workflow-step-label">{{ step.label }}</span>
+                    </div>
+                  }
+                </div>
+
+                @if (workflowExecutionComplete()) {
+                  <footer class="app-preview__workflow-footer">
+                    <button
+                      type="button"
+                      class="app-preview__employee-modal-primary"
+                      (click)="closeWorkflowExecution()">
+                      <qo-icon name="check" aria-hidden="true"></qo-icon>
+                      Done
+                    </button>
+                  </footer>
+                }
+              </section>
+            </div>
+          }
+        </div>
+
+      </section>
+    </div>
+  }
+
+  @if (saveState() === 'saving' || saveState() === 'saved') {
+    <div class="deployment-save-pop" role="status" aria-live="polite">
+      <qo-icon [name]="saveState() === 'saving' ? 'sync' : 'check_circle'" aria-hidden="true"></qo-icon>
+      <strong>{{ saveState() === 'saving' ? 'Saving...' : 'Saved' }}</strong>
+    </div>
+  }
+
+  @if (openConfigPageId()) {
+    <div class="dcp-backdrop" (click)="closePageConfig()"></div>
+    <aside class="dcp-panel" role="dialog" aria-label="Assign content">
+      <header class="dcp-panel__header">
+        <div class="dcp-panel__title">
+          <span class="dcp-panel__title-label">Assign Content</span>
+        </div>
+        <button type="button" class="dcp-panel__close" aria-label="Close" (click)="closePageConfig()">
+          <qo-icon name="x" aria-hidden="true"></qo-icon>
+        </button>
+      </header>
+
+      <div class="dcp-panel__body">
+        @if (activeShowcasePages().length) {
+          <div class="dcp-section dcp-section--pages">
+            <div class="dcp-section__header">
+              <span class="dcp-section__dot"></span>
+              <span class="dcp-section__label">Page Builder</span>
+            </div>
+            @for (builderPage of activeShowcasePages(); track builderPage.id) {
+              <button
+                type="button"
+                class="dcp-item"
+                (click)="setPageTarget(openConfigPageId()!, builderPage.id, 'page'); closePageConfig()">
+                <span class="dcp-item__icon dcp-item__icon--pages">
+                  <qo-icon name="web_asset" aria-hidden="true"></qo-icon>
+                </span>
+                <span class="dcp-item__name">{{ builderPage.name }}</span>
+              </button>
+            }
+          </div>
+        }
+
+        @if (activeShowcaseReports().length) {
+          <div class="dcp-section dcp-section--dataframe">
+            <div class="dcp-section__header">
+              <span class="dcp-section__dot"></span>
+              <span class="dcp-section__label">Dataframe</span>
+            </div>
+            @for (report of activeShowcaseReports(); track report.id) {
+              <button
+                type="button"
+                class="dcp-item"
+                (click)="setPageTarget(openConfigPageId()!, report.id, 'report'); closePageConfig()">
+                <span class="dcp-item__icon dcp-item__icon--dataframe">
+                  <qo-icon name="insert_chart" aria-hidden="true"></qo-icon>
+                </span>
+                <span class="dcp-item__name">{{ report.name }}</span>
+              </button>
+            }
+          </div>
+        }
+
+        @if (activeShowcaseForms().length) {
+          <div class="dcp-section dcp-section--forms">
+            <div class="dcp-section__header">
+              <span class="dcp-section__dot"></span>
+              <span class="dcp-section__label">Forms</span>
+            </div>
+            @for (form of activeShowcaseForms(); track form.id) {
+              <button
+                type="button"
+                class="dcp-item"
+                (click)="setPageTarget(openConfigPageId()!, form.id, 'form'); closePageConfig()">
+                <span class="dcp-item__icon dcp-item__icon--forms">
+                  <qo-icon name="list_alt" aria-hidden="true"></qo-icon>
+                </span>
+                <span class="dcp-item__name">{{ form.name }}</span>
+              </button>
+            }
+          </div>
+        }
+
+        @if (!activeShowcasePages().length && !activeShowcaseReports().length && !activeShowcaseForms().length) {
+          <div class="dcp-empty">
+            <qo-icon name="inbox" aria-hidden="true"></qo-icon>
+            <p>No content available to assign.</p>
+          </div>
+        }
+      </div>
+    </aside>
+  }
+</section>

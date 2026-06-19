@@ -1,0 +1,71 @@
+{
+  "formId": "recruitment-application-form",
+  "formLabel": "Recruitment Application",
+  "tableName": "candidates",
+  "actionLabels": ["Apply Now"],
+  "fields": [
+    {
+      "id": "candidate_name",
+      "label": "Full Name",
+      "dbColumn": "full_name",
+      "type": "text",
+      "placeholder": "Enter full name",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "email",
+      "label": "Email Address",
+      "dbColumn": "email",
+      "type": "email",
+      "placeholder": "candidate@email.com",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "phone",
+      "label": "Phone Number",
+      "dbColumn": "phone",
+      "type": "text",
+      "placeholder": "+91 XXXXX XXXXX",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "applied_role",
+      "label": "Applying For",
+      "dbColumn": "applied_role",
+      "type": "dropdown",
+      "placeholder": "Select role",
+      "required": true,
+      "options": ["Software Engineer", "Senior SDE", "Product Manager", "Data Analyst", "HR Business Partner", "Sales Executive", "DevOps Engineer", "UX Designer"]
+    },
+    {
+      "id": "experience_years",
+      "label": "Total Experience (Years)",
+      "dbColumn": "experience_yrs",
+      "type": "number",
+      "placeholder": "e.g. 5",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "current_company",
+      "label": "Current Company",
+      "dbColumn": "current_company",
+      "type": "text",
+      "placeholder": "Enter current employer",
+      "required": false,
+      "options": []
+    },
+    {
+      "id": "notice_period",
+      "label": "Notice Period",
+      "dbColumn": "notice_period",
+      "type": "dropdown",
+      "placeholder": "Select notice period",
+      "required": true,
+      "options": ["Immediate", "15 Days", "30 Days", "60 Days", "90 Days"]
+    }
+  ]
+}

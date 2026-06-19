@@ -1,0 +1,222 @@
+    <div class="inspector__section">
+      <div class="inspector__section-title">{{ t('inspector.identity') }}</div>
+      <div class="inspector__grid inspector__grid--two">
+        <label class="inspector__input">
+          <span>{{ t('inspector.fieldName') }}</span>
+          <qo-input [value]="selectedField.label" (valueChange)="ctx.updateLabel(selectedField, ctx.asString($event))"></qo-input>
+        </label>
+        <label class="inspector__input">
+          <span>{{ t('inspector.fieldLinkName') }}</span>
+          <qo-input [value]="selectedField.properties.fieldLinkName" (valueChange)="ctx.updateBindingName(selectedField, ctx.asString($event))"></qo-input>
+        </label>
+        <label class="inspector__input inspector__input--full">
+          <span>{{ t('inspector.placeholder') }}</span>
+          <qo-input [value]="selectedField.properties.placeholder" (valueChange)="ctx.updateProperty(selectedField, 'placeholder', ctx.asString($event))"></qo-input>
+        </label>
+        <label class="inspector__input">
+          <span>{{ t('inspector.showFieldTo') }}</span>
+          <qo-select
+            [value]="selectedField.properties.showFieldTo"
+            [options]="ctx.getSelectOptions(ctx.visibilityOptions)"
+            [placeholder]="t('inspector.selectVisibility')"
+            (valueChange)="ctx.updateProperty(selectedField, 'showFieldTo', ctx.asString($event))">
+          </qo-select>
+        </label>
+        <label class="inspector__input">
+          <span>{{ t('inspector.width') }}</span>
+          <qo-select
+            [value]="ctx.getWidth(selectedField)"
+            [options]="ctx.getSelectOptions(ctx.widthOptions)"
+            [placeholder]="t('inspector.selectWidth')"
+            (valueChange)="ctx.updateProperty(selectedField, 'fieldSize', ctx.asString($event))">
+          </qo-select>
+        </label>
+      </div>
+
+      <div class="inspector__toggles">
+        <div class="inspector__toggle">
+          <qo-checkbox [checked]="selectedField.properties.required || !!selectedField.properties.mandatory" [label]="t('inspector.mandatory')" (checkedChange)="ctx.updateProperty(selectedField, 'mandatory', $event)"></qo-checkbox>
+        </div>
+        @if (ctx.canUseUnique(selectedField)) {
+          <div class="inspector__toggle">
+            <qo-checkbox [checked]="selectedField.properties.unique || !!selectedField.properties.noDuplicateValues" [label]="t('inspector.noDuplicateValues')" (checkedChange)="ctx.updateProperty(selectedField, 'noDuplicateValues', $event)"></qo-checkbox>
+          </div>
+        }
+        @if (ctx.canUseLookup(selectedField)) {
+          <div class="inspector__toggle">
+            <qo-checkbox [checked]="selectedField.properties.lookup" [label]="t('inspector.lookup')" (checkedChange)="ctx.updateProperty(selectedField, 'lookup', $event)"></qo-checkbox>
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (ctx.hasTextRules(selectedField)) {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.textRules') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          <label class="inspector__input">
+            <span>{{ t('inspector.characterMaximum') }}</span>
+            <qo-input type="number" [value]="selectedField.properties.characterMaximum" (valueChange)="ctx.updateProperty(selectedField, 'characterMaximum', ctx.asNumber($event))"></qo-input>
+          </label>
+          @if (ctx.canUseInitialValue(selectedField)) {
+            <label class="inspector__input">
+              <span>{{ t('inspector.initialValue') }}</span>
+              <qo-input [value]="ctx.getInitialValue(selectedField)" (valueChange)="ctx.updateProperty(selectedField, 'initialValue', ctx.asString($event))"></qo-input>
+            </label>
+          } @else {
+          <label class="inspector__input">
+            <span>{{ t('inspector.defaultValue') }}</span>
+            <qo-input [value]="selectedField.properties.defaultValue" (valueChange)="ctx.updateProperty(selectedField, 'defaultValue', ctx.asString($event))"></qo-input>
+          </label>
+          }
+        </div>
+      </div>
+    }
+
+    @if (selectedField.type === 'Name') {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.nameSubFields') }}</div>
+        <div class="inspector__toggles inspector__toggles--stack">
+          <div class="inspector__toggle">
+            <qo-checkbox [checked]="selectedField.properties.namePrefixEnabled" [label]="t('inspector.showPrefix')" (checkedChange)="ctx.updateProperty(selectedField, 'namePrefixEnabled', $event)"></qo-checkbox>
+          </div>
+          <div class="inspector__toggle">
+            <qo-checkbox [checked]="selectedField.properties.nameLastEnabled" [label]="t('inspector.showLastName')" (checkedChange)="ctx.updateProperty(selectedField, 'nameLastEnabled', $event)"></qo-checkbox>
+          </div>
+          <div class="inspector__toggle">
+            <qo-checkbox [checked]="selectedField.properties.nameSuffixEnabled" [label]="t('inspector.showSuffix')" (checkedChange)="ctx.updateProperty(selectedField, 'nameSuffixEnabled', $event)"></qo-checkbox>
+          </div>
+        </div>
+
+        @if (selectedField.properties.namePrefixEnabled) {
+          <div class="inspector__option-set">
+            <div class="inspector__option-label">{{ t('inspector.prefixChoices') }}</div>
+            <div class="inspector__option-list">
+              @for (opt of selectedField.properties.prefixChoices; track $index; let i = $index) {
+                <div class="inspector__option-row">
+                  <qo-input [value]="opt" (valueChange)="ctx.updateStringArrayItem(selectedField, 'prefixChoices', i, ctx.asString($event))"></qo-input>
+                  <qo-button type="button" class="inspector__option-action" variant="ghost" size="sm" (click)="ctx.removeArrayOption(selectedField, 'prefixChoices', i)">
+                    <qo-icon name="trash" size="sm"></qo-icon>
+                  </qo-button>
+                </div>
+              }
+            </div>
+            <qo-button type="button" class="inspector__add-option" variant="ghost" size="sm" (click)="ctx.addArrayOption(selectedField, 'prefixChoices', t('inspector.newPrefix'))">{{ t('inspector.addPrefix') }}</qo-button>
+          </div>
+        }
+
+        @if (selectedField.properties.nameSuffixEnabled) {
+          <div class="inspector__option-set">
+            <div class="inspector__option-label">{{ t('inspector.suffixChoices') }}</div>
+            <div class="inspector__option-list">
+              @for (opt of selectedField.properties.suffixChoices; track $index; let i = $index) {
+                <div class="inspector__option-row">
+                  <qo-input [value]="opt" (valueChange)="ctx.updateStringArrayItem(selectedField, 'suffixChoices', i, ctx.asString($event))"></qo-input>
+                  <qo-button type="button" class="inspector__option-action" variant="ghost" size="sm" (click)="ctx.removeArrayOption(selectedField, 'suffixChoices', i)">
+                    <qo-icon name="trash" size="sm"></qo-icon>
+                  </qo-button>
+                </div>
+              }
+            </div>
+            <qo-button type="button" class="inspector__add-option" variant="ghost" size="sm" (click)="ctx.addArrayOption(selectedField, 'suffixChoices', t('inspector.newSuffix'))">{{ t('inspector.addSuffix') }}</qo-button>
+          </div>
+        }
+      </div>
+    }
+
+    @if (ctx.isLongTextField(selectedField)) {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.longText') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          <label class="inspector__input">
+            <span>{{ t('inspector.rows') }}</span>
+            <qo-input type="number" [value]="selectedField.properties.rows" (valueChange)="ctx.updateProperty(selectedField, 'rows', ctx.asNumber($event))"></qo-input>
+          </label>
+          <label class="inspector__input">
+            <span>{{ t('inspector.defaultValue') }}</span>
+            <qo-input [value]="ctx.getInitialValue(selectedField)" (valueChange)="ctx.updateProperty(selectedField, 'initialValue', ctx.asString($event))"></qo-input>
+          </label>
+        </div>
+      </div>
+    }
+
+    @if (ctx.isChoiceField(selectedField)) {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.options') }}</div>
+        <div class="inspector__option-list">
+          @for (opt of selectedField.properties.options; track $index; let i = $index) {
+            <div class="inspector__option-row">
+              <qo-input [value]="opt" (valueChange)="ctx.updateStringArrayItem(selectedField, 'options', i, ctx.asString($event))"></qo-input>
+              <qo-button type="button" class="inspector__option-action" variant="ghost" size="sm" (click)="ctx.removeOption(selectedField, i)">
+                <qo-icon name="trash" size="sm"></qo-icon>
+              </qo-button>
+            </div>
+          }
+        </div>
+        <qo-button type="button" class="inspector__add-option" variant="ghost" size="sm" (click)="ctx.addOption(selectedField)">{{ t('inspector.addOption') }}</qo-button>
+        <div class="inspector__toggles inspector__toggles--stack">
+          <div class="inspector__toggle">
+            <qo-checkbox [checked]="selectedField.properties.alphabeticalOrder" [label]="t('inspector.alphabeticalOrder')" (checkedChange)="ctx.updateProperty(selectedField, 'alphabeticalOrder', $event)"></qo-checkbox>
+          </div>
+          <div class="inspector__toggle">
+            <qo-checkbox [checked]="selectedField.properties.allowOtherChoice" [label]="t('inspector.allowOtherChoice')" (checkedChange)="ctx.updateProperty(selectedField, 'allowOtherChoice', $event)"></qo-checkbox>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (selectedField.type === 'Address') {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.addressOptions') }}</div>
+        <div class="inspector__toggles inspector__toggles--stack">
+          <div class="inspector__toggle">
+            <qo-checkbox [checked]="selectedField.properties.addressCaptureGeo" [label]="t('inspector.captureGeoCoordinates')" (checkedChange)="ctx.updateProperty(selectedField, 'addressCaptureGeo', $event)"></qo-checkbox>
+          </div>
+          <div class="inspector__toggle">
+            <qo-checkbox [checked]="selectedField.properties.addressAdjustOnMap" [label]="t('inspector.adjustLocationOnMap')" (checkedChange)="ctx.updateProperty(selectedField, 'addressAdjustOnMap', $event)"></qo-checkbox>
+          </div>
+        </div>
+        <div class="inspector__section-title">{{ t('inspector.visibleAddressFields') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          <label class="inspector__input"><span>{{ t('inspector.line1Label') }}</span><qo-input [value]="selectedField.properties.addressLine1Label" (valueChange)="ctx.updateProperty(selectedField, 'addressLine1Label', ctx.asString($event))"></qo-input></label>
+          <div class="inspector__toggle inspector__toggle--inline"><qo-checkbox [checked]="selectedField.properties.addressLine1Enabled" [label]="t('inspector.showLine1')" (checkedChange)="ctx.updateProperty(selectedField, 'addressLine1Enabled', $event)"></qo-checkbox></div>
+          <label class="inspector__input"><span>{{ t('inspector.line2Label') }}</span><qo-input [value]="selectedField.properties.addressLine2Label" (valueChange)="ctx.updateProperty(selectedField, 'addressLine2Label', ctx.asString($event))"></qo-input></label>
+          <div class="inspector__toggle inspector__toggle--inline"><qo-checkbox [checked]="selectedField.properties.addressLine2Enabled" [label]="t('inspector.showLine2')" (checkedChange)="ctx.updateProperty(selectedField, 'addressLine2Enabled', $event)"></qo-checkbox></div>
+          <label class="inspector__input"><span>{{ t('inspector.cityLabel') }}</span><qo-input [value]="selectedField.properties.cityLabel" (valueChange)="ctx.updateProperty(selectedField, 'cityLabel', ctx.asString($event))"></qo-input></label>
+          <div class="inspector__toggle inspector__toggle--inline"><qo-checkbox [checked]="selectedField.properties.cityEnabled" [label]="t('inspector.showCity')" (checkedChange)="ctx.updateProperty(selectedField, 'cityEnabled', $event)"></qo-checkbox></div>
+          <label class="inspector__input"><span>{{ t('inspector.stateLabel') }}</span><qo-input [value]="selectedField.properties.stateLabel" (valueChange)="ctx.updateProperty(selectedField, 'stateLabel', ctx.asString($event))"></qo-input></label>
+          <div class="inspector__toggle inspector__toggle--inline"><qo-checkbox [checked]="selectedField.properties.stateEnabled" [label]="t('inspector.showState')" (checkedChange)="ctx.updateProperty(selectedField, 'stateEnabled', $event)"></qo-checkbox></div>
+          <label class="inspector__input"><span>{{ t('inspector.postalLabel') }}</span><qo-input [value]="selectedField.properties.postalCodeLabel" (valueChange)="ctx.updateProperty(selectedField, 'postalCodeLabel', ctx.asString($event))"></qo-input></label>
+          <div class="inspector__toggle inspector__toggle--inline"><qo-checkbox [checked]="selectedField.properties.postalCodeEnabled" [label]="t('inspector.showPostal')" (checkedChange)="ctx.updateProperty(selectedField, 'postalCodeEnabled', $event)"></qo-checkbox></div>
+          <label class="inspector__input"><span>{{ t('inspector.countryLabel') }}</span><qo-input [value]="selectedField.properties.countryLabel" (valueChange)="ctx.updateProperty(selectedField, 'countryLabel', ctx.asString($event))"></qo-input></label>
+          <div class="inspector__toggle inspector__toggle--inline"><qo-checkbox [checked]="selectedField.properties.countryEnabled" [label]="t('inspector.showCountry')" (checkedChange)="ctx.updateProperty(selectedField, 'countryEnabled', $event)"></qo-checkbox></div>
+        </div>
+      </div>
+    }
+
+    @if (ctx.isNumericField(selectedField)) {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.numericRules') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          <label class="inspector__input"><span>{{ t('inspector.minimum') }}</span><qo-input [value]="selectedField.properties.minValue" (valueChange)="ctx.updateProperty(selectedField, 'minValue', ctx.asString($event))"></qo-input></label>
+          <label class="inspector__input"><span>{{ t('inspector.maximum') }}</span><qo-input [value]="selectedField.properties.maxValue" (valueChange)="ctx.updateProperty(selectedField, 'maxValue', ctx.asString($event))"></qo-input></label>
+          <label class="inspector__input"><span>{{ t('inspector.maxDigits') }}</span><qo-input type="number" [value]="selectedField.properties.maxDigits" (valueChange)="ctx.updateProperty(selectedField, 'maxDigits', ctx.asNumber($event))"></qo-input></label>
+          @if (ctx.canUseDecimalPlaces(selectedField)) {
+            <label class="inspector__input"><span>{{ t('inspector.decimalPoints') }}</span><qo-input type="number" [value]="selectedField.properties.decimalPoints ?? 2" (valueChange)="ctx.updateProperty(selectedField, 'decimalPoints', ctx.asNumber($event))"></qo-input></label>
+          }
+          @if (selectedField.type === 'Currency') {
+            <label class="inspector__input"><span>{{ t('inspector.currencyType') }}</span><qo-input [value]="selectedField.properties.currencyType || 'INR'" (valueChange)="ctx.updateProperty(selectedField, 'currencyType', ctx.asString($event))"></qo-input></label>
+          }
+          <label class="inspector__input inspector__input--full">
+            <span>{{ t('inspector.format') }}</span>
+            <qo-select
+              [value]="selectedField.properties.displayFormat || selectedField.properties.format"
+              [options]="ctx.getSelectOptions(ctx.getFormatOptions(selectedField))"
+              [placeholder]="t('inspector.selectFormat')"
+              (valueChange)="ctx.updateProperty(selectedField, 'displayFormat', ctx.asString($event))">
+            </qo-select>
+          </label>
+        </div>
+      </div>
+    }
+

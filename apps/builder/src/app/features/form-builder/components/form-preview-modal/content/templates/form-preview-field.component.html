@@ -1,0 +1,45 @@
+@let f = field();
+<div [class]="ctx.getFieldClass(f)">
+  <div class="preview-field__label-wrap">
+    @if (ctx.showLabel(f)) {
+      <span class="preview-field__label">
+        {{ f.label }}
+        @if (f.properties.required) {
+          <em>*</em>
+        }
+        @if (ctx.hasTooltip(f)) {
+          <span class="preview-field__tooltip" [title]="f.properties.descriptionText">
+            <qo-icon name="info" size="sm"></qo-icon>
+          </span>
+        }
+      </span>
+    }
+
+    <app-form-preview-field-controls [field]="f" />
+  </div>
+
+  @if (ctx.hasHelpText(f)) {
+    <small class="preview-field__helptext">
+      <qo-icon name="info" size="sm"></qo-icon>
+      {{ f.properties.descriptionText }}
+    </small>
+  }
+
+  @if (ctx.getFieldMetaNotes(f).length) {
+    <div class="preview-field__meta-notes">
+      @for (note of ctx.getFieldMetaNotes(f); track note) {
+        <small class="preview-field__helptext">
+          <qo-icon name="info" size="sm"></qo-icon>
+          {{ note }}
+        </small>
+      }
+    </div>
+  }
+
+  @if (ctx.showFieldError(f)) {
+    <small class="preview-field__error">
+      <qo-icon name="info" size="sm"></qo-icon>
+      {{ ctx.getFieldError(f) }}
+    </small>
+  }
+</div>

@@ -1,0 +1,51 @@
+<header class="topbar">
+  <div class="topbar__brand">
+    <div class="topbar__brand-mark">
+      <qo-icon name="layout-dashboard"></qo-icon>
+    </div>
+    <div>
+      <div class="topbar__brand-title">{{ applicationName() || 'Builder Workspace' }}</div>
+      <div class="topbar__brand-subtitle">Builder</div>
+    </div>
+  </div>
+
+  <nav class="topbar__nav">
+    @for (moduleLink of modules(); track moduleLink.route) {
+      <a
+        [routerLink]="moduleLink.route"
+        class="topbar__nav-item"
+        [class.topbar__nav-item--active]="activeRoute().startsWith(moduleLink.route)"
+      >
+        <span class="topbar__nav-dot">•</span>
+        {{ moduleLink.label }}
+      </a>
+    }
+  </nav>
+
+  <div class="topbar__actions">
+    <qo-button
+      class="topbar__action topbar__action--ghost"
+      variant="secondary"
+      type="button"
+      [disabled]="activeRoute().startsWith('/deployment') && deploymentSaveState() === 'saving'"
+      (click)="save()">
+      <qo-icon name="check"></qo-icon>
+      {{ activeRoute().startsWith('/deployment') ? deploymentSaveLabel() : 'Save' }}
+    </qo-button>
+    <qo-button class="topbar__action topbar__action--ghost" variant="secondary" type="button" (click)="preview()">
+      <span class="material-symbols-outlined">play_arrow</span>
+      Preview
+    </qo-button>
+    <qo-button class="topbar__action topbar__action--solid" variant="primary" type="button" (click)="deploy()">
+      <span class="material-symbols-outlined">rocket_launch</span>
+      Deploy
+    </qo-button>
+    <div class="topbar__divider"></div>
+    <qo-button class="topbar__icon" variant="ghost" size="sm" [iconOnly]="true" type="button" aria-label="Notifications">
+      <qo-icon name="info"></qo-icon>
+    </qo-button>
+    <qo-button class="topbar__avatar" variant="ghost" size="sm" [iconOnly]="true" type="button" aria-label="Profile">
+      <qo-icon name="users"></qo-icon>
+    </qo-button>
+  </div>
+</header>

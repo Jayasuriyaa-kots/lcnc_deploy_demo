@@ -1,0 +1,27 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<section class="workflow-schedule-list">
+  <div class="workflow-schedule-list__header">
+    <p>{{ t('tables.activeSchedules') }}</p>
+  </div>
+
+  @if (!schedules().length) {
+    <qo-empty-state
+      icon="calendar"
+      [title]="t('emptyStates.schedules.title')"
+      [description]="t('emptyStates.schedules.description')"
+    />
+  } @else {
+    <div class="workflow-schedule-list__items">
+      @for (schedule of schedules(); track schedule.id) {
+        <app-workflow-schedule-row
+          [schedule]="schedule"
+          (toggleEnabled)="toggleEnabled.emit($event)"
+          (edit)="edit.emit($event)"
+          (editCanvas)="editCanvas.emit($event)"
+          (delete)="delete.emit($event)"
+        />
+      }
+    </div>
+  }
+</section>
+</ng-container>

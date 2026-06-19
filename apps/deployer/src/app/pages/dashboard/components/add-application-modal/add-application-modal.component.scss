@@ -1,0 +1,166 @@
+:host {
+  display: block;
+}
+
+qo-modal.app-modal-shell {
+  --qo-modal-surface: var(--deployer-surface);
+  --qo-modal-border: var(--deployer-border);
+  --qo-modal-title-color: var(--deployer-text);
+  --qo-modal-subtitle-color: var(--deployer-text-muted);
+  --qo-modal-close-color: var(--deployer-text-muted);
+  --qo-modal-close-hover-bg: var(--qo-deployer-hover-surface);
+  --qo-modal-close-hover-color: var(--deployer-text);
+  --qo-modal-radius: var(--qo-radius-2xl);
+  --qo-modal-shadow:
+    0 var(--qo-size-28) calc(var(--qo-size-64) + var(--qo-size-6)) color-mix(in srgb, var(--qo-color-neutral-900) 42%, transparent),
+    inset 0 var(--qo-size-1) 0 color-mix(in srgb, var(--qo-color-neutral-0) 3%, transparent);
+  --qo-modal-header-padding: var(--qo-size-24) var(--qo-size-32) var(--qo-size-12);
+  --qo-modal-header-border-color: var(--deployer-border);
+  --qo-modal-heading-gap: var(--qo-size-6);
+  --qo-modal-title-size: var(--qo-text-base);
+  --qo-modal-subtitle-size: var(--qo-text-xs);
+  --qo-modal-subtitle-max-width: var(--qo-size-316);
+  --qo-modal-close-margin-top: calc(var(--qo-size-2) * -1);
+  --qo-modal-close-padding: var(--qo-size-2) var(--qo-size-1);
+  --qo-modal-content-padding: var(--qo-size-12) var(--qo-size-32) var(--qo-size-10);
+  --qo-modal-footer-padding: var(--qo-size-15) var(--qo-size-32) var(--qo-size-20);
+  --qo-modal-footer-border-color: var(--deployer-border);
+  --qo-modal-footer-justify: space-between;
+  display: block;
+  max-width: var(--qo-size-572);
+}
+
+.app-modal-form {
+  display: grid;
+  gap: var(--qo-size-13);
+}
+
+.app-modal-form qo-form-field {
+  --qo-form-field-margin-bottom: 0;
+  --qo-form-label-color: var(--deployer-text-muted);
+  --qo-form-label-size: var(--qo-text-xs);
+  --qo-form-label-weight: 700;
+  --qo-form-label-letter-spacing: 0.18em;
+  --qo-form-label-transform: uppercase;
+  --qo-form-label-margin-bottom: var(--qo-size-6);
+}
+
+.app-modal-form qo-input,
+.app-modal-form qo-select,
+.app-modal-form qo-textarea {
+  --qo-input-bg: var(--deployer-input-bg);
+  --qo-input-color: var(--deployer-text);
+  --qo-input-placeholder-color: var(--deployer-text-muted);
+  --qo-input-border-color: var(--deployer-input-border);
+  --qo-input-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-input-focus-shadow: var(--qo-deployer-field-focus-shadow);
+  --qo-input-border-radius: var(--qo-size-9);
+  --qo-input-height-md: var(--qo-size-44);
+  --qo-input-font-size-md: var(--qo-text-sm);
+  --qo-select-bg: var(--deployer-input-bg);
+  --qo-select-bg-hover: var(--deployer-input-bg);
+  --qo-select-bg-focus: var(--deployer-input-bg);
+  --qo-select-color: var(--deployer-text);
+  --qo-select-placeholder-color: var(--deployer-text-muted);
+  --qo-select-caret-color: var(--deployer-text-muted);
+  --qo-select-border-color: var(--deployer-input-border);
+  --qo-select-border-color-hover: var(--qo-deployer-line-strong);
+  --qo-select-border-color-focus: var(--qo-deployer-line-strong);
+  --qo-select-focus-shadow: var(--qo-deployer-field-focus-shadow);
+  --qo-select-border-radius: var(--qo-size-9);
+  --qo-select-height-md: var(--qo-size-40);
+  --qo-select-font-size-md: var(--qo-text-sm);
+  --qo-select-dropdown-offset: var(--qo-size-6);
+  --qo-select-dropdown-padding-y: var(--qo-size-2);
+  --qo-select-dropdown-max-height: var(--qo-size-160);
+  --qo-select-dropdown-bg: var(--deployer-surface);
+  --qo-select-dropdown-border-color: var(--deployer-border);
+  --qo-select-option-padding: var(--qo-size-7) var(--qo-size-16);
+  --qo-select-option-font-size: var(--qo-text-sm);
+  --qo-select-option-color: var(--deployer-text);
+  --qo-select-option-hover-bg: var(--deployer-surface-raised);
+  --qo-select-option-selected-bg: var(--deployer-surface-raised);
+  --qo-select-option-selected-color: var(--deployer-text);
+  --qo-select-option-check-color: var(--deployer-text);
+  --qo-textarea-bg: var(--deployer-input-bg);
+  --qo-textarea-color: var(--deployer-text);
+  --qo-textarea-placeholder-color: var(--deployer-text-muted);
+  --qo-textarea-border-color: var(--deployer-input-border);
+  --qo-textarea-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-textarea-focus-shadow: var(--qo-deployer-field-focus-shadow);
+  --qo-textarea-border-radius: var(--qo-size-9);
+}
+
+.app-modal-two-column {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-size-14);
+}
+
+.app-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.app-modal-cancel {
+  color: var(--deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: 500;
+}
+
+qo-button.app-modal-cancel {
+  --qo-button-padding: 0;
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: var(--deployer-text-muted);
+  --qo-button-hover-bg: transparent;
+  --qo-button-hover-color: var(--deployer-text);
+  --qo-button-hover-text-decoration: none;
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 500;
+}
+
+.app-modal-submit {
+  min-width: var(--qo-size-188);
+}
+
+qo-button.app-modal-submit {
+  --qo-button-width: 100%;
+  --qo-button-min-height: var(--qo-size-44);
+  --qo-button-justify: center;
+  --qo-button-radius: var(--qo-size-11);
+  --qo-button-padding: 0 var(--qo-size-20);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 700;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+  --qo-button-bg: var(--qo-color-neutral-50);
+  --qo-button-color: var(--qo-color-neutral-600);
+  --qo-button-hover-bg: var(--qo-color-neutral-0);
+  --qo-button-hover-color: var(--qo-color-neutral-900);
+}
+
+@media (max-width: var(--qo-size-720)) {
+  qo-modal.app-modal-shell {
+    --qo-modal-header-padding: var(--qo-size-22) var(--qo-size-20) var(--qo-size-12);
+    --qo-modal-content-padding: var(--qo-size-12) var(--qo-size-20) 0;
+    --qo-modal-footer-padding: var(--qo-size-14) var(--qo-size-20) var(--qo-size-18);
+  }
+
+  .app-modal-two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .app-modal-actions {
+    gap: var(--qo-size-14);
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .app-modal-cancel,
+  .app-modal-submit {
+    width: 100%;
+  }
+}

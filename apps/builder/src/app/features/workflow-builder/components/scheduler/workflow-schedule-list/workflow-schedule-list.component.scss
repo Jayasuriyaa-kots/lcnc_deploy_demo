@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.workflow-schedule-list {
+  display: grid;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-4);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+}
+
+.workflow-schedule-list__header p {
+  margin: 0;
+  color: var(--qo-color-neutral-400);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.workflow-schedule-list__items {
+  display: grid;
+  gap: var(--qo-space-3);
+}

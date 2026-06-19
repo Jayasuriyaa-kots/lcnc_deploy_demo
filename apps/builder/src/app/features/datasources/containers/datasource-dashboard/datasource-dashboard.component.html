@@ -1,0 +1,72 @@
+    <div class="datasources-page__content">
+      <div class="datasources-page__header">
+        <div>
+          <div class="datasources-page__eyebrow">{{ t('common.dataSourcesEyebrow') }}</div>
+          <h1 class="datasources-page__title">{{ t('common.dataSources') }}</h1>
+          <p class="datasources-page__description">
+            {{ t('common.dataSourcesDescription') }}
+          </p>
+        </div>
+
+        <div class="datasources-page__header-actions">
+          <qo-button variant="secondary" type="button" [loading]="facade.testingAll()" (click)="facade.testAllSources()">{{ t('common.testAll') }}</qo-button>
+          <qo-button variant="primary" type="button" (click)="addDatasource.emit()">{{ t('common.addDataSource') }}</qo-button>
+        </div>
+      </div>
+
+      <div class="datasources-page__info-card">
+        <qo-icon name="info" class="datasources-page__info-icon"></qo-icon>
+        <span>
+          {{ t('common.dataSourcesInfoCard') }}
+        </span>
+      </div>
+
+      <div class="datasources-page__search-row">
+        <div class="datasources-page__search-field">
+          <qo-input
+            class="datasources-page__search-input"
+            [value]="facade.datasourceSearch()"
+            [placeholder]="t('common.searchDatasources')"
+            prefixIcon="search"
+            (valueChange)="onDatasourceSearch($event)"
+          ></qo-input>
+          @if (facade.datasourceSearch()) {
+            <qo-button class="datasources-page__search-clear" variant="ghost" type="button" (click)="clearDatasourceSearch()">{{ t('externalApis.clear') }}</qo-button>
+          }
+        </div>
+      </div>
+
+      @if (dashboardSources().length) {
+        <div class="datasources-page__cards">
+          @for (source of dashboardSources(); track source.id) {
+            <app-datasource-card
+              [source]="source"
+              [visibleQueries]="facade.filteredQueries(source.id)"
+              [querySearch]="facade.querySearchValue(source.id)"
+              [querySearchPlaceholder]="facade.querySearchPlaceholder(source.id)"
+              [querySearchActive]="!!facade.querySearchValue(source.id)"
+              (toggled)="facade.toggleExpansion($event)"
+              (editRequested)="editDatasource($event)"
+              (schemaOpened)="facade.openSchema($event)"
+              (addQuery)="facade.openEditor($event)"
+              (querySearchChange)="onQuerySearch(source.id, $event)"
+              (querySearchCleared)="clearQuerySearch(source.id)"
+              (detailOpened)="facade.openDetail($event.sourceId, $event.queryId)"
+              (deleteRequested)="confirmDeleteQuery($event.sourceId, $event.queryId)"
+              (sourceDeleteRequested)="confirmDeleteSource($event)"
+              (sourceActiveToggled)="facade.toggleSourceActive($event)"
+              (queryActiveToggled)="facade.toggleQueryActive($event.sourceId, $event.queryId)"
+            ></app-datasource-card>
+          }
+        </div>
+      } @else {
+        <div class="datasources-page__cards datasources-page__cards--empty">
+          <qo-empty-state
+            icon="search"
+            [title]="t('common.noDatasourcesFound')"
+            [description]="t('common.tryDifferentDatasourceSearch')"
+          ></qo-empty-state>
+        </div>
+      }
+    </div>
+

@@ -1,0 +1,34 @@
+@use '../../components/datasources-shell';
+@use '../../components/datasources-responsive';
+
+:host {
+  display: block;
+}
+
+.datasources-page__content--external {
+  max-width: var(--qo-size-container-xl);
+}
+
+.external-apis {
+  --external-border: color-mix(in srgb, var(--qo-color-neutral-200) 72%, transparent);
+  --external-surface: var(--qo-color-neutral-0);
+  --external-muted-surface: color-mix(in srgb, var(--qo-color-neutral-50) 84%, var(--qo-color-neutral-0));
+  --external-action-height: var(--qo-size-36);
+  --builder-topbar-height: var(--qo-size-56);
+  --builder-footer-height: var(--qo-size-32);
+  --builder-sidebar-width: calc(var(--qo-size-300) + var(--qo-size-20));
+}
+
+.external-apis__header qo-button,
+.external-apis__actions qo-button,
+.external-apis__setup-head qo-button,
+.external-apis__setup-footer qo-button,
+.external-apis__kv-row qo-button {
+  --qo-button-height: var(--external-action-height);
+  --qo-button-radius: var(--qo-radius-xs);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: var(--qo-font-bold);
+  --qo-button-letter-spacing: 0.08em;
+  --qo-button-text-transform: uppercase;
+}
+

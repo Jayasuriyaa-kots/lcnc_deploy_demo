@@ -1,0 +1,77 @@
+  <qo-modal [title]="t('settings.title')" [subtitle]="t('settings.subtitle')" size="md" (close)="close()">
+    <form class="settings-modal__body" [formGroup]="settingsForm">
+      <div class="settings-modal__grid">
+        <qo-form-field class="settings-modal__field settings-modal__field--wide" [label]="t('settings.formTitle')">
+          <qo-input formControlName="draftName"></qo-input>
+        </qo-form-field>
+
+        <qo-form-field class="settings-modal__field settings-modal__field--wide" [label]="t('settings.description')">
+          <qo-textarea formControlName="draftDescription" [rows]="3"></qo-textarea>
+        </qo-form-field>
+
+        <qo-form-field class="settings-modal__field" [label]="t('settings.formLayout')">
+          <qo-select
+            [options]="formLayoutOptions"
+            [value]="settingsForm.controls.formLayout.value"
+            (valueChange)="updateSelectValue('formLayout', $event)">
+          </qo-select>
+        </qo-form-field>
+
+        <qo-form-field class="settings-modal__field" [label]="t('settings.labelPlacement')">
+          <qo-select
+            [options]="labelPlacementOptions"
+            [value]="settingsForm.controls.labelPlacement.value"
+            (valueChange)="updateSelectValue('labelPlacement', $event)">
+          </qo-select>
+        </qo-form-field>
+
+        <qo-form-field class="settings-modal__field" [label]="t('settings.submitBehavior')">
+          <qo-select
+            [options]="submitBehaviorOptions"
+            [value]="settingsForm.controls.submitBehavior.value"
+            (valueChange)="updateSelectValue('submitBehavior', $event)">
+          </qo-select>
+        </qo-form-field>
+
+        <qo-form-field
+          class="settings-modal__field"
+          [label]="t('settings.redirectUrl')"
+          [hint]="t('settings.redirectHint')">
+          <qo-input
+            formControlName="redirectUrl"
+            [disabled]="settingsForm.controls.submitBehavior.value !== 'Redirect'"
+            [placeholder]="t('settings.redirectPlaceholder')">
+          </qo-input>
+        </qo-form-field>
+
+        <qo-form-field class="settings-modal__field" [label]="t('settings.duplicateDetection')">
+          <qo-select
+            [options]="duplicateDetectionOptions"
+            [value]="settingsForm.controls.duplicateDetection.value"
+            (valueChange)="updateSelectValue('duplicateDetection', $event)">
+          </qo-select>
+        </qo-form-field>
+      </div>
+
+      <div class="settings-modal__toggles">
+        <div class="settings-modal__toggle-row">
+          <span>{{ t('settings.showSectionBorders') }}</span>
+          <qo-toggle formControlName="showSectionBorders"></qo-toggle>
+        </div>
+      </div>
+
+      <div class="settings-modal__meta">
+        <qo-badge>{{ t('settings.datasourceMeta', { label: meta().datasourceLabel }) }}</qo-badge>
+        <qo-badge>{{ t('settings.queryMeta', { label: meta().queryLabel }) }}</qo-badge>
+        <qo-badge>{{ meta().fieldCount }} fields</qo-badge>
+        <qo-badge [color]="meta().status === 'live' ? 'success' : 'warning'">
+          Status: {{ meta().status }}
+        </qo-badge>
+      </div>
+    </form>
+
+    <div qo-modal-footer class="settings-modal__footer">
+      <qo-button variant="secondary" type="button" (click)="close()">{{ 'actions.cancel' | transloco }}</qo-button>
+      <qo-button variant="primary" type="button" (click)="save()">{{ t('settings.saveSettings') }}</qo-button>
+    </div>
+  </qo-modal>

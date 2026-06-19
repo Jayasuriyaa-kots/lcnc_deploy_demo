@@ -1,0 +1,248 @@
+@if (isCardLayoutMode()) {
+  <aside class="card-editor">
+    <header class="card-editor__header">
+      <h2>{{ t('generated.configure_fields') }}</h2>
+      <qo-button class="drawer__close" type="button" variant="ghost" size="sm" [iconOnly]="true" [attr.aria-label]="t('generated.close_drawer')" (click)="closeAll.emit()">
+        <qo-icon name="x" size="sm" />
+      </qo-button>
+    </header>
+
+    <div class="card-editor__body">
+      <section class="card-editor__canvas">
+        @for (slotIndex of cardSlotIndices; track slotIndex) {
+          <qo-button
+            type="button"
+            variant="ghost"
+            size="sm"
+            class="card-editor__slot"
+            [class.card-editor__slot--active]="selectedCardSlot() === slotIndex"
+            (click)="selectCardSlot(slotIndex)">
+            {{ getCardSlotLabel(slotIndex) }}
+          </qo-button>
+        }
+      </section>
+
+      <aside class="card-editor__inspector">
+        <div class="card-editor__tabs">
+          <qo-button
+            type="button"
+            variant="ghost"
+            size="sm"
+            [class.card-editor__tab--active]="cardConfigTab() === 'display'"
+            (click)="setCardConfigTab('display')">
+            {{ t('generated.display') }}
+          </qo-button>
+          <qo-button
+            type="button"
+            variant="ghost"
+            size="sm"
+            [class.card-editor__tab--active]="cardConfigTab() === 'style'"
+            (click)="setCardConfigTab('style')">
+            {{ t('generated.style') }}
+          </qo-button>
+        </div>
+
+        @if (cardConfigTab() === 'display') {
+          <label class="field">
+            <span>{{ t('generated.field') }}</span>
+            <qo-select
+              [value]="getCardSlotColumnId(selectedCardSlot())"
+              [options]="allColumnOptions()"
+              (valueChange)="onCardSlotFieldChangeFromEvent(selectedCardSlot(), $event)">
+            </qo-select>
+          </label>
+
+          @if (getCardSlotColumn(selectedCardSlot()); as selectedCardColumn) {
+            <label class="field">
+              <span>{{ t('generated.display_name') }}</span>
+              <qo-input
+                [value]="selectedCardColumn.label"
+                (valueChange)="updateCardSlotDisplayName(selectedCardSlot(), $event)">
+              </qo-input>
+            </label>
+          }
+
+          <div class="drawer-tools">
+            <qo-button class="btn-secondaryy add-fields-toggle" type="button" variant="secondary" size="sm" (click)="toggleHiddenFields()">
+              <span>{{ t('common.addFields') }}</span>
+              <qo-icon [name]="hiddenFieldsExpanded() ? 'chevron-up' : 'chevron-down'" size="sm" />
+            </qo-button>
+          </div>
+
+          @if (hiddenFieldsExpanded()) {
+            <section class="hidden-fields-panel">
+              @if (hiddenColumns().length === 0) {
+                <p>{{ t('generated.all_fields_are_already_added_to_card_view') }}</p>
+              } @else {
+                @for (column of hiddenColumns(); track trackColumn($index, column)) {
+                  <qo-button
+                    class="hidden-field-item"
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    (click)="addHiddenColumn(column.id)">
+                    <span>{{ column.label }}</span>
+                    <qo-icon name="plus" size="sm" />
+                  </qo-button>
+                }
+              }
+            </section>
+          }
+        } @else {
+          <label class="field">
+            <span>{{ t('generated.text_color') }}</span>
+            <qo-input
+              type="color"
+              [value]="cardTextColor()"
+              (valueChange)="onCardTextColorInput(String($event ?? ''))"></qo-input>
+          </label>
+
+          <label class="field">
+            <span>{{ t('generated.font_size') }}</span>
+            <qo-input
+              type="number"
+              min="11"
+              max="28"
+              [value]="cardFontSize()"
+              (valueChange)="onCardFontSizeInput($event)"></qo-input>
+          </label>
+        }
+      </aside>
+    </div>
+  </aside>
+} @else {
+  <aside class="side-drawer side-drawer--field-config">
+    <header class="side-drawer__header">
+      <h2>{{ t('generated.configure_fields') }}</h2>
+      <qo-button class="drawer__close" type="button" variant="ghost" size="sm" [iconOnly]="true" [attr.aria-label]="t('generated.close_drawer')" (click)="closeAll.emit()">
+        <qo-icon name="x" size="sm" />
+      </qo-button>
+    </header>
+
+    <div class="side-drawer__body">
+      <div class="drawer-tools">
+        <qo-button class="p-qo-4 add-fields-toggle" type="button" variant="secondary" size="sm" (click)="toggleHiddenFields()">
+          <span>{{ t('common.addFields') }}</span>
+          <qo-icon [name]="hiddenFieldsExpanded() ? 'chevron-up' : 'chevron-down'" size="sm" />
+        </qo-button>
+      </div>
+
+      @if (hiddenFieldsExpanded()) {
+        <section class="hidden-fields-panel">
+          @if (hiddenColumns().length === 0) {
+            <p>{{ t('generated.all_fields_are_already_added_to_list_view') }}</p>
+          } @else {
+            @for (column of hiddenColumns(); track trackColumn($index, column)) {
+              <qo-button
+                class="hidden-field-item"
+                type="button"
+                variant="ghost"
+                size="sm"
+                (click)="addHiddenColumn(column.id)">
+                <span>{{ column.label }}</span>
+                <qo-icon name="plus" size="sm" />
+              </qo-button>
+            }
+          }
+        </section>
+      }
+
+      <div class="list-config-layout">
+        <section class="list-config-columns">
+          @for (column of visibleColumns(); track trackColumn($index, column)) {
+            <div
+              class="drawer-line drawer-line--column-config"
+              [class.drawer-line--active]="selectedListColumnId() === column.id"
+              draggable="true"
+              (click)="selectListColumn(column.id)"
+              (dragstart)="onDragStart(column.id)"
+              (dragover)="onDragOver($event)"
+              (drop)="onDrop(column.id)">
+              <div class="drag-handle">
+                <qo-icon name="drag" size="sm"></qo-icon>
+              </div>
+
+              <div class="drawer-line__content">
+                <span>{{ column.label }}</span>
+              </div>
+
+              <qo-button
+                class="field-remove"
+                type="button"
+                variant="ghost"
+                size="sm"
+                [iconOnly]="true"
+                iconLeft="x"
+                [attr.aria-label]="t('generated.remove_field')"
+                (click)="removeVisibleColumn(column.id)"
+              ></qo-button>
+            </div>
+          }
+        </section>
+
+        <aside class="list-config-inspector">
+          <div class="card-editor__tabs">
+            <qo-button
+              type="button"
+              variant="ghost"
+              size="sm"
+              [class.card-editor__tab--active]="listConfigTab() === 'display'"
+              (click)="setListConfigTab('display')">
+              {{ t('generated.display') }}
+            </qo-button>
+            <qo-button
+              type="button"
+              variant="ghost"
+              size="sm"
+              [class.card-editor__tab--active]="listConfigTab() === 'style'"
+              (click)="setListConfigTab('style')">
+              {{ t('generated.style') }}
+            </qo-button>
+          </div>
+
+          @if (selectedListColumn(); as selectedColumn) {
+            @if (listConfigTab() === 'display') {
+              <label class="field">
+                <span>{{ t('generated.display_name') }}</span>
+                <qo-input
+                  [value]="selectedColumn.label"
+                  (valueChange)="updateColumnLabel(selectedColumn.id, $event)">
+                </qo-input>
+              </label>
+
+              <label class="field">
+                <span>{{ t('generated.original_name') }}</span>
+                <qo-input
+                  [value]="getOriginalColumnLabel(selectedColumn.id)"
+                  [readonly]="true">
+                </qo-input>
+              </label>
+            } @else {
+              <div class="column-config-controls">
+                <label class="field field--inline">
+                  <span>{{ t('generated.width') }}</span>
+                  <qo-select
+                    [value]="selectedColumn.width"
+                    [options]="columnWidthOptions"
+                    (valueChange)="updateColumnWidth(selectedColumn.id, $event)">
+                  </qo-select>
+                </label>
+
+                <label class="field field--inline">
+                  <span>{{ t('generated.alignment') }}</span>
+                  <qo-select
+                    [value]="selectedColumn.alignment"
+                    [options]="columnAlignmentOptions"
+                    (valueChange)="updateColumnAlignment(selectedColumn.id, $event)">
+                  </qo-select>
+                </label>
+              </div>
+            }
+          } @else {
+            <p class="list-config-empty">{{ t('generated.select_a_visible_column_to_configure_its_display') }}</p>
+          }
+        </aside>
+      </div>
+    </div>
+  </aside>
+}

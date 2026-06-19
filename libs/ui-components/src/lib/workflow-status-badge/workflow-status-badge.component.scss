@@ -1,0 +1,8 @@
+:host {
+  display: inline-flex;
+}
+
+:host ::ng-deep .qo-badge {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

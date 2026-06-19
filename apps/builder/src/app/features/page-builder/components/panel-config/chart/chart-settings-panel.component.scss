@@ -1,0 +1,292 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.chart-settings-panel {
+  min-height: 0;
+  background: transparent;
+  font-family: var(--qo-font-family-sans);
+  color: var(--qo-color-neutral-700);
+}
+
+.chart-settings-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qo-space-4);
+  padding: 0;
+  overflow: visible;
+}
+
+.qo-card,
+.qo-section-card {
+  background: var(--qo-color-neutral-0);
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  box-shadow: none;
+  overflow: visible;
+}
+
+.qo-card--form-select {
+  overflow: visible;
+  position: relative;
+  z-index: 3;
+}
+
+.qo-card--datasource-select {
+  z-index: 12;
+}
+
+.qo-card--query-select {
+  z-index: 11;
+}
+
+.qo-card--padded {
+  padding: var(--qo-space-4);
+}
+
+.qo-card--muted {
+  background: var(--qo-color-neutral-50);
+}
+
+.qo-section-card__header {
+  padding: var(--qo-space-4) var(--qo-space-4) 0;
+  background: transparent;
+  border-bottom: none;
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-bold);
+  line-height: 1.4;
+  color: var(--qo-color-neutral-900);
+}
+
+.qo-section-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qo-space-5);
+  padding: var(--qo-space-4);
+}
+
+.qo-section-card__content--tight {
+  gap: 0;
+  padding-bottom: var(--qo-space-3);
+}
+
+.qo-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qo-space-2);
+}
+
+.qo-field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-1);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+  color: var(--qo-color-neutral-600);
+}
+
+.qo-info-icon {
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-sm);
+  line-height: 1;
+}
+
+.qo-link-select,
+:host ::ng-deep .qo-muted-select .qo-btn,
+.qo-placeholder-select {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-1);
+  min-height: 2.25rem;
+  background: transparent;
+  padding: 0;
+  font-family: inherit;
+  font-size: var(--qo-text-sm);
+}
+
+.qo-chart-select {
+  display: block;
+  width: 100%;
+}
+
+.qo-chart-bindable-input {
+  display: block;
+  width: 100%;
+}
+
+:host ::ng-deep .qo-chart-select .qo-select-trigger {
+  min-height: 2.75rem;
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-900);
+  box-shadow: none;
+}
+
+:host ::ng-deep .qo-chart-select .qo-select-trigger-active {
+  border-color: var(--qo-border-color-focus);
+  background: var(--qo-color-neutral-0);
+}
+
+:host ::ng-deep .qo-chart-select .qo-select-value,
+:host ::ng-deep .qo-chart-select .qo-select-option {
+  font-size: var(--qo-text-sm);
+}
+
+:host ::ng-deep .qo-chart-select .qo-select-dropdown {
+  border-radius: var(--qo-radius-lg);
+  box-shadow: var(--qo-shadow-popover);
+  z-index: 1000;
+}
+
+.qo-chart-aggregate-select,
+.qo-chart-multi-select {
+  display: block;
+  width: 100%;
+}
+
+.qo-link-select {
+  color: var(--qo-color-primary-500);
+  font-weight: var(--qo-font-medium);
+}
+
+.qo-link-select__chevron,
+.qo-muted-select__chevron {
+  color: var(--qo-color-neutral-600);
+}
+
+.qo-muted-select {
+  justify-content: flex-start;
+  color: var(--qo-color-neutral-600);
+  font-weight: var(--qo-font-normal);
+}
+
+.qo-muted-select--stacked {
+  min-height: auto;
+}
+
+.qo-placeholder-select {
+  width: 100%;
+  justify-content: flex-start;
+  min-height: 2.75rem;
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  padding: 0 var(--qo-space-3);
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-sm);
+}
+
+:host ::ng-deep .qo-input .qo-input-element {
+  width: 100%;
+  min-height: 2.75rem;
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  outline: none;
+  background: var(--qo-color-neutral-0);
+  font-family: inherit;
+  color: var(--qo-color-neutral-900);
+  padding: 0 var(--qo-space-3);
+  font-size: var(--qo-text-sm);
+  line-height: 1.4;
+}
+
+:host ::ng-deep .qo-input .qo-input-element::placeholder { color: var(--qo-color-neutral-500); }
+
+:host ::ng-deep .qo-input .qo-input-element:focus {
+  background: var(--qo-color-neutral-0);
+}
+
+.qo-segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  overflow: hidden;
+  background: var(--qo-color-neutral-0);
+}
+
+:host ::ng-deep .qo-segmented__button .qo-btn {
+  min-height: 2.5rem;
+  border-right: 0.0625rem solid var(--qo-border-color);
+  background: transparent;
+  color: var(--qo-color-neutral-600);
+  font-family: inherit;
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+  border-radius: 0;
+  width: 100%;
+}
+
+:host ::ng-deep .qo-segmented__button:last-child .qo-btn {
+  border-right: 0;
+}
+
+.qo-segmented__button--active {
+  color: var(--qo-color-primary-500);
+  background: var(--qo-color-neutral-50);
+}
+
+.qo-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+  min-height: 3.5rem;
+  padding: 0 var(--qo-space-4);
+}
+
+.qo-toggle-row__label {
+  font-size: var(--qo-text-sm);
+  color: var(--qo-color-neutral-600);
+}
+
+.qo-toggle-row + .qo-toggle-row {
+  border-top: 0.0625rem solid var(--qo-border-color);
+}
+
+.qo-style-note {
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-sm);
+  line-height: 1.5;
+}
+
+.prop-section-card {
+  margin-bottom: var(--qo-space-4);
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+  overflow: hidden;
+}
+
+.prop-section-card__header {
+  padding: var(--qo-space-4) var(--qo-space-4) 0;
+  background: transparent;
+  border-bottom: none;
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-bold);
+  line-height: 1.4;
+}
+
+.prop-section-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  min-height: 4.25rem;
+  padding: 0 var(--qo-space-4);
+}
+
+.prop-section-card__row--divided {
+  border-top: none;
+}
+
+.prop-row-label {
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+  line-height: 1.4;
+}
+

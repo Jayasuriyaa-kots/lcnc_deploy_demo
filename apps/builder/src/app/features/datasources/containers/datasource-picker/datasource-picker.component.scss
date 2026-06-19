@@ -1,0 +1,56 @@
+@use '../../components/datasources-shell';
+@use '../../components/datasources-responsive';
+
+:host {
+  display: block;
+}
+
+.datasources-page__picker-section + .datasources-page__picker-section { margin-top: var(--qo-space-6); }
+.datasources-page__connector-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border: var(--qo-border-width) solid color-mix(in srgb, var(--qo-color-neutral-200) 72%, transparent);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+}
+.datasources-page__connector-card {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-4);
+  width: 100%;
+  min-height: var(--qo-size-76);
+  padding: 0 var(--qo-space-5);
+  border: 0;
+  border-right: var(--qo-border-width) solid color-mix(in srgb, var(--qo-color-neutral-200) 72%, transparent);
+  border-bottom: var(--qo-border-width) solid color-mix(in srgb, var(--qo-color-neutral-200) 72%, transparent);
+  background: var(--qo-color-neutral-0);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--qo-motion-duration-fast) var(--qo-motion-ease-standard),
+    box-shadow var(--qo-motion-duration-fast) var(--qo-motion-ease-standard);
+}
+.datasources-page__connector-card:hover,
+.datasources-page__connector-card:focus-visible {
+  background: color-mix(in srgb, var(--qo-color-neutral-100) 88%, var(--qo-color-neutral-0));
+  box-shadow: inset 0 0 0 var(--qo-border-width) color-mix(in srgb, var(--qo-color-neutral-300) 72%, transparent);
+  outline: none;
+}
+.datasources-page__connector-grid > .datasources-page__connector-card:nth-child(4n) { border-right: 0; }
+.datasources-page__picker-section:first-of-type .datasources-page__connector-card { border-bottom: 0; }
+.datasources-page__connector-grid > .datasources-page__connector-card:nth-last-child(-n + 4) { border-bottom: 0; }
+.datasources-page__connector-icon {
+  display: grid;
+  place-items: center;
+  width: var(--qo-size-36);
+  height: var(--qo-size-36);
+  flex: 0 0 auto;
+}
+.datasources-page__connector-name {
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-base);
+  font-weight: var(--qo-font-semibold);
+  line-height: 1.15;
+  white-space: nowrap;
+}

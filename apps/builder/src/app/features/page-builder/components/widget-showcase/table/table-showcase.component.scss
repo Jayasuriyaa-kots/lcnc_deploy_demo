@@ -1,0 +1,17 @@
+    :host {
+      display: block;
+      width: 100%;
+    }
+
+    .showcase-page {
+      min-height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--qo-color-neutral-50);
+      padding: var(--qo-space-3);
+    }
+
+    .showcase-page__item {
+      cursor: grab;
+    }
+  

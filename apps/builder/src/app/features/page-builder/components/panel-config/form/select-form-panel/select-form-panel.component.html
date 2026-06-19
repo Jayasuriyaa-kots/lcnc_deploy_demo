@@ -1,0 +1,28 @@
+<div class="select-form-panel">
+  <div class="form-card">
+    <div class="card-header">{{ title() }}</div>
+
+    @for (form of forms(); track form.id) {
+      <qo-button
+        type="button"
+        class="form-row"
+        [class.form-row--selected]="selectedFormId() === form.id"
+        [variant]="selectedFormId() === form.id ? 'primary' : 'secondary'"
+        (click)="selectForm(form.id)"
+      >
+        {{ form.name }}
+      </qo-button>
+    }
+
+    @if (footerText().trim() || footerLinkLabel().trim()) {
+      <div class="card-footer">
+        @if (footerText().trim()) {
+          <span>{{ footerText() }}</span>
+        }
+        @if (footerLinkLabel().trim()) {
+          <a href="javascript:void(0)">{{ footerLinkLabel() }}</a>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,62 @@
+{
+  "formId": "add-employee-form",
+  "formLabel": "Add Employee Form",
+  "tableName": "employees",
+  "actionLabels": ["Submit"],
+  "fields": [
+    {
+      "id": "first_name",
+      "label": "First Name",
+      "dbColumn": "first_name",
+      "type": "text",
+      "placeholder": "Enter first name",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "last_name",
+      "label": "Last Name",
+      "dbColumn": "last_name",
+      "type": "text",
+      "placeholder": "Enter last name",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "email",
+      "label": "Email Address",
+      "dbColumn": "email",
+      "type": "email",
+      "placeholder": "name@company.com",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "department",
+      "label": "Department",
+      "dbColumn": "department_id",
+      "type": "dropdown",
+      "placeholder": "Choose department",
+      "required": true,
+      "options": ["HR", "Finance", "Operations", "Engineering"]
+    },
+    {
+      "id": "joining_date",
+      "label": "Joining Date",
+      "dbColumn": "joining_date",
+      "type": "date",
+      "placeholder": "Select joining date",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "employment_type",
+      "label": "Employment Type",
+      "dbColumn": "emp_type",
+      "type": "dropdown",
+      "placeholder": "Select employment type",
+      "required": true,
+      "options": ["Full Time", "Contract", "Intern"]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<article class="workflow-schedule-row">
+  <button class="workflow-schedule-row__content" type="button" (click)="edit.emit(schedule().id)">
+    <span class="workflow-schedule-row__icon">
+      <qo-icon name="calendar" size="sm"></qo-icon>
+    </span>
+    <span class="workflow-schedule-row__main">
+      <strong>{{ schedule().workflowName }}</strong>
+      <span>{{ schedule().frequencyLabel }}</span>
+      <span class="workflow-schedule-row__scope">{{ schedule().scopeLabel }}</span>
+    </span>
+    <span class="workflow-schedule-row__next">
+      <span>{{ t('tables.next') }}</span>
+      <strong>{{ schedule().nextRunAt }}</strong>
+    </span>
+  </button>
+
+  <qo-button
+    class="workflow-schedule-row__edit"
+    variant="ghost"
+    size="sm"
+    type="button"
+    iconLeft="edit"
+    [iconOnly]="true"
+    [attr.aria-label]="t('accessibility.editWorkflowCanvas')"
+    [title]="t('accessibility.editWorkflowCanvas')"
+    (click)="editCanvas.emit(schedule().id)"
+  />
+
+  <button
+    class="workflow-schedule-row__toggle"
+    [class.workflow-schedule-row__toggle--enabled]="schedule().enabled"
+    type="button"
+    [attr.aria-pressed]="schedule().enabled"
+    [attr.aria-label]="t('accessibility.toggleSchedule')"
+    (click)="toggleEnabled.emit(schedule().id)"
+  >
+    <span></span>
+  </button>
+
+  <qo-button
+    class="workflow-schedule-row__delete"
+    variant="ghost"
+    size="sm"
+    type="button"
+    iconLeft="trash"
+    [iconOnly]="true"
+    [attr.aria-label]="t('accessibility.deleteSchedule')"
+    [title]="t('accessibility.deleteSchedule')"
+    (click)="delete.emit(schedule().id)"
+  />
+</article>
+</ng-container>

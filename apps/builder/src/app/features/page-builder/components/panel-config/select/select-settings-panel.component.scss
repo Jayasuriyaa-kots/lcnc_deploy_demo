@@ -1,0 +1,189 @@
+:host {
+  display: block;
+}
+
+.select-card {
+  background: var(--qo-color-neutral-0);
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  padding: var(--qo-space-3);
+  margin-bottom: var(--qo-space-2);
+}
+
+.section-title {
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-semibold);
+  margin-bottom: var(--qo-space-2);
+}
+
+.field {
+  display: grid;
+  gap: var(--qo-space-2);
+  margin-bottom: var(--qo-space-3);
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.field span {
+  color: var(--qo-color-neutral-600);
+  font-size: calc(var(--qo-text-xs) + 0.0625rem);
+  font-weight: var(--qo-font-medium);
+}
+
+.field-input,
+.option-input {
+  width: 100%;
+  height: calc(var(--qo-space-8) + 0.25rem);
+  border: 0.0625rem solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-md);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  padding: 0 calc(var(--qo-space-2) + 0.125rem);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-size: var(--qo-text-sm);
+  box-sizing: border-box;
+}
+
+.field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-2);
+}
+
+:host ::ng-deep .toggle-pill .qo-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 2.25rem;
+  min-width: 2.25rem;
+  height: 1.25rem;
+  min-height: 1.25rem;
+  line-height: 1;
+  vertical-align: middle;
+  align-self: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-neutral-0);
+  box-shadow: inset 0 0 0 0.0625rem var(--qo-color-neutral-900);
+  color: transparent;
+  font-size: var(--qo-text-xs);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.toggle-pill--on {
+  color: var(--qo-color-neutral-0);
+}
+
+.toggle-dot {
+  position: absolute;
+  left: 0.125rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-neutral-900);
+  box-shadow: 0 0.0625rem 0.25rem color-mix(in srgb, var(--qo-color-neutral-900) 20%, transparent);
+  transition: transform 160ms ease;
+}
+
+.toggle-pill--on .toggle-dot {
+  transform: translateX(1rem);
+}
+
+:host ::ng-deep .toggle-pill--on .qo-btn {
+  background: var(--qo-color-neutral-900);
+  box-shadow: inset 0 0 0 0.0625rem var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+}
+
+:host ::ng-deep .toggle-pill--on .toggle-dot {
+  background: var(--qo-color-neutral-0);
+}
+
+.option-create {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--qo-space-2);
+  margin-bottom: var(--qo-space-3);
+}
+
+.add-btn {
+  height: calc(var(--qo-space-8) + 0.25rem);
+  min-width: calc(var(--qo-space-16) + var(--qo-space-2));
+  border: 0;
+  border-radius: var(--qo-radius-md);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-primary-700);
+  color: var(--qo-color-neutral-0);
+  font-size: calc(var(--qo-text-xs) + 0.0625rem);
+  font-weight: var(--qo-font-semibold);
+  cursor: pointer;
+}
+
+.option-list {
+  display: grid;
+  gap: var(--qo-space-2);
+}
+
+.option-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--qo-space-3);
+}
+
+.option-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--qo-space-2);
+}
+
+.icon-btn {
+  min-width: var(--qo-space-8);
+  height: calc(var(--qo-space-8) + 0.25rem);
+  border: 0.0625rem solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-md);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  cursor: pointer;
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.icon-btn--danger {
+  color: var(--qo-color-danger-500);
+}
+
+.option-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--qo-space-2);
+}
+
+.chip {
+  height: calc(var(--qo-space-6) + var(--qo-space-1));
+  border: 0.0625rem solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-full);
+  padding: 0 var(--qo-space-3);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-xs);
+  cursor: pointer;
+}
+
+.chip--active {
+  border-color: var(--qo-color-info-500);
+  color: var(--qo-color-info-500);
+  background: var(--qo-color-info-100);
+}
+

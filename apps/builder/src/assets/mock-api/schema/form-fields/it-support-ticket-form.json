@@ -1,0 +1,62 @@
+{
+  "formId": "it-support-ticket-form",
+  "formLabel": "IT Support Ticket",
+  "tableName": "it_tickets",
+  "actionLabels": ["Raise Ticket"],
+  "fields": [
+    {
+      "id": "employee_id",
+      "label": "Employee ID",
+      "dbColumn": "employee_id",
+      "type": "text",
+      "placeholder": "Enter employee code",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "issue_category",
+      "label": "Issue Category",
+      "dbColumn": "category",
+      "type": "dropdown",
+      "placeholder": "Select category",
+      "required": true,
+      "options": ["Hardware", "Software", "Network / VPN", "Email & Collaboration", "Access & Permissions", "Data & Backup", "Other"]
+    },
+    {
+      "id": "issue_title",
+      "label": "Issue Title",
+      "dbColumn": "title",
+      "type": "text",
+      "placeholder": "Brief title for the issue",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "issue_description",
+      "label": "Issue Description",
+      "dbColumn": "description",
+      "type": "textarea",
+      "placeholder": "Describe the problem in detail",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "severity",
+      "label": "Severity",
+      "dbColumn": "severity",
+      "type": "dropdown",
+      "placeholder": "Select severity",
+      "required": true,
+      "options": ["P1 - Critical", "P2 - High", "P3 - Medium", "P4 - Low"]
+    },
+    {
+      "id": "affected_since",
+      "label": "Issue Started On",
+      "dbColumn": "issue_date",
+      "type": "date",
+      "placeholder": "Select date",
+      "required": false,
+      "options": []
+    }
+  ]
+}

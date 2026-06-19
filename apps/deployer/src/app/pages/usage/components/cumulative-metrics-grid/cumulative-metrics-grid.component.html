@@ -1,0 +1,10 @@
+<section class="usage-metrics">
+  @for (metric of metrics(); track metric.label) {
+    <article class="usage-metric-card app-card">
+      <div class="usage-metric-card__dot" [class]="'is-' + metric.tone"></div>
+      <div class="usage-metric-card__label">{{ metric.label }}</div>
+      <div class="usage-metric-card__value">{{ metric.value }}</div>
+      <div class="usage-metric-card__meta">{{ metric.meta }}</div>
+    </article>
+  }
+</section>

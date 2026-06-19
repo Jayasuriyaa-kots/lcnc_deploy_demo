@@ -1,0 +1,27 @@
+<article class="workflow-card" [class.workflow-card--selected]="selected()">
+  <div class="workflow-card__header">
+    <div class="workflow-card__heading" (click)="toggle.emit()">
+      @if (meta()) {
+        <p class="workflow-card__meta">{{ meta() }}</p>
+      }
+
+      <h3 class="workflow-card__title">{{ title() }}</h3>
+    </div>
+
+    <div class="workflow-card__actions">
+      <qo-workflow-status-badge [status]="status()" />
+      <qo-button variant="secondary" size="sm" (click)="edit.emit()">Edit Flow</qo-button>
+      @if (historyLabel()) {
+        <qo-button variant="secondary" size="sm" (click)="openHistory.emit()">{{ historyLabel() }}</qo-button>
+      }
+    </div>
+  </div>
+
+  @if (subtitle()) {
+    <p class="workflow-card__subtitle">{{ subtitle() }}</p>
+  }
+
+  <div class="workflow-card__body">
+    <ng-content></ng-content>
+  </div>
+</article>

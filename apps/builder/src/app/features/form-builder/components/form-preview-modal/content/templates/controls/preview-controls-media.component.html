@@ -1,0 +1,172 @@
+@let f = field();
+@if (ctx.isGenericFileField(f)) {
+  <div class="preview-upload-wrap">
+    @if (!ctx.hasMediaValue(f.id)) {
+      <label class="preview-upload-box">
+        <input type="file" hidden [accept]="f.properties.fileUploadTypes || f.properties.acceptedFileTypes" [multiple]="ctx.allowsMultipleFiles(f)" (change)="ctx.onFileSelected(f, $event)" />
+        <span class="preview-upload-box__placeholder">{{ ctx.getFileUploadPlaceholder(f) }}</span>
+        <qo-icon class="preview-upload-box__icon" name="external-link" size="sm"></qo-icon>
+      </label>
+    } @else {
+      <div class="preview-media-value">
+        @if (ctx.allowsMultipleFiles(f)) {
+          <div class="preview-file-list">
+            @for (fileName of ctx.getGenericFileNames(f.id); track fileName) {
+              <span class="preview-media-filename">{{ fileName }}</span>
+            }
+          </div>
+        } @else {
+          <span class="preview-media-filename">{{ ctx.getSingleMediaName(f.id) }}</span>
+        }
+        <div class="preview-media-actions">
+          <label class="preview-secondary-action preview-secondary-action--label">
+            <input type="file" hidden [accept]="f.properties.fileUploadTypes || f.properties.acceptedFileTypes" [multiple]="ctx.allowsMultipleFiles(f)" (change)="ctx.onFileSelected(f, $event)" />
+            <qo-icon name="external-link" size="sm"></qo-icon>
+            {{ t('preview.replace') }}
+          </label>
+          <qo-button type="button" class="preview-secondary-action" (click)="ctx.clearMedia(f.id)">
+            <qo-icon name="trash" size="sm"></qo-icon>
+            {{ 'actions.delete' | transloco }}
+          </qo-button>
+        </div>
+      </div>
+    }
+  </div>
+}
+
+@if (ctx.isImageField(f)) {
+  <div class="preview-media-upload-wrap">
+    <div class="preview-media-upload-box">
+      @if (ctx.canUploadImage(f)) {
+        <label class="preview-media-upload-box__placeholder">
+          <input type="file" hidden accept="image/*" [multiple]="ctx.allowsMultipleFiles(f)" (change)="ctx.onFileSelected(f, $event)" />
+          <span>{{ ctx.getMediaNames(f.id).length ? ctx.getSingleMediaName(f.id) : t('preview.selectFile') }}</span>
+        </label>
+        <label class="preview-media-icon-btn" [title]="t('preview.uploadImage')">
+          <input type="file" hidden accept="image/*" [multiple]="ctx.allowsMultipleFiles(f)" (change)="ctx.onFileSelected(f, $event)" />
+          <qo-icon name="external-link" size="sm"></qo-icon>
+        </label>
+      }
+      @if (ctx.canCaptureImage(f)) {
+        <qo-button type="button" class="preview-media-icon-btn" [title]="t('preview.captureImage')" (click)="ctx.openImageCapture(f)">
+          <qo-icon name="camera" size="sm"></qo-icon>
+        </qo-button>
+      }
+    </div>
+    @if (ctx.getImagePreview(f.id).length) {
+      <div class="preview-image-list" [class.preview-image-list--single]="!ctx.allowsMultipleFiles(f)">
+        @for (img of ctx.getImagePreview(f.id); track img; let index = $index) {
+          <div class="preview-image-item">
+            <img [src]="img" alt="Preview image" />
+            @if (ctx.allowsMultipleFiles(f)) {
+              <qo-button type="button" class="preview-image-item__remove" (click)="ctx.removeImageAt(f.id, index)">
+                <qo-icon name="x" size="sm"></qo-icon>
+              </qo-button>
+            }
+          </div>
+        }
+      </div>
+      <div class="preview-media-actions">
+        @if (ctx.canCaptureImage(f)) {
+          <qo-button type="button" class="preview-secondary-action" (click)="ctx.openImageCapture(f)">
+            <qo-icon name="camera" size="sm"></qo-icon>
+            {{ t('preview.retake') }}
+          </qo-button>
+        }
+        <qo-button type="button" class="preview-secondary-action" (click)="ctx.clearMedia(f.id)">
+          <qo-icon name="trash" size="sm"></qo-icon>
+          {{ 'actions.delete' | transloco }}
+        </qo-button>
+      </div>
+    }
+  </div>
+}
+
+@if (ctx.isAudioField(f)) {
+  <div class="preview-media-upload-wrap">
+    @if (!ctx.hasMediaValue(f.id)) {
+      <div class="preview-media-upload-box preview-media-upload-box--audio">
+        @if (ctx.canUploadAudio(f)) {
+          <label class="preview-media-upload-box__placeholder">
+            <input type="file" hidden accept="audio/*" (change)="ctx.onFileSelected(f, $event)" />
+            <span>{{ t('preview.selectFile') }}</span>
+          </label>
+          <label class="preview-media-icon-btn" [title]="t('preview.uploadAudio')">
+            <input type="file" hidden accept="audio/*" (change)="ctx.onFileSelected(f, $event)" />
+            <qo-icon name="external-link" size="sm"></qo-icon>
+          </label>
+        }
+        @if (ctx.canCaptureAudio(f)) {
+          <qo-button type="button" class="preview-media-icon-btn" [title]="t('preview.captureAudio')" (click)="ctx.openAudioRecordModal(f)">
+            <qo-icon name="mic" size="sm"></qo-icon>
+          </qo-button>
+        }
+      </div>
+    } @else {
+      <div class="preview-media-value">
+        @if (ctx.getAudioDataUrl(f.id)) {
+          <audio class="preview-audio-player" [src]="ctx.getAudioDataUrl(f.id)!" controls></audio>
+        } @else {
+          <span class="preview-media-filename">{{ ctx.getSingleMediaName(f.id) }}</span>
+        }
+        <div class="preview-media-actions">
+          @if (ctx.canCaptureAudio(f)) {
+            <qo-button type="button" class="preview-secondary-action" (click)="ctx.openAudioRecordModal(f)">
+              <qo-icon name="mic" size="sm"></qo-icon>
+              {{ t('preview.retake') }}
+            </qo-button>
+          }
+          <qo-button type="button" class="preview-secondary-action" (click)="ctx.clearMedia(f.id)">
+            <qo-icon name="trash" size="sm"></qo-icon>
+            {{ 'actions.delete' | transloco }}
+          </qo-button>
+        </div>
+      </div>
+    }
+  </div>
+}
+
+@if (ctx.isVideoField(f)) {
+  <div class="preview-media-upload-wrap">
+    @if (!ctx.hasMediaValue(f.id)) {
+      <div class="preview-media-upload-box">
+        @if (ctx.canUploadVideo(f)) {
+          <label class="preview-media-upload-box__placeholder">
+            <input type="file" hidden accept="video/*" (change)="ctx.onFileSelected(f, $event)" />
+            <span>{{ t('preview.selectFile') }}</span>
+          </label>
+          <label class="preview-media-icon-btn" [title]="t('preview.uploadVideo')">
+            <input type="file" hidden accept="video/*" (change)="ctx.onFileSelected(f, $event)" />
+            <qo-icon name="external-link" size="sm"></qo-icon>
+          </label>
+        }
+        @if (ctx.canCaptureVideo(f)) {
+          <qo-button type="button" class="preview-media-icon-btn" [title]="t('preview.captureVideo')" (click)="ctx.openVideoCaptureModal(f)">
+            <qo-icon name="video" size="sm"></qo-icon>
+          </qo-button>
+        }
+      </div>
+    } @else {
+      <div class="preview-media-value">
+        @if (ctx.getVideoDataUrl(f.id)) {
+          <video class="preview-video-player" [src]="ctx.getVideoDataUrl(f.id)!" controls></video>
+        } @else {
+          <span class="preview-media-filename">{{ ctx.getSingleMediaName(f.id) }}</span>
+        }
+        <div class="preview-media-actions">
+          @if (ctx.canCaptureVideo(f)) {
+            <qo-button type="button" class="preview-secondary-action" (click)="ctx.openVideoCaptureModal(f)">
+              <qo-icon name="video" size="sm"></qo-icon>
+              {{ t('preview.retake') }}
+            </qo-button>
+          }
+          <qo-button type="button" class="preview-secondary-action" (click)="ctx.clearMedia(f.id)">
+            <qo-icon name="trash" size="sm"></qo-icon>
+            {{ 'actions.delete' | transloco }}
+          </qo-button>
+        </div>
+      </div>
+    }
+  </div>
+}
+

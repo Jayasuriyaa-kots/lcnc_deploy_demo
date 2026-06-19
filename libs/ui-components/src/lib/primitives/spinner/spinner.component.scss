@@ -1,0 +1,62 @@
+:host {
+  display: inline-block;
+}
+
+.qo-spinner {
+  display: inline-block;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: transparent transparent transparent transparent;
+  animation: qo-spin 0.8s linear infinite;
+
+  &-sm {
+    width: var(--qo-size-16);
+    height: var(--qo-size-16);
+    border-width: var(--qo-size-2);
+  }
+
+  &-md {
+    width: var(--qo-size-24);
+    height: var(--qo-size-24);
+    border-width: var(--qo-size-3);
+  }
+
+  &-lg {
+    width: var(--qo-size-32);
+    height: var(--qo-size-32);
+    border-width: var(--qo-size-4);
+  }
+
+  &-primary {
+    border-top-color: var(--qo-color-primary-500);
+    border-right-color: var(--qo-color-primary-500);
+  }
+
+  &-white {
+    border-top-color: var(--qo-color-neutral-0);
+    border-right-color: var(--qo-color-neutral-0);
+  }
+
+  &-neutral {
+    border-top-color: var(--qo-color-neutral-500);
+    border-right-color: var(--qo-color-neutral-500);
+  }
+}
+
+.qo-spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: color-mix(in srgb, var(--qo-color-neutral-0) 70%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+@keyframes qo-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(1turn); }
+}

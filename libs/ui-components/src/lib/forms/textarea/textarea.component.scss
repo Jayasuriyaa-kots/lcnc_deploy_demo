@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  width: 100%;
+  --_qo-textarea-border-color: var(--qo-textarea-border-color, var(--qo-border-color));
+  --_qo-textarea-border-radius: var(--qo-textarea-border-radius, var(--qo-radius-md));
+  --_qo-textarea-bg: var(--qo-textarea-bg, var(--qo-color-neutral-0));
+  --_qo-textarea-color: var(--qo-textarea-color, var(--qo-color-neutral-900));
+  --_qo-textarea-placeholder-color: var(--qo-textarea-placeholder-color, var(--qo-color-neutral-400));
+  --_qo-textarea-focus-border-color: var(--qo-textarea-focus-border-color, var(--qo-border-color-focus));
+  --_qo-textarea-focus-shadow: var(--qo-textarea-focus-shadow, 0 0 0 var(--qo-size-2) color-mix(in srgb, var(--qo-color-primary-500) 10%, transparent));
+  --_qo-textarea-disabled-bg: var(--qo-textarea-disabled-bg, var(--qo-color-neutral-50));
+}
+
+.qo-textarea {
+  width: 100%;
+  min-height: var(--qo-size-72);
+  padding: var(--qo-space-3) var(--qo-space-4);
+  border: var(--qo-size-1) solid var(--_qo-textarea-border-color);
+  border-radius: var(--_qo-textarea-border-radius);
+  background: var(--_qo-textarea-bg);
+  color: var(--_qo-textarea-color);
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-base);
+  line-height: var(--qo-leading-normal);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &::placeholder {
+    color: var(--_qo-textarea-placeholder-color);
+  }
+
+  &:focus {
+    border-color: var(--_qo-textarea-focus-border-color);
+    box-shadow: var(--_qo-textarea-focus-shadow);
+  }
+
+  &:disabled {
+    background: var(--_qo-textarea-disabled-bg);
+    cursor: not-allowed;
+  }
+}

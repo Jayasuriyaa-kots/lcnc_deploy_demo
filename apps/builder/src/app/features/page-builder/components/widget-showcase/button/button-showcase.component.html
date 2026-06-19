@@ -1,0 +1,26 @@
+<div class="showcase-page">
+  @for (preset of presets; track preset.id) {
+    <div
+      class="card"
+      [class.card-dashed]="preset.highlighted"
+      draggable="true"
+      (dragstart)="startDrag($event, preset.buttonText, preset.variant, preset.displayType ?? 'button', preset.secondaryButtonText)"
+      (dragend)="endDrag()"
+    >
+      @if (preset.label) {
+        <span class="card-label">{{ preset.label }}</span>
+      }
+
+      @if (preset.displayType === 'icon-button') {
+        <app-widget-button [variant]="preset.variant" iconName="download" [iconOnly]="true"></app-widget-button>
+      } @else if (preset.displayType === 'button-group') {
+        <div class="showcase-group">
+          <app-widget-button [variant]="preset.variant">{{ preset.buttonText }}</app-widget-button>
+          <app-widget-button variant="flat-light">{{ preset.secondaryButtonText }}</app-widget-button>
+        </div>
+      } @else {
+        <app-widget-button [variant]="preset.variant">{{ preset.buttonText }}</app-widget-button>
+      }
+    </div>
+  }
+</div>

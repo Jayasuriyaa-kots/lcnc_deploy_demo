@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.workflow-code-block {
+  display: grid;
+  gap: var(--qo-space-3);
+}
+
+.workflow-code-block__title,
+.workflow-code-block__lang {
+  margin: 0;
+}
+
+.workflow-code-block__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.workflow-code-block__lang {
+  color: var(--qo-color-neutral-400);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.workflow-code-block__surface {
+  overflow: auto;
+  margin: 0;
+  padding: var(--qo-space-4);
+  border: 1px solid var(--qo-color-neutral-700);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-100);
+  font-family: var(--qo-font-family-mono);
+  font-size: var(--qo-text-sm);
+  line-height: var(--qo-leading-normal);
+}
+
+.workflow-code-block__line {
+  display: block;
+  white-space: pre;
+}

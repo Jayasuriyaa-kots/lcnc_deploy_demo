@@ -1,0 +1,165 @@
+<section class="user-management-page">
+  <header class="user-management-page__header">
+    <div class="user-management-page__title-group">
+      <span class="user-management-page__eyebrow">Deployment</span>
+      <h1>User Management</h1>
+      <p>
+        Assign users from the Deployer and configure role-based permissions for every form,
+        field, and report in this application.
+      </p>
+    </div>
+
+    <qo-button variant="primary" class="user-management-page__primary-action" (click)="openAssignUserModal()">
+      + Assign User
+    </qo-button>
+  </header>
+
+  <section class="user-management-page__banner">
+    <span class="user-management-page__banner-icon">i</span>
+    <p>
+      Users must be registered in the <strong>Deployer</strong> first. You can only assign existing
+      Deployer-registered users here. Roles defined here are <strong>app-specific</strong> and
+      independent from Deployer roles.
+    </p>
+  </section>
+
+  <nav class="user-management-page__roles">
+    @for (role of roles(); track role.id) {
+      <button
+        type="button"
+        class="user-management-page__role-tab"
+        [class.user-management-page__role-tab--active]="selectedRole()?.id === role.id"
+        (click)="selectRole(role.id)"
+      >
+        <span>{{ role.name }}</span>
+        <span class="user-management-page__role-count">{{ roleCount(role.id) }}</span>
+      </button>
+    }
+
+    <qo-button variant="secondary" class="user-management-page__new-role" (click)="openNewRoleModal()">
+      + New Role
+    </qo-button>
+  </nav>
+
+  <div class="user-management-page__content">
+    <section class="user-management-panel user-management-panel--users">
+      <div class="user-management-panel__header">
+        <h2>Users in this role</h2>
+        <qo-button variant="link" (click)="openAssignUserModal()">+ Assign</qo-button>
+      </div>
+
+      @if (usersForSelectedRole().length > 0) {
+        <div class="user-management-panel__list">
+          @for (user of usersForSelectedRole(); track user.id) {
+            <div class="user-management-panel__user">
+              <div class="user-management-panel__user-main">
+                <qo-avatar-badge [name]="user.name" size="sm" />
+                <div class="user-management-panel__user-copy">
+                  <strong>{{ user.name }}</strong>
+                  <span>{{ user.email }}</span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="user-management-panel__remove"
+                (click)="promptRemoveUser(user)"
+              >
+                Remove
+              </button>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="user-management-panel__empty">
+          No users are assigned to this role yet.
+        </div>
+      }
+    </section>
+
+    <section class="user-management-panel user-management-panel--permissions">
+      <div class="user-management-panel__header">
+        <h2>Permission Matrix — {{ selectedRole()?.name ?? 'Selected' }} Role</h2>
+      </div>
+
+      <div class="permission-matrix">
+        <div class="permission-matrix__header">
+          <span>Form / Report / Page</span>
+          <span>View</span>
+          <span>Create</span>
+          <span>Edit</span>
+          <span>Delete</span>
+        </div>
+
+        @for (section of permissionSections(); track section.resourceType) {
+          <div class="permission-matrix__section">
+            <h3 class="permission-matrix__section-title">{{ section.title }}</h3>
+
+            @if (section.resourceType === 'field') {
+              @for (permission of section.permissions; track permission.id) {
+                <div class="permission-matrix__field-row">
+                  <div class="permission-matrix__resource">
+                    <strong>{{ permission.resourceName }}</strong>
+                  </div>
+                  <div class="permission-matrix__field-note">
+                    {{ fieldPermissionNote(permission.id) }}
+                  </div>
+                </div>
+              }
+            } @else {
+              @for (permission of section.permissions; track permission.id) {
+                <div class="permission-matrix__row">
+                  <div class="permission-matrix__resource">
+                    <strong>{{ permission.resourceName }}</strong>
+                  </div>
+                  <qo-checkbox
+                    [checked]="permission.view"
+                    (checkedChange)="togglePermission(permission.id, 'view')"
+                  />
+                  <qo-checkbox
+                    [checked]="permission.create"
+                    (checkedChange)="togglePermission(permission.id, 'create')"
+                  />
+                  <qo-checkbox
+                    [checked]="permission.edit"
+                    (checkedChange)="togglePermission(permission.id, 'edit')"
+                  />
+                  <qo-checkbox
+                    [checked]="permission.delete"
+                    (checkedChange)="togglePermission(permission.id, 'delete')"
+                  />
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</section>
+
+@if (assignUserModalOpen()) {
+  <app-assign-user-modal
+    [form]="assignUsersForm"
+    [users]="availableUsersForSelectedRole()"
+    [roleName]="selectedRole()?.name ?? 'selected'"
+    (close)="closeAssignUserModal()"
+    (assignUsers)="assignUsers($event)"
+  />
+}
+
+@if (newRoleModalOpen()) {
+  <app-new-role-modal
+    [form]="newRoleForm"
+    (close)="closeNewRoleModal()"
+    (createRole)="createRole($event)"
+  />
+}
+
+@if (confirmConfig()) {
+  <qo-confirm-dialog
+    [config]="confirmConfig()!"
+    (confirmed)="confirmRemoveUser()"
+    (cancelled)="cancelRemoveUser()"
+  />
+}

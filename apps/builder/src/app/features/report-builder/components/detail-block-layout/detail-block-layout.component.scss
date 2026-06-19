@@ -1,0 +1,173 @@
+.blocks {
+  display: grid;
+  gap: var(--qo-space-2);
+}
+
+.block {
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  padding: 0;
+  background: var(--qo-color-neutral-0);
+  overflow: visible;
+  cursor: pointer;
+}
+
+.block--selected {
+  border-color: var(--qo-color-primary-600);
+  box-shadow: 0 0 0 1px var(--qo-color-primary-600);
+}
+
+.block header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-2);
+  padding: var(--qo-space-3) var(--qo-space-4);
+  border-bottom: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md) var(--qo-radius-md) 0 0;
+  background: var(--qo-color-neutral-50);
+}
+
+.block-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-1);
+  margin-left: auto;
+}
+
+.block-action-btn.active {
+  background: var(--qo-color-neutral-100);
+}
+
+.block-title {
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-semibold);
+  color: var(--qo-color-neutral-900);
+  line-height: var(--qo-leading-tight);
+}
+
+.block-title-editor {
+  display: block;
+  flex: 1;
+  min-width: 12rem;
+}
+
+/* Split button (qo-button drives the visuals; only disabled dimming kept). */
+.split-btn--disabled {
+  opacity: 0.35;
+}
+
+/* Column layout */
+.block-columns {
+  display: flex;
+  gap: 0;
+  padding: 0;
+}
+
+.block--split .block-columns {
+  gap: 1px;
+  background: var(--qo-border-color);
+}
+
+.block-column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--qo-color-neutral-0);
+}
+
+.block--split .block-column:first-child {
+  border-radius: 0 0 0 var(--qo-radius-md);
+}
+
+.block--split .block-column:last-child {
+  border-radius: 0 0 var(--qo-radius-md) 0;
+}
+
+/* Column header */
+.column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--qo-space-2) var(--qo-space-3);
+  background: var(--qo-color-neutral-100);
+  border-bottom: 1px solid var(--qo-border-color);
+}
+
+.column-label {
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--qo-color-neutral-500);
+}
+
+/* Fields */
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  padding: var(--qo-space-3) var(--qo-space-4);
+  margin: var(--qo-space-2) var(--qo-space-4);
+  background: var(--qo-color-neutral-0);
+  font-size: var(--qo-text-sm);
+}
+
+.field-handle {
+  flex: 0 0 auto;
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-bold);
+  line-height: 1;
+  cursor: grab;
+  user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.field-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-normal);
+  color: var(--qo-color-neutral-800);
+  line-height: var(--qo-leading-tight);
+}
+
+.field-remove {
+  flex: 0 0 auto;
+}
+
+/* Empty column placeholder */
+.column-empty {
+  padding: var(--qo-space-4);
+  text-align: center;
+  font-size: var(--qo-text-xs);
+  color: var(--qo-color-neutral-400);
+  font-style: italic;
+}
+
+/* Add fields */
+.add-field {
+  width: calc(100% - var(--qo-space-8));
+  margin: 0 var(--qo-space-4) var(--qo-space-4);
+}
+
+:host ::ng-deep .add-field .qo-select-trigger {
+  border-color: var(--qo-color-neutral-400);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-800);
+}
+
+:host ::ng-deep .add-field .qo-select-placeholder {
+  color: var(--qo-color-neutral-700);
+  font-weight: var(--qo-font-semibold);
+}

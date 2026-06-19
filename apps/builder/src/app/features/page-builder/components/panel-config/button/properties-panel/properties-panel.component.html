@@ -1,0 +1,142 @@
+<div class="properties-panel" [formGroup]="actionForm">
+  @if (showTabs()) {
+    <div class="top-tabs">
+      <qo-button type="button" class="tab-btn" variant="ghost" size="sm" [class.active]="activeTab() === 'display'" (click)="setTab('display')">
+        <span>{{ 'layout.display' | transloco }}</span>
+      </qo-button>
+
+      <qo-button type="button" class="tab-btn" variant="ghost" size="sm" [class.active]="activeTab() === 'action'" (click)="setTab('action')">
+        <span>{{ t('panelConfig.tabAction') }}</span>
+      </qo-button>
+
+      <qo-button class="tab-btn" variant="ghost" size="sm" [class.active]="activeTab() === 'style'" (click)="setTab('style')">
+        <span>{{ 'layout.style' | transloco }}</span>
+      </qo-button>
+    </div>
+  }
+
+  <div class="tab-content">
+    @if (activeTab() === 'display') {
+      <div class="panel-card">
+        @if (isButtonGroup()) {
+          <label class="field-label">{{ t('panelConfig.buttons') }}</label>
+          <div class="button-group-editor">
+            @for (groupLabel of buttonGroupItems(); track $index) {
+              <div class="button-group-editor__row">
+                <qo-input
+                  [id]="'button-group-label-' + $index"
+                  type="text"
+                  class="text-input full-width"
+                  [value]="groupLabel"
+                  [placeholder]="'Button ' + ($index + 1)"
+                  (valueChange)="updateButtonGroupLabel($index, $event)"
+                ></qo-input>
+                <qo-button
+                  type="button"
+                  class="button-group-editor__remove"
+                  variant="ghost"
+                  size="sm"
+                  (click)="removeButtonGroupLabel($index)"
+                >
+                  {{ 'actions.remove' | transloco }}
+                </qo-button>
+              </div>
+            }
+            <qo-button type="button" class="button-group-editor__add" variant="ghost" size="sm" (click)="addButtonGroupLabel()">
+              {{ t('panelConfig.addButton') }}
+            </qo-button>
+          </div>
+        } @else {
+          <label class="field-label" for="button-label-input">{{ 'fields.label' | transloco }}</label>
+          <qo-input
+            id="button-label-input"
+            type="text"
+            class="text-input full-width"
+            formControlName="label"
+            [placeholder]="t('button.properties.labelPlaceholder')"
+            (input)="updateLabel(actionForm.controls.label.value)"
+          ></qo-input>
+        }
+      </div>
+    }
+
+    @if (activeTab() === 'action') {
+      <div class="panel-card">
+        <label class="field-label">{{ t('button.properties.actionType') }}</label>
+        <qo-select
+          class="panel-select"
+          formControlName="actionType"
+          [options]="actionTypeOptions()"
+          (valueChange)="onActionTypeChange($event)"
+        ></qo-select>
+      </div>
+
+      @if (actionForm.controls.actionType.value === 'open-url') {
+        <div class="panel-card">
+          <label class="field-label" for="button-action-url">{{ t('button.properties.urlLabel') }}</label>
+          <qo-input
+            id="button-action-url"
+            type="text"
+            class="text-input full-width"
+            formControlName="url"
+            [placeholder]="t('button.properties.urlPlaceholder')"
+          ></qo-input>
+        </div>
+
+        <div class="panel-card">
+          <label class="field-label">{{ t('common.openIn') }}</label>
+          <qo-select
+            class="panel-select"
+            formControlName="openIn"
+            [options]="openInOptions()"
+          ></qo-select>
+        </div>
+      }
+
+      @if (actionForm.controls.actionType.value === 'open-form' || actionForm.controls.actionType.value === 'open-report' || actionForm.controls.actionType.value === 'open-page') {
+        <div class="panel-card">
+          <label class="field-label">{{ actionTargetLabel() }}</label>
+          <qo-select
+            class="panel-select"
+            [formControl]="currentActionTargetControl()"
+            [options]="actionTargetOptions()"
+            [searchable]="true"
+            (valueChange)="onActionTargetChange($event)"
+          ></qo-select>
+        </div>
+
+        <!-- @if (actionForm.controls.actionType.value === 'open-form') {
+          <div class="panel-card">
+            <label class="field-label" for="button-query-params">{{ t('button.properties.queryParameters') }}</label>
+            <qo-input
+              id="button-query-params"
+              type="text"
+              class="text-input full-width"
+              formControlName="queryParams"
+              [placeholder]="t('button.properties.enterParameters')"
+            ></qo-input>
+          </div>
+        } -->
+
+        <div class="panel-card">
+          <label class="field-label">{{ t('common.openIn') }}</label>
+          <qo-select
+            class="panel-select"
+            formControlName="openIn"
+            [options]="openInOptions()"
+          ></qo-select>
+        </div>
+      }
+    }
+
+    @if (activeTab() === 'style') {
+      <app-button-style-panel
+        [styleConfig]="localStyleConfig()"
+        [isIconOnly]="false"
+        (styleConfigChange)="updateStyleConfig($event)"
+      ></app-button-style-panel>
+
+      <qo-button class="delete-btn" variant="ghost" size="sm" (click)="deleteElement()">{{ t('panelConfig.deleteElement') }}</qo-button>
+    }
+  </div>
+</div>

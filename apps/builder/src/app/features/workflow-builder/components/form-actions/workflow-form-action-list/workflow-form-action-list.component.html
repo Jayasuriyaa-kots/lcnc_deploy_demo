@@ -1,0 +1,23 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+@if (!workflows().length) {
+  <qo-empty-state
+    icon="sparkles"
+    [title]="t('emptyStates.formWorkflows.title')"
+    [description]="t('emptyStates.formWorkflows.description')"
+  />
+} @else {
+  <div class="workflow-form-action-list">
+    @for (workflow of workflows(); track workflow.id) {
+      <app-workflow-form-action-card
+        [workflow]="workflow"
+        [detail]="workflowDetails()[workflow.id] ?? null"
+        [selected]="selectedWorkflowId() === workflow.id"
+        [historyCount]="executionCounts()[workflow.id] ?? 0"
+        (select)="select.emit($event)"
+        (edit)="edit.emit($event)"
+        (openHistory)="openHistory.emit($event)"
+      />
+    }
+  </div>
+}
+</ng-container>

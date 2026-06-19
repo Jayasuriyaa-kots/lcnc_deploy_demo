@@ -1,0 +1,67 @@
+<div class="library-header">
+  <span class="library-header__title">{{ t('library.title') }}</span>
+  <qo-button type="button" variant="ghost" size="sm" class="library-header__close" (click)="close()">
+    <qo-icon name="x" size="sm"></qo-icon>
+  </qo-button>
+</div>
+
+<div class="library-search">
+  <qo-input
+    class="library-search__input"
+    type="search"
+    [placeholder]="t('library.searchPlaceholder')"
+    prefixIcon="search"
+    (valueChange)="updateSearchValue($event)">
+  </qo-input>
+</div>
+
+<div class="library-body">
+  @if (filteredBasic().length) {
+    <div class="library-group">
+      <div class="library-group__label">{{ t('library.basicFields') }}</div>
+      @for (field of filteredBasic(); track field.type) {
+        <qo-button
+          class="library-item"
+          variant="ghost"
+          type="button"
+          (click)="addField(field)">
+          <span class="library-item__icon">
+            <qo-icon [name]="getFieldIconName(field.icon)" size="sm"></qo-icon>
+          </span>
+          <span class="library-item__name">{{ field.label }}</span>
+          <span class="library-item__add">
+            <qo-icon name="plus" size="sm"></qo-icon>
+          </span>
+        </qo-button>
+      }
+    </div>
+  }
+
+  @if (filteredAdvanced().length) {
+    <div class="library-group">
+      <div class="library-group__label">{{ t('library.advancedFields') }}</div>
+      @for (field of filteredAdvanced(); track field.type) {
+        <qo-button
+          class="library-item"
+          variant="ghost"
+          type="button"
+          (click)="addField(field)">
+          <span class="library-item__icon">
+            <qo-icon [name]="getFieldIconName(field.icon)" size="sm"></qo-icon>
+          </span>
+          <span class="library-item__name">{{ field.label }}</span>
+          <span class="library-item__add">
+            <qo-icon name="plus" size="sm"></qo-icon>
+          </span>
+        </qo-button>
+      }
+    </div>
+  }
+
+  @if (!filteredBasic().length && !filteredAdvanced().length) {
+    <div class="library-empty">
+      <qo-icon name="search" size="lg"></qo-icon>
+      <p>No fields match "{{ searchTerm() || searchQuery() }}"</p>
+    </div>
+  }
+</div>

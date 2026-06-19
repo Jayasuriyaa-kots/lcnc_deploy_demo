@@ -1,0 +1,53 @@
+{
+  "formId": "attendance-form",
+  "formLabel": "Attendance Form",
+  "tableName": "attendance_logs",
+  "actionLabels": ["Submit"],
+  "fields": [
+    {
+      "id": "employee_code",
+      "label": "Employee Code",
+      "dbColumn": "employee_code",
+      "type": "text",
+      "placeholder": "Enter employee code",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "log_date",
+      "label": "Log Date",
+      "dbColumn": "log_date",
+      "type": "date",
+      "placeholder": "Select log date",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "check_in",
+      "label": "Check In",
+      "dbColumn": "check_in",
+      "type": "time",
+      "placeholder": "Select check in time",
+      "required": false,
+      "options": []
+    },
+    {
+      "id": "check_out",
+      "label": "Check Out",
+      "dbColumn": "check_out",
+      "type": "time",
+      "placeholder": "Select check out time",
+      "required": false,
+      "options": []
+    },
+    {
+      "id": "notes",
+      "label": "Notes",
+      "dbColumn": "notes",
+      "type": "textarea",
+      "placeholder": "Add attendance notes",
+      "required": false,
+      "options": []
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.qo-metric-strip {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--qo-color-neutral-50);
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  padding: var(--qo-space-1) var(--qo-space-3);
+}
+
+.qo-metric-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--qo-space-2);
+  padding: 0 var(--qo-space-2);
+}
+
+.qo-metric-label {
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-xs);
+  color: var(--qo-color-neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.qo-metric-value {
+  font-family: var(--qo-font-family-mono);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-bold);
+  color: var(--qo-color-neutral-900);
+}
+
+.qo-metric-divider {
+  width: 1px;
+  height: 16px;
+  background-color: var(--qo-border-color);
+}

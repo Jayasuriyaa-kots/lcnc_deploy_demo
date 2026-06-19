@@ -1,0 +1,30 @@
+<aside class="side-drawer">
+  <header class="side-drawer__header">
+    <h2>{{ t('generated.bulk_edit') }}</h2>
+    <qo-button class="drawer__close" type="button" variant="ghost" size="sm" [iconOnly]="true" [attr.aria-label]="t('generated.close_drawer')" (click)="closeAll.emit()">
+      <qo-icon name="x" size="sm" />
+    </qo-button>
+  </header>
+
+  <div class="side-drawer__body side-drawer__body--padded">
+    <label class="field">
+      <span>{{ t('generated.choose_fields_to_update') }}</span>
+      <qo-select [options]="bulkEditOptions()" [placeholder]="t('generated.select_fields')"></qo-select>
+    </label>
+
+    <div class="empty-state">
+      <qo-icon name="circle" size="sm" />
+      <strong>{{ t('generated.select_at_least_one_field') }}</strong>
+      <p>
+        {{ t('generated.choose_the_fields_you_want_to_update_then') }}
+      </p>
+    </div>
+  </div>
+
+  <footer class="side-drawer__footer">
+    <qo-button variant="secondary" type="button" (click)="closeAll.emit()">
+      {{ t('generated.cancel') }}
+    </qo-button>
+    <qo-button variant="primary" type="button">{{ t('generated.apply_changes') }}</qo-button>
+  </footer>
+</aside>

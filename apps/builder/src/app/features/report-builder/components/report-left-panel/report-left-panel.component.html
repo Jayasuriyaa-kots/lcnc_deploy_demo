@@ -1,0 +1,36 @@
+    <aside class="panel panel--left">
+      <app-report-left-data-source
+        [sourceFormId]="sourceFormId()"
+        [datasourceOptions]="sourceOptions()"
+        [formOptions]="formOptions()"
+        [sourceFormLabel]="sourceFormLabel()"
+        [datasourceLabel]="datasourceLabel()"
+        [tableLabel]="tableLabel()"
+        (sourceFormChange)="sourceFormChange.emit($event)"
+        (queryRefChange)="queryRefChange.emit($event)">
+      </app-report-left-data-source>
+
+      <app-report-left-filters
+        [allColumns]="allColumns()"
+        [filterPresets]="filterPresets()"
+        [filters]="filterRules()"
+        (apply)="applyFilters.emit($event)"
+        (clear)="clearFilters.emit()">
+      </app-report-left-filters>
+
+      <app-report-left-grouping
+        [allColumns]="allColumns()"
+        [groupBy]="groupBy()"
+        [groupOrder]="groupOrder()"
+        [showRecordCount]="showRecordCount()"
+        (groupByChange)="onGroupByChange($event)"
+        (groupOrderChange)="onGroupOrderChange($event)"
+        (showRecordCountChange)="onShowRecordCountChange($event)">
+      </app-report-left-grouping>
+
+      <app-report-left-sort-by
+        [allColumns]="allColumns()"
+        [sortCriteria]="sortCriteria()"
+        (sortCriteriaChange)="onSortCriteriaChange($event)">
+      </app-report-left-sort-by>
+    </aside>

@@ -1,0 +1,184 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+}
+
+.search-criteria-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--qo-overlay-scrim);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--qo-space-8) var(--qo-space-4);
+}
+
+.search-criteria-modal {
+  width: min(100%, calc(var(--qo-space-16) * 18 + var(--qo-space-12)));
+  max-height: calc(100vh - var(--qo-space-16));
+  margin-top: var(--qo-space-2);
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-xl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-criteria-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--qo-space-5) var(--qo-space-6);
+  border-bottom: 0.0625rem solid var(--qo-border-color);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-3xl);
+  font-weight: var(--qo-font-medium);
+  line-height: var(--qo-leading-normal);
+}
+
+.search-criteria-modal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--qo-space-6) var(--qo-space-6) var(--qo-space-5);
+}
+
+.search-criteria-modal__entry {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.search-criteria-modal__entry + .search-criteria-modal__entry {
+  margin-top: var(--qo-space-1);
+}
+
+.search-criteria-modal__connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(var(--qo-space-8) + var(--qo-space-6));
+  margin-left: var(--qo-space-7);
+}
+
+.search-criteria-modal__connector-line {
+  width: 0.0625rem;
+  height: 1.5rem;
+  background: var(--qo-border-color);
+}
+
+.search-criteria-modal__connector-label {
+  padding: var(--qo-space-2) 0;
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+  line-height: 1;
+}
+
+.search-criteria-modal__row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 1.05fr) auto auto;
+  gap: var(--qo-space-3);
+  align-items: center;
+}
+
+.search-criteria-modal__control {
+  width: 100%;
+}
+
+:host ::ng-deep .search-criteria-modal__control .qo-select-trigger,
+:host ::ng-deep .search-criteria-modal__control .qo-input-element {
+  min-height: var(--qo-space-12);
+  border-radius: var(--qo-radius-lg);
+  font-size: var(--qo-text-sm);
+}
+
+:host ::ng-deep .search-criteria-modal__control .qo-select-dropdown {
+  z-index: 1600;
+}
+
+:host ::ng-deep .search-criteria-modal__delete-button .qo-btn,
+:host ::ng-deep .search-criteria-modal__header .qo-btn {
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+}
+
+.search-criteria-modal__joiner-actions {
+  display: inline-flex;
+  gap: var(--qo-space-3);
+}
+
+.search-criteria-modal__joiner-actions :where(.qo-btn) {
+  min-width: calc(var(--qo-space-16) + var(--qo-space-2) + var(--qo-space-1));
+}
+
+.search-criteria-modal__delete-button {
+  color: var(--qo-color-neutral-400);
+}
+
+.search-criteria-modal__delete-button:hover {
+  color: var(--qo-color-neutral-900);
+}
+
+.search-criteria-modal__add-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+  margin-top: var(--qo-space-5);
+}
+
+.search-criteria-modal__add-joiner-actions {
+  display: inline-flex;
+  gap: var(--qo-space-3);
+}
+
+.search-criteria-modal__add-new {
+  border: 0;
+  background: transparent;
+  color: var(--qo-color-primary-500);
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-normal);
+  line-height: var(--qo-leading-normal);
+  cursor: pointer;
+  padding: 0;
+}
+
+.search-criteria-modal__footer {
+  display: flex;
+  justify-content: center;
+  gap: var(--qo-space-4);
+  padding: var(--qo-space-4) var(--qo-space-6) var(--qo-space-5);
+  border-top: 0.0625rem solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+}
+
+.search-criteria-modal__footer :where(.qo-btn) {
+  min-width: calc(var(--qo-space-16) * 2 + var(--qo-space-2));
+}
+
+@media (max-width: 64rem) {
+  .search-criteria-modal {
+    width: min(100%, calc(var(--qo-space-16) * 15 + var(--qo-space-8)));
+  }
+
+  .search-criteria-modal__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .search-criteria-modal__joiner-actions,
+  .search-criteria-modal__add-joiner-actions {
+    flex-wrap: wrap;
+  }
+
+  .search-criteria-modal__add-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+

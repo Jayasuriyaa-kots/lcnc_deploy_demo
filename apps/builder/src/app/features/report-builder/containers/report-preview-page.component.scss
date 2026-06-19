@@ -1,0 +1,156 @@
+.report-preview-page {
+  height: 100vh;
+  background: var(--qo-color-neutral-100);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Top bar ─────────────────────────────────────────── */
+.report-preview-page__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--qo-space-12);
+  padding: 0 var(--qo-space-5);
+  background: var(--qo-color-neutral-0);
+  border-bottom: 1px solid var(--qo-border-color);
+  flex-shrink: 0;
+}
+
+/* Viewport toggle (segmented control) */
+.report-preview-page__viewport-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--qo-color-neutral-100);
+  border-radius: var(--qo-radius-md);
+  padding: 3px;
+}
+
+.report-preview-page__viewport-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: var(--qo-radius-sm);
+  color: var(--qo-color-neutral-400);
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+}
+
+.report-preview-page__viewport-btn:hover {
+  background: var(--qo-color-neutral-200);
+  color: var(--qo-color-neutral-700);
+}
+
+.report-preview-page__viewport-btn--active {
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-primary-600);
+  box-shadow: var(--qo-shadow-sm);
+}
+
+/* Right side actions */
+.report-preview-page__topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-2);
+}
+
+.report-preview-page__edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-1);
+  padding: 0 var(--qo-space-3);
+  height: 32px;
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 120ms, border-color 120ms;
+}
+
+.report-preview-page__edit-btn:hover {
+  background: var(--qo-color-neutral-50);
+  border-color: var(--qo-border-color-strong);
+}
+
+.report-preview-page__close-btn {
+  padding: 0 var(--qo-space-3);
+  height: 32px;
+  border: none;
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+  font-size: var(--qo-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms;
+}
+
+.report-preview-page__close-btn:hover {
+  background: var(--qo-color-neutral-700);
+}
+
+/* Top-bar buttons are qo-button wrappers — host classes drive the look,
+   inner buttons are transparent, full-size passthroughs. */
+:host ::ng-deep .report-preview-page__viewport-btn .qo-btn,
+:host ::ng-deep .report-preview-page__edit-btn .qo-btn,
+:host ::ng-deep .report-preview-page__close-btn .qo-btn {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+/* ── Viewport frame ──────────────────────────────────── */
+.report-preview-page__frame {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+}
+
+/* Desktop: full bleed, no padding */
+.report-preview-page__frame[data-viewport='desktop'] {
+  padding: 0;
+  align-items: stretch;
+}
+
+/* Tablet / mobile: centered with padding and device shadow */
+.report-preview-page__frame[data-viewport='tablet'],
+.report-preview-page__frame[data-viewport='mobile'] {
+  padding: var(--qo-space-6);
+  background: var(--qo-color-neutral-200);
+}
+
+.report-preview-page__canvas {
+  width: 100%;
+  height: 100%;
+  transition: width 250ms ease;
+}
+
+[data-viewport='tablet'] .report-preview-page__canvas,
+[data-viewport='mobile'] .report-preview-page__canvas {
+  border-radius: var(--qo-radius-lg);
+  overflow: hidden;
+  /* Accepted exception: bespoke device-frame elevation + 1px ring; no single --qo-shadow-* token matches this compound shadow. */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15), 0 0 0 1px var(--qo-border-color);
+}
+
+.report-preview-page__empty {
+  padding: var(--qo-space-5);
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-base);
+}

@@ -1,0 +1,180 @@
+@if (state().effectiveSortCriteria.length || state().groupConfig) {
+  <div class="sort-group-bar">
+    @if (state().effectiveSortCriteria.length) {
+      <div class="sorting-bar">
+        <span class="sorting-bar__label">{{ t('generated.sorting') }}</span>
+        @for (sort of state().sortDescriptors; track sort.columnId) {
+          <qo-button variant="ghost" class="sorting-chip" type="button" (click)="event.emit({type:'sortingChipToggle'})">
+            <span>{{ sort.label }}</span>
+            <span class="sorting-chip__dir">{{ sort.symbol }}</span>
+          </qo-button>
+        }
+        <qo-button variant="ghost" class="sorting-chip sorting-chip--clear" type="button" (click)="event.emit({type:'sortingClear'})">
+          <qo-icon name="x" size="sm" />
+        </qo-button>
+      </div>
+    }
+
+    @if (state().groupConfig) {
+      <div class="sorting-bar">
+        <span class="sorting-bar__label">{{ t('generated.grouping') }}</span>
+        <qo-button variant="ghost" class="sorting-chip" type="button" (click)="event.emit({type:'groupingChipToggle'})">
+          <span>{{ state().groupColumnLabel }}</span>
+          <span class="sorting-chip__dir">{{ state().groupDirSymbol }}</span>
+        </qo-button>
+        <qo-button variant="ghost" class="sorting-chip sorting-chip--action" type="button" [attr.title]="t('generated.collapse_all_groups')"
+          (click)="event.emit({type:'collapseAll'})">
+          <qo-icon name="chevrons-up" size="sm" />
+        </qo-button>
+        <qo-button variant="ghost" class="sorting-chip sorting-chip--action" type="button" [attr.title]="t('generated.expand_all_groups')"
+          (click)="event.emit({type:'expandAll'})">
+          <qo-icon name="chevrons-down" size="sm" />
+        </qo-button>
+        <qo-button variant="ghost" class="sorting-chip sorting-chip--clear" type="button" (click)="event.emit({type:'groupingClear'})">
+          <qo-icon name="x" size="sm" />
+        </qo-button>
+      </div>
+    }
+  </div>
+}
+
+<div class="table-scroll-shell">
+  <div class="table-shell" [class]="'table-shell table-shell--' + state().rowHeight">
+
+    <!-- ── Head ─────────────────────────────────────────────────────────── -->
+    <div class="table-shell__head">
+
+      <!-- Column visibility eye -->
+      <span class="table-shell__icon table-shell__icon--visibility">
+        <qo-button class="column-visibility-trigger" variant="ghost" type="button"
+          [attr.aria-label]="t('generated.show_hide_columns')" (click)="event.emit({type:'visibilityMenuToggle', event:$event})">
+          <qo-icon name="eye" size="sm" />
+        </qo-button>
+
+        @if (state().visibilityMenuOpen) {
+          <div class="column-visibility-menu" (click)="$event.stopPropagation()">
+            <label class="column-visibility-menu__toggle"><span>{{ t('generated.show_hide_columns_2') }}</span></label>
+            @for (column of state().allColumns; track column.id) {
+              <label class="column-visibility-menu__item">
+                <qo-checkbox
+                  [checked]="state().isColumnVisible(column.id)"
+                  (checkedChange)="event.emit({type:'columnVisibilityChange', columnId:column.id, checked:$event})"
+                ></qo-checkbox>
+                <span>{{ column.label }}</span>
+              </label>
+            }
+            <qo-button class="column-visibility-menu__done" variant="secondary" type="button"
+              (click)="event.emit({type:'columnVisibilityDone'})">{{ t('generated.done') }}</qo-button>
+          </div>
+        }
+      </span>
+
+      <!-- Select all checkbox -->
+      <span class="table-shell__checkbox">
+        <qo-checkbox class="row-checkbox"
+          [checked]="state().selectedRowIds.length > 0 && state().groupedRows.every(g => g.rows.every(r => state().selectedRowIds.includes(r.id)))"
+          (click)="$event.stopPropagation()"
+          (checkedChange)="event.emit({type:'selectAll', checked:$event})"
+        ></qo-checkbox>
+      </span>
+
+      <!-- Column headers -->
+      @for (column of state().columns; track column.id) {
+        <span class="table-shell__head-cell" [style]="state().columnStyle(column)">
+          <qo-button class="column-sort-trigger" variant="ghost" type="button"
+            [style.text-align]="column.alignment.toLowerCase()"
+            (click)="event.emit({type:'columnMenuToggle', columnId:column.id, event:$event})">
+            {{ column.label }}
+          </qo-button>
+          <qo-button class="column-menu-trigger" variant="ghost" type="button"
+            (click)="event.emit({type:'columnMenuToggle', columnId:column.id, event:$event})">
+            <qo-icon name="chevron-down" size="sm" />
+          </qo-button>
+
+          @if (state().columnMenuId === column.id) {
+            <div class="column-menu" (click)="$event.stopPropagation()">
+              <qo-button variant="ghost" type="button" (click)="event.emit({type:'columnSearch', columnId:column.id})">{{ t('generated.search_2') }}</qo-button>
+              <qo-button variant="ghost" type="button" (click)="event.emit({type:'sortApply', columnId:column.id, direction:'asc'})">{{ t('generated.sort_by_ascending') }}</qo-button>
+              <qo-button variant="ghost" type="button" (click)="event.emit({type:'sortApply', columnId:column.id, direction:'desc'})">{{ t('generated.sort_by_descending') }}</qo-button>
+              <qo-button variant="ghost" type="button" (click)="event.emit({type:'groupApply', columnId:column.id, direction:'asc'})">{{ t('generated.group_by_ascending') }}</qo-button>
+              <qo-button variant="ghost" type="button" (click)="event.emit({type:'groupApply', columnId:column.id, direction:'desc'})">{{ t('generated.group_by_descending') }}</qo-button>
+              @if (state().isColumnPinned(column.id)) {
+                <qo-button type="button" variant="ghost" class="column-menu__pin-btn" (click)="event.emit({type:'unpinColumn', columnId:column.id})">
+                  <qo-icon name="pin-off" size="sm" /> {{ t('generated.unpin_column') }}
+                </qo-button>
+              } @else {
+                <qo-button type="button" variant="ghost" class="column-menu__pin-btn" (click)="event.emit({type:'pinColumn', columnId:column.id})">
+                  <qo-icon name="pin" size="sm" /> {{ t('generated.pin_column') }}
+                </qo-button>
+              }
+              <qo-button variant="ghost" type="button" (click)="event.emit({type:'hideColumn', columnId:column.id})">{{ t('generated.hide_column') }}</qo-button>
+            </div>
+          }
+        </span>
+      }
+    </div>
+
+    <!-- ── Rows ──────────────────────────────────────────────────────────── -->
+    @for (group of state().groupedRows; track $index; let groupIndex = $index) {
+      @if (group.label) {
+        <div class="table-shell__group"
+          [class.table-shell__group--collapsed]="state().collapsedGroups.has(group.label)"
+          (click)="event.emit({type:'groupToggle', label:group.label})">
+          <span class="table-shell__icon table-shell__group-chevron"><qo-icon name="chevron-right" size="sm" /></span>
+          <span class="table-shell__checkbox"></span>
+          <span class="table-shell__group-label">{{ group.label }} <span class="table-shell__group-count">({{ group.rows.length }})</span></span>
+        </div>
+      }
+
+      @if (!group.label || !state().collapsedGroups.has(group.label)) {
+        @for (row of group.rows; track row.id; let rowIndex = $index) {
+          <div class="table-shell__row"
+            [class.table-shell__row--selected]="state().selectedRowIds.includes(row.id)"
+            [class.table-shell__row--detail-active]="state().activeDetailRowId === row.id"
+            [class.table-shell__row--menu-open]="state().rowMenuId === groupIndex + '-' + rowIndex"
+            (click)="event.emit({type:'rowClick', row:row})"
+            (contextmenu)="event.emit({type:'contextMenu', row:row, event:$event})">
+
+            <!-- Row action menu -->
+            <span class="table-shell__icon table-shell__icon--actions">
+              <qo-button class="row-menu-trigger" variant="ghost" [iconOnly]="true"
+                [attr.aria-label]="t('generated.row_actions')" type="button"
+                (mousedown)="$event.stopPropagation()"
+                (click)="event.emit({type:'rowMenuToggle', rowKey:groupIndex+'-'+rowIndex, event:$event})">
+                <qo-icon name="more-vertical" size="sm" />
+              </qo-button>
+              @if (state().rowMenuId === groupIndex + '-' + rowIndex) {
+                <div class="row-menu" (click)="$event.stopPropagation()">
+                  @for (action of state().rowActions; track action.key) {
+                    <qo-button variant="ghost" type="button" (click)="event.emit({type:'rowAction', action:action.key, row:row})">
+                      <qo-icon [name]="action.icon" size="sm" />
+                      <span>{{ action.label }}</span>
+                    </qo-button>
+                  }
+                </div>
+              }
+            </span>
+
+            <!-- Row checkbox -->
+            <span class="table-shell__checkbox">
+              <qo-checkbox class="row-checkbox"
+                [checked]="state().selectedRowIds.includes(row.id)"
+                (click)="$event.stopPropagation()"
+                (checkedChange)="event.emit({type:'checkboxChange', rowId:row.id})"
+              ></qo-checkbox>
+            </span>
+
+            <!-- Data cells -->
+            @for (column of state().columns; track column.id) {
+              <span [style]="state().columnStyle(column)">{{ row.fields[column.id] }}</span>
+            }
+          </div>
+        }
+      }
+    }
+
+    @if (state().groupedRows.length === 0 || state().groupedRows[0].rows.length === 0) {
+      <div class="table-shell__empty">{{ t('generated.no_rows_found') }}</div>
+    }
+  </div>
+</div>

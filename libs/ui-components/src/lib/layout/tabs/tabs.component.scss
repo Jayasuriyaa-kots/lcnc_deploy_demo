@@ -1,0 +1,70 @@
+:host {
+  display: block;
+  width: 100%;
+  --_qo-tabs-border-color: var(--qo-tabs-border-color, var(--qo-border-color));
+  --_qo-tabs-gap: var(--qo-tabs-gap, var(--qo-space-6));
+  --_qo-tab-color: var(--qo-tab-color, var(--qo-color-neutral-600));
+  --_qo-tab-hover-color: var(--qo-tab-hover-color, var(--qo-color-neutral-900));
+  --_qo-tab-active-color: var(--qo-tab-active-color, var(--qo-color-primary-600));
+  --_qo-tab-disabled-color: var(--qo-tab-disabled-color, var(--qo-color-neutral-400));
+  --_qo-tab-hover-underline: var(--qo-tab-hover-underline, var(--qo-color-neutral-300));
+  --_qo-tab-active-underline: var(--qo-tab-active-underline, var(--qo-color-primary-600));
+  --_qo-tab-padding: var(--qo-tab-padding, var(--qo-space-3) 0);
+  --_qo-tab-font-size: var(--qo-tab-font-size, var(--qo-text-sm));
+  --_qo-tab-font-weight: var(--qo-tab-font-weight, var(--qo-font-medium));
+  --_qo-tabs-body-padding: var(--qo-tabs-body-padding, var(--qo-space-5) 0);
+}
+
+.qo-tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.qo-tabs-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--_qo-tabs-border-color);
+  gap: var(--_qo-tabs-gap);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.qo-tab-btn {
+  background: transparent;
+  border: none;
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--_qo-tab-font-size);
+  font-weight: var(--_qo-tab-font-weight);
+  color: var(--_qo-tab-color);
+  padding: var(--_qo-tab-padding);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: -1px;
+
+  &:hover:not(.qo-tab-btn-disabled):not(.qo-tab-btn-active) {
+    color: var(--_qo-tab-hover-color);
+    border-bottom-color: var(--_qo-tab-hover-underline);
+  }
+
+  &-active {
+    color: var(--_qo-tab-active-color);
+    border-bottom-color: var(--_qo-tab-active-underline);
+  }
+
+  &-disabled {
+    color: var(--_qo-tab-disabled-color);
+    cursor: not-allowed;
+  }
+}
+
+.qo-tabs-body {
+  padding: var(--_qo-tabs-body-padding);
+  width: 100%;
+}

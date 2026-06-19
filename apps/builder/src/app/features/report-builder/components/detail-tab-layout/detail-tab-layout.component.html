@@ -1,0 +1,234 @@
+@if (promptOpen()) {
+  <div class="dtl-backdrop" (click)="cancelPrompt()"></div>
+  <div class="dtl-prompt" role="dialog" [attr.aria-label]="t('generated.name_new_tab')">
+    <p class="dtl-prompt__heading">{{ t('generated.tab_name') }}</p>
+    <qo-input
+      class="dtl-prompt__input"
+      type="text"
+      [placeholder]="t('generated.e_g_documents')"
+      [value]="promptValue()"
+      (valueChange)="promptValue.set($event)"
+      (keydown.enter)="confirmPrompt()"
+      (keydown.escape)="cancelPrompt()"
+      autofocus />
+    <div class="dtl-prompt__row">
+      <qo-button class="dtl-btn" type="button" variant="ghost" size="sm" (click)="cancelPrompt()">{{ common('cancel') }}</qo-button>
+      <qo-button class="dtl-btn" type="button" variant="primary" size="sm" (click)="confirmPrompt()">{{ t('detailLayout.addTab') }}</qo-button>
+    </div>
+  </div>
+}
+
+<div class="dtl-shell">
+  @if (activeTab(); as tab) {
+    <nav class="dtl-tab-rail" [attr.aria-label]="t('generated.tabs')">
+      @for (item of tabs(); track item.id) {
+        <qo-button
+          type="button"
+          variant="ghost"
+          size="sm"
+          class="dtl-tab-pill"
+          [class.dtl-tab-pill--active]="item.id === activeTabId()"
+          (click)="selectTab(item.id)">
+          {{ item.title }}
+        </qo-button>
+      }
+    </nav>
+
+    <section class="dtl-editor">
+      <header class="dtl-editor__head">
+        @if (renamingId() === tab.id) {
+          <qo-input
+            class="dtl-tab__rename"
+            type="text"
+            [value]="renamingValue()"
+            (valueChange)="renamingValue.set($event)"
+            (keydown.enter)="commitRename(tab.id)"
+            (keydown.escape)="renamingId.set(null)"
+            (focusout)="commitRename(tab.id)"
+            autofocus />
+        } @else {
+          <h3>{{ tab.title }}</h3>
+        }
+
+        <div class="dtl-editor__actions">
+          <qo-button
+            class="dtl-icon-btn"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [iconOnly]="true"
+            iconLeft="edit"
+            [attr.title]="t('generated.rename_tab')"
+            (click)="startRename(tab)">
+          </qo-button>
+          <qo-button
+            class="dtl-icon-btn dtl-icon-btn--del"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [iconOnly]="true"
+            iconLeft="trash-2"
+            [attr.title]="t('generated.delete_tab')"
+            (click)="deleteActiveTab(tab.id)">
+          </qo-button>
+        </div>
+      </header>
+
+      <div
+        class="dtl-tab__fields"
+        cdkDropList
+        [id]="tab.id"
+        [cdkDropListData]="tab.fieldIds"
+        [cdkDropListConnectedTo]="connectedIds()"
+        (cdkDropListDropped)="drop($event, tab.id)">
+        @for (fieldId of tab.fieldIds; track fieldId) {
+          <div class="dtl-tab__field" cdkDrag [cdkDragData]="fieldId">
+            <span class="dtl-tab__handle" cdkDragHandle aria-hidden="true">::</span>
+            <span class="dtl-tab__field-name">{{ label(fieldId) }}</span>
+            <qo-button
+              class="dtl-tab__remove"
+              type="button"
+              variant="ghost"
+              size="sm"
+              [iconOnly]="true"
+              iconLeft="x"
+              [attr.title]="t('generated.remove_field')"
+              (click)="removeField(tab.id, fieldId)">
+            </qo-button>
+          </div>
+        } @empty {
+          <div class="dtl-tab__empty">{{ t('generated.drop_fields_here_or_use_add_fields') }}</div>
+        }
+      </div>
+
+      @for (block of tab.blocks ?? []; track block.id) {
+        <section class="dtl-block">
+          <header class="dtl-block__head">
+            @if (renamingBlockId() === block.id) {
+              <qo-input
+                class="dtl-block__rename"
+                type="text"
+                [value]="renamingBlockValue()"
+                (valueChange)="renamingBlockValue.set($event)"
+                (keydown.enter)="commitBlockRename(tab.id, block.id)"
+                (keydown.escape)="renamingBlockId.set(null)"
+                (focusout)="commitBlockRename(tab.id, block.id)"
+                autofocus />
+            } @else {
+              <span>{{ block.title }}</span>
+            }
+            <div class="dtl-block__actions">
+              <qo-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                [iconOnly]="true"
+                iconLeft="edit"
+                [attr.title]="t('generated.rename_block')"
+                (click)="startBlockRename(block)">
+              </qo-button>
+              <qo-button
+                class="dtl-block__split"
+                type="button"
+                variant="ghost"
+                size="sm"
+                [iconOnly]="true"
+                iconLeft="columns"
+                [disabled]="getBlockColumns(block).length >= 2"
+                [class.dtl-block__split--disabled]="getBlockColumns(block).length >= 2"
+                [attr.title]="getBlockColumns(block).length >= 2 ? t('generated.max_2_columns_reached') : t('generated.split_into_2_columns')"
+                (click)="splitBlock(tab.id, block.id)">
+              </qo-button>
+              <qo-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                [iconOnly]="true"
+                [iconLeft]="isBlockCollapsed(block.id) ? 'plus' : 'minus'"
+                [attr.title]="t('generated.minimize_block')"
+                (click)="toggleBlockCollapsed(block.id)">
+              </qo-button>
+              <qo-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                [iconOnly]="true"
+                iconLeft="x"
+                [attr.title]="t('generated.delete_block')"
+                (click)="deleteBlock(tab.id, block.id)">
+              </qo-button>
+            </div>
+          </header>
+          @if (!isBlockCollapsed(block.id)) {
+          <div class="dtl-block__columns" [class.dtl-block__columns--split]="getBlockColumns(block).length > 1">
+            @for (column of getBlockColumns(block); track $index; let colIndex = $index) {
+              <div class="dtl-block__column">
+                @if (getBlockColumns(block).length > 1) {
+                  <div class="dtl-block__column-head">
+                    <span>{{ t('generated.column', { index: colIndex + 1 }) }}</span>
+                    <qo-button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      [iconOnly]="true"
+                      iconLeft="x"
+                      [attr.title]="t('generated.remove_column')"
+                      (click)="removeBlockColumn(tab.id, block.id, colIndex)">
+                    </qo-button>
+                  </div>
+                }
+                <div
+                  class="dtl-tab__fields dtl-block__fields"
+                  cdkDropList
+                  [id]="block.id + '__col' + colIndex"
+                  [cdkDropListData]="column"
+                  [cdkDropListConnectedTo]="connectedIds()"
+                  (cdkDropListDropped)="dropBlockField($event, tab.id, block.id, colIndex)">
+                  @for (fieldId of column; track fieldId) {
+                    <div class="dtl-tab__field" cdkDrag [cdkDragData]="fieldId">
+                      <span class="dtl-tab__handle" cdkDragHandle aria-hidden="true">::</span>
+                      <span class="dtl-tab__field-name">{{ label(fieldId) }}</span>
+                      <qo-button
+                        class="dtl-tab__remove"
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        [iconOnly]="true"
+                        iconLeft="x"
+                        [attr.title]="t('generated.remove_field')"
+                        (click)="removeBlockField(tab.id, block.id, fieldId)">
+                      </qo-button>
+                    </div>
+                  } @empty {
+                    <div class="dtl-tab__empty">{{ t('generated.use_add_fields_to_add_fields_to_this') }}</div>
+                  }
+                </div>
+                <div class="dtl-tab__footer">
+                  <qo-select
+                    [options]="addableOptions(getBlockColumns(block).flat())"
+                    [placeholder]="t('generated.add_fields')"
+                    (valueChange)="onAddBlockField(tab.id, block.id, $event, colIndex)">
+                  </qo-select>
+                </div>
+              </div>
+            }
+          </div>
+          }
+        </section>
+      }
+
+      <div class="dtl-tab__footer">
+        <div class="dtl-tab__footer-actions">
+          <qo-select
+            [options]="addableOptions(tab.fieldIds)"
+            [placeholder]="t('generated.add_fields')"
+            (valueChange)="onAddField(tab.id, $event)">
+          </qo-select>
+          <qo-button class="dtl-add-block" type="button" variant="secondary" size="sm" (click)="addBlock(tab.id)">{{ t('common.addBlock') }}</qo-button>
+        </div>
+      </div>
+    </section>
+  } @else {
+    <div class="dtl-empty-state">{{ t('generated.click_add_tab_to_create_a_tab_layout') }}</div>
+  }
+</div>

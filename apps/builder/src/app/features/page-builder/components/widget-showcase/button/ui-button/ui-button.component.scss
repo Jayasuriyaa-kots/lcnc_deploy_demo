@@ -1,0 +1,128 @@
+:host {
+  display: inline-block;
+}
+
+:host-context(.page-builder-edit__canvas-button-widget) {
+  width: 100%;
+}
+
+:host-context(.page-canvas__button-group),
+:host-context(.page-builder-edit__button-group) {
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--qo-space-2);
+  min-width: 0;
+  min-height: 0;
+  font-family: var(--qo-font-family-sans, inherit);
+  font-weight: var(--qo-font-medium, 500);
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    opacity 180ms ease;
+  outline: none;
+  white-space: nowrap;
+}
+
+:host-context(.page-canvas__button-group) button,
+:host-context(.page-builder-edit__button-group) button {
+  width: 100%;
+}
+
+button.button--fill-container {
+  width: 100%;
+  height: 100%;
+}
+
+.button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.button-icon__image {
+  display: block;
+  object-fit: contain;
+}
+
+.button-icon .material-symbols-outlined {
+  font-size: var(--qo-text-lg);
+  line-height: 1;
+}
+
+button.size-sm {
+  padding: calc(var(--qo-space-1) + (var(--qo-space-1) / 2)) var(--qo-space-4);
+  font-size: var(--qo-text-xs);
+}
+
+button.size-md {
+  padding: calc(var(--qo-space-2) + (var(--qo-space-1) / 2))
+    calc(var(--qo-space-5) + (var(--qo-space-1) / 2));
+  font-size: var(--qo-text-sm);
+}
+
+button.size-lg {
+  padding: calc(var(--qo-space-3) + (var(--qo-space-1) / 4))
+    calc(var(--qo-space-6) + var(--qo-space-1));
+  font-size: var(--qo-text-base);
+}
+
+button.icon-only {
+  min-width: 0;
+  min-height: 0;
+  padding: var(--qo-space-2);
+  border-radius: var(--qo-radius-md);
+}
+
+button.radius-sm {
+  border-radius: var(--qo-radius-sm);
+}
+
+button.radius-md {
+  border-radius: var(--qo-radius-md);
+}
+
+button.radius-full {
+  border-radius: var(--qo-radius-full);
+}
+
+button.v-primary-filled {
+  background: var(--qo-color-primary-500);
+  color: var(--qo-color-neutral-0);
+  border: 0.125rem solid var(--qo-color-primary-500);
+  font-weight: var(--qo-font-semibold, 600);
+}
+
+button.v-primary-outline {
+  background: transparent;
+  color: var(--qo-color-primary-500);
+  border: 0.09375rem solid var(--qo-color-primary-500);
+}
+
+button.v-rounded-outline {
+  background: transparent;
+  color: var(--qo-color-primary-500);
+  border: 0.09375rem solid var(--qo-color-primary-500);
+}
+
+button.v-flat-light,
+button.v-flat-rounded-light {
+  background: var(--qo-color-neutral-100);
+  color: var(--qo-color-primary-500);
+  border: 0.09375rem solid transparent;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

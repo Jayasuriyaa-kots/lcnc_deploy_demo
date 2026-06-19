@@ -1,0 +1,180 @@
+        <section class="datasources-page__form-card">
+          <div class="datasources-page__form-card-title">{{ t('configSections.connection') }}</div>
+          <div class="datasources-page__form-grid">
+            <qo-form-field [label]="t('uiText.datasourceName')" [required]="true" [error]="facade.configForm.controls.name.touched && facade.configForm.controls.name.invalid ? 'Datasource name is required.' : ''">
+              <qo-input formControlName="name" [placeholder]="t('uiText.enterDatasourceName')"></qo-input>
+            </qo-form-field>
+
+            @if (facade.isConnector('postgresql', 'mysql')) {
+              <qo-form-field [label]="t('uiText.connectionMethod')" [required]="true">
+                <qo-select formControlName="connectionMethod" [options]="facade.connectionMethodOptions"></qo-select>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('postgresql', 'mongodb', 'mssql')) {
+              <qo-form-field [label]="t('uiText.connectionMode')" [required]="true">
+                <qo-select formControlName="accessMode" [options]="facade.accessModeOptions"></qo-select>
+              </qo-form-field>
+            }
+
+            @if (facade.showMongoFields()) {
+              <qo-form-field [label]="t('uiText.useMongoConnectionStringURI')" [required]="true">
+                <qo-select formControlName="useMongoUri" [options]="facade.yesNoOptions"></qo-select>
+              </qo-form-field>
+
+              <qo-form-field [label]="t('uiText.connectionType')" [required]="true">
+                <qo-select formControlName="mongoConnectionType" [options]="facade.mongoConnectionTypeOptions"></qo-select>
+              </qo-form-field>
+
+              @if (facade.showMongoUriFields()) {
+                <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.mongoConnectionURI')" [required]="true">
+                  <qo-input formControlName="mongoUri" [placeholder]="t('uiText.mongodbSrvCluster0MongodbNet')"></qo-input>
+                </qo-form-field>
+              }
+            }
+
+            @if (facade.showDatabaseConnectionFields() || facade.showMongoHostFields()) {
+              <qo-form-field [label]="t('uiText.hostAddress')" [required]="true">
+                <qo-input formControlName="host" [placeholder]="t('uiText.localhost')"></qo-input>
+              </qo-form-field>
+
+              <qo-form-field [label]="t('uiText.port')" [required]="facade.isConnector('postgresql','mysql','mssql','redis','arangodb','oracle','mongodb')">
+                <qo-input formControlName="port" [placeholder]="t('uiText.5432')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.showElasticFields()) {
+              <qo-form-field [label]="t('uiText.hostURL')" [required]="true">
+                <qo-input formControlName="hostUrl" [placeholder]="t('uiText.httpsSearchExampleCom')"></qo-input>
+              </qo-form-field>
+
+              <qo-form-field [label]="t('uiText.port')" [required]="true">
+                <qo-input formControlName="port" [placeholder]="t('uiText.9200')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('postgresql', 'mysql', 'mssql', 'arangodb')) {
+              <qo-form-field [label]="t('uiText.databaseName')" [required]="true">
+                <qo-input formControlName="databaseName" [placeholder]="t('uiText.mydb')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('mysql')) {
+              <qo-form-field [label]="t('uiText.serverTimezoneOverride')">
+                <qo-input formControlName="serverTimezoneOverride" [placeholder]="t('uiText.asiaKolkata')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('mongodb')) {
+              <qo-form-field [label]="t('uiText.defaultDatabaseName')">
+                <qo-input formControlName="databaseName" [placeholder]="t('uiText.analytics')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('redis')) {
+              <qo-form-field [label]="t('uiText.databaseNumber')" [required]="true">
+                <qo-input formControlName="databaseNumber" [placeholder]="t('uiText.0')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('oracle')) {
+              <qo-form-field [label]="t('uiText.serviceName')" [required]="true">
+                <qo-input formControlName="serviceName" [placeholder]="t('uiText.oRCL')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('firestore')) {
+              <qo-form-field [label]="t('uiText.databaseURL')" [required]="true">
+                <qo-input formControlName="databaseUrl" [placeholder]="t('uiText.httpsYourProjectIdFirebaseioCom')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.projectID')" [required]="true">
+                <qo-input formControlName="projectId" [placeholder]="t('uiText.firebaseProjectId')"></qo-input>
+              </qo-form-field>
+              <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.serviceAccountCredentials')" [required]="true">
+                <qo-textarea formControlName="serviceAccountCredentials" [rows]="6" [placeholder]="t('uiText.newlineQuoteTypeQuoteQuoteServiceAccountQuoteNewline')"></qo-textarea>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('snowflake')) {
+              <qo-form-field [label]="t('uiText.accountName')" [required]="true">
+                <qo-input formControlName="accountName" [placeholder]="t('uiText.xy12345ApSouth1')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.warehouse')" [required]="true">
+                <qo-input formControlName="warehouse" [placeholder]="t('uiText.cOMPUTEWH')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.database')" [required]="true">
+                <qo-input formControlName="databaseName" [placeholder]="t('uiText.aNALYTICS')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.defaultSchema')">
+                <qo-input formControlName="defaultSchema" [placeholder]="t('uiText.pUBLIC')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.role')">
+                <qo-input formControlName="role" [placeholder]="t('uiText.sYSADMIN')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('databricks')) {
+              <qo-form-field [label]="t('uiText.configurationMethod')" [required]="true">
+                <qo-select formControlName="configurationMethod" [options]="facade.databricksConfigurationMethodOptions"></qo-select>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.host')" [required]="true">
+                <qo-input formControlName="host" [placeholder]="t('uiText.dbc123CloudDatabricksCom')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.port')" [required]="true">
+                <qo-input formControlName="port" [placeholder]="t('uiText.443')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.hTTPPath')" [required]="true">
+                <qo-input formControlName="httpPath" [placeholder]="t('uiText.sql10WarehousesToken')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.defaultCatalog')">
+                <qo-input formControlName="defaultCatalog" [placeholder]="t('uiText.main')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.defaultSchema')">
+                <qo-input formControlName="defaultSchema" [placeholder]="t('uiText.default')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.showRestFields()) {
+              <qo-form-field [label]="t('uiText.hTTPMethod')" [required]="true">
+                <qo-select formControlName="httpMethod" [options]="facade.httpMethodOptions"></qo-select>
+              </qo-form-field>
+              <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.endpointURL')" [required]="true">
+                <qo-input formControlName="endpointUrl" [placeholder]="t('uiText.v1Resource')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.showGraphqlFields()) {
+              <qo-form-field [label]="t('uiText.hTTPMethod')" [required]="true">
+                <qo-select formControlName="httpMethod" [options]="facade.graphqlMethodOptions"></qo-select>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.endpointURL')" [required]="true">
+                <qo-input formControlName="endpointUrl" [placeholder]="t('uiText.httpsApiExampleComGraphql')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.showAuthenticatedRestFields()) {
+              <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.uRI')" [required]="true">
+                <qo-input formControlName="baseUrl" [placeholder]="t('uiText.httpsApiExampleCom')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.showAuthenticatedGraphqlFields()) {
+              <qo-form-field class="datasources-page__form-grid-span" [label]="t('uiText.uRL')" [required]="true">
+                <qo-input formControlName="baseUrl" [placeholder]="t('uiText.httpsApiExampleComGraphql')"></qo-input>
+              </qo-form-field>
+            }
+
+            @if (facade.isConnector('dynamodb')) {
+              <qo-form-field [label]="t('uiText.region')" [required]="true">
+                <qo-select formControlName="region" [options]="facade.awsRegionOptions"></qo-select>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.aWSAccessKeyID')" [required]="true">
+                <qo-input formControlName="accessKeyId" [placeholder]="t('uiText.aKIA')"></qo-input>
+              </qo-form-field>
+              <qo-form-field [label]="t('uiText.aWSSecretAccessKey')" [required]="true">
+                <qo-input formControlName="secretAccessKey" type="password" [placeholder]="t('uiText.encryptedAWSSecret')"></qo-input>
+              </qo-form-field>
+            }
+          </div>
+        </section>
+

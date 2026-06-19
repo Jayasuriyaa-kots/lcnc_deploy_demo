@@ -1,0 +1,102 @@
+<div class="search-criteria-modal__backdrop" (click)="close()">
+  <div
+    class="search-criteria-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="search-criteria-title"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="search-criteria-modal__header">
+      <div id="search-criteria-title">{{ title() }}</div>
+      <qo-button
+        variant="ghost"
+        size="md"
+        iconLeft="x"
+        [iconOnly]="true"
+        aria-label="Close"
+        (click)="close()"
+      ></qo-button>
+    </div>
+
+    <div class="search-criteria-modal__body" [formGroup]="criteriaForm">
+      <div formArrayName="rows">
+      @for (row of rulesArray.controls; track row.controls.id.value; let index = $index) {
+        <div class="search-criteria-modal__entry">
+          @if (index > 0) {
+            <div class="search-criteria-modal__connector">
+              <span class="search-criteria-modal__connector-line" aria-hidden="true"></span>
+              <span class="search-criteria-modal__connector-label">{{ row.controls.joiner.value }}</span>
+            </div>
+          }
+
+          <div class="search-criteria-modal__row" [formGroup]="row">
+            <qo-select
+              class="search-criteria-modal__control"
+              formControlName="field"
+              [options]="fieldOptions()"
+              [placeholder]="t('search.criteriaModal.selectField')"
+              (valueChange)="updateCriteriaField(row.controls.id.value, $event)"
+            ></qo-select>
+
+            <qo-select
+              class="search-criteria-modal__control"
+              formControlName="operator"
+              [options]="operatorOptions()"
+              [placeholder]="t('search.criteriaModal.selectOperator')"
+              (valueChange)="updateCriteriaOperator(row.controls.id.value, $event)"
+            ></qo-select>
+
+            <qo-input
+              class="search-criteria-modal__control"
+              formControlName="value"
+              [placeholder]="t('search.criteriaModal.enterValue')"
+              (valueChange)="updateCriteriaValue(row.controls.id.value, $event)"
+            ></qo-input>
+
+            <qo-button
+              class="search-criteria-modal__delete-button"
+              variant="ghost"
+              size="md"
+              iconLeft="trash"
+              [iconOnly]="true"
+              aria-label="Remove criteria row"
+              (click)="removeCriteriaRow(row.controls.id.value)"
+            ></qo-button>
+
+            @if (index > 0) {
+              <div class="search-criteria-modal__joiner-actions">
+                <qo-button
+                  size="sm"
+                  [variant]="row.controls.joiner.value === 'AND' ? 'primary' : 'secondary'"
+                  (click)="setCriteriaJoiner(row.controls.id.value, 'AND')"
+                >{{ t('search.criteriaModal.and') }}</qo-button>
+                <qo-button
+                  size="sm"
+                  [variant]="row.controls.joiner.value === 'OR' ? 'primary' : 'secondary'"
+                  (click)="setCriteriaJoiner(row.controls.id.value, 'OR')"
+                >{{ t('search.criteriaModal.or') }}</qo-button>
+              </div>
+            }
+          </div>
+        </div>
+      }
+      </div>
+
+      <div class="search-criteria-modal__add-row">
+        <qo-button class="search-criteria-modal__add-new" type="button" variant="secondary" (click)="addCriteriaRow()">
+          + Add New
+        </qo-button>
+        <div class="search-criteria-modal__add-joiner-actions">
+          <qo-button size="sm" variant="secondary" (click)="addCriteriaRowWithJoiner('AND')">{{ t('search.criteriaModal.and') }}</qo-button>
+          <qo-button size="sm" variant="secondary" (click)="addCriteriaRowWithJoiner('OR')">{{ t('search.criteriaModal.or') }}</qo-button>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-criteria-modal__footer">
+      <qo-button variant="primary" size="lg" (click)="submit()">Done</qo-button>
+      <qo-button variant="secondary" size="lg" (click)="close()">{{ 'actions.cancel' | transloco }}</qo-button>
+    </div>
+  </div>
+</div>
+

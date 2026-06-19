@@ -1,0 +1,53 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<section class="workflow-page">
+  <div class="workflow-page__section">
+    <qo-workflow-page-header
+      [title]="t('pages.actionButtons.title')"
+      [subtitle]="t('pages.actionButtons.subtitle')"
+    />
+  </div>
+
+  <div class="workflow-page__section">
+    <qo-workflow-toolbar
+      [createLabel]="t('toolbar.newAction')"
+      [searchPlaceholder]="t('toolbar.searchActionButtons')"
+      [countLabel]="facade.actionButtonCountLabel()"
+      [searchValue]="facade.getSearch('action-buttons')"
+      (create)="onCreateAction()"
+      (searchChange)="onSearchChange($event)"
+    />
+  </div>
+
+  @if (facade.error()) {
+    <p class="workflow-page__error">{{ facade.error() }}</p>
+  } @else if (facade.loading()) {
+    <p class="workflow-page__loading">{{ t('loading.actionButtons') }}</p>
+  } @else {
+    <div class="workflow-page__section">
+      <app-workflow-action-button-table
+        [actions]="facade.filteredActionButtons()"
+        (edit)="onEditAction($event)"
+        (delete)="onDeleteAction($event)"
+      />
+    </div>
+  }
+
+  <app-workflow-button-create-modal
+    [open]="createModalOpen()"
+    [form]="buttonForm"
+    [availableWorkflows]="availableWorkflows()"
+    [saving]="saving()"
+    [mode]="editorMode()"
+    (close)="closeCreateModal()"
+    (save)="saveButton()"
+  />
+
+  @if (confirmConfig()) {
+    <qo-confirm-dialog
+      [config]="confirmConfig()!"
+      (confirmed)="confirmDeleteAction()"
+      (cancelled)="cancelDeleteAction()"
+    />
+  }
+</section>
+</ng-container>

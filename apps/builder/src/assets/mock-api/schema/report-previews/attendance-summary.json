@@ -1,0 +1,37 @@
+{
+  "reportId": "attendance-summary",
+  "reportLabel": "Attendance Summary",
+  "sourceFormId": "attendance-form",
+  "sourceFormLabel": "Attendance Form",
+  "sourceTable": "attendance_logs",
+  "columns": [
+    { "id": "employee_code", "label": "Emp Code", "dbColumn": "employee_code" },
+    { "id": "employee_name", "label": "Name", "dbColumn": "employee_name" },
+    { "id": "log_date", "label": "Date", "dbColumn": "log_date" },
+    { "id": "check_in", "label": "Check In", "dbColumn": "check_in" },
+    { "id": "check_out", "label": "Check Out", "dbColumn": "check_out" },
+    { "id": "status", "label": "Status", "dbColumn": "status" }
+  ],
+  "rows": [
+    { "id": "1",  "values": ["EMP-0001", "Priya Sharma",       "2026-06-16", "09:01 AM", "06:03 PM", "Present"] },
+    { "id": "2",  "values": ["EMP-0002", "Rahul Mehta",         "2026-06-16", "09:17 AM", "06:15 PM", "Late"] },
+    { "id": "3",  "values": ["EMP-0003", "Ananya Krishnan",     "2026-06-16", "08:54 AM", "06:00 PM", "Present"] },
+    { "id": "4",  "values": ["EMP-0004", "Vikram Nair",         "2026-06-16", "09:00 AM", "06:30 PM", "Present"] },
+    { "id": "5",  "values": ["EMP-0006", "Arjun Patel",         "2026-06-16", "09:32 AM", "06:10 PM", "Late"] },
+    { "id": "6",  "values": ["EMP-0007", "Kavitha Reddy",       "2026-06-16", "08:48 AM", "05:55 PM", "Present"] },
+    { "id": "7",  "values": ["EMP-0008", "Suresh Babu",         "2026-06-16", "09:05 AM", "06:05 PM", "Present"] },
+    { "id": "8",  "values": ["EMP-0009", "Divya Iyer",          "2026-06-16", "08:59 AM", "06:02 PM", "Present"] },
+    { "id": "9",  "values": ["EMP-0010", "Rohan Joshi",         "2026-06-16", "10:15 AM", "06:45 PM", "Late"] },
+    { "id": "10", "values": ["EMP-0011", "Meena Saxena",        "2026-06-16", "09:02 AM", "06:00 PM", "Present"] },
+    { "id": "11", "values": ["EMP-0012", "Aditya Kumar",        "2026-06-16", "08:45 AM", "05:50 PM", "Present"] },
+    { "id": "12", "values": ["EMP-0013", "Pooja Verma",         "2026-06-16", "09:10 AM", "06:08 PM", "Present"] },
+    { "id": "13", "values": ["EMP-0014", "Kiran Rao",           "2026-06-16", "09:00 AM", "06:00 PM", "Present"] },
+    { "id": "14", "values": ["EMP-0016", "Deepak Chatterjee",   "2026-06-16", "09:22 AM", "06:20 PM", "Late"] },
+    { "id": "15", "values": ["EMP-0017", "Riya Singh",          "2026-06-16", "08:52 AM", "05:58 PM", "Present"] },
+    { "id": "16", "values": ["EMP-0019", "Shweta Pillai",       "2026-06-16", "09:00 AM", "06:05 PM", "Present"] },
+    { "id": "17", "values": ["EMP-0020", "Rajesh Naik",         "2026-06-16", "09:08 AM", "06:10 PM", "Present"] },
+    { "id": "18", "values": ["EMP-0022", "Ganesh Patil",        "2026-06-16", "08:55 AM", "05:52 PM", "Present"] },
+    { "id": "19", "values": ["EMP-0024", "Nikhil Bose",         "2026-06-16", "09:00 AM", "06:00 PM", "Present"] },
+    { "id": "20", "values": ["EMP-0028", "Pavan Kumar",         "2026-06-16", "09:45 AM", "06:40 PM", "Late"] }
+  ]
+}

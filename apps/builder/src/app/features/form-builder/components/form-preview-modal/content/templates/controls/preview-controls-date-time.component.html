@@ -1,0 +1,44 @@
+@let f = field();
+@if (ctx.isTimeField(f)) {
+  <label class="preview-date-control" (click)="ctx.openNativePicker(timePicker)">
+    <qo-input class="preview-qo-input" type="text" [readonly]="true" [value]="ctx.getTimeDisplayValue(f)" [placeholder]="f.properties.timeShowSeconds ? 'HH:mm:ss' : 'HH:mm'"></qo-input>
+    <input #timePicker type="time" class="preview-date-control__native" [step]="f.properties.timeShowSeconds ? 1 : 60" [value]="ctx.getPickerInputValue(f)" (input)="ctx.setValue(f.id, ctx.getInputValue($event), f)" />
+  </label>
+}
+
+@if (ctx.isDatePickerField(f)) {
+  <label class="preview-date-control" (click)="ctx.openNativePicker(datePicker)">
+    <qo-input class="preview-qo-input" type="text" [readonly]="true" [value]="ctx.getDateDisplayValue(f)" [placeholder]="ctx.getDatePlaceholder(f)"></qo-input>
+    <input #datePicker type="date" class="preview-date-control__native" [value]="ctx.getPickerInputValue(f)" (input)="ctx.setValue(f.id, ctx.getInputValue($event), f)" />
+  </label>
+}
+
+@if (ctx.isDateTimeField(f)) {
+  <div class="preview-datetime-row">
+    <qo-input class="preview-qo-input preview-qo-input--datetime" type="datetime-local" [value]="ctx.getPickerInputValue(f)" (valueChange)="ctx.setValue(f.id, $event, f)"></qo-input>
+    <qo-button type="button" class="preview-secondary-action" (click)="ctx.captureCurrentDateTime(f)">{{ t('preview.captureCurrentTime') }}</qo-button>
+  </div>
+}
+
+@if (ctx.isSignatureField(f)) {
+  <div class="preview-signature">
+    <div class="preview-signature__box" [class.preview-signature__box--has-value]="ctx.hasMediaValue(f.id)">
+      @if (!ctx.hasMediaValue(f.id)) {
+        <span class="preview-signature__placeholder">{{ t('preview.drawSignature') }}</span>
+      }
+      <qo-button type="button" class="preview-signature__clear" [class.preview-signature__clear--visible]="ctx.hasMediaValue(f.id)" (click)="ctx.clearSignature(f.id)">[Clear]</qo-button>
+      <canvas
+        #signatureCanvas
+        class="preview-signature__canvas"
+        [attr.data-field-id]="f.id"
+        (mousedown)="ctx.onSignatureStart($event, f.id)"
+        (mousemove)="ctx.onSignatureMove($event, f.id)"
+        (mouseup)="ctx.onSignatureEnd(f.id)"
+        (mouseleave)="ctx.onSignatureEnd(f.id)"
+        (touchstart)="ctx.onSignatureStart($event, f.id)"
+        (touchmove)="ctx.onSignatureMove($event, f.id)"
+        (touchend)="ctx.onSignatureEnd(f.id)"></canvas>
+      <div class="preview-signature__baseline"></div>
+    </div>
+  </div>
+}

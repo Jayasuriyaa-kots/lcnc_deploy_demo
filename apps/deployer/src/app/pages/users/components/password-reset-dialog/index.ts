@@ -1,0 +1,1 @@
+export { PasswordResetDialogComponent } from './password-reset-dialog.component';

@@ -1,0 +1,9 @@
+<div class="datasources-page__content datasources-page__content--external external-apis">
+  @if (store.externalWorkspace() === 'dashboard') {
+    <app-external-apis-dashboard ></app-external-apis-dashboard>
+  } @else if (store.externalWorkspace() === 'connectors') {
+    <app-external-apis-connectors ></app-external-apis-connectors>
+  } @else {
+    <app-external-apis-setup ></app-external-apis-setup>
+  }
+</div>

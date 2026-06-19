@@ -1,0 +1,26 @@
+<section class="config-action-card">
+  <h3>{{ t('rightPanel.onClickRecord') }}</h3>
+  <p>{{ t('generated.choose_what_happens_when_a_user_clicks_a') }}</p>
+  <qo-select
+    [value]="recordClickAction()"
+    [options]="recordClickActionOptions"
+    (valueChange)="updateRecordClickAction($event)">
+  </qo-select>
+</section>
+
+@for (group of actionGroupsState(); track group.title; let groupIndex = $index) {
+  <section class="config-action-card">
+    <h3>{{ group.title }}</h3>
+    <p>{{ group.description }}</p>
+    <div class="chip-list">
+      @for (action of group.items; track action.label; let actionIndex = $index) {
+        <label class="action-chip" [class.action-chip--disabled]="!action.enabled">
+          <qo-checkbox
+            [checked]="action.enabled"
+            (checkedChange)="toggleAction(groupIndex, actionIndex, $event)"></qo-checkbox>
+          <span>{{ action.label }}</span>
+        </label>
+      }
+    </div>
+  </section>
+}

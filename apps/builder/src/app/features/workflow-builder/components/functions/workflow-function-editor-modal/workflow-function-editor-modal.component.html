@@ -1,0 +1,42 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+@if (open()) {
+  <qo-modal
+    [title]="mode() === 'create' ? t('modals.functionEditor.createTitle') : t('modals.functionEditor.editTitle')"
+    size="lg"
+    [maxWidth]="'var(--qo-size-720)'"
+    (close)="close.emit()"
+  >
+    <form class="workflow-function-modal" [formGroup]="form()" (ngSubmit)="save.emit()">
+      <qo-form-field [label]="t('formLabels.name')" [required]="true" [error]="fieldError('name', t('formLabels.name'))">
+        <qo-input type="text" formControlName="name" [placeholder]="t('placeholders.functionName')" />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.language')" [required]="true" [error]="fieldError('language', t('formLabels.language'))">
+        <qo-select formControlName="language" [options]="languageOptions" />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.description')" [required]="true" [error]="fieldError('description', t('formLabels.description'))">
+        <qo-input type="text" formControlName="description" [placeholder]="t('placeholders.functionDescription')" />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.functionBody')" [required]="true" [error]="fieldError('code', t('formLabels.functionBody'))">
+        <qo-textarea formControlName="code" [rows]="10"></qo-textarea>
+      </qo-form-field>
+
+      <div qo-modal-footer class="workflow-function-modal__footer">
+        <qo-button variant="secondary" type="button" [disabled]="saving()" (click)="close.emit()">
+          {{ 'actions.cancel' | transloco }}
+        </qo-button>
+        <qo-button
+          variant="primary"
+          type="submit"
+          [loading]="saving()"
+          [disabled]="form().invalid || saving()"
+        >
+          {{ mode() === 'create' ? t('common.createFunction') : t('common.saveFunction') }}
+        </qo-button>
+      </div>
+    </form>
+  </qo-modal>
+}
+</ng-container>

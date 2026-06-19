@@ -1,0 +1,47 @@
+:host {
+  display: block;
+}
+
+.shell {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: var(--qo-nav-height) 0 0;
+  background: var(--deployer-bg);
+  color: var(--deployer-text);
+}
+
+.workspace {
+  box-sizing: border-box;
+  width: calc(100% - var(--qo-sidebar-width));
+  min-height: calc(100vh - var(--qo-nav-height));
+  min-width: 0;
+  margin-left: var(--qo-sidebar-width);
+  position: relative;
+  padding: var(--qo-space-2) var(--qo-space-3) var(--qo-space-5) var(--qo-space-2);
+  border-radius: var(--qo-radius-xl);
+  background:
+    linear-gradient(var(--qo-deployer-workspace-grid-line) var(--qo-size-1), transparent var(--qo-size-1)),
+    linear-gradient(90deg, var(--qo-deployer-workspace-grid-line) var(--qo-size-1), transparent var(--qo-size-1)),
+    radial-gradient(circle at top right, var(--qo-deployer-workspace-glow), transparent 28%),
+    linear-gradient(180deg, var(--qo-deployer-surface-dim), var(--qo-deployer-surface-dim));
+  background-size: var(--qo-size-40) var(--qo-size-40), var(--qo-size-40) var(--qo-size-40), auto, auto;
+}
+
+.workspace-inner {
+  width: min(100%, calc(var(--qo-size-1100) + (var(--qo-space-5) * 4)));
+  margin: 0 auto;
+}
+
+.workspace-header {
+  display: grid;
+  gap: var(--qo-space-2);
+  margin-bottom: var(--qo-space-2);
+  padding-bottom: 0;
+  background: transparent;
+}
+
+.workspace-content {
+  display: grid;
+  gap: var(--qo-section-gap);
+}

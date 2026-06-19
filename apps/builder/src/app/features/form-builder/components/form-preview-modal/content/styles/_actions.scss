@@ -1,0 +1,75 @@
+// Host must stay chrome-free; only .qo-btn (or plain <a>) gets the bordered look.
+app-form-preview-content qo-button.preview-secondary-action,
+app-form-preview-content qo-button.preview-inline-btn {
+  display: inline-flex;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  vertical-align: middle;
+}
+
+.preview-secondary-action,
+.preview-inline-btn,
+app-form-preview-content qo-button.btn-secondary .qo-btn,
+app-form-preview-content qo-button.preview-secondary-action .qo-btn,
+app-form-preview-content qo-button.preview-inline-btn .qo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--qo-space-1);
+  width: auto;
+  min-width: calc(var(--qo-space-24) + var(--qo-space-3));
+  height: var(--qo-space-10);
+  padding: 0 var(--qo-space-5);
+  border: var(--qo-border-width) solid var(--qo-border-color-strong);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-2xs);
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--qo-radius-xs);
+  cursor: pointer;
+  box-shadow: none;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.preview-secondary-action .qo-btn-label,
+.preview-inline-btn .qo-btn-label,
+app-form-preview-content qo-button.preview-secondary-action .qo-btn-label,
+app-form-preview-content qo-button.preview-inline-btn .qo-btn-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-1);
+  min-width: 0;
+  transform: none;
+}
+
+.preview-secondary-action qo-icon,
+.preview-inline-btn qo-icon,
+app-form-preview-content qo-button.preview-secondary-action qo-icon,
+app-form-preview-content qo-button.preview-inline-btn qo-icon {
+  display: inline-flex;
+}
+
+.preview-secondary-action .material-symbols-outlined { font-size: var(--qo-text-base); }
+
+app-form-preview-content qo-button.preview-secondary-action .qo-btn:hover,
+app-form-preview-content qo-button.preview-inline-btn .qo-btn:hover {
+  background: var(--qo-color-neutral-100);
+  border-color: var(--qo-border-color-strong);
+}
+
+app-form-preview-content .preview-inline-btn--ghost .qo-btn {
+  color: var(--qo-color-neutral-500);
+  background: var(--qo-color-neutral-50);
+}
+
+.preview-secondary-action--label { position: relative; }

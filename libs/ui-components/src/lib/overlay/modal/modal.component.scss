@@ -1,0 +1,152 @@
+:host {
+  display: block;
+  --qo-modal-backdrop-bg: var(--deployer-modal-backdrop, var(--qo-overlay-backdrop-dark));
+  --qo-modal-surface: var(--deployer-surface, var(--qo-color-neutral-0));
+  --qo-modal-border: var(--deployer-border, var(--qo-border-color));
+  --qo-modal-title-color: var(--deployer-text, var(--qo-color-neutral-900));
+  --qo-modal-subtitle-color: var(--deployer-text-muted, var(--qo-color-neutral-600));
+  --qo-modal-close-color: var(--deployer-text-muted, var(--qo-color-neutral-500));
+  --qo-modal-close-hover-bg: var(--qo-deployer-hover-surface, var(--qo-color-neutral-100));
+  --qo-modal-close-hover-color: var(--deployer-text, var(--qo-color-neutral-900));
+  --qo-modal-radius: var(--qo-radius-lg);
+  --qo-modal-shadow: var(--qo-shadow-xl);
+  --qo-modal-header-padding: var(--qo-space-4) var(--qo-space-6);
+  --qo-modal-header-border-color: var(--qo-border-color);
+  --qo-modal-heading-gap: var(--qo-size-6);
+  --qo-modal-title-size: var(--qo-text-lg);
+  --qo-modal-subtitle-size: var(--qo-text-sm);
+  --qo-modal-subtitle-max-width: none;
+  --qo-modal-close-padding: var(--qo-space-1);
+  --qo-modal-close-margin-top: 0;
+  --qo-modal-content-padding: var(--qo-space-6);
+  --qo-modal-content-overflow-y: auto;
+  --qo-modal-footer-padding: var(--qo-space-4) var(--qo-space-6);
+  --qo-modal-footer-border-color: var(--qo-border-color);
+  --qo-modal-footer-justify: flex-end;
+}
+
+.qo-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--qo-modal-backdrop-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--qo-space-4);
+  backdrop-filter: blur(var(--qo-size-10));
+  animation: fadeIn 0.2s ease-out;
+}
+
+.qo-modal-container {
+  width: 100%;
+  max-height: min(calc(100dvh - (var(--qo-space-4) * 2)), 960px);
+  overflow: hidden;
+  background: var(--qo-modal-surface);
+  border: 1px solid var(--qo-modal-border);
+  border-radius: var(--qo-modal-radius);
+  box-shadow: var(--qo-modal-shadow);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+
+  &-sm { max-width: var(--qo-size-400); }
+  &-md { max-width: 37.5rem; }
+  &-lg { max-width: 50rem; }
+  &-xl { max-width: 71.25rem; }
+}
+
+.qo-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--qo-modal-header-padding);
+  border-bottom: 1px solid var(--qo-modal-header-border-color);
+  gap: var(--qo-space-4);
+  flex: 0 0 auto;
+}
+
+.qo-modal-heading {
+  display: grid;
+  gap: var(--qo-modal-heading-gap);
+  min-width: 0;
+}
+
+.qo-modal-title {
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-modal-title-size);
+  font-weight: var(--qo-font-semibold);
+  color: var(--qo-modal-title-color);
+  margin: 0;
+}
+
+.qo-modal-subtitle {
+  margin: 0;
+  color: var(--qo-modal-subtitle-color);
+  max-width: var(--qo-modal-subtitle-max-width);
+  font-size: var(--qo-modal-subtitle-size);
+  line-height: 1.5;
+}
+
+.qo-modal-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--qo-modal-close-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--qo-modal-close-margin-top);
+  padding: var(--qo-modal-close-padding);
+  border-radius: var(--qo-radius-md);
+  transition: all 0.2s;
+  flex: 0 0 auto;
+
+  &:hover {
+    background-color: var(--qo-modal-close-hover-bg);
+    color: var(--qo-modal-close-hover-color);
+  }
+}
+
+.qo-modal-content {
+  padding: var(--qo-modal-content-padding);
+  overflow-y: var(--qo-modal-content-overflow-y);
+  min-height: 0;
+  flex: 1 1 auto;
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-base);
+  color: var(--deployer-text, var(--qo-color-neutral-700));
+}
+
+.qo-modal-footer {
+  padding: var(--qo-modal-footer-padding);
+  border-top: 1px solid var(--qo-modal-footer-border-color);
+  display: flex;
+  align-items: center;
+  justify-content: var(--qo-modal-footer-justify);
+  gap: var(--qo-space-3);
+  flex: 0 0 auto;
+  
+  &:empty {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(var(--qo-size-20));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,1 @@
+export { UsersPageComponent } from './users-page.component';

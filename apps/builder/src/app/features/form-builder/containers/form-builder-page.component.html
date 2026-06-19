@@ -1,0 +1,173 @@
+@if (page.createWizardOpen()) {
+  <app-form-create-wizard
+    [datasourceOptions]="page.datasourceOptions"
+    [existingFormNames]="page.existingFormNames()"
+    (created)="page.onFormCreated($event)"
+    (cancelled)="page.cancelCreateWizard()">
+  </app-form-create-wizard>
+} @else if (!page.hasDesktopViewport()) {
+  <section class="builder-page builder-page--blocked">
+    <qo-empty-state
+      icon="monitor"
+      [title]="page.t('page.desktopRequiredTitle')"
+      [description]="page.t('page.desktopRequiredDescription')">
+    </qo-empty-state>
+  </section>
+} @else {
+  <section class="builder-page">
+    <div class="builder-page__hero">
+      <div class="builder-page__hero-copy">
+        <div class="builder-page__eyebrow-row">
+          <p class="builder-page__eyebrow">{{ page.t('page.title') }}</p>
+          <qo-badge [color]="page.currentForm()?.status === 'live' ? 'success' : 'warning'">
+            {{ page.currentForm()?.status === 'live' ? ('states.live' | transloco) : ('states.draft' | transloco) }}
+          </qo-badge>
+        </div>
+        <div class="builder-page__title-row">
+          <h1 class="builder-page__title">{{ page.currentForm()?.name }}</h1>
+        </div>
+        <div class="builder-page__description-field">
+          <qo-form-field [label]="page.t('page.descriptionLabel')">
+            <qo-input
+              [value]="page.currentForm()?.description ?? ''"
+              (valueChange)="page.onDescriptionChange($event)"
+              [placeholder]="page.t('page.descriptionPlaceholder')">
+            </qo-input>
+          </qo-form-field>
+        </div>
+      </div>
+      <div class="builder-page__hero-actions">
+        <qo-button class="builder-btn builder-btn--secondary" variant="secondary" type="button" (click)="page.openSettings()">{{ 'actions.settings' | transloco }}</qo-button>
+        <qo-button class="builder-btn builder-btn--secondary" variant="secondary" type="button" (click)="page.openSubmissionsViewer()">{{ page.t('common.submissions') }}</qo-button>
+        <qo-button class="builder-btn builder-btn--emphasis" variant="secondary" type="button" (click)="page.openPreview()">{{ 'actions.preview' | transloco }}</qo-button>
+        <qo-button class="builder-btn builder-btn--primary" variant="primary" type="button" (click)="page.publishForm()" [disabled]="page.currentForm()?.status === 'live'">
+          {{ page.currentForm()?.status === 'live' ? page.t('common.published') : page.t('common.saveAndPublish') }}
+        </qo-button>
+      </div>
+    </div>
+
+    <article class="builder-card">
+      <header class="builder-card__header">
+        <h2>{{ page.t('page.dataSourceBindingTitle') }}</h2>
+      </header>
+      <div class="builder-card__body">
+        <div class="builder-binding">
+          <div class="builder-binding__item">
+            <span class="builder-binding__label">{{ page.t('page.datasourceLabel') }}</span>
+            <strong>{{ page.currentForm()?.datasourceLabel }}</strong>
+          </div>
+          <div class="builder-binding__item">
+            <span class="builder-binding__label">{{ page.t('page.queryLabel') }}</span>
+            <strong>{{ page.currentForm()?.queryLabel }}</strong>
+          </div>
+          <div class="builder-binding__item">
+            <span class="builder-binding__label">{{ page.t('page.queryIdLabel') }}</span>
+            <strong>{{ page.currentForm()?.queryId }}</strong>
+          </div>
+          <div class="builder-binding__item builder-binding__item--wide">
+            <span class="builder-binding__label">{{ page.t('page.connectionSummaryLabel') }}</span>
+            <p>{{ page.t('page.connectionSummary', { datasource: page.currentForm()?.datasourceLabel ?? '', query: page.currentForm()?.queryLabel ?? '' }) }}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="builder-workspace" [class.builder-workspace--open]="page.showSidePanel()">
+      <article class="builder-card builder-workspace__main">
+        <header class="builder-card__header builder-card__header--split">
+          <h2>{{ page.t('page.formFieldsTitle') }}</h2>
+        </header>
+
+        <app-form-fields-list
+          [fields]="page.rows()"
+          [selectedFieldId]="page.selectedField()?.id ?? null"
+          (fieldSelected)="page.onFieldSelected($event)"
+          (fieldInspect)="page.onFieldInspect($event)"
+          (fieldDeleted)="page.onFieldDeleted($event)"
+          (fieldMoved)="page.onFieldMoved($event)"
+          (fieldDropped)="page.onFieldDropped($event)"
+          (addFieldClicked)="page.openFieldLibrary()">
+        </app-form-fields-list>
+      </article>
+
+      @if (page.sidePanel() === 'library') {
+        <aside class="builder-side-panel">
+          <app-form-field-library
+            [searchQuery]="page.librarySearch()"
+            (fieldAdded)="page.onFieldAdded($event)"
+            (closed)="page.closePanel()">
+          </app-form-field-library>
+        </aside>
+      }
+
+      @if (page.sidePanel() === 'inspector' && page.selectedField(); as selectedField) {
+        <aside class="builder-side-panel">
+          <app-form-field-inspector
+            [field]="selectedField"
+            (closed)="page.closePanel()"
+            (fieldChanged)="page.onFieldChanged($event)">
+          </app-form-field-inspector>
+        </aside>
+      }
+    </div>
+
+    <article class="builder-card builder-card--action-buttons">
+      <header class="builder-card__header builder-card__header--split">
+        <h2>{{ page.t('page.actionButtonsTitle') }}</h2>
+      </header>
+      <div class="builder-card__body builder-card__body--action-buttons">
+        <app-form-action-buttons
+          [actions]="page.actions()"
+          (actionsChanged)="page.onActionsChanged($event)">
+        </app-form-action-buttons>
+      </div>
+    </article>
+  </section>
+
+  @if (page.previewOpen() && page.currentForm(); as currentForm) {
+    <app-form-preview-modal
+      [formId]="currentForm.id"
+      [formName]="currentForm.name"
+      [formDescription]="currentForm.description"
+      [datasourceId]="currentForm.datasourceId"
+      [datasourceLabel]="currentForm.datasourceLabel"
+      [queryId]="currentForm.queryId"
+      [queryLabel]="currentForm.queryLabel"
+      [queryText]="currentForm.queryText"
+      [userId]="currentForm.userId"
+      [jwtToken]="currentForm.jwtToken"
+      [fields]="page.rows()"
+      [actions]="page.actions()"
+      [settings]="page.formSettings()"
+      (closed)="page.closePreview()">
+    </app-form-preview-modal>
+  }
+
+  @if (page.submissionsViewerOpen() && page.currentForm(); as currentForm) {
+    <app-form-submission-viewer-modal
+      [formName]="currentForm.name"
+      [submissions]="page.currentFormSubmissions()"
+      (closed)="page.closeSubmissionsViewer()"
+      (cleared)="page.clearCurrentFormSubmissions()">
+    </app-form-submission-viewer-modal>
+  }
+
+  @if (page.isFormSettingsOpen() && page.currentForm(); as currentForm) {
+    <app-form-settings-modal
+      [formName]="currentForm.name"
+      [formDescription]="currentForm.description"
+      [settings]="page.formSettings()"
+      [meta]="page.formMeta()"
+      (closed)="page.closeSettings()"
+      (saved)="page.onSettingsSaved($event)">
+    </app-form-settings-modal>
+  }
+
+  @if (page.confirmConfig(); as confirmConfig) {
+    <qo-confirm-dialog
+      [config]="confirmConfig"
+      (confirmed)="page.confirmPendingAction()"
+      (cancelled)="page.cancelPendingAction()">
+    </qo-confirm-dialog>
+  }
+}

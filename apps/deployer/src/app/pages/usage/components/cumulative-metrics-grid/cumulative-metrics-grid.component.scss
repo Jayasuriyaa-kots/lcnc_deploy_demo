@@ -1,0 +1,80 @@
+:host {
+  display: block;
+}
+
+.usage-metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--qo-size-14);
+}
+
+.usage-metric-card {
+  position: relative;
+  min-height: var(--qo-size-110);
+  padding: var(--qo-size-16) var(--qo-size-18) var(--qo-size-16);
+  border-radius: var(--qo-size-12);
+  display: grid;
+  gap: var(--qo-size-9);
+  background: var(--qo-deployer-card-background);
+  border: var(--qo-size-1) solid var(--qo-deployer-line);
+  transition:
+    background-color var(--qo-duration-base) ease,
+    border-color var(--qo-duration-base) ease,
+    box-shadow var(--qo-duration-base) ease,
+    transform var(--qo-duration-base) ease;
+  cursor: pointer;
+}
+
+.usage-metric-card:hover {
+  background: var(--qo-deployer-brand-soft);
+  border-color: var(--qo-deployer-line-strong);
+  box-shadow: var(--qo-deployer-card-shadow);
+  transform: translateY(calc(var(--qo-size-1) * -1));
+}
+
+.usage-metric-card__dot {
+  position: absolute;
+  top: var(--qo-size-16);
+  right: var(--qo-size-16);
+  width: var(--qo-size-7);
+  height: var(--qo-size-7);
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-deployer-text-muted);
+}
+
+.usage-metric-card__dot.is-positive {
+  background: var(--qo-color-success-500);
+}
+
+.usage-metric-card__dot.is-warning {
+  background: var(--qo-color-warning-500);
+}
+
+.usage-metric-card__dot.is-danger {
+  background: var(--qo-color-danger-500);
+}
+
+.usage-metric-card__label {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.usage-metric-card__value {
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-size-20);
+  font-weight: 750;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.usage-metric-card__meta {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-sm);
+  line-height: 1.3;
+}
+
+
+

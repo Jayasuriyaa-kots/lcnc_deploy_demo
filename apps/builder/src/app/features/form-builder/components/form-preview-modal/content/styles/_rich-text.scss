@@ -1,0 +1,117 @@
+// ─── rich text field ─────────────────────────────────────────────────────────
+.preview-rich-text {
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xs);
+  overflow: hidden;
+  background: var(--qo-color-neutral-0);
+}
+
+.preview-rich-text__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--qo-space-1);
+  padding: var(--qo-space-2) var(--qo-space-3);
+  background: var(--qo-color-neutral-50);
+  border-bottom: var(--qo-border-width) solid var(--qo-border-color);
+}
+
+.rt-btn { min-width: calc(var(--qo-space-8) + var(--qo-space-1)); }
+
+.rt-btn--text-color { color: var(--qo-color-neutral-700); }
+
+.rt-btn,
+.rt-select {
+  height: calc(var(--qo-space-8) + var(--qo-space-1));
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-800);
+  border-radius: var(--qo-radius-xs);
+  font-size: var(--qo-text-xs);
+}
+
+.rt-btn:hover, .rt-select:hover { border-color: var(--qo-color-neutral-400); }
+.rt-btn-active { background: var(--qo-color-neutral-100); border-color: var(--qo-color-neutral-500); }
+
+app-form-preview-content qo-button.rt-btn .qo-btn {
+  min-width: calc(var(--qo-space-8) + var(--qo-space-1));
+  height: calc(var(--qo-space-8) + var(--qo-space-1));
+  padding: 0 var(--qo-space-2);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-800);
+  border-radius: var(--qo-radius-xs);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  box-shadow: none;
+}
+
+app-form-preview-content qo-button.rt-btn .qo-btn:hover {
+  border-color: var(--qo-color-neutral-400);
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-900);
+}
+
+app-form-preview-content qo-button.rt-btn-active .qo-btn {
+  background: var(--qo-color-neutral-100);
+  border-color: var(--qo-color-neutral-500);
+}
+
+.rt-select { padding: 0 var(--qo-space-2); min-width: calc(var(--qo-space-14)); }
+.rt-sep { width: var(--qo-border-width); height: calc(var(--qo-space-5)); background: var(--qo-border-color); margin: 0 var(--qo-space-1); }
+
+.preview-rich-text__editor {
+  min-height: calc(var(--qo-space-28) + var(--qo-space-2));
+  padding: var(--qo-space-4);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-800);
+  border: 0;
+  outline: none;
+  font-size: var(--qo-text-sm);
+  line-height: 1.5;
+}
+
+.preview-rich-text__editor table { width: 100%; margin: var(--qo-space-2) 0; border-collapse: collapse; }
+.preview-rich-text__editor th, .preview-rich-text__editor td { border: var(--qo-border-width) solid var(--qo-border-color); padding: var(--qo-space-2); }
+
+.preview-rich-text__code {
+  width: 100%;
+  box-sizing: border-box;
+  border: 0;
+  padding: var(--qo-space-4);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-800);
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: var(--qo-text-sm);
+  line-height: 1.5;
+  outline: none;
+  resize: vertical;
+}
+
+.preview-richtext-select { min-width: calc(var(--qo-space-16)); }
+
+app-form-preview-content .preview-richtext-select .qo-select-trigger {
+  min-height: calc(var(--qo-space-8) + var(--qo-space-1));
+  padding: 0 var(--qo-space-2);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-800);
+  border-radius: var(--qo-radius-xs);
+  font-size: var(--qo-text-xs);
+  box-shadow: none;
+}
+
+.preview-richtext-select--font { min-width: 8rem; }
+.preview-richtext-select--size { min-width: 4.5rem; }
+
+.preview-link-modal { display: grid; gap: var(--qo-space-4); }
+.preview-link-modal__footer { display: flex; justify-content: flex-end; gap: var(--qo-space-3); }
+
+.preview-rich-text__inserted-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.preview-rich-text__inserted-table td {
+  padding: var(--qo-space-2);
+}

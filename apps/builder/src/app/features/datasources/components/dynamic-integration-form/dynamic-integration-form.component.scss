@@ -1,0 +1,183 @@
+@use '../../../../../../../../libs/ui-components/src/styles/tokens' as tokens;
+
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.dynamic-integration-form {
+  display: grid;
+  gap: var(--qo-space-4);
+  min-width: 0;
+}
+
+.dynamic-integration-form__section {
+  border: var(--qo-border-width) solid color-mix(in srgb, var(--qo-color-neutral-200) 72%, transparent);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+}
+
+.dynamic-integration-form__section > .datasources-page__form-card-title {
+  padding: var(--qo-space-4) var(--qo-space-5);
+  border-bottom: var(--qo-border-width) solid color-mix(in srgb, var(--qo-color-neutral-200) 72%, transparent);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-base);
+  font-weight: var(--qo-font-semibold);
+}
+
+.dynamic-integration-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-space-5);
+  padding: var(--qo-space-5);
+  min-width: 0;
+}
+
+.dynamic-integration-form__grid > .datasources-page__form-grid-span,
+.dynamic-integration-form__mapping {
+  grid-column: 1 / -1;
+}
+
+.dynamic-integration-form__mapping-tabs {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.dynamic-integration-form__mapping-tabs-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  padding-bottom: var(--qo-space-2);
+  border-bottom: var(--qo-border-width) solid color-mix(in srgb, var(--qo-color-neutral-200) 72%, transparent);
+}
+
+.dynamic-integration-form__mapping-tab-list {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--qo-space-4);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.dynamic-integration-form__mapping-tab {
+  --qo-button-bg: transparent;
+  --qo-button-color: var(--qo-color-neutral-700);
+  --qo-button-hover-bg: transparent;
+  --qo-button-hover-color: var(--qo-color-neutral-900);
+  --qo-button-border: 0;
+  --qo-button-border-color: transparent;
+  --qo-button-hover-border-color: transparent;
+  --qo-button-padding: 0 0 var(--qo-space-2);
+  --qo-button-height: auto;
+  --qo-button-min-height: auto;
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: var(--qo-font-medium);
+  --qo-button-letter-spacing: normal;
+  --qo-button-text-transform: none;
+  --qo-button-radius: 0;
+  --qo-button-focus-outline: none;
+  --qo-button-box-shadow: inset 0 calc(var(--qo-border-width-2) * -1) 0 transparent;
+  --qo-button-label-transform: none;
+  line-height: 1.4;
+}
+
+.dynamic-integration-form__mapping-tab--active {
+  --qo-button-color: var(--qo-color-neutral-900);
+  --qo-button-hover-color: var(--qo-color-neutral-900);
+  --qo-button-box-shadow: inset 0 calc(var(--qo-border-width-2) * -1) 0 var(--qo-color-neutral-900);
+}
+
+.dynamic-integration-form__mapping-panel {
+  display: grid;
+  gap: var(--qo-space-3);
+  min-width: 0;
+  padding-top: var(--qo-space-3);
+}
+
+.dynamic-integration-form__mapping-tabs-head qo-button {
+  --qo-button-height: var(--qo-size-36);
+  --qo-button-radius: var(--qo-radius-xs);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: var(--qo-font-bold);
+  --qo-button-letter-spacing: 0.06em;
+  --qo-button-text-transform: uppercase;
+}
+
+.dynamic-integration-form__mapping-stack {
+  display: grid;
+  gap: var(--qo-space-4);
+  min-width: 0;
+}
+
+.dynamic-integration-form__mapping-item {
+  display: grid;
+  gap: var(--qo-space-4);
+  min-width: 0;
+  padding: var(--qo-space-4);
+  border: var(--qo-border-width) solid color-mix(in srgb, var(--qo-color-neutral-200) 72%, transparent);
+  background: var(--qo-color-neutral-0);
+}
+
+.dynamic-integration-form__mapping-item-title {
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-semibold);
+}
+
+.dynamic-integration-form__mapping-item-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-space-4);
+  min-width: 0;
+}
+
+.dynamic-integration-form__mapping-item-grid qo-form-field {
+  min-width: 0;
+}
+
+.dynamic-integration-form__mapping-required {
+  display: flex;
+  align-items: center;
+  min-height: var(--qo-size-44);
+}
+
+.dynamic-integration-form__mapping-action {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.dynamic-integration-form__mapping-action qo-button {
+  --qo-button-height: var(--qo-size-36);
+  --qo-button-radius: var(--qo-radius-xs);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: var(--qo-font-bold);
+  --qo-button-letter-spacing: 0.06em;
+  --qo-button-text-transform: uppercase;
+}
+
+@media (max-width: tokens.$qo-breakpoint-xl) {
+  .dynamic-integration-form__mapping-item {
+    padding: var(--qo-space-3);
+  }
+
+  .dynamic-integration-form__mapping-action qo-button {
+    --qo-button-padding: 0 var(--qo-space-2);
+    --qo-button-min-width: var(--qo-size-64);
+  }
+}
+
+@media (max-width: tokens.$qo-breakpoint-lg) {
+  .dynamic-integration-form__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dynamic-integration-form__mapping-tabs-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .dynamic-integration-form__mapping-item-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,120 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.workflow-card {
+  display: grid;
+  gap: var(--qo-space-5);
+  padding: var(--qo-space-0);
+  border: 1px solid rgba(15, 23, 42, 0.05);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  overflow: hidden;
+}
+
+.workflow-card--selected {
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+.workflow-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+  padding: 1.55rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+}
+
+.workflow-card__heading {
+  display: grid;
+  gap: 0;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.workflow-card__title,
+.workflow-card__subtitle,
+.workflow-card__meta {
+  margin: 0;
+}
+
+.workflow-card__title {
+  overflow-wrap: anywhere;
+  color: #a2a8b2;
+  font-size: 0.92rem;
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.workflow-card__meta {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.workflow-card__subtitle {
+  padding: 0 var(--qo-space-6);
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-sm);
+  line-height: var(--qo-leading-normal);
+}
+
+.workflow-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.workflow-card__body {
+  min-width: 0;
+  padding: 0 1.5rem 1.5rem;
+}
+
+:host ::ng-deep .workflow-card__actions .qo-btn {
+  height: 34px;
+  padding: 0 1rem;
+  border-radius: 2px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+:host ::ng-deep .workflow-card__actions qo-workflow-status-badge .qo-badge {
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 64rem) {
+  .workflow-card__header {
+    flex-direction: column;
+  }
+
+  .workflow-card__actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 40rem) {
+  .workflow-card__header {
+    padding: var(--qo-space-4);
+  }
+
+  .workflow-card__body {
+    padding: 0 var(--qo-space-4) var(--qo-space-4);
+  }
+
+  :host ::ng-deep .workflow-card__actions .qo-btn {
+    min-width: 0;
+    padding: 0 var(--qo-space-3);
+  }
+}

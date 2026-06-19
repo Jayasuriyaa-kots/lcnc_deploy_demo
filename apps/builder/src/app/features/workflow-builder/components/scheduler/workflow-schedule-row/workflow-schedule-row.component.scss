@@ -1,0 +1,149 @@
+:host {
+  display: block;
+}
+
+.workflow-schedule-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  gap: var(--qo-space-3);
+  align-items: center;
+  padding: var(--qo-space-4);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-0);
+}
+
+.workflow-schedule-row__content {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--qo-space-3);
+  align-items: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.workflow-schedule-row__icon {
+  display: grid;
+  place-items: center;
+  width: var(--qo-size-36);
+  height: var(--qo-size-36);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-600);
+}
+
+.workflow-schedule-row__main,
+.workflow-schedule-row__next {
+  display: grid;
+  gap: var(--qo-space-1);
+}
+
+.workflow-schedule-row__main strong {
+  overflow-wrap: anywhere;
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+}
+
+.workflow-schedule-row__main span,
+.workflow-schedule-row__next span {
+  color: var(--qo-color-neutral-400);
+  font-size: var(--qo-text-xs);
+}
+
+.workflow-schedule-row__scope {
+  font-family: var(--qo-font-family-mono);
+}
+
+.workflow-schedule-row__next {
+  text-align: right;
+}
+
+.workflow-schedule-row__next strong {
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-xs);
+}
+
+.workflow-schedule-row__toggle {
+  position: relative;
+  width: var(--qo-size-36);
+  height: var(--qo-size-20);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-neutral-200);
+}
+
+.workflow-schedule-row__toggle span {
+  position: absolute;
+  top: var(--qo-size-2);
+  left: var(--qo-size-2);
+  width: var(--qo-size-14);
+  height: var(--qo-size-14);
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+  transition: transform 160ms ease;
+}
+
+.workflow-schedule-row__toggle--enabled {
+  background: var(--qo-color-primary-700);
+}
+
+.workflow-schedule-row__toggle--enabled span {
+  transform: translateX(var(--qo-size-16));
+}
+
+.workflow-schedule-row__edit,
+.workflow-schedule-row__delete {
+  display: grid;
+  place-items: center;
+  width: var(--qo-size-32);
+  height: var(--qo-size-32);
+  border: var(--qo-border-width) solid transparent;
+  border-radius: var(--qo-radius-sm);
+  background: transparent;
+  color: var(--qo-color-neutral-400);
+  cursor: pointer;
+}
+
+.workflow-schedule-row__edit:hover,
+.workflow-schedule-row__delete:hover {
+  border-color: var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+}
+
+.workflow-schedule-row__edit:hover {
+  color: var(--qo-color-primary-600);
+}
+
+.workflow-schedule-row__delete:hover {
+  color: var(--qo-color-danger-500);
+}
+
+@media (max-width: 48rem) {
+  .workflow-schedule-row {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .workflow-schedule-row__content {
+    grid-column: 1 / -1;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .workflow-schedule-row__next {
+    grid-column: 2;
+    text-align: left;
+  }
+}
+
+@media (max-width: 34rem) {
+  .workflow-schedule-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .workflow-schedule-row__toggle {
+    justify-self: start;
+  }
+}

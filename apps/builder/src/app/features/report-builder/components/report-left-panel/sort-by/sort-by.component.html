@@ -1,0 +1,54 @@
+<section class="panel-card">
+  <header class="panel-card__header">
+    <h2>{{ t('leftPanel.sortBy') }}</h2>
+  </header>
+
+  <div class="panel-card__body panel-card__body--stack">
+    @for (criterion of criteria(); track $index; let index = $index) {
+      <div class="field-group">
+        <qo-form-field [label]="t('generated.field') + ' ' + (index + 1)">
+          <qo-select
+            size="sm"
+            [value]="criterion.columnId"
+            [placeholder]="t('generated.select_an_option')"
+            [options]="getSortByOptionsForIndex(index)"
+            (valueChange)="updateSortColumn(index, $event)">
+          </qo-select>
+        </qo-form-field>
+
+        <qo-form-field [label]="t('generated.order')">
+          <qo-select
+            size="sm"
+            [value]="criterion.direction"
+            [placeholder]="t('generated.select_an_option')"
+            [options]="sortOrderOptions"
+            (valueChange)="onSortDirectionValueChange(index, $event)">
+          </qo-select>
+        </qo-form-field>
+
+        <qo-button
+          class="sort-remove-btn"
+          variant="ghost"
+          type="button"
+          [iconOnly]="true"
+          iconLeft="x"
+          [attr.aria-label]="t('generated.remove_sort_rule')"
+          (click)="removeSortRule(index)">
+        </qo-button>
+      </div>
+    }
+
+    @if (criteria().length === 0) {
+      <p class="empty-state">{{ t('generated.no_sorting_rules_added') }}</p>
+    }
+
+    <qo-button
+      class="btn-primary"
+      variant="primary"
+      type="button"
+      [disabled]="!canAddRule()"
+      (click)="addSortRule()">
+      {{ t('generated.add_sort_rule') }}
+    </qo-button>
+  </div>
+</section>

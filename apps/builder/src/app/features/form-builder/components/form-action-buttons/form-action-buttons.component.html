@@ -1,0 +1,60 @@
+@if (!editorOpen()) {
+  <div class="action-btns-list">
+    @for (action of actions(); track action.id) {
+      <qo-button
+        class="action-btn"
+        variant="secondary"
+        [class.action-btn--primary]="action.style === 'primary'"
+        [class.action-btn--secondary]="action.style === 'secondary'"
+        [class.action-btn--ghost]="action.style === 'ghost'"
+        (click)="openEdit(action)">
+        {{ action.name }}
+      </qo-button>
+    }
+
+    <qo-button class="action-btn action-btn--dashed" variant="secondary" type="button" (click)="openAdd()">
+      <span class="material-symbols-outlined">add</span> {{ t('actionButtons.addButton') }}
+    </qo-button>
+  </div>
+} @else {
+  <form class="action-editor" [formGroup]="actionForm" (ngSubmit)="save()">
+    <div class="action-editor__header">
+      <strong>{{ editingIndex() === null ? t('actionButtons.addButton') : t('actionButtons.editButton') }}</strong>
+      <qo-button class="action-editor__close" variant="ghost" size="sm" type="button" (click)="close()">
+        <span class="material-symbols-outlined">close</span>
+      </qo-button>
+    </div>
+
+    <div class="action-editor__grid">
+      <qo-form-field class="action-editor__field action-editor__field--wide" [label]="t('actionButtons.buttonLabel')">
+        <qo-input [formControl]="controls.name"></qo-input>
+      </qo-form-field>
+      <qo-form-field class="action-editor__field action-editor__field--compact" [label]="t('actionButtons.buttonStyle')">
+        <qo-select
+          class="action-editor__select"
+          [options]="styleOptions"
+          [value]="controls.style.getRawValue()"
+          (valueChange)="updateStyle($event)">
+        </qo-select>
+      </qo-form-field>
+      <qo-form-field class="action-editor__field action-editor__field--compact" [label]="t('actionButtons.actionType')">
+        <qo-select
+          class="action-editor__select"
+          [options]="actionTypeOptions"
+          [value]="controls.actionType.getRawValue()"
+          (valueChange)="updateActionType($event)">
+        </qo-select>
+      </qo-form-field>
+    </div>
+
+    <div class="action-editor__footer">
+      @if (editingIndex() !== null) {
+        <qo-button class="btn-danger" variant="danger" type="button" (click)="remove()">{{ 'actions.delete' | transloco }}</qo-button>
+      }
+      <div class="action-editor__footer-right">
+        <qo-button class="btn-secondary" variant="secondary" type="button" (click)="close()">{{ 'actions.cancel' | transloco }}</qo-button>
+        <qo-button class="btn-primary" variant="primary" type="submit">{{ t('actionButtons.saveButton') }}</qo-button>
+      </div>
+    </div>
+  </form>
+}

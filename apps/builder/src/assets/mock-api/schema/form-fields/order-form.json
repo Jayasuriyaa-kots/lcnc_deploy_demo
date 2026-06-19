@@ -1,0 +1,53 @@
+{
+  "formId": "order-form",
+  "formLabel": "Order",
+  "tableName": "orders",
+  "actionLabels": ["Submit"],
+  "fields": [
+    {
+      "id": "crm_id",
+      "label": "CRM ID",
+      "dbColumn": "crm_id",
+      "type": "text",
+      "placeholder": "Enter CRM ID",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "deal_type",
+      "label": "Deal Type",
+      "dbColumn": "deal_type",
+      "type": "dropdown",
+      "placeholder": "Select deal type",
+      "required": true,
+      "options": ["New Business", "Renewal", "Upsell"]
+    },
+    {
+      "id": "description",
+      "label": "Description",
+      "dbColumn": "description",
+      "type": "text",
+      "placeholder": "Enter description",
+      "required": false,
+      "options": []
+    },
+    {
+      "id": "amount",
+      "label": "Amount",
+      "dbColumn": "amount",
+      "type": "currency",
+      "placeholder": "Enter amount",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "order_date",
+      "label": "Order Date",
+      "dbColumn": "order_date",
+      "type": "date",
+      "placeholder": "Select order date",
+      "required": true,
+      "options": []
+    }
+  ]
+}

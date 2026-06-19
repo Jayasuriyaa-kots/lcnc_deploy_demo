@@ -1,0 +1,11 @@
+<qo-modal [title]="i18n.translate('settings.invoiceDetailTitle')" (close)="close.emit()">
+  <div class="dialog-stack">
+    <p class="mini-label">{{ i18n.translate('settings.invoiceDetailStaticLabel') }}</p>
+    <div><span class="mini-label">{{ i18n.translate('settings.invoiceDetailNumber') }}</span><strong>{{ invoice().invoiceNumber }}</strong></div>
+    <div><span class="mini-label">{{ i18n.translate('settings.invoiceDetailDate') }}</span><strong>{{ invoice().date }}</strong></div>
+    <div><span class="mini-label">{{ i18n.translate('settings.invoiceDetailBillingPeriod') }}</span><strong>{{ invoice().billingPeriod }}</strong></div>
+    <div><span class="mini-label">{{ i18n.translate('settings.invoiceDetailAmount') }}</span><strong>{{ invoice().amount }}</strong></div>
+    <div><span class="mini-label">{{ i18n.translate('settings.invoiceDetailStatus') }}</span><strong>{{ invoice().status }}</strong></div>
+    <qo-button variant="secondary" (click)="close.emit()">{{ i18n.translate('settings.invoiceDetailClose') }}</qo-button>
+  </div>
+</qo-modal>

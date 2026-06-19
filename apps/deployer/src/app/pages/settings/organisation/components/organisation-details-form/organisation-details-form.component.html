@@ -1,0 +1,35 @@
+<article class="settings-card app-card">
+  <div class="settings-card__label">{{ i18n.translate('settings.orgDetailsLabel') }}</div>
+
+  <div class="details-grid">
+    <qo-form-field class="full-width" [label]="i18n.translate('settings.orgEntityName')" [required]="true" [hint]="i18n.translate('settings.orgEntityNameHint')">
+      <qo-input class="settings-input" type="text" [readonly]="true" [value]="organisation().entityName" />
+    </qo-form-field>
+
+    <qo-form-field class="full-width" [label]="i18n.translate('settings.orgRegisteredAddress')">
+      <div class="field-shell settings-textarea" role="textbox" aria-readonly="true">
+        {{ organisation().registeredAddress }}
+      </div>
+    </qo-form-field>
+
+    <qo-form-field [label]="i18n.translate('settings.orgType')">
+      <qo-select
+        [options]="organisationTypeOptions()"
+        [value]="selectedOrganisationType()"
+        (valueChange)="selectOrganisationType($event)"
+      />
+    </qo-form-field>
+
+    <qo-form-field [label]="i18n.translate('settings.orgStatus')">
+      <qo-select
+        [options]="organisationStatusOptions()"
+        [value]="selectedOrganisationStatus()"
+        (valueChange)="selectOrganisationStatus($event)"
+      />
+    </qo-form-field>
+  </div>
+
+  <div class="card-actions card-actions--end">
+    <qo-button variant="secondary" class="settings-save-button">{{ i18n.translate('settings.orgSaveChanges') }}</qo-button>
+  </div>
+</article>

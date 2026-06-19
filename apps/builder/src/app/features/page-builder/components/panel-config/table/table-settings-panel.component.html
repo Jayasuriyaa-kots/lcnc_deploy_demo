@@ -1,0 +1,174 @@
+<!-- ── Datasource section (inline — from may21_builder) ─────────────── -->
+<section class="table-card">
+  <div class="section-title">{{ 'fields.datasource' | transloco }}</div>
+
+  <label class="field">
+    <span><span>{{ 'fields.datasource' | transloco }}</span></span>
+    <qo-select
+      [value]="facade.selectedDataSource()"
+      [options]="facade.datasourceSelectOptions()"
+      [placeholder]="'fields.selectDatasource' | transloco"
+      (valueChange)="facade.updateInlineDatasource($event)"
+    ></qo-select>
+  </label>
+</section>
+
+<!-- ── Query binding section (shown only after datasource selected) ─── -->
+<section class="table-card">
+  <div class="section-title">{{ 'fields.query' | transloco }}</div>
+
+  <label class="field">
+    <app-bindable-input
+      [rows]="3"
+      [value]="config().queryBinding || facade.selectedQueryBinding()"
+      [rootKeys]="facade.queryBindingRootKeys()"
+      [placeholder]="'Paste JSON or type {{ }} binding'"
+      (valueChange)="facade.updateQueryBinding($event)"
+    ></app-bindable-input>
+  </label>
+</section>
+
+<!-- ── General ───────────────────────────────────────────────────────── -->
+@if (config().columnConfigs.length) {
+  <section class="table-card">
+    <div class="section-title">{{ t('table.settings.columns') }}</div>
+    <div class="columns-count">{{ config().columnConfigs.length }} columns</div>
+
+    <div class="columns-list" cdkDropList [cdkDropListData]="facade.orderedColumnConfigs()" (cdkDropListDropped)="facade.reorderColumns($event)">
+      @for (column of facade.orderedColumnConfigs(); track column.key) {
+        <div
+          class="column-item"
+          cdkDrag
+          [class.column-item--active]="facade.selectedColumnConfig()?.key === column.key"
+          (click)="facade.selectColumn(column.key)"
+        >
+          <span class="column-item__grip" aria-hidden="true">⋮⋮</span>
+          <span class="column-item__name">{{ column.label }}</span>
+          <button
+            class="column-item__visibility"
+            type="button"
+            [attr.aria-label]="column.visible ? 'Hide ' + column.label : 'Show ' + column.label"
+            (click)="facade.updateColumnVisibility(column.key, !column.visible); $event.stopPropagation()"
+          >
+            {{ column.visible ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+      }
+    </div>
+  </section>
+
+  @if (facade.selectedColumnConfig(); as selectedColumn) {
+    <section class="table-card">
+      <div class="section-title">{{ t('table.settings.selectedColumn') }}</div>
+
+      <label class="field">
+        <span>{{ 'fields.name' | transloco }}</span>
+        <qo-input
+          class="field-input-native"
+          [value]="selectedColumn.label"
+          [placeholder]="t('table.settings.columnName')"
+          (valueChange)="facade.updateSelectedColumnLabel($event)"
+        ></qo-input>
+      </label>
+
+      <label class="field">
+        <span>{{ t('table.settings.sourceKey') }}</span>
+        <qo-input class="field-input-native" [value]="selectedColumn.key" [readonly]="true"></qo-input>
+      </label>
+
+      <div class="switch-row">
+        <span>{{ t('common.visible') }}</span>
+        <qo-toggle
+          [checked]="selectedColumn.visible"
+          [attr.aria-label]="selectedColumn.visible ? selectedColumn.label + ' shown' : selectedColumn.label + ' hidden'"
+          (checkedChange)="facade.updateColumnVisibility(selectedColumn.key, $event)"
+        ></qo-toggle>
+      </div>
+    </section>
+  }
+}
+
+<section class="table-card">
+  <div class="section-title">{{ 'layout.general' | transloco }}</div>
+
+  <div class="field field-row">
+    <span>{{ t('common.visible') }}</span>
+    <qo-toggle
+      [checked]="config().visible"
+      [attr.aria-label]="config().visible ? 'Visible on' : 'Visible off'"
+      (checkedChange)="facade.toggleFlag('visible')"
+    ></qo-toggle>
+  </div>
+
+  <label class="field">
+    <span>{{ t('table.settings.rowsPerPage') }}</span>
+    <qo-select
+      [value]="config().rowsPerPage"
+      [options]="rowsPerPageOptions"
+      [placeholder]="t('table.settings.rowsPerPage')"
+      (valueChange)="facade.updateRowsPerPage($event)"
+    ></qo-select>
+  </label>
+
+  <div class="field">
+    <span>{{ t('table.settings.tableSize') }}</span>
+    <div class="segmented">
+      <qo-button variant="ghost" size="sm" type="button" [class.active]="config().tableSize === 'short'" (click)="facade.setTableSize('short')">{{ t('table.settings.short') }}</qo-button>
+      <qo-button variant="ghost" size="sm" type="button" [class.active]="config().tableSize === 'default'" (click)="facade.setTableSize('default')">{{ t('table.settings.default') }}</qo-button>
+      <qo-button variant="ghost" size="sm" type="button" [class.active]="config().tableSize === 'tall'" (click)="facade.setTableSize('tall')">{{ t('table.settings.tall') }}</qo-button>
+    </div>
+  </div>
+</section>
+
+<section class="table-card">
+  <div class="section-title">{{ t('table.settings.tableFeatures') }}</div>
+
+  <div class="switch-row">
+    <span>{{ 'actions.search' | transloco }}</span>
+    <qo-toggle [checked]="config().showSearch" [attr.aria-label]="config().showSearch ? 'Search on' : 'Search off'" (checkedChange)="facade.toggleFlag('showSearch')"></qo-toggle>
+  </div>
+
+  <div class="switch-row">
+    <span>{{ t('common.download') }}</span>
+    <qo-toggle [checked]="config().showDownload" [attr.aria-label]="config().showDownload ? 'Download on' : 'Download off'" (checkedChange)="facade.toggleFlag('showDownload')"></qo-toggle>
+  </div>
+
+  <div class="switch-row">
+    <span>Sort</span>
+    <qo-toggle [checked]="config().showSorting" [attr.aria-label]="config().showSorting ? 'Sort on' : 'Sort off'" (checkedChange)="facade.toggleFlag('showSorting')"></qo-toggle>
+  </div>
+
+  <div class="switch-row">
+    <span>{{ t('table.settings.columnFilters') }}</span>
+    <qo-toggle
+      [checked]="config().showColumnFilters"
+      [attr.aria-label]="config().showColumnFilters ? 'Column filters on' : 'Column filters off'"
+      (checkedChange)="facade.toggleFlag('showColumnFilters')"
+    ></qo-toggle>
+  </div>
+</section>
+
+<section class="table-card">
+  <div class="section-title">{{ t('table.settings.crudOperations') }}</div>
+
+  <div class="switch-row">
+    <span>Add</span>
+    <qo-toggle [checked]="config().enableAdd" [attr.aria-label]="config().enableAdd ? 'Add on' : 'Add off'" (checkedChange)="facade.toggleFlag('enableAdd')"></qo-toggle>
+  </div>
+
+  <div class="switch-row">
+    <span>{{ 'actions.edit' | transloco }}</span>
+    <qo-toggle [checked]="config().enableEdit" [attr.aria-label]="config().enableEdit ? 'Edit on' : 'Edit off'" (checkedChange)="facade.toggleFlag('enableEdit')"></qo-toggle>
+  </div>
+
+  <div class="switch-row">
+    <span>{{ 'actions.delete' | transloco }}</span>
+    <qo-toggle [checked]="config().enableDelete" [attr.aria-label]="config().enableDelete ? 'Delete on' : 'Delete off'" (checkedChange)="facade.toggleFlag('enableDelete')"></qo-toggle>
+  </div>
+
+  <div class="switch-row">
+    <span>Duplicate</span>
+    <qo-toggle [checked]="config().enableDuplicate" [attr.aria-label]="config().enableDuplicate ? 'Duplicate on' : 'Duplicate off'" (checkedChange)="facade.toggleFlag('enableDuplicate')"></qo-toggle>
+  </div>
+</section>
+

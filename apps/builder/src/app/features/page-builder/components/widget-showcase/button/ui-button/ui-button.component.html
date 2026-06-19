@@ -1,0 +1,22 @@
+<button
+  [class]="computedClass()"
+  [class.button--fill-container]="fillContainer()"
+  [disabled]="disabled()"
+  [ngStyle]="computedStyle()"
+  (click)="clicked.emit($event)"
+>
+  @if (iconImageSrc()) {
+    <span class="button-icon" aria-hidden="true">
+      <img class="button-icon__image" [src]="iconImageSrc()!" alt="" [style.width]="computedIconSize()" [style.height]="computedIconSize()" />
+    </span>
+  } @else if (iconName()) {
+    <span class="button-icon" aria-hidden="true">
+      <span class="material-symbols-outlined" [style.font-size]="computedIconSize()">{{ iconName() }}</span>
+    </span>
+  }
+  @if (!iconOnly()) {
+    <span>
+      <ng-content></ng-content>
+    </span>
+  }
+</button>

@@ -1,0 +1,111 @@
+:host {
+  display: block;
+}
+
+.qo-stepper {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.qo-stepper-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  width: 120px;
+  cursor: pointer;
+
+  &:not(.qo-stepper-item-completed):not(.qo-stepper-item-active) {
+    cursor: default;
+    
+    .qo-stepper-circle {
+      background-color: var(--qo-color-neutral-100);
+      border-color: var(--qo-color-neutral-300);
+      color: var(--qo-color-neutral-500);
+    }
+    
+    .qo-stepper-label {
+      color: var(--qo-color-neutral-500);
+    }
+  }
+
+  &-active {
+    .qo-stepper-circle {
+      background-color: var(--qo-color-primary-600);
+      border-color: var(--qo-color-primary-600);
+      color: var(--qo-color-neutral-0);
+      box-shadow: 0 0 0 4px var(--qo-color-primary-100);
+    }
+    
+    .qo-stepper-label {
+      color: var(--qo-color-primary-700);
+      font-weight: var(--qo-font-bold);
+    }
+  }
+
+  &-completed:not(.qo-stepper-item-active) {
+    .qo-stepper-circle {
+      background-color: var(--qo-color-success-500);
+      border-color: var(--qo-color-success-500);
+      color: var(--qo-color-neutral-0);
+    }
+  }
+}
+
+.qo-stepper-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--qo-space-3);
+  background-color: var(--qo-color-neutral-0);
+  padding: 0 var(--qo-space-2);
+}
+
+.qo-stepper-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--qo-font-family-mono);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-bold);
+  transition: all 0.2s ease;
+}
+
+.qo-stepper-content {
+  text-align: center;
+}
+
+.qo-stepper-label {
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+  color: var(--qo-color-neutral-900);
+  margin: 0 0 2px 0;
+}
+
+.qo-stepper-desc {
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-xs);
+  color: var(--qo-color-neutral-500);
+  margin: 0;
+}
+
+.qo-stepper-line {
+  flex: 1;
+  height: 2px;
+  background-color: var(--qo-color-neutral-200);
+  margin-top: 15px; // Align with center of 32px circle
+  margin-left: calc(-60px + 24px); // Half item width + half circle padding
+  margin-right: calc(-60px + 24px);
+  z-index: 0;
+
+  &-completed {
+    background-color: var(--qo-color-success-500);
+  }
+}

@@ -1,0 +1,12 @@
+<section class="workflow-code-block">
+  @if (title()) {
+    <p class="workflow-code-block__title">{{ title() }}</p>
+  }
+
+  <div class="workflow-code-block__header">
+    <span class="workflow-code-block__lang">{{ language() }}</span>
+  </div>
+
+  <pre class="workflow-code-block__surface"><code>@for (line of codeLines(); track $index) {<span class="workflow-code-block__line">{{ line }}</span>
+}</code></pre>
+</section>

@@ -1,0 +1,153 @@
+<section class="select-card">
+  <div class="section-title">{{ 'layout.general' | transloco }}</div>
+
+  <div class="field field-row">
+    <span>{{ t('common.visible') }}</span>
+    <qo-button
+      type="button"
+      variant="ghost"
+      size="sm"
+      class="toggle-pill"
+      [class.toggle-pill--on]="facade.config().visible"
+      (click)="facade.toggleVisible()"
+    >
+      <span class="toggle-dot"></span>
+    </qo-button>
+  </div>
+
+  <label class="field">
+    <span>{{ t('select.settings.fieldLabel') }}</span>
+    <qo-input
+      class="field-input"
+      [value]="facade.config().label"
+      (valueChange)="facade.updateFieldLabel($event)"
+      [placeholder]="t('select.settings.enterFieldLabel')"
+    ></qo-input>
+  </label>
+
+  <label class="field">
+    <span>{{ t('search.resultPanel.placeholder') }}</span>
+    <qo-input
+      class="field-input"
+      [value]="facade.config().placeholder"
+      (valueChange)="facade.updatePlaceholder($event)"
+      [placeholder]="t('select.settings.placeholderText')"
+    ></qo-input>
+  </label>
+
+  <div class="field">
+    <span>{{ t('select.settings.variant') }}</span>
+    <qo-select
+      [value]="facade.config().variant"
+      [options]="variantOptions"
+      [placeholder]="t('select.settings.selectVariant')"
+      (valueChange)="facade.updateVariant($event)"
+    ></qo-select>
+  </div>
+
+  @if (facade.config().variant !== 'multiselect') {
+    <div class="field">
+      <span>{{ t('select.settings.defaultValue') }}</span>
+      <qo-select
+        [value]="facade.config().defaultValue"
+        [options]="facade.availableValueOptions()"
+        [placeholder]="'fields.none' | transloco"
+        (valueChange)="facade.updateDefaultValue($event)"
+      ></qo-select>
+    </div>
+  }
+
+  <div class="field field-row">
+    <span>{{ t('select.settings.allowSearch') }}</span>
+    <qo-button
+      type="button"
+      variant="ghost"
+      size="sm"
+      class="toggle-pill"
+      [disabled]="facade.config().variant === 'radio'"
+      [class.toggle-pill--on]="facade.config().allowSearch"
+      (click)="facade.toggleAllowSearch()"
+    >
+      <span class="toggle-dot"></span>
+    </qo-button>
+  </div>
+</section>
+
+<section class="select-card">
+  <div class="section-title">Data</div>
+
+    <div class="field">
+      <span>{{ 'fields.datasource' | transloco }}</span>
+      <qo-select
+      [value]="facade.currentDatasourceId()"
+      [options]="facade.datasourceOptions()"
+      [placeholder]="'fields.selectDatasource' | transloco"
+      (valueChange)="facade.updateDatasource($event)"
+    ></qo-select>
+  </div>
+
+    <div class="field">
+      <span>Query / Binding</span>
+      <app-bindable-input
+      [rows]="3"
+      [value]="facade.currentQueryBinding()"
+      [rootKeys]="facade.queryBindingRootKeys()"
+      [allowNestedSuggestions]="false"
+      [placeholder]="'Paste JSON or type {{ }} binding'"
+      (valueChange)="facade.updateQueryBinding($event)"
+    ></app-bindable-input>
+  </div>
+
+  <div class="field">
+    <span>{{ t('select.settings.labelField') }}</span>
+    <qo-select
+      [value]="facade.config().labelField"
+      [options]="facade.fieldOptions()"
+      [placeholder]="'fields.selectField' | transloco"
+      (valueChange)="facade.updateLabelField($event)"
+    ></qo-select>
+  </div>
+
+  <div class="field">
+    <span>{{ t('select.settings.valueField') }}</span>
+    <qo-select
+      [value]="facade.config().valueField"
+      [options]="facade.fieldOptions()"
+      [placeholder]="'fields.selectField' | transloco"
+      (valueChange)="facade.updateValueField($event)"
+    ></qo-select>
+  </div>
+</section>
+
+@if (!facade.hasBindingConfig()) {
+  <section class="select-card">
+    <div class="section-title">{{ t('select.settings.dropdownOptions') }}</div>
+
+    <div class="option-toolbar">
+      <button type="button" class="add-btn" (click)="facade.addStaticOption()">Add</button>
+    </div>
+
+    <div class="option-list">
+      @for (option of facade.config().options; track option.id) {
+        <div class="option-item">
+          <qo-input
+            class="option-input"
+            [value]="option.label"
+            (valueChange)="facade.updateOptionLabel(option.id, $event)"
+          ></qo-input>
+          <button
+            type="button"
+            class="icon-btn icon-btn--danger"
+            [disabled]="facade.config().options.length <= 1"
+            (click)="facade.deleteOption(option.id)"
+            aria-label="Delete option"
+          >
+            X
+          </button>
+        </div>
+      }
+    </div>
+  </section>
+}
+
+

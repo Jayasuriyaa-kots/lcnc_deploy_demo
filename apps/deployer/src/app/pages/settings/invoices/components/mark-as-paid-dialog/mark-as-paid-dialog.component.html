@@ -1,0 +1,13 @@
+<qo-modal [title]="i18n.translate('settings.markAsPaidTitle')" (close)="close.emit()">
+  <div class="dialog-stack">
+    <p class="mini-label">{{ i18n.translate('settings.markAsPaidStaticLabel') }}</p>
+    <p>
+      {{ i18n.translate('settings.markAsPaidPromptPrefix') }} <strong>{{ invoice().invoiceNumber }}</strong> {{ i18n.translate('settings.markAsPaidPromptMiddle') }}
+      <strong>{{ invoice().amount }}</strong>?
+    </p>
+    <div class="row-actions">
+      <qo-button variant="ghost" (click)="close.emit()">{{ i18n.translate('settings.markAsPaidCancel') }}</qo-button>
+      <qo-button variant="secondary" (click)="confirm.emit()">{{ i18n.translate('settings.markAsPaidConfirm') }}</qo-button>
+    </div>
+  </div>
+</qo-modal>

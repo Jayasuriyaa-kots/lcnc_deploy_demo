@@ -1,0 +1,31 @@
+{
+  "reportId": "recruitment-pipeline-report",
+  "reportLabel": "Recruitment Pipeline",
+  "sourceFormId": "recruitment-application-form",
+  "sourceFormLabel": "Recruitment Application",
+  "sourceTable": "candidates",
+  "columns": [
+    { "id": "candidate_name",    "label": "Candidate",        "dbColumn": "full_name" },
+    { "id": "applied_role",      "label": "Role",             "dbColumn": "applied_role" },
+    { "id": "experience_years",  "label": "Exp (Yrs)",        "dbColumn": "experience_yrs" },
+    { "id": "current_company",   "label": "Current Employer", "dbColumn": "current_company" },
+    { "id": "notice_period",     "label": "Notice Period",    "dbColumn": "notice_period" }
+  ],
+  "rows": [
+    { "id": "1",  "values": ["Akash Verma",       "Software Engineer",    "4",  "Infosys",         "30 Days"] },
+    { "id": "2",  "values": ["Tanvi Nair",         "Senior SDE",           "7",  "Wipro",           "60 Days"] },
+    { "id": "3",  "values": ["Siddharth Jain",     "Data Analyst",         "3",  "Accenture",       "30 Days"] },
+    { "id": "4",  "values": ["Pallavi Mukherjee",  "Product Manager",      "6",  "Flipkart",        "60 Days"] },
+    { "id": "5",  "values": ["Karthik Subramanian","DevOps Engineer",      "5",  "TCS",             "30 Days"] },
+    { "id": "6",  "values": ["Nandini Kulkarni",   "UX Designer",          "4",  "Razorpay",        "15 Days"] },
+    { "id": "7",  "values": ["Harish Balasubramanian","Senior SDE",        "9",  "Amazon",          "90 Days"] },
+    { "id": "8",  "values": ["Smitha Pillai",      "HR Business Partner",  "6",  "Deloitte",        "60 Days"] },
+    { "id": "9",  "values": ["Rohan Kapoor",       "Software Engineer",    "2",  "Cognizant",       "Immediate"] },
+    { "id": "10", "values": ["Divya Murthy",       "Data Analyst",         "5",  "HDFC Bank",       "30 Days"] },
+    { "id": "11", "values": ["Arun Krishnamurthy", "Sales Executive",      "3",  "Freshworks",      "15 Days"] },
+    { "id": "12", "values": ["Preeti Bhat",        "Software Engineer",    "1",  "Startup Stealth", "Immediate"] },
+    { "id": "13", "values": ["Venkatesh Iyer",     "DevOps Engineer",      "8",  "Google",          "90 Days"] },
+    { "id": "14", "values": ["Asha Ramachandran",  "Product Manager",      "10", "Microsoft",       "90 Days"] },
+    { "id": "15", "values": ["Manoj Anand",        "Sales Executive",      "4",  "Salesforce",      "30 Days"] }
+  ]
+}

@@ -1,0 +1,1 @@
+export { AuditLogPageComponent } from './audit-log-page.component';

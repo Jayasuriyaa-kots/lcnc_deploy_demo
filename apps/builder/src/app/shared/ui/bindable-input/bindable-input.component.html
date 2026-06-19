@@ -1,0 +1,46 @@
+<div class="bindable-input">
+  <textarea
+    #textarea
+    class="bindable-input__textarea"
+    [value]="text()"
+    [attr.placeholder]="placeholder()"
+    [attr.rows]="rows()"
+    spellcheck="false"
+    (input)="onInput($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    (click)="onCursorActivity()"
+    (keyup)="onCursorActivity()"
+    (keydown)="onKeydown($event)"
+  ></textarea>
+
+  @if (showDropdown()) {
+    <div class="bindable-input__dropdown">
+      @if (showBindingStarter()) {
+        <button type="button" class="bindable-input__starter" (click)="startBinding()">
+          <span class="bindable-input__starter-badge">{{ '{}' }}</span>
+          <span>Add a binding</span>
+        </button>
+      }
+
+      @if (showSuggestions()) {
+        <div class="bindable-input__dropdown-header">Bind data</div>
+
+        @for (suggestion of suggestions(); track suggestionTrackBy($index, suggestion); let suggestionIndex = $index) {
+          <button
+            type="button"
+            class="bindable-input__option"
+            [class.bindable-input__option--active]="highlightedIndex() === suggestionIndex"
+            (click)="selectSuggestion(suggestion)"
+          >
+            <span class="bindable-input__option-main">
+              <span class="bindable-input__option-label">{{ suggestion.label }}</span>
+              <span class="bindable-input__option-description">{{ suggestion.description }}</span>
+            </span>
+            <span class="bindable-input__option-type">{{ suggestion.type }}</span>
+          </button>
+        }
+      }
+    </div>
+  }
+</div>

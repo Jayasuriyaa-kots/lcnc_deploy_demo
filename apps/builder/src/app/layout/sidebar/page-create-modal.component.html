@@ -1,0 +1,62 @@
+<div class="page-create-screen" role="dialog" aria-modal="true" aria-labelledby="page-create-title">
+  <div class="page-create-screen__backdrop" (click)="close()"></div>
+  <section class="page-create-screen__surface">
+    <header class="page-create-screen__header">
+      <div>
+        <p class="page-create-screen__eyebrow">Page Builder</p>
+        <h1 class="page-create-screen__title" id="page-create-title">{{ title() }}</h1>
+        <p class="page-create-screen__subtitle">{{ subtitle() }}</p>
+      </div>
+      <qo-button class="page-create-screen__close" variant="ghost" type="button" (click)="close()">
+        Close
+      </qo-button>
+    </header>
+
+    <form class="page-create-screen__body" [formGroup]="form" (ngSubmit)="createPage()">
+      <section class="page-create-screen__panel">
+        <div class="page-create-screen__panel-copy">
+          <p class="page-create-screen__panel-eyebrow">Setup</p>
+          <h2 class="page-create-screen__panel-title">Page Details</h2>
+          <p class="page-create-screen__panel-text">
+            Start with a page name and add optional context before opening the editor.
+          </p>
+        </div>
+
+        <div class="page-create-screen__grid">
+          <label class="page-create-modal__field">
+            <span>NAME *</span>
+            <input type="text" formControlName="name" placeholder="Page name" />
+          </label>
+
+          <label class="page-create-modal__field">
+            <span>DESCRIPTION</span>
+            <textarea formControlName="description" placeholder="Describe what this page is for"></textarea>
+          </label>
+        </div>
+      </section>
+    </form>
+
+    <footer class="page-create-screen__footer">
+      <div class="page-create-screen__footer-copy">
+        <div class="page-create-screen__footer-title">{{ form.controls.name.value?.trim() || 'New Page' }}</div>
+        <div class="page-create-screen__footer-meta">
+          {{ form.controls.description.value?.trim() ? 'Page details ready for the editor' : 'Add details now or later in the editor' }}
+        </div>
+      </div>
+      <div class="page-create-screen__footer-actions">
+        <qo-button class="page-create-modal__footer-btn page-create-modal__footer-btn--secondary" variant="secondary" type="button" (click)="close()">
+          Cancel
+        </qo-button>
+        <qo-button
+          class="page-create-modal__footer-btn page-create-modal__footer-btn--primary"
+          variant="primary"
+          type="submit"
+          [disabled]="isSubmitDisabled()"
+          (click)="createPage()"
+        >
+          {{ submitLabel() }}
+        </qo-button>
+      </div>
+    </footer>
+  </section>
+</div>

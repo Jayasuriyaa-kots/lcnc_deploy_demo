@@ -1,0 +1,23 @@
+<qo-workflow-card
+  [title]="workflow().name"
+  [status]="badgeStatus()"
+  [subtitle]="''"
+  [meta]="''"
+  [selected]="selected()"
+  [historyLabel]="hasHistory() ? historyLabel() : ''"
+  (toggle)="select.emit(workflow().id)"
+  (edit)="edit.emit(workflow().id)"
+  (openHistory)="openHistory.emit(workflow().id)"
+>
+  <div class="workflow-form-action-card__content" (click)="select.emit(workflow().id)">
+    <app-workflow-trigger-summary [triggerLabel]="triggerSummary()" />
+
+    @if (detail()) {
+      <qo-workflow-mini-canvas
+        [compact]="true"
+        [nodes]="detail()!.steps.nodes"
+        [connections]="detail()!.steps.edges"
+      />
+    }
+  </div>
+</qo-workflow-card>

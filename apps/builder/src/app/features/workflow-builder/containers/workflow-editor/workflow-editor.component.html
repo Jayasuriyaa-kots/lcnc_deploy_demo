@@ -1,0 +1,226 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<section class="workflow-editor" [class.workflow-editor--config-collapsed]="!configPanelOpen()">
+  <div class="workflow-editor__viewport-blocker">
+    <qo-empty-state
+      icon="inbox"
+      [title]="t('emptyStates.desktopViewport.title')"
+      [description]="t('emptyStates.desktopViewport.description')"
+    />
+  </div>
+
+  <app-workflow-editor-sidebar
+    [workflowName]="workflow()?.name ?? t('editor.workflowEditor')"
+    [workflowStatusLabel]="workflowStatusLabel()"
+    [workflowVersionLabel]="workflowVersionLabel()"
+    [paletteSearch]="paletteSearch()"
+    [paletteEmpty]="paletteEmpty()"
+    [paletteGroups]="filteredPaletteGroups()"
+    [saving]="saving()"
+    (back)="goBack()"
+    (paletteSearchChange)="paletteSearch.set($event)"
+    (paletteDragStart)="onPaletteDragStart($event.event, $event.node)"
+    (saveWorkflow)="saveWorkflow()"
+  />
+
+  <main class="workflow-editor__workspace">
+    <app-workflow-editor-topbar
+      [workflowContextLabel]="workflowContextLabel()"
+      [workflowStatusLabel]="workflowStatusLabel()"
+      [workflowVersionLabel]="workflowVersionLabel()"
+      [saveStateLabel]="saveStateLabel()"
+      [dirty]="dirty()"
+      [canDeleteSelectedNode]="canDeleteSelectedNode()"
+      [running]="running()"
+      [saving]="saving()"
+      (deleteSelectedNode)="deleteSelectedNode()"
+      (validateWorkflow)="validateWorkflow()"
+      (testRunWorkflow)="testRunWorkflow()"
+      (saveWorkflow)="saveWorkflow()"
+    />
+
+    @if (editorError()) {
+      <div class="workflow-editor__message workflow-editor__message--error">{{ editorError() }}</div>
+    } @else if (loading()) {
+      <div class="workflow-editor__message">{{ t('loading.workflowCanvas') }}</div>
+    } @else {
+      <section class="workflow-editor__canvas-shell">
+        @if (feedbackPanel(); as panel) {
+          <app-workflow-editor-feedback-panel [panel]="panel" />
+        }
+
+        @if (connectionHint()) {
+          <div class="workflow-editor__connection-hint">
+            {{ connectionHint() }}
+          </div>
+        }
+
+        @if (workflowRunPreviewJson()) {
+          <app-workflow-editor-run-preview
+            [previewJson]="workflowRunPreviewJson()!"
+            (closePreview)="closeWorkflowRunPreview()"
+          />
+        }
+
+        <div
+          #workflowCanvas
+          class="workflow-editor__canvas"
+          [class.workflow-editor__canvas--drag-over]="dragOverCanvas()"
+          appWorkflowCanvasStyle
+          [appWorkflowCanvasWidth]="canvasWidth()"
+          [appWorkflowCanvasHeight]="canvasHeight()"
+          [appWorkflowCanvasZoom]="zoom()"
+          (dragenter)="onCanvasDragEnter($event)"
+          (dragover)="onCanvasDragOver($event)"
+          (dragleave)="onCanvasDragLeave($event)"
+          (drop)="onCanvasDrop($event)"
+          (click)="onCanvasBackgroundClick($event)"
+        >
+          <div class="workflow-editor__canvas-grid" aria-hidden="true"></div>
+
+          <svg class="workflow-editor__edges" [attr.viewBox]="'0 0 ' + canvasWidth() + ' ' + canvasHeight()">
+            <defs>
+              <marker
+                id="workflow-arrow"
+                markerWidth="10"
+                markerHeight="10"
+                refX="8"
+                refY="3"
+                orient="auto"
+                markerUnits="strokeWidth"
+              >
+                <path d="M 0 0 L 8 3 L 0 6 z" />
+              </marker>
+            </defs>
+
+            @for (edge of edges(); track edge.id) {
+              <path class="workflow-editor__edge" [attr.d]="edgePath(edge)" marker-end="url(#workflow-arrow)" />
+              @if (edgeLabel(edge); as label) {
+                <g class="workflow-editor__edge-label">
+                  <rect [attr.x]="label.x - 34" [attr.y]="label.y - 12" width="68" height="24" rx="12"></rect>
+                  <text [attr.x]="label.x" [attr.y]="label.y + 4">{{ label.label }}</text>
+                </g>
+              }
+            }
+
+            @if (connectionPreviewPath()) {
+              <path
+                class="workflow-editor__edge workflow-editor__edge--preview"
+                [attr.d]="connectionPreviewPath()"
+                marker-end="url(#workflow-arrow)"
+              />
+            }
+          </svg>
+
+          <div class="workflow-editor__nodes">
+            @if (!nodes().length) {
+              <div class="workflow-editor__empty">
+                <qo-empty-state
+                  icon="inbox"
+                  [title]="t('emptyStates.canvas.title')"
+                  [description]="t('emptyStates.canvas.description')"
+                />
+              </div>
+            }
+
+            @for (node of nodes(); track node.id) {
+              <article
+                class="workflow-editor__node"
+                [class.workflow-editor__node--selected]="selectedNodeId() === node.id"
+                [class.workflow-editor__node--connecting]="connectingFromNodeId() === node.id"
+                [class.workflow-editor__node--new]="recentlyAddedNodeId() === node.id"
+                [class.workflow-editor__node--start]="isStartNode(node)"
+                [class.workflow-editor__node--end]="isEndNode(node)"
+                [class.workflow-editor__node--invalid]="isInvalidNode(node)"
+                [class.workflow-editor__node--run-pending]="nodeRunState(node.id) === 'pending'"
+                [class.workflow-editor__node--run-running]="nodeRunState(node.id) === 'running'"
+                [class.workflow-editor__node--run-success]="nodeRunState(node.id) === 'success'"
+                [class.workflow-editor__node--run-failed]="nodeRunState(node.id) === 'failed'"
+                appWorkflowNodePosition
+                [appWorkflowNodeX]="node.position.x"
+                [appWorkflowNodeY]="node.position.y"
+                [attr.data-node-id]="node.id"
+                (pointerdown)="onNodePointerDown($event, node)"
+              >
+                @if (!isStartNode(node)) {
+                  <button
+                    class="workflow-editor__handle workflow-editor__handle--input"
+                    type="button"
+                    [attr.data-node-id]="node.id"
+                    [attr.aria-label]="t('accessibility.connectToNode')"
+                    [title]="t('accessibility.connectToNode')"
+                    (pointerdown)="finishConnection($event, node.id)"
+                  ></button>
+                }
+
+                <button class="workflow-editor__node-card" type="button" (click)="$event.stopPropagation(); selectNode(node.id)">
+                  <span class="workflow-editor__node-title-row">
+                    <span class="workflow-editor__node-icon" [attr.data-type]="node.type">
+                      <qo-icon [name]="nodeIcon(node)" size="sm"></qo-icon>
+                    </span>
+                    <strong>{{ node.label }}</strong>
+                    @if (isInvalidNode(node)) {
+                      <span class="workflow-editor__node-status workflow-editor__node-status--invalid" [attr.aria-label]="t('accessibility.invalid')"></span>
+                    } @else if (isStartNode(node)) {
+                      <span class="workflow-editor__node-lock" [attr.aria-label]="t('accessibility.locked')">
+                        <qo-icon name="lock" size="sm"></qo-icon>
+                      </span>
+                    } @else if (isEndNode(node)) {
+                      <span class="workflow-editor__node-terminal" [attr.aria-label]="t('accessibility.terminal')"></span>
+                    } @else if (node.type === 'trigger') {
+                      <span class="workflow-editor__node-status" [attr.aria-label]="t('accessibility.configured')"></span>
+                    }
+                  </span>
+                  <span class="workflow-editor__node-category">{{ nodeCategoryLabel(node) }}</span>
+                  <span class="workflow-editor__node-description">{{ nodeDescription(node) || nodeKindLabel(node) }}</span>
+                  @if (nodeRunState(node.id); as runState) {
+                    <span class="workflow-editor__node-run-state">{{ runState }}</span>
+                  }
+                </button>
+
+                @if (!isEndNode(node)) {
+                  <button
+                    class="workflow-editor__handle workflow-editor__handle--output"
+                    type="button"
+                    [attr.aria-label]="t('accessibility.startConnection')"
+                    [title]="t('accessibility.startConnection')"
+                    [attr.data-node-id]="node.id"
+                    (pointerdown)="startConnection($event, node.id)"
+                  ></button>
+                }
+              </article>
+            }
+          </div>
+        </div>
+
+        <app-workflow-editor-zoom-controls
+          [zoomLabel]="zoomLabel()"
+          (zoomIn)="zoomIn()"
+          (zoomOut)="zoomOut()"
+          (resetZoom)="resetZoom()"
+        />
+      </section>
+    }
+  </main>
+
+  @if (configPanelOpen()) {
+    <app-workflow-node-config-panel
+      [node]="selectedNode()"
+      [definition]="selectedNodeDefinition()"
+      [validationMessages]="selectedNodeValidationMessages()"
+      [formFields]="formFields()"
+      [formDatasourceQueries]="formDatasourceQueries()"
+      [mappingSources]="mappingSources()"
+      (configChange)="updateNodeConfig($event)"
+      (collapse)="collapseConfigPanel()"
+    />
+  }
+</section>
+
+@if (confirmConfig()) {
+  <qo-confirm-dialog
+    [config]="confirmConfig()!"
+    (confirmed)="confirmDeleteSelectedNode()"
+    (cancelled)="cancelDeleteSelectedNode()"
+  />
+}
+</ng-container>

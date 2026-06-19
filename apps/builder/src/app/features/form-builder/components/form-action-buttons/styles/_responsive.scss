@@ -1,0 +1,36 @@
+@media (max-width: 75rem) {
+  .action-editor__grid {
+    grid-template-columns: minmax(0, 1fr) repeat(2, minmax(11rem, 1fr));
+  }
+}
+
+@media (max-width: 62rem) {
+  .action-editor {
+    padding: var(--qo-space-4);
+  }
+
+  .action-editor__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .action-editor__field--wide {
+    min-width: 0;
+  }
+
+  .action-editor__footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .action-editor__footer-right {
+    width: 100%;
+    margin-left: 0;
+    justify-content: stretch;
+  }
+
+  :host ::ng-deep qo-button.btn-primary .qo-btn,
+  :host ::ng-deep qo-button.btn-secondary .qo-btn,
+  :host ::ng-deep qo-button.btn-danger .qo-btn {
+    width: 100%;
+  }
+}

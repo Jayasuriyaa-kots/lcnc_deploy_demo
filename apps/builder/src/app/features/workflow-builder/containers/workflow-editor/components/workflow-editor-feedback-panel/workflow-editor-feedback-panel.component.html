@@ -1,0 +1,26 @@
+<aside
+  class="workflow-editor__feedback"
+  [class.workflow-editor__feedback--danger]="panel().tone === 'danger'"
+  [class.workflow-editor__feedback--info]="panel().tone === 'info'"
+  [class.workflow-editor__feedback--success]="panel().tone === 'success'"
+  [class.workflow-editor__feedback--warning]="panel().tone === 'warning'"
+>
+  <header>
+    <div>
+      <span>{{ panel().status }}</span>
+      <strong>{{ panel().title }}</strong>
+    </div>
+    @if (panel().tone === 'success') {
+      <qo-icon name="check" size="sm"></qo-icon>
+    } @else if (panel().tone === 'danger' || panel().tone === 'warning') {
+      <qo-icon name="alert-triangle" size="sm"></qo-icon>
+    } @else {
+      <qo-icon name="play" size="sm"></qo-icon>
+    }
+  </header>
+  <div class="workflow-editor__feedback-body">
+    @for (message of panel().messages; track message) {
+      <p>{{ message }}</p>
+    }
+  </div>
+</aside>

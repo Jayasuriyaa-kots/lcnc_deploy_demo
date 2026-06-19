@@ -1,0 +1,39 @@
+<qo-modal
+  title="Assign User"
+  [subtitle]="'Assign existing Deployer users to the ' + roleName() + ' role.'"
+  size="md"
+  [maxWidth]="'var(--qo-size-560)'"
+  (close)="closeModal()"
+>
+  <form class="assign-user-modal" [formGroup]="form()" (ngSubmit)="submit()">
+    @if (hasAvailableUsers()) {
+      <div class="assign-user-modal__list">
+        @for (user of users(); track user.id) {
+          <label class="assign-user-modal__item">
+            <div class="assign-user-modal__item-main">
+              <qo-avatar-badge [name]="user.name" size="sm" />
+              <div class="assign-user-modal__copy">
+                <strong>{{ user.name }}</strong>
+                <span>{{ user.email }}</span>
+              </div>
+            </div>
+            <qo-checkbox [checked]="!!form().get(user.id)?.value" (checkedChange)="form().get(user.id)?.setValue($event)" />
+          </label>
+        }
+      </div>
+    } @else {
+      <div class="assign-user-modal__empty">
+        All organisation users are already assigned to this role.
+      </div>
+    }
+
+    @if (form().errors?.['required']) {
+      <p class="assign-user-modal__error">Select at least one user to continue.</p>
+    }
+  </form>
+
+  <div qo-modal-footer class="assign-user-modal__footer">
+    <qo-button variant="link" (click)="closeModal()">Cancel</qo-button>
+    <qo-button variant="primary" [disabled]="!hasAvailableUsers()" (click)="submit()">Assign Users</qo-button>
+  </div>
+</qo-modal>

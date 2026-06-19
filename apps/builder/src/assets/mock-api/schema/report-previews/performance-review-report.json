@@ -1,0 +1,36 @@
+{
+  "reportId": "performance-review-report",
+  "reportLabel": "Performance Reviews — Q2 2026",
+  "sourceFormId": "performance-review-form",
+  "sourceFormLabel": "Performance Review",
+  "sourceTable": "performance_reviews",
+  "columns": [
+    { "id": "employee_id", "label": "Emp Code",    "dbColumn": "employee_id" },
+    { "id": "reviewer_name","label": "Reviewer",   "dbColumn": "reviewer" },
+    { "id": "review_period","label": "Period",     "dbColumn": "review_period" },
+    { "id": "overall_rating","label": "Rating",    "dbColumn": "overall_rating" },
+    { "id": "goals_achieved","label": "Goals %",   "dbColumn": "goals_pct" }
+  ],
+  "rows": [
+    { "id": "1",  "values": ["EMP-0001", "Lakshmi Venkat",  "Q2 2026", "5 - Exceptional",           "98"] },
+    { "id": "2",  "values": ["EMP-0002", "Kiran Rao",       "Q2 2026", "4 - Exceeds Expectations",  "92"] },
+    { "id": "3",  "values": ["EMP-0003", "Kiran Rao",       "Q2 2026", "4 - Exceeds Expectations",  "89"] },
+    { "id": "4",  "values": ["EMP-0004", "Rajesh Naik",     "Q2 2026", "3 - Meets Expectations",    "81"] },
+    { "id": "5",  "values": ["EMP-0006", "Lakshmi Venkat",  "Q2 2026", "4 - Exceeds Expectations",  "94"] },
+    { "id": "6",  "values": ["EMP-0007", "Sunita Mishra",   "Q2 2026", "3 - Meets Expectations",    "76"] },
+    { "id": "7",  "values": ["EMP-0008", "Rajesh Naik",     "Q2 2026", "5 - Exceptional",           "100"] },
+    { "id": "8",  "values": ["EMP-0009", "Kiran Rao",       "Q2 2026", "4 - Exceeds Expectations",  "91"] },
+    { "id": "9",  "values": ["EMP-0010", "Meena Saxena",    "Q2 2026", "2 - Needs Improvement",     "55"] },
+    { "id": "10", "values": ["EMP-0011", "Sunita Mishra",   "Q2 2026", "3 - Meets Expectations",    "78"] },
+    { "id": "11", "values": ["EMP-0012", "Lakshmi Venkat",  "Q2 2026", "4 - Exceeds Expectations",  "88"] },
+    { "id": "12", "values": ["EMP-0013", "Lakshmi Venkat",  "Q2 2026", "3 - Meets Expectations",    "80"] },
+    { "id": "13", "values": ["EMP-0014", "Kiran Rao",       "Q2 2026", "3 - Meets Expectations",    "73"] },
+    { "id": "14", "values": ["EMP-0016", "Kiran Rao",       "Q2 2026", "4 - Exceeds Expectations",  "90"] },
+    { "id": "15", "values": ["EMP-0017", "Meena Saxena",    "Q2 2026", "5 - Exceptional",           "96"] },
+    { "id": "16", "values": ["EMP-0019", "Sunita Mishra",   "Q2 2026", "4 - Exceeds Expectations",  "87"] },
+    { "id": "17", "values": ["EMP-0020", "Rajesh Naik",     "Q2 2026", "3 - Meets Expectations",    "75"] },
+    { "id": "18", "values": ["EMP-0022", "Sunita Mishra",   "Q2 2026", "4 - Exceeds Expectations",  "93"] },
+    { "id": "19", "values": ["EMP-0024", "Kiran Rao",       "Q2 2026", "3 - Meets Expectations",    "79"] },
+    { "id": "20", "values": ["EMP-0028", "Kiran Rao",       "Q2 2026", "4 - Exceeds Expectations",  "85"] }
+  ]
+}

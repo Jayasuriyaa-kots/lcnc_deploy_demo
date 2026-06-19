@@ -1,0 +1,20 @@
+<section class="panel-showcase">
+  <header class="panel-showcase__header">
+    <p class="panel-showcase__eyebrow">Panel Widgets</p>
+    <h2 class="panel-showcase__title">Drag KPI panels onto the canvas</h2>
+  </header>
+
+  <div class="panel-showcase__grid">
+    @for (preset of presets; track preset.id) {
+      <button
+        class="panel-showcase__card"
+        type="button"
+        draggable="true"
+        (dragstart)="startDrag($event, preset)"
+        (dragend)="endDrag()"
+      >
+        <app-panel-widget [config]="preset.panelConfig"></app-panel-widget>
+      </button>
+    }
+  </div>
+</section>

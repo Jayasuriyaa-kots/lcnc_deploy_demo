@@ -1,0 +1,110 @@
+<aside class="card-editor">
+  <header class="card-editor__header">
+    <h2>{{ t('generated.detail_layout_builder') }}</h2>
+    <qo-button class="drawer__close" type="button" variant="ghost" size="sm" [iconOnly]="true" [attr.aria-label]="t('generated.close_drawer')" (click)="closeAll.emit()">
+      <qo-icon name="x" size="sm" />
+    </qo-button>
+  </header>
+
+  <!-- ── Action bar: Add Block / Add Tab ──────────────────────────────── -->
+  <div class="detail-layout-action-bar">
+    <qo-button type="button" variant="ghost" class="detail-layout-action-btn detail-layout-action-btn--block"
+      [class.detail-layout-action-btn--active]="showBlockSection()"
+      (click)="switchToBlockAndAdd()">
+      <span class="detail-layout-action-btn__preview" aria-hidden="true">
+        <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1.5" y="1.5" width="217" height="117" rx="13.5" stroke="currentColor" stroke-width="3"/>
+          <path d="M16 28H85" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M16 52H85" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M16 76H85" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M16 100H85" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M134 28H203" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M134 52H203" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M134 76H203" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M134 100H203" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="detail-layout-action-btn__title">{{ t('generated.add_block_2') }}</span>
+    </qo-button>
+    <qo-button type="button" variant="ghost" class="detail-layout-action-btn detail-layout-action-btn--tab"
+      [class.detail-layout-action-btn--active]="showTabSection()"
+      (click)="switchToTabAndAdd()">
+      <span class="detail-layout-action-btn__preview" aria-hidden="true">
+        <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1.5" y="1.5" width="217" height="117" rx="13.5" stroke="currentColor" stroke-width="3"/>
+          <path d="M2 48H218" stroke="currentColor" stroke-width="2"/>
+          <path d="M16 28H54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M70 28H108" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M124 28H162" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M178 28H206" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M16 78H54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M70 78H108" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M124 78H162" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M178 78H206" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M16 102H54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M70 102H108" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M124 102H162" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M178 102H206" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="detail-layout-action-btn__title">{{ t('generated.add_tab_2') }}</span>
+    </qo-button>
+  </div>
+
+  <div class="side-drawer__body side-drawer__body--padded">
+
+    <!-- ── All Fields list (default section) ────────────────────────────── -->
+    @if (!showBlockSection() && !showTabSection()) {
+      <app-detail-all-fields-layout
+        [fieldIds]="allFieldsDraft()"
+        [allColumns]="allColumns()"
+        (change)="updateAllFieldsOrder($event)"
+        (add)="addAllField($event)"
+        (remove)="removeAllField($event)">
+      </app-detail-all-fields-layout>
+    }
+
+    <!-- ── Block section ───────────────────────────────────────────────── -->
+    @if (showBlockSection()) {
+      <div class="detail-layout-section-divider">
+        <span>{{ t('generated.blocks') }}</span>
+      </div>
+      <app-detail-block-layout
+        [blocks]="blockLayoutDraft()"
+        [allColumns]="allColumns()"
+        (change)="updateBlockLayout($event)"
+        (addBlock)="addBlockLayoutBlock()"
+        (renameBlock)="renameBlockLayoutBlock($event)"
+        (deleteBlock)="deleteBlockLayoutBlock($event)">
+      </app-detail-block-layout>
+    }
+
+    <!-- ── Tab section ─────────────────────────────────────────────────── -->
+    @if (showTabSection()) {
+      <div class="detail-layout-section-divider">
+        <span>{{ t('generated.tabs') }}</span>
+      </div>
+      <app-detail-tab-layout
+        #tabLayoutRef
+        [tabs]="tabLayoutDraft()"
+        [allColumns]="allColumns()"
+        (change)="updateTabLayout($event)"
+        (addTab)="addTabLayoutTabWithTitle($event)"
+        (renameTab)="renameTabLayoutTab($event)"
+        (deleteTab)="deleteTabLayoutTab($event)"
+        (addField)="addFieldToTabLayout($event)">
+      </app-detail-tab-layout>
+    }
+  </div>
+
+  <footer class="side-drawer__footer">
+    <qo-button
+      variant="secondary"
+      type="button"
+      (click)="switchToAllFields()">
+      {{ t('generated.back_to_all_fields') }}
+    </qo-button>
+    <qo-button variant="secondary" type="button" (click)="closeAll.emit()">{{ common('cancel') }}</qo-button>
+    <qo-button variant="primary" type="button" (click)="applyDetailLayoutBuilderUnified(); closeAll.emit()">{{ common('apply') }}</qo-button>
+  </footer>
+</aside>

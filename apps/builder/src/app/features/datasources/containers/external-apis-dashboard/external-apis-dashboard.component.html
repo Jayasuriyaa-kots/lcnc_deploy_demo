@@ -1,0 +1,164 @@
+        <div class="datasources-page__header external-apis__header">
+          <div>
+            <div class="datasources-page__eyebrow">{{ t('externalApis.externalSystemsEyebrow') }}</div>
+            <h1 class="datasources-page__title">{{ t('externalApis.externalApisTitle') }}</h1>
+            <p class="datasources-page__description">
+              {{ t('externalApis.externalApisDescription') }}
+            </p>
+          </div>
+
+          <div class="datasources-page__header-actions">
+            <qo-button variant="secondary" type="button" (click)="store.testAllExternalApis()">{{ t('externalApis.testAll') }}</qo-button>
+            <qo-button variant="primary" type="button" (click)="store.showExternalConnectors()">{{ t('externalApis.addIntegration') }}</qo-button>
+          </div>
+        </div>
+
+        <div class="datasources-page__info-card external-apis__info">
+          <qo-icon name="info" class="datasources-page__info-icon"></qo-icon>
+          <span>{{ t('externalApis.externalApisInfoCard') }}</span>
+        </div>
+
+        <div class="external-apis__toolbar">
+          <qo-input
+            class="external-apis__search"
+            [value]="store.externalApiSearch()"
+            [placeholder]="t('externalApis.searchExternalSystems')"
+            prefixIcon="search"
+            (valueChange)="store.onExternalSearch($event)"
+          ></qo-input>
+          <qo-select
+            class="external-apis__filter"
+            [value]="store.externalCategoryFilter()"
+            [options]="store.externalCategoryOptions()"
+            (valueChange)="store.onExternalCategory($event)"
+          ></qo-select>
+          <qo-select
+            class="external-apis__filter"
+            [value]="store.externalStatusFilter()"
+            [options]="store.externalStatusOptions"
+            (valueChange)="store.onExternalStatus($event)"
+          ></qo-select>
+        </div>
+
+        @if (store.filteredExternalIntegrations().length) {
+          <div class="external-apis__list">
+            @for (integration of store.filteredExternalIntegrations(); track store.externalIntegrationTrack(integration)) {
+              <article class="external-apis__row" [class.external-apis__row--expanded]="integration.expanded">
+                <div class="external-apis__summary">
+                  <span
+                    class="external-apis__dot"
+                    [class.external-apis__dot--connected]="integration.active && integration.status === 'Connected'"
+                    [class.external-apis__dot--expired-token]="integration.status === 'Expired Token'"
+                    [class.external-apis__dot--error]="integration.status === 'Error'"
+                    [class.external-apis__dot--not-connected]="!integration.active || integration.status === 'Not Connected'"
+                  ></span>
+                  <div class="external-apis__logo" [attr.aria-label]="integration.name + ' logo'">
+                    <qo-connector-icon
+                      [type]="store.externalConnectorIconType(integration.connectorId)"
+                      size="card"
+                      appearance="plain"
+                    ></qo-connector-icon>
+                  </div>
+                  <div class="external-apis__identity">
+                    <strong>{{ integration.name }}</strong>
+                    <span>{{ integration.category }}</span>
+                  </div>
+                  <div class="external-apis__metric">
+                    <small>{{ t('externalApis.metricStatus') }}</small>
+                    <qo-badge [color]="store.externalStatusColor(integration.status)">{{ integration.status }}</qo-badge>
+                  </div>
+                  <div class="external-apis__metric">
+                    <small>{{ t('externalApis.metricAuth') }}</small>
+                    <b>{{ integration.auth }}</b>
+                  </div>
+                  <div class="external-apis__metric external-apis__metric--optional">
+                    <small>{{ t('externalApis.metricLastSync') }}</small>
+                    <b>{{ integration.lastSync }}</b>
+                  </div>
+                  <div class="external-apis__metric external-apis__metric--optional">
+                    <small>{{ t('externalApis.metricUsedIn') }}</small>
+                    <b>{{ integration.usedIn }}</b>
+                  </div>
+                  <div class="external-apis__actions">
+                    <div class="external-apis__status-cell" [class.external-apis__status-cell--inactive]="!integration.active">
+                      <qo-toggle
+                        [checked]="integration.active"
+                        [label]="integration.active ? t('common.active') : t('common.inactive')"
+                        (checkedChange)="store.toggleExternalIntegrationActive(integration.id)"
+                      ></qo-toggle>
+                    </div>
+                    <qo-button variant="secondary" size="sm" type="button" (click)="store.toggleExternalExpansion(integration.id)">
+                      {{ integration.expanded ? t('externalApis.collapse') : t('externalApis.expand') }}
+                    </qo-button>
+                    <qo-button variant="secondary" size="sm" type="button" (click)="store.editExternalIntegration(integration)">{{ t('externalApis.edit') }}</qo-button>
+                    <qo-button variant="secondary" size="sm" type="button" (click)="store.testExternalIntegration(integration)">{{ t('externalApis.test') }}</qo-button>
+                    <qo-button variant="secondary" size="sm" type="button" (click)="store.syncExternalIntegration(integration.id)">{{ t('externalApis.sync') }}</qo-button>
+                    <qo-button variant="secondary" size="sm" type="button" (click)="confirmDeleteIntegration(integration)">{{ t('externalApis.delete') }}</qo-button>
+                  </div>
+                </div>
+
+                @if (integration.expanded) {
+                  <div class="external-apis__detail">
+                    <div class="external-apis__detail-heading">
+                      {{ store.externalDetailHeadingLabel(integration) }}
+                    </div>
+
+                    <div class="external-apis__detail-search">
+                      <div class="external-apis__detail-search-field">
+                        <qo-input
+                          class="external-apis__detail-search-input"
+                          [value]="store.externalDetailSearchValue(integration.id)"
+                          [placeholder]="t('externalApis.searchResources')"
+                          prefixIcon="search"
+                          (valueChange)="store.setExternalDetailSearch(integration.id, $event)"
+                        ></qo-input>
+                        @if (store.externalDetailSearchValue(integration.id)) {
+                          <qo-button
+                            class="external-apis__detail-search-clear"
+                            variant="ghost"
+                            size="sm"
+                          type="button"
+                          (click)="store.clearExternalDetailSearch(integration.id)"
+                        >
+                            {{ t('externalApis.clear') }}
+                          </qo-button>
+                        }
+                      </div>
+                    </div>
+
+                    <qo-table class="external-apis__detail-table" [data]="store.visibleExternalEndpointRows(integration)">
+                      <ng-template qoTableColumn="resource" [header]="t('externalApis.colResource')" let-row>
+                        {{ row.resource }}
+                      </ng-template>
+                      <ng-template qoTableColumn="method" [header]="t('externalApis.colMethod')" let-row>
+                        {{ row.method }}
+                      </ng-template>
+                      <ng-template qoTableColumn="mappedFields" [header]="t('externalApis.colMappedFields')" let-row>
+                        {{ row.mappedFields }}
+                      </ng-template>
+                      <ng-template qoTableColumn="syncMode" [header]="t('externalApis.colSyncMode')" let-row>
+                        {{ row.syncMode }}
+                      </ng-template>
+                      <ng-template qoTableColumn="usage" [header]="t('externalApis.colUsage')" let-row>
+                        {{ row.usage }}
+                      </ng-template>
+                      <ng-template qoTableEmpty>
+                        <qo-empty-state
+                          icon="search"
+                          [title]="t('externalApis.noMatchingResourcesFound')"
+                          [description]="t('externalApis.tryDifferentResourceSearch')"
+                        ></qo-empty-state>
+                      </ng-template>
+                    </qo-table>
+                  </div>
+                }
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="datasources-page__cards datasources-page__cards--empty">
+            <qo-empty-state icon="search" [title]="t('externalApis.noIntegrationsFound')" [description]="t('externalApis.tryDifferentSearchOrFilter')"></qo-empty-state>
+          </div>
+        }
+
+

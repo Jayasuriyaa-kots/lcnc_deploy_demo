@@ -1,0 +1,27 @@
+<qo-table class="payments-table-wrapper" [data]="paymentRows()">
+  <ng-template qoTableColumn="date" [header]="i18n.translate('settings.colPaymentDate')" let-payment>
+    {{ payment.date }}
+  </ng-template>
+  <ng-template qoTableColumn="reference" [header]="i18n.translate('settings.colPaymentReference')" let-payment>
+    <span class="payment-reference">{{ payment.reference }}</span>
+  </ng-template>
+  <ng-template qoTableColumn="amount" [header]="i18n.translate('settings.colPaymentAmount')" let-payment>
+    <strong class="payment-amount">{{ payment.amount }}</strong>
+  </ng-template>
+  <ng-template qoTableColumn="method" [header]="i18n.translate('settings.colPaymentMethod')" let-payment>
+    <span class="payment-muted">{{ payment.method }}</span>
+  </ng-template>
+  <ng-template qoTableColumn="invoice" [header]="i18n.translate('settings.colPaymentInvoice')" let-payment>
+    <span class="payment-invoice">{{ payment.invoice }}</span>
+  </ng-template>
+  <ng-template qoTableColumn="status" [header]="i18n.translate('settings.colStatus')" let-payment>
+    <span class="payment-status" [class]="paymentStatusTone(payment.status)">{{ payment.status }}</span>
+  </ng-template>
+
+  <ng-template qoTableEmpty>
+    <qo-empty-state
+      [title]="i18n.translate('settings.noPaymentsRecorded')"
+      [description]="i18n.translate('settings.noPaymentsDescription')"
+    />
+  </ng-template>
+</qo-table>

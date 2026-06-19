@@ -1,0 +1,82 @@
+<div class="preview-page">
+  <header class="preview-page__header">
+    <div>
+      <div class="preview-page__eyebrow">{{ t('form.preview.title') }}</div>
+      <h1>{{ formConfig()?.formLabel || t('form.preview.title') }}</h1>
+    </div>
+    <qo-button variant="secondary" type="button" (click)="closeTab()">{{ t('common.close') }}</qo-button>
+  </header>
+
+  @if (formConfig(); as formConfig) {
+    <main class="preview-page__body">
+      <form class="form-shell" (submit)="submitForm($event, formConfig)">
+        <div class="form-shell__head">
+          <div>
+            <div class="form-shell__title">{{ formConfig.formLabel }}</div>
+            <div class="form-shell__subtitle">{{ t('form.fieldsCount', { count: formConfig.fields.length }) }}</div>
+          </div>
+          <div class="form-shell__count">{{ getFormSubmissionCount(formConfig) }} {{ t('form.savedChipSuffix') }}</div>
+        </div>
+
+        <div class="form-shell__toolbar">
+          <span class="form-shell__chip">{{ formConfig.applicationLabel }}</span>
+          @if (formConfig.submitConfig.allowPublicAccess) {
+            <span class="form-shell__chip form-shell__chip--ghost">{{ t('common.public') }}</span>
+          }
+        </div>
+
+        @for (field of formConfig.fields; track trackFormField($index, field)) {
+          <div class="form-field">
+            <label class="form-field__label">
+              {{ field.label }}
+              @if (field.required) {
+                <span class="form-field__required">*</span>
+              }
+            </label>
+
+            @if (isSelectLikeField(field)) {
+              <select
+                class="form-field__input"
+                [value]="getFieldValue(field)"
+                (input)="onFieldInput(field, $event)"
+              >
+                <option value="">{{ field.placeholder || t('form.preview.selectOption') }}</option>
+                @for (option of field.options; track option) {
+                  <option [value]="option">{{ option }}</option>
+                }
+              </select>
+            } @else {
+              <input
+                class="form-field__input"
+                [type]="getFormInputType(field)"
+                [required]="field.required"
+                [placeholder]="field.placeholder"
+                [value]="getFieldValue(field)"
+                (input)="onFieldInput(field, $event)"
+              />
+            }
+          </div>
+        }
+
+        <div class="form-shell__actions">
+          @if (formConfig.submitConfig.resetButtonText.trim()) {
+            <button class="form-shell__reset" type="button" (click)="resetForm($event, formConfig)">
+              {{ formConfig.submitConfig.resetButtonText }}
+            </button>
+          }
+          <button class="form-shell__submit" type="submit">
+            {{ formConfig.submitConfig.submitButtonText || formConfig.actionLabels[0] || t('common.submit') }}
+          </button>
+        </div>
+
+        @if (showSuccessMessage(formConfig)) {
+          <div class="form-shell__success">
+            {{ formConfig.submitConfig.successMessage || t('form.preview.submitted') }}
+          </div>
+        }
+      </form>
+    </main>
+  } @else {
+    <div class="preview-page__empty">{{ t('form.formNotFound') }}</div>
+  }
+</div>

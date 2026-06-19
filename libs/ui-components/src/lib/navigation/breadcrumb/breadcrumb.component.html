@@ -1,0 +1,10 @@
+<div class="breadcrumb app-card">
+  @for (item of items(); track item.label; let isLast = $last) {
+    @if (isLast) {
+      <strong>{{ item.label }}</strong>
+    } @else {
+      <span class="crumb-muted">{{ item.label }}</span>
+      <span class="crumb-separator">/</span>
+    }
+  }
+</div>

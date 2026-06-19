@@ -1,0 +1,180 @@
+<section class="create-flow" [formGroup]="wizardForm">
+  <header class="create-flow__header">
+    <div>
+      <p class="create-flow__eyebrow">{{ t('common.dataframeBuilder') }}</p>
+      <h1 class="create-flow__title">{{ t('generated.create_new_report') }}</h1>
+      <p class="create-flow__description">{{ t('generated.create_a_report_from_source_forms_configure_layout') }}</p>
+    </div>
+
+    <div class="create-flow__header-actions">
+      @if (wizardStep() > 1) {
+        <qo-button class="btn-secondary" variant="secondary" type="button" (click)="prevWizardStep()">{{ t('generated.back') }}</qo-button>
+      }
+      <qo-button class="btn-secondary" variant="secondary" type="button" (click)="cancel()">{{ common('cancel') }}</qo-button>
+      <qo-button class="btn-primary" type="button" (click)="wizardStep() === 3 ? createReport() : nextWizardStep()">
+        {{ wizardStep() === 3 ? t('createWizard.createReport') : t('createWizard.continue') }}
+      </qo-button>
+    </div>
+  </header>
+
+  <div class="create-flow__body">
+    <article class="create-panel">
+      <qo-stepper [steps]="steps()" [activeStepIndex]="wizardStep() - 1"></qo-stepper>
+
+      @if (wizardStep() === 1) {
+        <div class="wizard-section">
+          <qo-form-field [label]="t('createWizard.reportName')">
+            <qo-input formControlName="reportName"></qo-input>
+          </qo-form-field>
+          <qo-form-field [label]="t('createWizard.chooseSourceForm')">
+            <qo-select
+              class="wizard-select"
+              [options]="sourceFormOptions()"
+              [value]="wizardForm.controls.sourceFormId.value"
+              (valueChange)="onSourceChange($event)">
+            </qo-select>
+          </qo-form-field>
+        </div>
+      }
+
+      @if (wizardStep() === 2) {
+        <div class="wizard-section">
+          <!-- Report type: List or Chart -->
+          <div class="wizard-options d-none">
+            <qo-button
+              class="layout-card"
+              type="button"
+              variant="ghost"
+              size="sm"
+              [class.layout-card--active]="wizardForm.controls.reportType.value === 'list'"
+              (click)="setReportType('list')">
+              <strong>{{ t('createWizard.listReport') }}</strong>
+              <span>{{ t('createWizard.listReportDescription') }}</span>
+            </qo-button>
+            <qo-button
+              class="layout-card"
+              type="button"
+              variant="ghost"
+              size="sm"
+              [class.layout-card--active]="wizardForm.controls.reportType.value === 'chart'"
+              (click)="setReportType('chart')">
+              <strong>{{ t('createWizard.chartReport') }}</strong>
+              <span>{{ t('createWizard.chartReportDescription') }}</span>
+            </qo-button>
+          </div>
+
+          <!-- View layout picker -->
+          <p class="wizard-subsection-label">{{ t('createWizard.layoutDescription') }}</p>
+
+          <div class="wizard-view-layouts">
+            <!-- List View -->
+            <qo-button
+              type="button"
+              variant="ghost"
+              class="wiz-layout-card"
+              [class.wiz-layout-card--active]="wizardForm.controls.viewType.value === 'List View'"
+              (click)="onViewTypeChange('List View')">
+              <div class="wiz-layout-thumb wiz-layout-thumb--list" aria-hidden="true">
+                <div class="wiz-thumb-row wiz-thumb-row--header">
+                  <span class="wiz-thumb-cell wiz-thumb-cell--lg"></span>
+                  <span class="wiz-thumb-cell wiz-thumb-cell--md"></span>
+                  <span class="wiz-thumb-cell wiz-thumb-cell--lg"></span>
+                  <span class="wiz-thumb-cell wiz-thumb-cell--sm"></span>
+                </div>
+                <div class="wiz-thumb-row">
+                  <span class="wiz-thumb-cell wiz-thumb-cell--lg"></span>
+                  <span class="wiz-thumb-cell wiz-thumb-cell--md"></span>
+                  <span class="wiz-thumb-cell wiz-thumb-cell--lg"></span>
+                  <span class="wiz-thumb-cell wiz-thumb-cell--sm"></span>
+                </div>
+                <div class="wiz-thumb-row">
+                  <span class="wiz-thumb-cell wiz-thumb-cell--md"></span>
+                  <span class="wiz-thumb-cell wiz-thumb-cell--lg"></span>
+                  <span class="wiz-thumb-cell wiz-thumb-cell--md"></span>
+                  <span class="wiz-thumb-cell wiz-thumb-cell--sm"></span>
+                </div>
+              </div>
+              <strong class="wiz-layout-card__title">{{ t('common.listView') }}</strong>
+              <span class="wiz-layout-card__desc">{{ t('createWizard.listViewDescription') }}</span>
+            </qo-button>
+
+            <!-- Card View -->
+            <qo-button
+              type="button"
+              variant="ghost"
+              class="wiz-layout-card"
+              [class.wiz-layout-card--active]="wizardForm.controls.viewType.value === 'Card View' && wizardForm.controls.cardLayout.value === 'card2'"
+              (click)="onViewTypeChange('Card View'); setCardLayout('card2')">
+              <div class="wiz-layout-thumb wiz-layout-thumb--card" aria-hidden="true">
+                <span class="wiz-thumb-title-line"></span>
+                <span class="wiz-thumb-body-line wiz-thumb-body-line--long"></span>
+                <span class="wiz-thumb-body-line wiz-thumb-body-line--short"></span>
+              </div>
+              <strong class="wiz-layout-card__title">{{ t('common.cardView') }}</strong>
+              <span class="wiz-layout-card__desc">{{ t('createWizard.cardViewDescription') }}</span>
+            </qo-button>
+
+            <!-- Custom Layout -->
+            <qo-button
+              type="button"
+              variant="ghost"
+              class="wiz-layout-card"
+              [class.wiz-layout-card--active]="wizardForm.controls.viewType.value === 'Card View' && wizardForm.controls.cardLayout.value === 'card5'"
+              (click)="onViewTypeChange('Card View'); setCardLayout('card5')">
+              <div class="wiz-layout-thumb wiz-layout-thumb--custom" aria-hidden="true">
+                <div class="wiz-thumb-card-grid">
+                  <div class="wiz-thumb-mini-card">
+                    <span class="wiz-thumb-mini-img"></span>
+                    <span class="wiz-thumb-mini-line wiz-thumb-mini-line--lg"></span>
+                    <span class="wiz-thumb-mini-line wiz-thumb-mini-line--md"></span>
+                  </div>
+                  <div class="wiz-thumb-mini-card">
+                    <span class="wiz-thumb-mini-img"></span>
+                    <span class="wiz-thumb-mini-line wiz-thumb-mini-line--lg"></span>
+                    <span class="wiz-thumb-mini-line wiz-thumb-mini-line--sm"></span>
+                  </div>
+                </div>
+              </div>
+              <strong class="wiz-layout-card__title">{{ t('common.customLayout') }}</strong>
+              <span class="wiz-layout-card__desc">{{ t('createWizard.customLayoutDescription') }}</span>
+            </qo-button>
+          </div>
+        </div>
+      }
+
+      @if (wizardStep() === 3) {
+        <div class="wizard-section">
+          <p class="wizard-copy">{{ t('createWizard.chooseFields') }}</p>
+          <div class="wizard-checklist">
+            @for (column of wizardColumns(); track (selectedSource()?.id || 'source') + '-' + column.id) {
+              <div
+                class="wizard-check"
+                [class.wizard-check--selected]="isWizardColumnSelected(column.id)"
+                (click)="toggleWizardColumn(column.id)">
+                <div class="wizard-check__toggle">
+                  <qo-icon
+                    [name]="isWizardColumnSelected(column.id) ? 'square-check' : 'square'"
+                    size="sm" />
+                </div>
+
+                <div class="wizard-check__content">
+                  <strong>{{ column.label }}</strong>
+                  <span>{{ column.format }} - {{ column.id }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </article>
+  </div>
+
+  <footer class="create-flow__footer">
+    <div class="create-flow__footer-summary">
+      <strong>{{ wizardForm.controls.reportName.value || t('createWizard.newReport') }}</strong>
+      <span>{{ selectedSource()?.name || t('createWizard.noSourceSelected') }}</span>
+    </div>
+
+    <div class="create-flow__footer-actions">{{ t('createWizard.finishSteps') }}</div>
+  </footer>
+</section>

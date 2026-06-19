@@ -1,0 +1,36 @@
+<div class="usage-page">
+  <section class="usage-header">
+    <div class="usage-header__copy">
+      <div class="usage-breadcrumb">
+        {{ i18n.translate('usage.breadcrumb', { organisationName: selectedOrganisation()?.name ?? i18n.translate('organisations.noOrganisationSelected') }) }}
+      </div>
+      <h1>{{ i18n.translate('usage.title') }}</h1>
+    </div>
+
+    <app-usage-filter-bar [filters]="filters()" />
+  </section>
+
+  <section class="usage-layer">
+    <div class="usage-layer__label">{{ i18n.translate('usage.layer1Label') }}</div>
+    <h2>{{ i18n.translate('usage.cumulativeSummaryTitle') }}</h2>
+    <p>{{ i18n.translate('usage.cumulativeSummaryDescription') }}</p>
+  </section>
+
+  @if (selectedOrganisation()) {
+    <app-cumulative-metrics-grid [metrics]="summaryMetrics()" />
+  }
+
+  <section class="usage-layer usage-layer--table">
+    <div class="usage-layer__label">{{ i18n.translate('usage.layer2Label') }}</div>
+    <h2>{{ i18n.translate('usage.dataSourcesTitle') }}</h2>
+    <p>{{ i18n.translate('usage.dataSourcesDescription') }}</p>
+  </section>
+
+  @if (selectedOrganisation()) {
+    <app-data-source-table
+      [sources]="sourceRows()"
+      [expandedSourceId]="expandedSourceId()"
+      (expandedSourceIdChange)="expandedSourceId.set($event)"
+    />
+  }
+</div>

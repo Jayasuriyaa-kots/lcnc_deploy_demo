@@ -1,0 +1,22 @@
+<div class="chart-picker">
+  @for (group of groups; track group.groupLabel) {
+    <div class="group-label">{{ group.groupLabel }}</div>
+    <div class="group-items">
+      @for (item of group.items; track item.type) {
+        <div
+          class="chart-item"
+          [class.selected]="selected() === item.type"
+          (click)="select(item.type)"
+          draggable="true"
+          (dragstart)="startDrag($event, item)"
+          (dragend)="endDrag()"
+        >
+          <div class="chart-thumb">
+            <app-chart-thumbnail [type]="item.type"></app-chart-thumbnail>
+          </div>
+          <span class="chart-label">{{ item.label }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

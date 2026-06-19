@@ -1,0 +1,129 @@
+@let f = field();
+@if (ctx.isRichTextField(f)) {
+  <div class="preview-rich-text preview-rich-text--viewer" [style.minHeight.px]="ctx.getRichTextHeight(f)">
+    <div class="preview-rich-text__toolbar">
+      @if (ctx.getRichTextToolbarOpt(f, 'undoRedo')) {
+        <qo-button type="button" class="rt-btn" (mousedown)="ctx.richTextCmd($event, f.id, 'undo')" [title]="t('richText.undo')">{{ t('richText.undoShort') }}</qo-button>
+        <qo-button type="button" class="rt-btn" (mousedown)="ctx.richTextCmd($event, f.id, 'redo')" [title]="t('richText.redo')">{{ t('richText.redoShort') }}</qo-button>
+        <span class="rt-sep"></span>
+      }
+
+      @if (ctx.getRichTextToolbarOpt(f, 'bold')) {
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'bold')" (mousedown)="ctx.richTextCmd($event, f.id, 'bold')" [title]="t('richText.bold')"><b>{{ t('richText.boldShort') }}</b></qo-button>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'italic')) {
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'italic')" (mousedown)="ctx.richTextCmd($event, f.id, 'italic')" [title]="t('richText.italic')"><i>{{ t('richText.italicShort') }}</i></qo-button>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'underline')) {
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'underline')" (mousedown)="ctx.richTextCmd($event, f.id, 'underline')" [title]="t('richText.underline')"><u>{{ t('richText.underlineShort') }}</u></qo-button>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'strikethrough')) {
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'strikethrough')" (mousedown)="ctx.richTextCmd($event, f.id, 'strikethrough')" [title]="t('richText.strikethrough')"><s>{{ t('richText.strikethroughShort') }}</s></qo-button>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'subscript')) {
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'subscript')" (mousedown)="ctx.richTextCmd($event, f.id, 'subscript')" [title]="t('richText.subscript')">{{ t('richText.subscriptShort') }}</qo-button>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'superscript')) {
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'superscript')" (mousedown)="ctx.richTextCmd($event, f.id, 'superscript')" [title]="t('richText.superscript')">{{ t('richText.superscriptShort') }}</qo-button>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'code')) {
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'formatBlock', 'pre')" (mousedown)="ctx.richTextCmd($event, f.id, 'formatBlock', 'pre')" [title]="t('richText.codeBlock')">{{ '{}' }}</qo-button>
+      }
+
+      @if (ctx.getRichTextToolbarOpt(f, 'paragraphStyle')) {
+        <span class="rt-sep"></span>
+        <qo-select
+          class="preview-richtext-select"
+          [options]="ctx.richTextParagraphOptions"
+          [value]="'p'"
+          [placeholder]="t('richText.paragraph')"
+          (valueChange)="ctx.richTextFormatBlockValue(String($event ?? 'p'), f.id)">
+        </qo-select>
+      }
+
+      @if (ctx.getRichTextToolbarOpt(f, 'fontOptions')) {
+        <span class="rt-sep"></span>
+        <qo-select
+          class="preview-richtext-select preview-richtext-select--font"
+          [options]="ctx.richTextFontOptions"
+          [value]="''"
+          [placeholder]="t('richText.font')"
+          (valueChange)="ctx.richTextFontNameValue(String($event ?? ''), f.id)">
+        </qo-select>
+        <qo-select
+          class="preview-richtext-select preview-richtext-select--size"
+          [options]="ctx.richTextFontSizeOptions"
+          [value]="'3'"
+          [placeholder]="t('richText.fontSizePlaceholder')"
+          (valueChange)="ctx.richTextFontSizeValue(String($event ?? '3'), f.id)">
+        </qo-select>
+      }
+
+      @if (ctx.getRichTextToolbarOpt(f, 'alignment')) {
+        <span class="rt-sep"></span>
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'justifyLeft')" (mousedown)="ctx.richTextCmd($event, f.id, 'justifyLeft')" [title]="t('richText.alignLeft')">{{ t('richText.alignLeftShort') }}</qo-button>
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'justifyCenter')" (mousedown)="ctx.richTextCmd($event, f.id, 'justifyCenter')" [title]="t('richText.center')">{{ t('richText.centerShort') }}</qo-button>
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'justifyRight')" (mousedown)="ctx.richTextCmd($event, f.id, 'justifyRight')" [title]="t('richText.alignRight')">{{ t('richText.alignRightShort') }}</qo-button>
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'justifyFull')" (mousedown)="ctx.richTextCmd($event, f.id, 'justifyFull')" [title]="t('richText.justify')">{{ t('richText.justifyShort') }}</qo-button>
+      }
+
+      @if (ctx.getRichTextToolbarOpt(f, 'indentation')) {
+        <span class="rt-sep"></span>
+        <qo-button type="button" class="rt-btn" (mousedown)="ctx.richTextCmd($event, f.id, 'outdent')" [title]="t('richText.outdent')">{{ t('richText.outdentShort') }}</qo-button>
+        <qo-button type="button" class="rt-btn" (mousedown)="ctx.richTextCmd($event, f.id, 'indent')" [title]="t('richText.indent')">{{ t('richText.indentShort') }}</qo-button>
+      }
+
+      @if (ctx.getRichTextToolbarOpt(f, 'textColor') || ctx.getRichTextToolbarOpt(f, 'backgroundColor') || ctx.getRichTextToolbarOpt(f, 'link')) {
+        <span class="rt-sep"></span>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'textColor')) {
+        <qo-button type="button" class="rt-btn rt-btn--text-color" (mousedown)="ctx.richTextCmd($event, f.id, 'foreColor', ctx.getRichTextTextColor())" [title]="t('richText.textColor')">{{ t('richText.textColorShort') }}</qo-button>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'backgroundColor')) {
+        <qo-button type="button" class="rt-btn" (mousedown)="ctx.richTextCmd($event, f.id, 'backColor', ctx.getRichTextHighlightColor())" [title]="t('richText.highlight')">{{ t('richText.highlightShort') }}</qo-button>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'link')) {
+        <qo-button type="button" class="rt-btn" (mousedown)="ctx.richTextCmdLink($event, f.id)" [title]="t('richText.link')">{{ t('richText.linkShort') }}</qo-button>
+      }
+
+      @if (ctx.getRichTextToolbarOpt(f, 'orderedList') || ctx.getRichTextToolbarOpt(f, 'blockquote') || ctx.getRichTextToolbarOpt(f, 'table')) {
+        <span class="rt-sep"></span>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'orderedList')) {
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'insertOrderedList')" (mousedown)="ctx.richTextCmd($event, f.id, 'insertOrderedList')" [title]="t('richText.numberedList')">{{ t('richText.orderedListShort') }}</qo-button>
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'insertUnorderedList')" (mousedown)="ctx.richTextCmd($event, f.id, 'insertUnorderedList')" [title]="t('richText.bulletList')">{{ t('richText.bulletListShort') }}</qo-button>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'blockquote')) {
+        <qo-button type="button" class="rt-btn" [class.rt-btn-active]="ctx.richTextCmdState(f.id, 'formatBlock', 'blockquote')" (mousedown)="ctx.richTextCmd($event, f.id, 'formatBlock', 'blockquote')" [title]="t('richText.blockquote')">{{ t('richText.blockquoteShort') }}</qo-button>
+      }
+      @if (ctx.getRichTextToolbarOpt(f, 'table')) {
+        <qo-button type="button" class="rt-btn" (mousedown)="ctx.richTextInsertTable($event, f.id)" [title]="t('richText.insertTable')">{{ t('richText.insertTableShort') }}</qo-button>
+      }
+
+      @if (ctx.getRichTextToolbarOpt(f, 'codeView')) {
+        <span class="rt-sep"></span>
+        <qo-button type="button" class="rt-btn" (mousedown)="ctx.toggleRichTextCodeView($event, f.id)" [title]="t('richText.codeView')">{{ t('richText.codeViewShort') }}</qo-button>
+      }
+    </div>
+
+    @if (ctx.isRichTextCodeView(f.id)) {
+      <qo-textarea
+        class="preview-rich-text__code"
+        [value]="ctx.getRichTextHtml(f.id)"
+        (valueChange)="ctx.onRichTextCodeChange(f.id, $event)"
+        [style.minHeight.px]="ctx.getRichTextHeight(f) - 44"></qo-textarea>
+    } @else {
+      <div
+        class="preview-rich-text__editor"
+        contenteditable="true"
+        dir="ltr"
+        [attr.data-field-id]="f.id"
+        (focus)="ctx.onRichTextSelectionInteraction()"
+        (mouseup)="ctx.onRichTextSelectionInteraction()"
+        (keyup)="ctx.onRichTextSelectionInteraction()"
+        (input)="ctx.onRichTextInput(f.id, $event)"
+        (blur)="ctx.onRichTextBlur(f.id)"
+        [style.minHeight.px]="ctx.getRichTextHeight(f) - 44"></div>
+    }
+  </div>
+}

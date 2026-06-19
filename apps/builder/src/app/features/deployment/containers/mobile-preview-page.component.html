@@ -1,0 +1,827 @@
+<div class="mobile-preview-page">
+  <div #scrollContainer class="mobile-scroll-container" (scroll)="onContentScroll($event)" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()" (touchcancel)="onTouchEnd()">
+  <div class="mobile-app-controls-wrap" [class.mobile-app-controls-wrap--collapsed]="!mobileNavVisible()">
+  <div class="mobile-app-controls-inner">
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header class="mobile-app-header">
+    @if (headerShowSwitcher()) {
+      <button type="button" class="mobile-app-header__menu-btn"
+        [class.mobile-app-header__menu-btn--active]="mobileAppSwitcherOpen()"
+        [attr.aria-expanded]="mobileAppSwitcherOpen()"
+        aria-label="Application switcher"
+        (click)="toggleMobileAppSwitcher()">
+        <qo-icon name="layout-dashboard" aria-hidden="true"></qo-icon>
+      </button>
+    }
+    @if (headerShowLogo() || headerShowAppName()) {
+      <div class="mobile-app-header__brand"
+        [class.mobile-app-header__brand--switchable]="headerShowSwitcher()"
+        (click)="headerShowSwitcher() && toggleMobileAppSwitcher()">
+        @if (headerShowLogo()) {
+          <span class="mobile-app-header__brand-mark">
+            <svg class="mobile-app-header__brand-logo" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="3.34" y1="17" x2="20.66" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="20.66" y1="17" x2="3.34" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+        }
+        @if (headerShowAppName()) {
+          <strong>HR Management</strong>
+          @if (headerShowSwitcher()) {
+            <span class="mobile-app-header__brand-caret" aria-hidden="true"></span>
+          }
+        }
+      </div>
+    }
+    <span class="mobile-app-header__spacer"></span>
+    @if (headerShowSearch()) {
+      <button type="button" class="mobile-app-header__action-btn"
+        aria-label="Global search"
+        [class.mobile-app-header__action-btn--active]="mobileGlobalSearchOpen()"
+        (click)="toggleMobileGlobalSearch()">
+        <qo-icon name="search" aria-hidden="true"></qo-icon>
+      </button>
+    }
+    @if (hasOverflowActions()) {
+      <button type="button" class="mobile-app-header__action-btn"
+        aria-label="More actions"
+        [class.mobile-app-header__action-btn--active]="mobileMoreMenuOpen()"
+        [attr.aria-expanded]="mobileMoreMenuOpen()"
+        (click)="toggleMobileMoreMenu()">
+        <qo-icon name="more-vertical" aria-hidden="true"></qo-icon>
+      </button>
+    }
+  </header>
+
+  <!-- ── App Switcher ───────────────────────────────────────────────────── -->
+  @if (mobileAppSwitcherOpen()) {
+    <div class="mobile-app-switcher-backdrop" (click)="closeMobileAppSwitcher()">
+      <div class="mobile-app-switcher" (click)="$event.stopPropagation()">
+        <p class="mobile-app-switcher__heading">Your Applications</p>
+        <div class="mobile-app-switcher__list">
+          @for (app of mobileApplications(); track app.id) {
+            <button
+              type="button"
+              class="mobile-app-switcher__app-item"
+              [class.mobile-app-switcher__app-item--active]="activeApplicationId() === app.id"
+              (click)="selectApplication(app.id); closeMobileAppSwitcher()">
+              <span class="mobile-app-switcher__app-icon">
+                <qo-icon [name]="app.icon" aria-hidden="true"></qo-icon>
+              </span>
+              <span class="mobile-app-switcher__app-label">{{ app.label }}</span>
+              @if (activeApplicationId() === app.id) {
+                <qo-icon name="check" class="mobile-app-switcher__app-check" aria-hidden="true"></qo-icon>
+              }
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ── Global Search ──────────────────────────────────────────────────── -->
+  @if (mobileGlobalSearchOpen()) {
+    <div class="mobile-global-search" (click)="closeMobileGlobalSearch()">
+      <div class="mobile-global-search__panel" (click)="$event.stopPropagation()">
+        <div class="mobile-global-search__header">
+          <qo-icon name="search" aria-hidden="true"></qo-icon>
+          <input
+            type="search"
+            placeholder="Search pages, reports, forms..."
+            [value]="mobileGlobalSearchQuery()"
+            (input)="mobileGlobalSearchQuery.set($any($event.target).value)" />
+          <button type="button" aria-label="Close search" (click)="closeMobileGlobalSearch()">
+            <qo-icon name="x" aria-hidden="true"></qo-icon>
+          </button>
+        </div>
+        <div class="mobile-global-search__results">
+          @if (globalSearchResults().length) {
+            @for (result of globalSearchResults(); track result.id) {
+              <button type="button" class="mobile-global-search__result-item"
+                (click)="selectPreviewPage(result.id); closeMobileGlobalSearch()">
+                <qo-icon name="layout-dashboard" aria-hidden="true"></qo-icon>
+                <span>{{ result.label }}</span>
+              </button>
+            }
+          } @else if (mobileGlobalSearchQuery().trim()) {
+            <p class="mobile-global-search__empty">No results for "{{ mobileGlobalSearchQuery() }}"</p>
+          } @else {
+            <p class="mobile-global-search__empty">Type to search pages, reports and forms</p>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ── Profile Menu ───────────────────────────────────────────────────── -->
+  @if (mobileProfileMenuOpen()) {
+    <div class="mobile-profile-menu-backdrop" (click)="closeMobileProfileMenu()"></div>
+    <div class="mobile-profile-menu" role="menu">
+      <div class="mobile-profile-menu__user">
+        <strong>Tom Smith</strong>
+        <span>tom&#64;acme.co</span>
+      </div>
+      @if (isSignedIn()) {
+        <button type="button" class="mobile-profile-menu__item mobile-profile-menu__item--danger"
+          role="menuitem" (click)="handleSignOut()">
+          <qo-icon name="log-out" aria-hidden="true"></qo-icon>
+          Sign Out
+        </button>
+      } @else {
+        <button type="button" class="mobile-profile-menu__item"
+          role="menuitem" (click)="handleSignIn()">
+          <qo-icon name="log-in" aria-hidden="true"></qo-icon>
+          Sign In
+        </button>
+      }
+    </div>
+  }
+
+  <!-- ── More Menu ─────────────────────────────────────────────────────── -->
+  @if (mobileMoreMenuOpen()) {
+    <div class="mobile-more-menu-backdrop" (click)="closeMobileMoreMenu()"></div>
+    <div class="mobile-more-menu" role="menu">
+      @if (headerShowAddButton()) {
+        <button type="button" class="mobile-more-menu__item" role="menuitem">
+          <qo-icon name="plus" aria-hidden="true"></qo-icon>
+          <span>Add</span>
+        </button>
+      }
+      @if (headerShowKnowledgeBase()) {
+        <button type="button" class="mobile-more-menu__item" role="menuitem">
+          <qo-icon name="book-open" aria-hidden="true"></qo-icon>
+          <span>Knowledge Base</span>
+        </button>
+      }
+      @if (headerShowNotifications()) {
+        <button type="button" class="mobile-more-menu__item" role="menuitem">
+          <qo-icon name="bell" aria-hidden="true"></qo-icon>
+          <span>Notifications</span>
+        </button>
+      }
+      @if (headerShowAppSettings()) {
+        <button type="button" class="mobile-more-menu__item" role="menuitem">
+          <qo-icon name="settings" aria-hidden="true"></qo-icon>
+          <span>App Settings</span>
+        </button>
+      }
+      @if (headerShowAccount()) {
+        <button type="button" class="mobile-more-menu__item" role="menuitem"
+          (click)="closeMobileMoreMenu(); toggleMobileProfileMenu()">
+          <qo-icon name="user" aria-hidden="true"></qo-icon>
+          <span>Account</span>
+        </button>
+      }
+    </div>
+  }
+
+  <!-- ── Top Tabs ───────────────────────────────────────────────────────── -->
+  @if (mobileTopPageOptions().length) {
+    <div class="mobile-app-tabs-wrap"
+      [class.mobile-app-tabs-wrap--right-overflow]="tabsHasRightOverflow()"
+      [class.mobile-app-tabs-wrap--left-overflow]="tabsHasLeftOverflow()">
+      <span class="mobile-app-tabs-arrow mobile-app-tabs-arrow--left" aria-hidden="true"></span>
+      <span class="mobile-app-tabs-arrow mobile-app-tabs-arrow--right" aria-hidden="true"></span>
+      <nav class="mobile-app-tabs-strip"
+        #tabsStrip
+        (scroll)="onTabsScroll($event)"
+        aria-label="Top page selector">
+        @for (page of mobileTopPageOptions(); track page.id) {
+          <button
+            type="button"
+            [class.mobile-app-tabs-strip__active]="selectedPreviewTopTab()?.id === page.id"
+            (click)="selectMobileTopPage(page.id)">
+            {{ page.label }}
+          </button>
+        }
+      </nav>
+    </div>
+  }
+
+  <!-- ── Search / Filter / Sort / Export bar ────────────────────────────── -->
+  @if (currentPageTargetType() !== 'form') {
+    <section class="mobile-app-search" aria-label="Search and actions">
+      <div class="mobile-app-actions" aria-label="Action bar">
+        <button
+          type="button"
+          [class.mobile-app-actions__active]="viewsDropdownOpen() || activeViewId() !== null"
+          (click)="mobileActionBarOpen.set(false); closePreviewFiltersPanel(); closePreviewSortPanel(); closeMobileExportMenu(); toggleViewsDropdown()">
+          <qo-icon name="layout-list" aria-hidden="true"></qo-icon>
+          <span class="mobile-app-actions__label">View</span>
+        </button>
+        <button
+          type="button"
+          [class.mobile-app-actions__active]="mobileActionBarOpen()"
+          [attr.aria-expanded]="mobileActionBarOpen()"
+          (click)="closePreviewFiltersPanel(); closePreviewSortPanel(); closeViewsDropdown(); toggleMobileActionBar()">
+          <qo-icon name="search" aria-hidden="true"></qo-icon>
+          <span class="mobile-app-actions__label">Search</span>
+        </button>
+        <button
+          type="button"
+          [class.mobile-app-actions__active]="showPreviewFiltersPanel()"
+          [attr.aria-expanded]="showPreviewFiltersPanel()"
+          (click)="mobileActionBarOpen.set(false); closeMobileExportMenu(); closeViewsDropdown(); togglePreviewFiltersPanel()">
+          <qo-icon name="filter" aria-hidden="true"></qo-icon>
+          <span class="mobile-app-actions__label">Filter
+            @if (appliedFilterRows().length) {
+              <span class="mobile-app-actions__badge">{{ appliedFilterRows().length }}</span>
+            }
+          </span>
+        </button>
+        <button
+          type="button"
+          [class.mobile-app-actions__active]="showPreviewSortPanel()"
+          [attr.aria-expanded]="showPreviewSortPanel()"
+          (click)="mobileActionBarOpen.set(false); closeMobileExportMenu(); closeViewsDropdown(); togglePreviewSortPanel()">
+          <qo-icon name="sort" aria-hidden="true"></qo-icon>
+          <span class="mobile-app-actions__label">Sort
+            @if (appliedSortRows().length) {
+              <span class="mobile-app-actions__badge">{{ appliedSortRows().length }}</span>
+            }
+          </span>
+        </button>
+        <button
+          type="button"
+          [class.mobile-app-actions__active]="mobileExportMenuOpen()"
+          [attr.aria-expanded]="mobileExportMenuOpen()"
+          (click)="toggleMobileExportMenu()">
+          <qo-icon name="download" aria-hidden="true"></qo-icon>
+          <span class="mobile-app-actions__label">Export</span>
+        </button>
+      </div>
+
+      @if (mobileActionBarOpen()) {
+        <div class="mobile-app-dropdown mobile-app-dropdown--search" aria-label="Mobile search panel">
+          <header>
+            <strong>Search</strong>
+            <button type="button" aria-label="Close search" (click)="toggleMobileActionBar()">
+              <qo-icon name="x" aria-hidden="true"></qo-icon>
+            </button>
+          </header>
+
+          <div class="mobile-app-search__input-row">
+            <label class="mobile-app-search__field">
+              <qo-icon name="search" aria-hidden="true"></qo-icon>
+              <input
+                type="search"
+                placeholder="Search..."
+                [value]="mobileSearchQuery()"
+                (input)="updateMobileSearchQuery($any($event.target).value)" />
+            </label>
+            <button type="button" class="mobile-app-search__go-btn" (click)="submitSearch()">
+              Search
+            </button>
+          </div>
+
+          @if (mobileSearchQuery().trim()) {
+            <ul class="mobile-app-search__live-results">
+              @if (mobilePreviewRows().length) {
+                @for (row of mobilePreviewRows().slice(0, 6); track $index) {
+                  <li>
+                    <button type="button" class="mobile-app-search__result-item" (click)="submitSearch()">
+                      <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+                      <span class="mobile-app-search__result-primary">{{ row[0] }}</span>
+                      @if (row[1]) {
+                        <small class="mobile-app-search__result-secondary">{{ row[1] }}</small>
+                      }
+                    </button>
+                  </li>
+                }
+                @if (mobilePreviewRows().length > 6) {
+                  <li class="mobile-app-search__result-more">
+                    +{{ mobilePreviewRows().length - 6 }} more — press Search to see all
+                  </li>
+                }
+              } @else {
+                <li class="mobile-app-search__result-empty">
+                  No results for "{{ mobileSearchQuery() }}"
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      }
+
+      @if (showPreviewFiltersPanel()) {
+        <div class="mobile-app-dropdown mobile-app-dropdown--filters" aria-label="Mobile filters panel">
+          <header>
+            <div class="mobile-app-dropdown__header-left">
+              <strong>Filters</strong>
+              @if (filterRows().length) {
+                <span class="mobile-app-dropdown__badge">{{ filterRows().length }}</span>
+              }
+            </div>
+            <button type="button" aria-label="Close filters" (click)="closePreviewFiltersPanel()">
+              <qo-icon name="x" aria-hidden="true"></qo-icon>
+            </button>
+          </header>
+          <div class="mobile-app-dropdown__filter-body">
+            @if (!filterRows().length) {
+              <div class="mobile-app-dropdown__filter-empty">
+                <qo-icon name="filter" aria-hidden="true"></qo-icon>
+                <p>No filters applied</p>
+                <small>Add a filter to narrow down results</small>
+              </div>
+            }
+            @for (row of filterRows(); track row.id) {
+              <div class="mobile-app-dropdown__filter-row">
+                <div class="mobile-app-dropdown__filter-field">
+                  <select [value]="row.column"
+                    (change)="updateFilterRowColumn(row.id, $any($event.target).value)">
+                    <option value="" disabled>Select column...</option>
+                    @for (col of previewDataset().columns; track col) {
+                      <option [value]="col">{{ col }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="mobile-app-dropdown__filter-condition">
+                  <select [value]="row.operator"
+                    (change)="updateFilterRowOperator(row.id, $any($event.target).value)">
+                    @for (op of filterOperators; track op.value) {
+                      <option [value]="op.value">{{ op.label }}</option>
+                    }
+                  </select>
+                  <button type="button" class="mobile-app-dropdown__filter-remove"
+                    (click)="removeFilterRow(row.id)">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </div>
+                @if (row.operator !== 'is_empty') {
+                  <input type="text"
+                    [placeholder]="row.column ? 'Enter ' + row.column + '...' : 'Enter value...'"
+                    [value]="row.value"
+                    (input)="updateFilterRowValue(row.id, $any($event.target).value)" />
+                }
+              </div>
+            }
+            @if (previewDataset().columns.length) {
+              <button type="button" class="mobile-app-dropdown__add-row" (click)="addFilterRow()">
+                <qo-icon name="plus" aria-hidden="true"></qo-icon> Add filter
+              </button>
+            }
+          </div>
+          <footer>
+            <button type="button" (click)="applyFilters()">Apply Filters</button>
+            @if (filterRows().length) {
+              <button type="button" class="mobile-app-dropdown__clear-btn" (click)="clearAllFilters()">Clear all</button>
+            }
+          </footer>
+        </div>
+      }
+
+      @if (showPreviewSortPanel()) {
+        <div class="mobile-app-dropdown mobile-app-dropdown--sort" aria-label="Mobile sort panel">
+          <header>
+            <strong>Sort</strong>
+            <button type="button" aria-label="Close sort" (click)="closePreviewSortPanel()">
+              <qo-icon name="x" aria-hidden="true"></qo-icon>
+            </button>
+          </header>
+          <div class="mobile-app-dropdown__sort-body">
+            @if (!sortRows().length) {
+              <p class="mobile-app-dropdown__sort-empty">No sorts applied. Add one below.</p>
+            }
+            @for (row of sortRows(); track row.id) {
+              <div class="mobile-app-dropdown__sort-row">
+                <select [value]="row.column"
+                  (change)="updateSortColumn(row.id, $any($event.target).value)">
+                  <option value="" disabled>Select column...</option>
+                  @for (col of previewDataset().columns; track col) {
+                    <option [value]="col">{{ col }}</option>
+                  }
+                </select>
+                <div class="mobile-app-dropdown__sort-dir">
+                  <button type="button"
+                    [class.mobile-app-dropdown__sort-dir--active]="row.direction === 'asc'"
+                    (click)="updateSortDirection(row.id, 'asc')">
+                    {{ getSortDirectionLabel(row.column, 'asc') }}
+                  </button>
+                  <button type="button"
+                    [class.mobile-app-dropdown__sort-dir--active]="row.direction === 'desc'"
+                    (click)="updateSortDirection(row.id, 'desc')">
+                    {{ getSortDirectionLabel(row.column, 'desc') }}
+                  </button>
+                </div>
+                <button type="button" class="mobile-app-dropdown__sort-remove"
+                  (click)="removeSortRow(row.id)">
+                  <qo-icon name="x" aria-hidden="true"></qo-icon>
+                </button>
+              </div>
+            }
+            <button type="button" class="mobile-app-dropdown__add-row" (click)="addSortRow()">
+              <qo-icon name="plus" aria-hidden="true"></qo-icon> Add sort
+            </button>
+          </div>
+          <footer>
+            <button type="button" (click)="applySorts()">Apply Sort</button>
+            @if (sortRows().length) {
+              <button type="button" class="mobile-app-dropdown__clear-btn" (click)="clearAllSorts()">Clear all</button>
+            }
+          </footer>
+        </div>
+      }
+
+      @if (mobileExportMenuOpen()) {
+        <div class="mobile-app-dropdown mobile-app-dropdown--export" aria-label="Mobile export panel">
+          <header>
+            <strong>Export Data</strong>
+            <button type="button" aria-label="Close export options" (click)="closeMobileExportMenu()">
+              <qo-icon name="x" aria-hidden="true"></qo-icon>
+            </button>
+          </header>
+          <div class="mobile-app-dropdown__export-options">
+            <button type="button" (click)="exportCsv()">
+              <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+              <span><strong>CSV</strong><small>Spreadsheet data</small></span>
+            </button>
+            <button type="button" (click)="exportPdf()">
+              <qo-icon name="file-text" aria-hidden="true"></qo-icon>
+              <span><strong>PDF</strong><small>Printable document</small></span>
+            </button>
+            <button type="button" (click)="exportJson()">
+              <qo-icon name="database" aria-hidden="true"></qo-icon>
+              <span><strong>JSON</strong><small>Structured data</small></span>
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (viewsDropdownOpen()) {
+        <div class="mobile-app-dropdown mobile-app-dropdown--views" aria-label="Mobile views panel">
+          <header>
+            <strong>Views</strong>
+            <button type="button" aria-label="Close views" (click)="closeViewsDropdown()">
+              <qo-icon name="x" aria-hidden="true"></qo-icon>
+            </button>
+          </header>
+          <div class="mobile-app-dropdown__views-list">
+            <button type="button" class="mobile-app-dropdown__views-all"
+              [class.mobile-app-dropdown__views-all--active]="activeViewId() === null"
+              (click)="clearView()">
+              <qo-icon name="table-2" aria-hidden="true"></qo-icon>
+              <span>All records</span>
+              @if (activeViewId() === null) {
+                <qo-icon name="check" aria-hidden="true" class="mobile-app-dropdown__views-check"></qo-icon>
+              }
+            </button>
+            @for (view of savedViews(); track view.id) {
+              <div class="mobile-app-dropdown__views-item">
+                <button type="button"
+                  [class.mobile-app-dropdown__views-item--active]="activeViewId() === view.id"
+                  (click)="applyView(view.id)">
+                  <qo-icon name="filter" aria-hidden="true"></qo-icon>
+                  <span>{{ view.name }}</span>
+                  @if (activeViewId() === view.id) {
+                    <qo-icon name="check" aria-hidden="true" class="mobile-app-dropdown__views-check"></qo-icon>
+                  }
+                </button>
+                <button type="button" class="mobile-app-dropdown__views-delete"
+                  (click)="deleteView(view.id)" aria-label="Delete view">
+                  <qo-icon name="trash-2" aria-hidden="true"></qo-icon>
+                </button>
+              </div>
+            }
+            @if (!savedViews().length) {
+              <p class="mobile-app-dropdown__views-empty">No saved views yet.</p>
+            }
+          </div>
+          <div class="mobile-app-dropdown__views-footer">
+            <button type="button" (click)="openViewBuilder()">
+              <qo-icon name="plus" aria-hidden="true"></qo-icon> Create view
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (viewBuilderOpen()) {
+        <div class="mobile-app-dropdown mobile-app-dropdown--view-builder" aria-label="Create view">
+          <header>
+            <strong>Create View</strong>
+            <button type="button" aria-label="Close" (click)="closeViewBuilder()">
+              <qo-icon name="x" aria-hidden="true"></qo-icon>
+            </button>
+          </header>
+          <div class="mobile-app-dropdown__view-builder-name">
+            <input type="text"
+              placeholder="View name, e.g. Active Employees..."
+              [value]="viewDraftName()"
+              (input)="viewDraftName.set($any($event.target).value)" />
+          </div>
+          <div class="mobile-app-dropdown__filter-body">
+            @if (!viewDraftFilters().length) {
+              <div class="mobile-app-dropdown__filter-empty">
+                <qo-icon name="filter" aria-hidden="true"></qo-icon>
+                <p>No filters added</p>
+                <small>Filters are optional</small>
+              </div>
+            }
+            @for (row of viewDraftFilters(); track row.id) {
+              <div class="mobile-app-dropdown__filter-row">
+                <div class="mobile-app-dropdown__filter-field">
+                  <select [value]="row.column"
+                    (change)="updateViewDraftFilterColumn(row.id, $any($event.target).value)">
+                    <option value="" disabled>Select column...</option>
+                    @for (col of previewDataset().columns; track col) {
+                      <option [value]="col">{{ col }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="mobile-app-dropdown__filter-condition">
+                  <select [value]="row.operator"
+                    (change)="updateViewDraftFilterOperator(row.id, $any($event.target).value)">
+                    @for (op of filterOperators; track op.value) {
+                      <option [value]="op.value">{{ op.label }}</option>
+                    }
+                  </select>
+                  <button type="button" class="mobile-app-dropdown__filter-remove"
+                    (click)="removeViewDraftFilterRow(row.id)">
+                    <qo-icon name="x" aria-hidden="true"></qo-icon>
+                  </button>
+                </div>
+                @if (row.operator !== 'is_empty') {
+                  <input type="text"
+                    [placeholder]="row.column ? 'Enter ' + row.column + '...' : 'Enter value...'"
+                    [value]="row.value"
+                    (input)="updateViewDraftFilterValue(row.id, $any($event.target).value)" />
+                }
+              </div>
+            }
+            <button type="button" class="mobile-app-dropdown__add-row" (click)="addViewDraftFilterRow()">
+              <qo-icon name="plus" aria-hidden="true"></qo-icon> Add filter condition
+            </button>
+          </div>
+          <footer>
+            <button type="button" [disabled]="!viewDraftName().trim()" (click)="saveView()">Save View</button>
+            <button type="button" class="mobile-app-dropdown__clear-btn" (click)="closeViewBuilder()">Cancel</button>
+          </footer>
+        </div>
+      }
+    </section>
+  }
+
+  <!-- ── Main content ───────────────────────────────────────────────────── -->
+  <div class="mobile-app-page-heading">
+    <h4>{{ mobilePreviewTitle() }}</h4>
+  </div>
+  </div>
+  </div>
+
+  <main class="mobile-app-content" (click)="closeAllActionPanels()">
+    @if (currentPageTargetType() === 'page') {
+      <div class="mobile-app-canvas">
+        @if (currentPageWidgets().length) {
+          @for (widget of currentPageWidgets(); track widget.id) {
+            @if (widget.type === 'panel-showcase') {
+              <div class="mobile-app-canvas__panel"
+                   [style.--panel-icon-bg]="widget.widgetProps?.panelConfig?.iconBackgroundColor || '#2563eb'">
+                <div class="mobile-app-canvas__panel-icon">
+                  <qo-icon [name]="widget.widgetProps?.panelConfig?.iconSymbol || 'analytics'" aria-hidden="true"></qo-icon>
+                </div>
+                <div class="mobile-app-canvas__panel-value">{{ widget.widgetProps?.panelConfig?.value ?? '—' }}</div>
+                <div class="mobile-app-canvas__panel-title">{{ widget.widgetProps?.panelConfig?.title ?? widget.label }}</div>
+                @if (widget.widgetProps?.panelConfig?.subtitle) {
+                  <div class="mobile-app-canvas__panel-sub">{{ widget.widgetProps?.panelConfig?.subtitle }}</div>
+                }
+              </div>
+            } @else if (widget.type === 'chart-showcase') {
+              <div class="mobile-app-canvas__chart"
+                   [style.--chart-clr]="widget.widgetProps?.chartConfig?.chartColor || '#2563eb'">
+                <div class="mobile-app-canvas__chart-title">{{ widget.label }}</div>
+                @if (widget.chartType === 'line' || widget.chartType === 'area' || widget.chartType === 'stacked-area') {
+                  <svg class="mobile-app-canvas__chart-svg" viewBox="0 0 160 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="0" y1="52" x2="160" y2="52" stroke="var(--qo-color-neutral-200)" stroke-width="0.8"/>
+                    <line x1="0" y1="34" x2="160" y2="34" stroke="var(--qo-color-neutral-200)" stroke-width="0.5" stroke-dasharray="3,3"/>
+                    <line x1="0" y1="18" x2="160" y2="18" stroke="var(--qo-color-neutral-200)" stroke-width="0.5" stroke-dasharray="3,3"/>
+                    @if (widget.chartType === 'area' || widget.chartType === 'stacked-area') {
+                      <polygon points="0,52 0,42 27,30 53,36 80,18 107,24 133,10 160,20 160,52" fill="var(--chart-clr)" opacity="0.12"/>
+                    }
+                    <polyline points="0,42 27,30 53,36 80,18 107,24 133,10 160,20" fill="none" stroke="var(--chart-clr)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="0"   cy="42" r="3" fill="var(--qo-color-neutral-0,#fff)" stroke="var(--chart-clr)" stroke-width="1.8"/>
+                    <circle cx="80"  cy="18" r="3" fill="var(--qo-color-neutral-0,#fff)" stroke="var(--chart-clr)" stroke-width="1.8"/>
+                    <circle cx="160" cy="20" r="3" fill="var(--qo-color-neutral-0,#fff)" stroke="var(--chart-clr)" stroke-width="1.8"/>
+                  </svg>
+                } @else if (widget.chartType === 'bar' || widget.chartType === 'stacked-bar') {
+                  <svg class="mobile-app-canvas__chart-svg" viewBox="0 0 160 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="0" y1="52" x2="160" y2="52" stroke="var(--qo-color-neutral-200)" stroke-width="0.8"/>
+                    <rect x="4"  y="14" width="26" height="37" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="36" y="6"  width="26" height="45" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="68" y="20" width="26" height="31" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="100" y="10" width="26" height="41" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="132" y="26" width="26" height="25" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                  </svg>
+                } @else {
+                  <svg class="mobile-app-canvas__chart-svg" viewBox="0 0 160 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="0" y1="52" x2="160" y2="52" stroke="var(--qo-color-neutral-200)" stroke-width="0.8"/>
+                    <line x1="0" y1="34" x2="160" y2="34" stroke="var(--qo-color-neutral-200)" stroke-width="0.5" stroke-dasharray="3,3"/>
+                    <rect x="4"   y="28" width="16" height="23" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="24"  y="12" width="16" height="39" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="44"  y="20" width="16" height="31" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="64"  y="8"  width="16" height="43" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="84"  y="18" width="16" height="33" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="104" y="30" width="16" height="21" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="124" y="14" width="16" height="37" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                    <rect x="144" y="24" width="16" height="27" fill="var(--chart-clr)" rx="2" opacity="0.9"/>
+                  </svg>
+                }
+                <div class="mobile-app-canvas__chart-type">{{ widget.chartType || 'chart' }}</div>
+              </div>
+            } @else if (widget.type === 'table-showcase') {
+              <div class="mobile-app-canvas__table">
+                <div class="mobile-app-canvas__table-title">{{ widget.label }}</div>
+                <div class="mobile-app-canvas__table-head">
+                  @for (col of getVisibleTableColumns(widget).slice(0, 3); track col.key) {
+                    <span>{{ col.label }}</span>
+                  }
+                </div>
+                @for (row of getTableRows(widget).slice(0, 5); track $index) {
+                  <div class="mobile-app-canvas__table-row">
+                    @for (cell of row.slice(0, 3); track $index) {
+                      <span>{{ cell }}</span>
+                    }
+                  </div>
+                }
+              </div>
+            } @else if (widget.type === 'media-showcase') {
+              <div
+                class="mobile-app-canvas__media"
+                [class.mobile-app-canvas__media--pdf]="widget.widgetProps?.mediaConfig?.mediaType === 'pdf'">
+                <app-ui-media-widget [config]="widget.widgetProps?.mediaConfig"></app-ui-media-widget>
+              </div>
+            } @else if (widget.type === 'text-block-showcase') {
+              <div class="mobile-app-canvas__text">{{ widget.widgetProps?.textBlockConfig?.content ?? widget.label ?? '' }}</div>
+            } @else {
+              <div class="mobile-app-canvas__block">
+                <qo-icon name="web_asset" aria-hidden="true"></qo-icon>
+                <span>{{ widget.label || widget.type }}</span>
+              </div>
+            }
+          }
+        } @else {
+          <p class="mobile-app-canvas__empty">No published content yet</p>
+        }
+      </div>
+    } @else if (currentPageTargetType() === 'form') {
+      <div class="mobile-app-form">
+        @if (currentTargetForm(); as form) {
+          @for (field of form.fields.slice(0, 5); track field.id) {
+            <div class="mobile-app-form__field">
+              <label>{{ field.label }}</label>
+              @if (field.type === 'textarea') {
+                <textarea [placeholder]="field.label" rows="2"></textarea>
+              } @else if (field.type === 'select' || field.type === 'dropdown') {
+                <select><option disabled selected>Select...</option></select>
+              } @else if (field.type === 'checkbox') {
+                <div class="mobile-app-form__check">
+                  <input type="checkbox" />
+                  <span>{{ field.label }}</span>
+                </div>
+              } @else {
+                <input type="text" [placeholder]="field.label" />
+              }
+            </div>
+          }
+          <button class="mobile-app-form__submit" type="button" disabled>Submit</button>
+        }
+      </div>
+    } @else {
+      <div class="mobile-app-table-scroll">
+        <table class="mobile-app-table">
+          <thead>
+            <tr>
+              @for (col of previewDataset().columns; track col) {
+                <th>{{ col }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of mobilePreviewRows(); track $index) {
+              <tr>
+                @for (cell of row; track $index) {
+                  <td>{{ cell }}</td>
+                }
+              </tr>
+            }
+            @if (!mobilePreviewRows().length) {
+              <tr>
+                <td [attr.colspan]="previewDataset().columns.length" class="mobile-app-table__empty">
+                  No records found
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </main>
+  </div>
+
+  <!-- ── Employee modal ────────────────────────────────────────────────── -->
+  @if (showPreviewEmployeeModal()) {
+    <div class="mobile-employee-modal-backdrop" (click)="closePreviewEmployeeModal()">
+      <section
+        class="mobile-employee-modal"
+        aria-labelledby="mobile-add-employee-title"
+        (click)="$event.stopPropagation()">
+        <header>
+          <div>
+            <h4 id="mobile-add-employee-title">Add Employee</h4>
+            <p>Register a new employee</p>
+          </div>
+          <button type="button" aria-label="Close add employee" (click)="closePreviewEmployeeModal()">
+            <qo-icon name="x" aria-hidden="true"></qo-icon>
+          </button>
+        </header>
+        <form>
+          <label><span>First Name *</span><input type="text" placeholder="First name" /></label>
+          <label><span>Last Name *</span><input type="text" placeholder="Last name" /></label>
+          <label class="mobile-employee-modal__wide">
+            <span>Email Address *</span>
+            <input type="email" placeholder="employee@acme.co" />
+          </label>
+          <label>
+            <span>Department *</span>
+            <select>
+              <option>Engineering</option>
+              <option>HR &amp; Admin</option>
+              <option>Finance</option>
+              <option>Operations</option>
+              <option>Sales</option>
+            </select>
+          </label>
+          <label><span>Designation *</span><input type="text" placeholder="e.g. Software Engineer" /></label>
+          <label><span>Joining Date *</span><input type="text" placeholder="dd-mm-yyyy" /></label>
+          <label>
+            <span>Employment Type</span>
+            <select>
+              <option>Full-time</option>
+              <option>Part-time</option>
+              <option>Contract</option>
+              <option>Intern</option>
+            </select>
+          </label>
+        </form>
+        <footer>
+          <button type="button" class="mobile-employee-modal__ghost" (click)="closePreviewEmployeeModal()">Cancel</button>
+          <button type="button" class="mobile-employee-modal__primary" (click)="closePreviewEmployeeModal()">
+            <qo-icon name="check" aria-hidden="true"></qo-icon>
+            Add Employee
+          </button>
+        </footer>
+      </section>
+    </div>
+  }
+
+  <!-- ── Left page selector ─────────────────────────────────────────────── -->
+  @if (mobileLeftPageOptions().length) {
+    <div class="mobile-app-left-selector-shell" [class.mobile-app-left-selector-shell--hidden]="!mobileNavVisible()">
+      @if (mobilePopupSubPages().length) {
+        <div class="mobile-app-submenu-popover" aria-label="Submenu pages">
+          @for (subPage of mobilePopupSubPages(); track subPage.id) {
+            <button
+              type="button"
+              [class.mobile-app-submenu-popover__active]="selectedPreviewSubPage()?.id === subPage.id"
+              (click)="selectMobileSubmenuPage(subPage.id)">
+              <qo-icon [name]="subPage.icon" aria-hidden="true"></qo-icon>
+              {{ subPage.label }}
+            </button>
+          }
+        </div>
+      }
+      <nav class="mobile-app-left-selector" aria-label="Left page selector">
+        @for (page of mobileLeftPageOptions(); track page.id) {
+          <button
+            type="button"
+            [class.mobile-app-left-selector__active]="selectedPreviewLeftPage()?.id === page.id"
+            [class.mobile-app-left-selector__open]="openMobileSubmenuPageId() === page.id"
+            (click)="selectMobileLeftPage(page.id)">
+            <qo-icon [name]="page.icon" aria-hidden="true"></qo-icon>
+            {{ page.label }}
+          </button>
+        }
+      </nav>
+    </div>
+  }
+
+  <!-- ── Bottom nav ────────────────────────────────────────────────────── -->
+  <nav
+    class="mobile-app-bottom-nav"
+    [class.mobile-app-bottom-nav--hidden]="!mobileNavVisible()"
+    aria-label="Primary page selector"
+    [style.--mobile-nav-bg]="activeLayoutPayload().layout.theme.sidebarBg"
+    [style.--mobile-nav-text]="activeLayoutPayload().layout.theme.sidebarText"
+    [style.--mobile-nav-active-bg]="activeLayoutPayload().layout.theme.sidebarActiveBg">
+    @for (page of previewPrimaryPages(); track page.id) {
+      <button
+        type="button"
+        [class.mobile-app-bottom-nav__active]="selectedPreviewPrimaryPage()?.id === page.id"
+        (click)="selectPreviewPage(page.id)">
+        <span class="mobile-app-bottom-nav__icon">
+          <qo-icon name="layout-dashboard" aria-hidden="true"></qo-icon>
+        </span>
+        <span class="mobile-app-bottom-nav__label">{{ page.label }}</span>
+      </button>
+    }
+  </nav>
+</div>

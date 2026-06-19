@@ -1,0 +1,8 @@
+<article class="workflow-node" [class.workflow-node--active]="active()">
+  <span class="workflow-node__accent" [class]="accentClass()"></span>
+  <p class="workflow-node__label">{{ label() }}</p>
+  <h4 class="workflow-node__title">{{ title() }}</h4>
+  @if (description()) {
+    <p class="workflow-node__description">{{ description() }}</p>
+  }
+</article>

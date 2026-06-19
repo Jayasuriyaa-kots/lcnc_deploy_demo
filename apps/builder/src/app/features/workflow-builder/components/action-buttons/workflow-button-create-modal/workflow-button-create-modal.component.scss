@@ -1,0 +1,27 @@
+:host {
+  display: contents;
+}
+
+.workflow-button-modal {
+  display: grid;
+  gap: var(--qo-space-4);
+}
+
+.workflow-button-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--qo-space-3);
+  width: 100%;
+  padding-top: var(--qo-space-2);
+}
+
+.workflow-button-modal__footer qo-button {
+  --qo-button-height: var(--qo-size-36);
+  --qo-button-min-width: var(--qo-size-112);
+  --qo-button-padding: 0 var(--qo-space-5);
+  --qo-button-radius: var(--qo-radius-sm);
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: var(--qo-font-bold);
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+}

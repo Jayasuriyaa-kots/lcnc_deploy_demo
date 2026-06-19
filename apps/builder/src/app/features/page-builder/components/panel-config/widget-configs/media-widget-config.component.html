@@ -1,0 +1,21 @@
+@if (activeTab() === 'display') {
+  <app-media-settings-panel
+    [config]="config()"
+    (configChange)="configChange.emit(normalizeConfig($event))"
+  ></app-media-settings-panel>
+}
+
+@if (activeTab() === 'style') {
+  <div class="prop-group">
+    <label class="prop-label">Background color</label>
+    <div class="color-row">
+      <qo-color-picker
+        [value]="config().backgroundColor"
+        [presetColors]="colorPickerPalette()"
+        [showThemeColor]="true"
+        [triggerLabel]="'A'"
+        (valueChange)="onBackgroundColorChanged($event)"
+      ></qo-color-picker>
+    </div>
+  </div>
+}

@@ -1,0 +1,1 @@
+export { PaymentRecordsComponent } from './payment-records.component';

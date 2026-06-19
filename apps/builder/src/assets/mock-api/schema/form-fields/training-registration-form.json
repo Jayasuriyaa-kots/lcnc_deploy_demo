@@ -1,0 +1,53 @@
+{
+  "formId": "training-registration-form",
+  "formLabel": "Training Registration",
+  "tableName": "training_registrations",
+  "actionLabels": ["Register"],
+  "fields": [
+    {
+      "id": "employee_id",
+      "label": "Employee ID",
+      "dbColumn": "employee_id",
+      "type": "text",
+      "placeholder": "Enter employee code",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "training_program",
+      "label": "Training Program",
+      "dbColumn": "program_name",
+      "type": "dropdown",
+      "placeholder": "Select program",
+      "required": true,
+      "options": ["Leadership Excellence", "Advanced SQL & Analytics", "Cloud Architecture (AWS)", "Agile & Scrum Practitioner", "Communication Skills", "Cybersecurity Fundamentals", "Project Management (PMP)", "Design Thinking"]
+    },
+    {
+      "id": "training_mode",
+      "label": "Training Mode",
+      "dbColumn": "mode",
+      "type": "dropdown",
+      "placeholder": "Select mode",
+      "required": true,
+      "options": ["Online", "In-Person", "Hybrid"]
+    },
+    {
+      "id": "preferred_date",
+      "label": "Preferred Start Date",
+      "dbColumn": "start_date",
+      "type": "date",
+      "placeholder": "Select date",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "manager_approved",
+      "label": "Manager Approval Obtained",
+      "dbColumn": "manager_approved",
+      "type": "checkbox",
+      "placeholder": "",
+      "required": false,
+      "options": []
+    }
+  ]
+}

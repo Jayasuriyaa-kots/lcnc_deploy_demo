@@ -1,0 +1,48 @@
+<qo-table [data]="endpointRows()">
+  <ng-template qoTableColumn="endpoint" [header]="i18n.translate('usage.colEndpoint')" let-endpoint>
+    <strong>{{ endpoint.endpoint }}</strong>
+  </ng-template>
+  <ng-template qoTableColumn="method" [header]="i18n.translate('usage.colMethod')" let-endpoint>
+    <qo-badge
+      class="method-badge"
+      [class]="methodToneClass(endpoint.method)"
+      [color]="methodColor(endpoint.method)"
+    >
+      {{ endpoint.method }}
+    </qo-badge>
+  </ng-template>
+  <ng-template qoTableColumn="requests" [header]="i18n.translate('usage.colCalls')" let-endpoint>
+    {{ endpoint.requests }}
+  </ng-template>
+  <ng-template qoTableColumn="latency" [header]="i18n.translate('usage.colP50')" let-endpoint>
+    {{ endpoint.latency }}
+  </ng-template>
+  <ng-template qoTableColumn="p95" [header]="i18n.translate('usage.colP95')" let-endpoint>
+    {{ endpoint.p95 }}
+  </ng-template>
+  <ng-template qoTableColumn="errorRate" [header]="i18n.translate('usage.colErrPct')" let-endpoint>
+    <span class="metric-cell is-positive">{{ endpoint.errorRate }}</span>
+  </ng-template>
+  <ng-template qoTableColumn="duplicates" [header]="i18n.translate('usage.colDup')" let-endpoint>
+    {{ endpoint.duplicates }}
+  </ng-template>
+  <ng-template qoTableColumn="retryCount" [header]="i18n.translate('usage.colRetries')" let-endpoint>
+    {{ endpoint.retryCount }}
+  </ng-template>
+  <ng-template qoTableColumn="auth" [header]="i18n.translate('usage.colAuth')" let-endpoint>
+    <span class="metric-cell is-positive">{{ endpoint.auth }}</span>
+  </ng-template>
+  <ng-template qoTableColumn="access" [header]="i18n.translate('usage.colAccess')" let-endpoint>
+    {{ endpoint.access }}
+  </ng-template>
+  <ng-template qoTableColumn="detail" [header]="i18n.translate('usage.colDetail')">
+    <qo-button variant="ghost" size="sm" class="table-action">{{ i18n.translate('usage.detail') }}</qo-button>
+  </ng-template>
+
+  <ng-template qoTableEmpty>
+    <qo-empty-state
+      [title]="i18n.translate('usage.noEndpoints')"
+      [description]="i18n.translate('usage.noEndpointsDescription')"
+    />
+  </ng-template>
+</qo-table>

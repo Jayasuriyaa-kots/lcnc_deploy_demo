@@ -1,0 +1,47 @@
+@use '../report-left-panel-shared';
+
+:host {
+  --filter-control-height: 2.25rem;
+}
+
+.filter-card {
+  gap: var(--qo-space-3);
+}
+
+.filter-card__top {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: calc(var(--qo-space-1) * -1);
+}
+
+.filter-remove.filter-remove--top {
+  position: static;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-600);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  .material-symbols-outlined {
+    font-size: 1rem;
+  }
+}
+
+.filter-card .field {
+  gap: var(--qo-space-2);
+}
+
+:host ::ng-deep .filter-card qo-select .qo-select-trigger,
+:host ::ng-deep .filter-card qo-input .qo-input {
+  min-height: var(--filter-control-height);
+  height: var(--filter-control-height);
+}
+
+:host ::ng-deep .filter-card qo-input .qo-input__field,
+:host ::ng-deep .filter-card qo-select .qo-select-value {
+  line-height: 1.2;
+}

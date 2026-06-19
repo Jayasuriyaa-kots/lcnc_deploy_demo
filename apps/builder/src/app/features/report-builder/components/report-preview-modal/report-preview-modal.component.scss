@@ -1,0 +1,8 @@
+/* Styles split by view/mode into ./styles partials (order preserved). */
+@use 'styles/shell-toolbar';
+@use 'styles/table';
+@use 'styles/detail-panel';
+@use 'styles/tabs-canvas';
+@use 'styles/menus-extras';
+@use 'styles/print-responsive';
+

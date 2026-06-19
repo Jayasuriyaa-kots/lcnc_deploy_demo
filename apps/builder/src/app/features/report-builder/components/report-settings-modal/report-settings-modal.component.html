@@ -1,0 +1,55 @@
+<div class="modal-backdrop" (click)="close()"></div>
+<section class="modal-shell">
+  <article class="modal-card" (click)="$event.stopPropagation()">
+    <header class="modal-card__header">
+      <div>
+        <h2>{{ t('generated.report_settings') }}</h2>
+        <p>{{ t('generated.manage_report_level_view_layout_and_interaction_behavior') }}</p>
+      </div>
+      <qo-button
+        class="modal-card__close"
+        variant="ghost"
+        size="sm"
+        type="button"
+        [attr.aria-label]="t('generated.close_settings')"
+        (click)="close()">
+        <qo-icon name="x" size="sm" />
+      </qo-button>
+    </header>
+    <div class="modal-card__body" [formGroup]="form">
+      <qo-form-field [label]="t('settings.reportName')">
+        <qo-input formControlName="name"></qo-input>
+      </qo-form-field>
+
+      <qo-form-field [label]="t('settings.description')">
+        <qo-textarea [rows]="4" formControlName="description"></qo-textarea>
+      </qo-form-field>
+
+      <div class="settings-grid">
+        <qo-form-field [label]="t('settings.reportView')">
+          <qo-select [options]="viewTypeOptions" formControlName="viewType"></qo-select>
+        </qo-form-field>
+
+        <qo-form-field [label]="t('settings.defaultLayout')">
+          <qo-select [options]="defaultLayoutOptions" formControlName="defaultLayout"></qo-select>
+        </qo-form-field>
+
+        <qo-form-field [label]="t('settings.recordClickAction')">
+          <qo-select [options]="recordClickActionOptions" formControlName="recordClickAction"></qo-select>
+        </qo-form-field>
+
+        <qo-form-field [label]="t('settings.pageSize')">
+          <qo-select [options]="pageSizeOptions" formControlName="pageSize"></qo-select>
+        </qo-form-field>
+
+        <qo-form-field [label]="t('settings.baseFilterLabel')" class="field--full-width">
+          <qo-input formControlName="baseFilter" [placeholder]="t('generated.e_g_status_active')"></qo-input>
+        </qo-form-field>
+      </div>
+    </div>
+    <footer class="modal-card__footer">
+      <qo-button class="btn-secondary" variant="secondary" type="button" (click)="close()">{{ t('generated.close') }}</qo-button>
+      <qo-button class="btn-primary" type="button" (click)="save()">{{ t('generated.save_settings') }}</qo-button>
+    </footer>
+  </article>
+</section>

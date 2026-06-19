@@ -1,0 +1,33 @@
+    <section class="panel-card">
+      <header class="panel-card__header">
+        <h2>{{ t('leftPanel.grouping') }}</h2>
+      </header>
+
+      <div class="panel-card__body panel-card__body--stack">
+        <form [formGroup]="form">
+          <qo-form-field [label]="t('generated.group_records_by')">
+            <qo-select
+              formControlName="groupBy"
+              [options]="getGroupByOptions()"
+              (valueChange)="emitGroupByChange()">
+            </qo-select>
+          </qo-form-field>
+
+          <qo-form-field [label]="t('generated.order')">
+            <qo-select
+              formControlName="groupOrder"
+              [options]="groupOrderOptions"
+              (valueChange)="emitGroupOrderChange()">
+            </qo-select>
+          </qo-form-field>
+
+          <label class="line-check line-check--inline">
+            <span>{{ t('generated.show_record_count') }}</span>
+            <qo-toggle
+              formControlName="showRecordCount"
+              (checkedChange)="emitShowRecordCountChange()">
+            </qo-toggle>
+          </label>
+        </form>
+      </div>
+    </section>

@@ -1,0 +1,47 @@
+<aside class="search-drawer" (click)="$event.stopPropagation()">
+  <div class="search-drawer__header">
+    <h3>{{ t('generated.search_2') }}</h3>
+    <qo-button variant="ghost" type="button" [iconOnly]="true" [attr.aria-label]="t('generated.close_search')"
+      class="search-drawer__close" (click)="event.emit({type:'close'})">
+      <qo-icon name="x" size="sm" />
+    </qo-button>
+  </div>
+
+  <div class="search-drawer__body">
+    @for (row of state().rows; track row.id) {
+      <div class="search-row">
+        <div class="search-row__top">
+          <label class="search-row__title">
+            <qo-checkbox
+              [checked]="row.enabled"
+              (checkedChange)="event.emit({type:'rowToggle', id:row.id, checked:$event})"
+            ></qo-checkbox>
+            <span>{{ row.label }}</span>
+          </label>
+          @if (row.enabled) {
+            <span class="search-row__subfields">{{ t('generated.search_by_subfields') }}</span>
+          }
+        </div>
+
+        @if (row.enabled) {
+          <qo-select
+            [options]="state().operatorOptions"
+            [value]="row.operator"
+            (valueChange)="event.emit({type:'operatorChange', id:row.id, operator:asString($event)})">
+          </qo-select>
+
+          <qo-input
+            [type]="getInputType(row.fieldType)"
+            [value]="row.value"
+            (valueChange)="event.emit({type:'valueChange', id:row.id, value:$event})"
+            [placeholder]="getPlaceholder(row.fieldType)"
+          ></qo-input>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="search-drawer__footer">
+    <qo-button type="button" variant="primary" (click)="event.emit({type:'apply'})">{{ t('generated.search_2') }}</qo-button>
+  </div>
+</aside>

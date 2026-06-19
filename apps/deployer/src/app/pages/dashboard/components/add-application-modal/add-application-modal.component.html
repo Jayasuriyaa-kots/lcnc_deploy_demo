@@ -1,0 +1,61 @@
+<qo-modal
+  class="app-modal-shell"
+  [title]="i18n.translate('dashboard.addApplicationTitle')"
+  [subtitle]="i18n.translate('dashboard.addApplicationSubtitle', { organisationName: organisationName() })"
+  size="lg"
+  [maxWidth]="'var(--qo-size-572)'"
+  panelClass="qo-modal-panel--application"
+  (close)="closeModal()"
+>
+  <form class="app-modal-form" [formGroup]="form()" (ngSubmit)="submit()">
+    <qo-form-field [label]="i18n.translate('dashboard.appName')" [required]="true">
+      <qo-input type="text" formControlName="name" [placeholder]="i18n.translate('dashboard.appNamePlaceholder')" />
+    </qo-form-field>
+
+    <div class="app-modal-two-column">
+      <qo-form-field [label]="i18n.translate('dashboard.appType')">
+        <qo-select
+          [options]="applicationTypeOptions()"
+          [value]="selectedApplicationType()"
+          (valueChange)="onApplicationTypeChange($event)"
+        />
+      </qo-form-field>
+
+      <qo-form-field [label]="i18n.translate('dashboard.appPrimaryOwner')">
+        <qo-select
+          [options]="primaryOwnerOptions()"
+          [value]="selectedPrimaryOwner()"
+          (valueChange)="onPrimaryOwnerChange($event)"
+        />
+      </qo-form-field>
+    </div>
+
+    <qo-form-field [label]="i18n.translate('dashboard.appDescription')">
+      <qo-textarea formControlName="description" [placeholder]="i18n.translate('dashboard.appDescriptionPlaceholder')" />
+    </qo-form-field>
+
+    <qo-form-field [label]="i18n.translate('dashboard.superAdminsLabel')">
+      <qo-input
+        type="text"
+        formControlName="superAdminEmails"
+        [placeholder]="i18n.translate('dashboard.superAdminsPlaceholder')"
+      />
+    </qo-form-field>
+
+    <qo-form-field [label]="i18n.translate('dashboard.adminsLabel')">
+      <qo-input type="text" formControlName="adminEmails" [placeholder]="i18n.translate('dashboard.adminsPlaceholder')" />
+    </qo-form-field>
+  </form>
+
+  <div qo-modal-footer class="app-modal-actions">
+    <qo-button variant="link" class="app-modal-cancel" (click)="closeModal()">{{ i18n.translate('dashboard.cancel') }}</qo-button>
+    <qo-button
+      variant="secondary"
+      class="app-modal-submit"
+      [disabled]="isSubmitDisabled()"
+      (click)="submit()"
+    >
+      {{ i18n.translate('dashboard.createApplication') }}
+    </qo-button>
+  </div>
+</qo-modal>

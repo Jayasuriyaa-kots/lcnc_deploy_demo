@@ -1,0 +1,18 @@
+<qo-modal
+  title="Create New Role"
+  subtitle="Add a custom application role. Permissions start unchecked by default."
+  size="sm"
+  [maxWidth]="'var(--qo-size-440)'"
+  (close)="closeModal()"
+>
+  <form class="new-role-modal" [formGroup]="form()" (ngSubmit)="submit()">
+    <qo-form-field label="Role Name" [required]="true">
+      <qo-input type="text" formControlName="roleName" placeholder="e.g. Finance Reviewer" />
+    </qo-form-field>
+  </form>
+
+  <div qo-modal-footer class="new-role-modal__footer">
+    <qo-button variant="link" (click)="closeModal()">Cancel</qo-button>
+    <qo-button variant="primary" [disabled]="form().invalid" (click)="submit()">Create Role</qo-button>
+  </div>
+</qo-modal>

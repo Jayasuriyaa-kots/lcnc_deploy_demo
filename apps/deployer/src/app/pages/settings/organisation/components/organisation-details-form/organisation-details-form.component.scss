@@ -1,0 +1,209 @@
+:host {
+  display: block;
+}
+
+.settings-card {
+  padding: var(--qo-size-28) var(--qo-size-30);
+  border-radius: var(--qo-size-16);
+}
+
+.settings-card__label {
+  color: var(--qo-deployer-text-muted);
+  margin-bottom: var(--qo-size-22);
+  font-size: var(--qo-text-xs);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-size-18);
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+qo-form-field {
+  --qo-form-label-color: var(--qo-deployer-text-muted);
+  --qo-form-label-size: var(--qo-text-xs);
+  --qo-form-label-weight: 700;
+  --qo-form-label-letter-spacing: 0.12em;
+  --qo-form-label-transform: uppercase;
+  --qo-form-label-margin-bottom: var(--qo-size-8);
+  --qo-form-hint-color: var(--qo-deployer-text-muted);
+  --qo-form-error-color: color-mix(in srgb, var(--qo-color-danger-300) 90%, transparent);
+}
+
+qo-input.settings-input {
+  --qo-input-height-md: var(--qo-size-46);
+  --qo-input-bg: var(--qo-deployer-field-background);
+  --qo-input-border-color: var(--qo-deployer-line);
+  --qo-input-border-radius: var(--qo-radius-xl);
+  --qo-input-color: var(--qo-deployer-text);
+  --qo-input-placeholder-color: var(--qo-deployer-text-muted);
+  --qo-input-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-input-focus-shadow: var(--qo-deployer-field-focus-shadow);
+}
+
+qo-select {
+  --qo-select-height-md: var(--qo-size-46);
+  --qo-select-font-size-md: var(--qo-text-sm);
+  --qo-select-padding-md: 0 var(--qo-size-14);
+  --qo-select-border-radius: var(--qo-radius-xl);
+  --qo-select-border-color: var(--qo-deployer-line);
+  --qo-select-border-color-hover: var(--qo-deployer-line-strong);
+  --qo-select-border-color-focus: var(--qo-deployer-line-strong);
+  --qo-select-bg: var(--qo-deployer-field-background);
+  --qo-select-bg-hover: var(--qo-deployer-field-background);
+  --qo-select-bg-focus: var(--qo-deployer-field-background);
+  --qo-select-color: var(--qo-deployer-text);
+  --qo-select-placeholder-color: var(--qo-deployer-text-muted);
+  --qo-select-caret-color: color-mix(in srgb, var(--qo-color-info-100) 78%, transparent);
+  --qo-select-focus-shadow: inset 0 0 0 var(--qo-size-1) color-mix(in srgb, var(--qo-color-neutral-0) 70%, transparent);
+  --qo-select-dropdown-bg: var(--qo-deployer-card-background);
+  --qo-select-dropdown-border-color: var(--qo-deployer-line);
+  --qo-select-dropdown-radius: var(--qo-radius-lg);
+  --qo-select-dropdown-shadow: 0 var(--qo-size-14) var(--qo-size-28) color-mix(in srgb, var(--qo-color-neutral-900) 32%, transparent);
+  --qo-select-option-color: var(--qo-deployer-text);
+  --qo-select-option-hover-bg: var(--qo-deployer-brand-soft);
+  --qo-select-option-selected-bg: var(--qo-deployer-brand-soft);
+  --qo-select-option-selected-color: var(--qo-deployer-text);
+  --qo-select-option-check-color: var(--qo-deployer-text);
+  --qo-select-empty-color: var(--qo-deployer-text-muted);
+}
+
+.settings-textarea {
+  min-height: var(--qo-size-80);
+  padding: var(--qo-space-3) var(--qo-space-4);
+  color: var(--qo-deployer-text);
+  white-space: pre-line;
+  line-height: 1.45;
+  overflow: auto;
+}
+
+.settings-select {
+  display: grid;
+  gap: var(--qo-size-8);
+  position: relative;
+  z-index: 4;
+}
+
+.settings-select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 var(--qo-size-14);
+  text-align: left;
+  cursor: pointer;
+}
+
+.settings-select__trigger--open {
+  border-color: var(--qo-deployer-line-strong);
+  background: var(--qo-deployer-field-background);
+  box-shadow: var(--qo-deployer-field-focus-shadow);
+}
+
+.settings-select__value {
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-text-sm);
+  line-height: 1;
+}
+
+.settings-select__chevron {
+  width: var(--qo-size-10);
+  height: var(--qo-size-6);
+  margin-left: var(--qo-size-10);
+  flex: 0 0 auto;
+  position: relative;
+  transition: transform var(--qo-duration-base) ease;
+}
+
+.settings-select__chevron::before,
+.settings-select__chevron::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: var(--qo-size-6);
+  height: var(--qo-size-1);
+  background: color-mix(in srgb, var(--qo-color-info-100) 78%, transparent);
+  transform-origin: center;
+}
+
+.settings-select__chevron::before {
+  left: 0;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.settings-select__chevron::after {
+  right: 0;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.settings-select__trigger--open .settings-select__chevron {
+  transform: rotate(180deg);
+}
+
+.settings-select__panel {
+  position: absolute;
+  top: calc(100% + var(--qo-size-5));
+  left: 0;
+  width: 100%;
+  padding: var(--qo-size-4) 0;
+  border: var(--qo-size-1) solid var(--qo-deployer-line);
+  background: var(--qo-deployer-card-background);
+  box-shadow: 0 var(--qo-size-14) var(--qo-size-28) color-mix(in srgb, var(--qo-color-neutral-900) 32%, transparent);
+  overflow: hidden;
+}
+
+.settings-select__option {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: var(--qo-size-6) var(--qo-size-16);
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-text-xs);
+  line-height: 1.25;
+  text-align: left;
+  transition: background-color var(--qo-duration-fast) ease, color var(--qo-duration-fast) ease;
+}
+
+.settings-select__option:hover {
+  background: var(--qo-deployer-brand-soft);
+}
+
+.settings-select__option--selected {
+  background: var(--qo-deployer-brand-soft);
+  color: var(--qo-deployer-text);
+}
+
+.card-actions {
+  display: flex;
+  margin-top: var(--qo-size-22);
+}
+
+.card-actions--end {
+  justify-content: flex-end;
+}
+
+qo-button.settings-save-button {
+  --qo-button-min-width: var(--qo-size-174);
+  --qo-button-min-height: var(--qo-size-40);
+  --qo-button-padding: 0 var(--qo-space-5);
+  --qo-button-radius: var(--qo-radius-md);
+  --qo-button-border-color: color-mix(in srgb, var(--qo-color-neutral-50) 92%, transparent);
+  --qo-button-bg: var(--qo-color-neutral-50);
+  --qo-button-color: var(--qo-color-neutral-700);
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 600;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+  --qo-button-hover-bg: var(--qo-color-neutral-0);
+  --qo-button-hover-color: var(--qo-color-neutral-900);
+  --qo-button-box-shadow: none;
+}
+

@@ -1,0 +1,16 @@
+[project]
+name = "builder-api"
+version = "1.0.0"
+dependencies = [
+  "fastapi>=0.111.0",
+  "uvicorn[standard]>=0.29.0",
+  "psycopg[async]>=3.1.0",
+  "psycopg-pool>=3.2.0",
+  "python-jose[cryptography]>=3.3.0",
+  "cryptography>=42.0.0",
+  "pydantic-settings>=2.0.0",
+  "qo-auth @ file://../../packages/qo-auth",
+  "qo-db @ file://../../packages/qo-db",
+  "qo-utils @ file://../../packages/qo-utils",
+  "qo-connectors @ file://../../packages/qo-connectors",
+]

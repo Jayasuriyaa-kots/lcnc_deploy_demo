@@ -1,0 +1,341 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.style-panel {
+  width: 100%;
+}
+
+.card,
+.section-card {
+  margin-bottom: var(--qo-space-3);
+  overflow: visible;
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xl);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+}
+
+.card {
+  padding: var(--qo-space-4);
+}
+
+.section-header {
+  padding: var(--qo-space-4) var(--qo-space-4) 0;
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-bold);
+}
+
+.field-label {
+  margin-bottom: var(--qo-space-3);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-bold);
+}
+
+.field-label.large {
+  font-size: var(--qo-text-sm);
+}
+
+.field-label--inline {
+  margin-bottom: 0;
+}
+
+.inline-field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-space-2);
+}
+
+:host ::ng-deep .segmented qo-button {
+  display: block;
+}
+
+:host ::ng-deep .segmented qo-button .qo-btn {
+  width: 100%;
+  min-height: var(--qo-space-10);
+  justify-content: center;
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  box-shadow: none;
+}
+
+:host ::ng-deep .segmented qo-button.active .qo-btn {
+  border-color: var(--qo-color-neutral-900);
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+}
+
+.style-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.unit-input,
+.padding-input-wrap {
+  display: flex;
+  min-width: 0;
+  min-height: var(--qo-space-10);
+  align-items: center;
+  gap: var(--qo-space-2);
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  padding-inline: var(--qo-space-3);
+}
+
+.unit-input {
+  width: 100%;
+  max-width: calc(var(--qo-space-16) * 2 + var(--qo-space-3));
+}
+
+.unit-input--compact {
+  max-width: calc(var(--qo-space-16) + var(--qo-space-12));
+}
+
+:host ::ng-deep .unit-input qo-input .qo-input-element,
+:host ::ng-deep .padding-input-wrap qo-input .qo-input-element {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+:host ::ng-deep .unit-input qo-input,
+:host ::ng-deep .padding-input-wrap qo-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+:host ::ng-deep .unit-input qo-input .qo-input-wrapper,
+:host ::ng-deep .padding-input-wrap qo-input .qo-input-wrapper {
+  width: 100%;
+}
+
+.unit-input span,
+.padding-input-wrap span {
+  flex-shrink: 0;
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-sm);
+}
+
+.row-item {
+  display: flex;
+  min-height: var(--qo-space-16);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+  padding: 0 var(--qo-space-4);
+}
+
+.row-item--single {
+  min-height: auto;
+  padding-top: var(--qo-space-4);
+  padding-bottom: var(--qo-space-4);
+}
+
+.row-label {
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+}
+
+:host ::ng-deep qo-button.icon-btn .qo-btn {
+  position: relative;
+  display: inline-flex;
+  height: var(--qo-space-8);
+  width: var(--qo-space-10);
+  align-items: center;
+  justify-content: center;
+  border: 0.0625rem solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-900);
+  cursor: pointer;
+  padding: 0;
+
+  .qo-btn-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+:host ::ng-deep qo-button.icon-btn.active .qo-btn::after {
+  content: '';
+  position: absolute;
+  inset-inline: var(--qo-space-2);
+  inset-block-end: var(--qo-space-1);
+  height: 0.0625rem;
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-primary-500);
+}
+
+.text-btn {
+  font-size: var(--qo-text-lg);
+}
+
+.text-btn--lowercase {
+  text-transform: lowercase;
+}
+
+.text-btn.italic {
+  font-style: italic;
+}
+
+.color-type-btn .text-preview {
+  position: relative;
+  font-size: var(--qo-text-base);
+  font-weight: var(--qo-font-semibold);
+  line-height: 1;
+}
+
+.color-type-btn .text-preview::after {
+  content: '';
+  display: block;
+  width: calc(var(--qo-space-5) + var(--qo-space-1));
+  height: 0.0625rem;
+  margin: var(--qo-space-1) auto 0;
+  background: var(--qo-color-neutral-900);
+}
+
+.select-wrap {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  max-width: calc(var(--qo-space-16) * 3 + var(--qo-space-4));
+  flex-direction: column;
+}
+
+.select-wrap--compact {
+  max-width: calc(var(--qo-space-16) + var(--qo-space-12));
+}
+
+:host ::ng-deep qo-button.dropdown-trigger .qo-btn {
+  display: flex;
+  min-height: var(--qo-space-10);
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  border: 0.0625rem solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+  padding-inline: var(--qo-space-3);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--qo-radius-lg);
+
+  .qo-btn-label {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+:host ::ng-deep qo-button.dropdown-trigger--compact .qo-btn {
+  min-height: var(--qo-space-8);
+}
+
+:host ::ng-deep qo-button.dropdown-trigger--open .qo-btn {
+  border-color: var(--qo-border-color-focus);
+  box-shadow: var(--qo-shadow-sm);
+}
+
+.dropdown-menu {
+  position: absolute;
+  inset-block-start: calc(100% + var(--qo-space-2));
+  inset-inline-start: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: var(--qo-space-1);
+  width: 100%;
+  border: 0.0625rem solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-lg);
+  padding: var(--qo-space-2);
+}
+
+.dropdown-menu--compact {
+  min-width: calc(var(--qo-space-16) + var(--qo-space-12));
+}
+
+:host ::ng-deep qo-button.dropdown-option .qo-btn {
+  display: flex;
+  min-height: var(--qo-space-8);
+  width: 100%;
+  align-items: center;
+  border: 0;
+  border-radius: var(--qo-radius-md);
+  background: transparent;
+  padding-inline: var(--qo-space-3);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  text-align: left;
+  cursor: pointer;
+  justify-content: flex-start;
+  border-radius: var(--qo-radius-md);
+}
+
+:host ::ng-deep qo-button.dropdown-option {
+  display: block;
+  width: 100%;
+}
+
+:host ::ng-deep qo-button.dropdown-option .qo-btn:hover {
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-primary-500);
+}
+
+:host ::ng-deep qo-button.dropdown-option--active .qo-btn {
+  background: var(--qo-color-primary-500);
+  color: var(--qo-color-neutral-0);
+}
+
+.padding-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-space-3);
+}
+
+.padding-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qo-space-2);
+}
+
+.padding-item label {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-xs);
+}
+

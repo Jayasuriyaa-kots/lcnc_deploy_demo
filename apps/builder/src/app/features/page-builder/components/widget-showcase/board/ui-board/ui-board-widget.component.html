@@ -1,0 +1,183 @@
+<div class="board-widget" [style.--board-bg]="backgroundColor()">
+  @switch (variant()) {
+    @case ('department-list') {
+      <section class="board-card">
+        <div
+          class="board-section board-card__header"
+          [class.board-section--interactive]="interactive()"
+          [class.board-section--selected]="isSectionSelected('header')"
+          (click)="selectSection('header', $event)"
+        >
+          {{ resolvedPreset().label }}
+        </div>
+        @for (item of departments; track item.rank) {
+          <div
+            class="board-section board-list-item board-list-item--boxed"
+            [class.board-section--interactive]="interactive()"
+            [class.board-section--selected]="isSectionSelected('department-row-' + item.rank)"
+            (click)="selectSection('department-row-' + item.rank, $event)"
+          >
+            <div class="board-list-item__left">
+              <div class="board-rank">{{ item.rank }}</div>
+              <div class="board-code">ED</div>
+              <div class="board-list-item__label">{{ item.name }}</div>
+            </div>
+            <div class="board-accent">{{ item.members }}</div>
+          </div>
+        }
+      </section>
+    }
+
+    @case ('order-status') {
+      <section class="board-card">
+        <div
+          class="board-section board-card__header"
+          [class.board-section--interactive]="interactive()"
+          [class.board-section--selected]="isSectionSelected('header')"
+          (click)="selectSection('header', $event)"
+        >
+          {{ resolvedPreset().label }}
+        </div>
+        <div class="board-status-grid">
+          @for (status of orderStatuses; track status.title) {
+            <div
+              class="board-section board-status-box"
+              [class.board-section--interactive]="interactive()"
+              [class.board-section--selected]="isSectionSelected('status-box-' + $index)"
+              (click)="selectSection('status-box-' + $index, $event)"
+            >
+              <div class="board-status-icon">[]</div>
+              <div class="board-status-title">{{ status.title }}</div>
+              <div class="board-status-value">{{ status.value }}</div>
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+    @case ('tickets-region') {
+      <section class="board-card">
+        <div
+          class="board-section board-card__header board-card__header--center"
+          [class.board-section--interactive]="interactive()"
+          [class.board-section--selected]="isSectionSelected('header')"
+          (click)="selectSection('header', $event)"
+        >
+          {{ resolvedPreset().label }}
+        </div>
+        <div class="board-region-slider">
+          <button class="board-nav-btn" type="button" aria-label="Previous">&larr;</button>
+          <div class="board-region-cards">
+            @for (item of regions; track item.rank) {
+              <div
+                class="board-section board-region-card"
+                [class.board-section--interactive]="interactive()"
+                [class.board-section--selected]="isSectionSelected('region-card-' + item.rank)"
+                (click)="selectSection('region-card-' + item.rank, $event)"
+              >
+                <div class="board-code">TK</div>
+                <div class="board-region-rank">{{ item.rank }}</div>
+                <div class="board-region-name">{{ item.region }}</div>
+                <div class="board-accent">{{ item.tickets }}</div>
+              </div>
+            }
+          </div>
+          <button class="board-nav-btn" type="button" aria-label="Next">&rarr;</button>
+        </div>
+      </section>
+    }
+
+    @case ('project-leaderboard') {
+      <section class="board-card">
+        <div
+          class="board-section board-card__header"
+          [class.board-section--interactive]="interactive()"
+          [class.board-section--selected]="isSectionSelected('header')"
+          (click)="selectSection('header', $event)"
+        >
+          {{ resolvedPreset().label }}
+        </div>
+        @for (item of leaderboard; track item.rank) {
+          <div
+            class="board-section board-row"
+            [class.board-section--interactive]="interactive()"
+            [class.board-section--selected]="isSectionSelected('leaderboard-row-' + item.rank)"
+            (click)="selectSection('leaderboard-row-' + item.rank, $event)"
+          >
+            <div>
+              <div class="board-row__title">{{ item.title }}</div>
+              <div class="board-accent">{{ item.progress }}</div>
+            </div>
+            <div class="board-row__rank">{{ item.rank }}</div>
+          </div>
+        }
+      </section>
+    }
+
+    @case ('bug-report') {
+      <section class="board-card">
+        <div
+          class="board-section board-card__topline"
+          [class.board-section--interactive]="interactive()"
+          [class.board-section--selected]="isSectionSelected('summary')"
+          (click)="selectSection('summary', $event)"
+        >
+          <div class="board-card__header board-card__header--no-pad">
+            {{ resolvedPreset().label }}
+          </div>
+          <div class="board-summary">Total Bugs Resolved: <span>390</span></div>
+        </div>
+        @for (item of bugReports; track item.rank) {
+          <div
+            class="board-section board-bug-row"
+            [class.board-section--interactive]="interactive()"
+            [class.board-section--selected]="isSectionSelected('bug-row-' + item.rank)"
+            (click)="selectSection('bug-row-' + item.rank, $event)"
+          >
+            <div class="board-bug-rank">{{ item.rank }}</div>
+            <div class="board-bug-month">
+              <span class="board-code">CA</span>
+              <span>{{ item.month }}</span>
+            </div>
+            <div>{{ item.bugs }}</div>
+            <div class="board-bug-resolved">{{ item.resolved }}</div>
+          </div>
+        }
+      </section>
+    }
+
+    @default {
+      <section class="board-card">
+        <div
+          class="board-section board-card__header"
+          [class.board-section--interactive]="interactive()"
+          [class.board-section--selected]="isSectionSelected('header')"
+          (click)="selectSection('header', $event)"
+        >
+          {{ resolvedPreset().label }}
+        </div>
+        @for (item of fitness; track item.rank) {
+          <div
+            class="board-section board-fitness-row board-list-item--boxed"
+            [class.board-section--interactive]="interactive()"
+            [class.board-section--selected]="isSectionSelected('fitness-row-' + item.rank)"
+            (click)="selectSection('fitness-row-' + item.rank, $event)"
+          >
+            <div class="board-fitness-col board-fitness-col--left">
+              <div class="board-mini-label">Rank</div>
+              <div class="board-fitness-value">{{ item.rank }}</div>
+            </div>
+            <div class="board-fitness-col board-fitness-col--center">
+              <div class="board-code">FT</div>
+              <div class="board-row__title">{{ item.name }}</div>
+            </div>
+            <div class="board-fitness-col board-fitness-col--right">
+              <div class="board-mini-label">KMS</div>
+              <div class="board-fitness-value">{{ item.kms }}</div>
+            </div>
+          </div>
+        }
+      </section>
+    }
+  }
+</div>

@@ -1,0 +1,61 @@
+@if (store.selectedExternalConnector()) {
+          <div class="datasources-page__header external-apis__header">
+            <div>
+              <div class="datasources-page__eyebrow">{{ t('externalApis.configureEyebrow') }}</div>
+              <h1 class="datasources-page__title">
+                {{ store.editingIntegration() ? t('externalApis.editSetupPrefix') : t('externalApis.configureSetupPrefix') }} {{ store.selectedExternalConnector()?.name }}
+              </h1>
+              <p class="datasources-page__description">
+                {{ t('externalApis.setupDescription') }}
+              </p>
+            </div>
+
+            <qo-button class="datasources-page__config-back" variant="secondary" type="button" (click)="store.cancelExternalSetup()">{{ t('externalApis.back') }}</qo-button>
+          </div>
+
+          <div class="external-apis__setup-shell">
+            @if (!store.externalConfigReady()) {
+              <div class="external-apis__setup-loading">
+                <qo-empty-state
+                  icon="server"
+                  [title]="t('uiText.loadingIntegration')"
+                  [description]="t('uiText.preparingTheSavedConnectorSettings')"
+                ></qo-empty-state>
+              </div>
+            }
+
+          <div class="external-apis__setup" [class.external-apis__setup--preparing]="!store.externalConfigReady()">
+            <div class="external-apis__setup-main datasources-page__config-stack">
+              @if (store.externalDynamicForm() && store.externalFormSchema()) {
+                <app-dynamic-integration-form
+                  [connectorKey]="store.selectedExternalConnector()!.id"
+                  [schema]="store.externalFormSchema()"
+                  [form]="store.externalDynamicForm()!"
+                  [activeMappingTab]="store.externalActiveMappingTab()"
+                  (activeMappingTabChange)="store.externalActiveMappingTab.set($event)"
+                  (valueChange)="store.onExternalDynamicFormValue($event)"
+                ></app-dynamic-integration-form>
+              }
+
+              @if (store.responsePreview()) {
+                <section class="datasources-page__form-card">
+                  <div class="datasources-page__form-card-title">{{ t('externalApis.configurationTestSection') }}</div>
+                  <div class="external-apis__request-body">
+                    <pre class="external-apis__response">{{ store.responsePreview() }}</pre>
+                  </div>
+                </section>
+              }
+
+              <div class="external-apis__setup-footer">
+                <qo-button variant="secondary" type="button" (click)="store.cancelExternalSetup()">{{ t('externalApis.cancel') }}</qo-button>
+                <qo-button variant="secondary" type="button" (click)="store.testExternalConnection()">{{ t('externalApis.testConfiguration') }}</qo-button>
+                <qo-button variant="primary" type="button" (click)="store.saveExternalConnection()">
+                  {{ store.editingIntegration() ? t('externalApis.saveChanges') : t('externalApis.save') }}
+                </qo-button>
+              </div>
+            </div>
+          </div>
+          </div>
+}
+
+

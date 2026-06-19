@@ -1,0 +1,65 @@
+:host {
+  display: block;
+}
+
+.panel {
+  position: fixed;
+  top: calc(var(--qo-nav-height) + var(--qo-size-16));
+  right: var(--qo-size-24);
+  z-index: 70;
+  width: var(--qo-size-400);
+  padding: var(--qo-size-20);
+  background: linear-gradient(180deg, var(--qo-color-neutral-900), var(--qo-color-primary-600));
+}
+
+.panel-header,
+.notification-topline {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--qo-size-14);
+}
+
+qo-button.notifications-close {
+  --qo-button-min-height: var(--qo-size-30);
+  --qo-button-padding: 0 var(--qo-size-8);
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: var(--qo-color-neutral-300);
+  --qo-button-hover-bg: transparent;
+  --qo-button-hover-color: var(--qo-color-neutral-50);
+}
+
+h3 {
+  margin: var(--qo-size-6) 0 0;
+  font-size: var(--qo-text-2xl);
+}
+
+.panel-list {
+  display: grid;
+  gap: var(--qo-size-12);
+  margin-top: var(--qo-size-18);
+}
+
+.notification-item {
+  border: var(--qo-size-1) solid color-mix(in srgb, var(--qo-color-neutral-0) 7%, transparent);
+  border-radius: var(--qo-size-12);
+  padding: var(--qo-size-16);
+  background: var(--qo-color-neutral-900);
+}
+
+.notification-unread {
+  background: var(--qo-color-primary-600);
+  border-color: color-mix(in srgb, var(--qo-color-neutral-0) 9%, transparent);
+}
+
+.notification-copy {
+  display: grid;
+  gap: var(--qo-size-6);
+}
+
+p,
+span {
+  margin: var(--qo-size-8);
+  color: var(--qo-color-neutral-600);
+}

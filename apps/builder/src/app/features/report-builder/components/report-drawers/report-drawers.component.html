@@ -1,0 +1,66 @@
+@if (showBackdrop()) {
+  <div class="drawer-backdrop" (click)="closeAll.emit()"></div>
+}
+
+@if (fieldConfigOpen()) {
+  <app-field-config-drawer
+    [allColumns]="allColumns()"
+    [visibleColumns]="visibleColumns()"
+    [isCardLayoutMode]="isCardLayoutMode()"
+    [cardFieldTextColor]="cardFieldTextColor()"
+    [cardFieldFontSize]="cardFieldFontSize()"
+    (closeAll)="closeAll.emit()"
+    (toggleColumn)="toggleColumn.emit($event)"
+    (reorderColumns)="reorderColumns.emit($event)"
+    (cardStyleChange)="cardStyleChange.emit($event)">
+  </app-field-config-drawer>
+}
+
+@if (searchPanelOpen()) {
+  <app-search-filters-drawer
+    [allColumns]="allColumns()"
+    [filters]="filters()"
+    (closeAll)="closeAll.emit()"
+    (filtersChange)="filtersChange.emit($event)">
+  </app-search-filters-drawer>
+}
+
+@if (bulkEditOpen()) {
+  <app-bulk-edit-drawer
+    [visibleColumns]="visibleColumns()"
+    (closeAll)="closeAll.emit()">
+  </app-bulk-edit-drawer>
+}
+
+@if (actionConfigOpen()) {
+  <app-action-config-drawer (closeAll)="closeAll.emit()"></app-action-config-drawer>
+}
+
+@if (detailLayoutConfigOpen()) {
+  <app-detail-layout-drawer
+    [allColumns]="allColumns()"
+    [visibleColumns]="visibleColumns()"
+    [currentSourceFormId]="currentSourceFormId()"
+    [detailLayoutMode]="detailLayoutMode()"
+    [initialAllFieldsLayout]="initialAllFieldsLayout()"
+    [initialBlockLayout]="initialBlockLayout()"
+    [initialTabLayout]="initialTabLayout()"
+    (closeAll)="closeAll.emit()"
+    (detailLayoutModeChange)="detailLayoutModeChange.emit($event)"
+    (allFieldsLayoutChange)="allFieldsLayoutChange.emit($event)"
+    (blockLayoutChange)="blockLayoutChange.emit($event)"
+    (tabLayoutChange)="tabLayoutChange.emit($event)">
+  </app-detail-layout-drawer>
+}
+
+@if (detailBlockLayoutConfigOpen()) {
+  <app-detail-block-layout-drawer
+    [allColumns]="allColumns()"
+    [visibleColumns]="visibleColumns()"
+    [sourceOptions]="sourceOptions()"
+    [currentSourceFormId]="currentSourceFormId()"
+    [initialDetailBlocks]="initialDetailBlocks()"
+    (closeAll)="closeAll.emit()"
+    (detailBlocksChange)="detailBlocksChange.emit($event)">
+  </app-detail-block-layout-drawer>
+}

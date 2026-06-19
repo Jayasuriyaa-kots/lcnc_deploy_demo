@@ -1,0 +1,79 @@
+:host {
+  display: block;
+}
+
+.visibility-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qo-space-3);
+}
+
+.section-card {
+  border-radius: var(--qo-radius-lg);
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(var(--qo-space-2) + 0.125rem) calc(var(--qo-space-3) + 0.125rem);
+  background: var(--qo-color-info-100);
+  border-bottom: 0.0625rem solid var(--qo-border-color);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-semibold);
+}
+
+.header-right {
+  font-weight: var(--qo-font-semibold);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--qo-space-3) calc(var(--qo-space-3) + 0.125rem);
+  border-top: 0.0625rem solid var(--qo-color-neutral-100);
+}
+
+.row:first-of-type {
+  border-top: 0;
+}
+
+.label {
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+  padding-top: calc(var(--qo-space-1) - 0.0625rem);
+}
+
+.toggle-control {
+  flex-shrink: 0;
+}
+
+:host ::ng-deep .toggle-control qo-toggle .qo-toggle {
+  margin: 0;
+}
+
+.public-access-card {
+  border-radius: var(--qo-radius-lg);
+}
+
+.public-access-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  padding: calc(var(--qo-space-3) + 0.125rem);
+}
+
+.label-info {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-xs);
+}
+
+.public-access-toggle {
+  flex-shrink: 0;
+}
+

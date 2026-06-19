@@ -1,0 +1,74 @@
+.workflow-editor__canvas-shell {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  background: var(--workflow-editor-surface);
+}
+
+.workflow-editor__canvas {
+  position: relative;
+  transform-origin: top left;
+  background: var(--workflow-editor-surface);
+}
+
+.workflow-editor__canvas--drag-over::after {
+  content: '';
+  position: absolute;
+  inset: var(--qo-space-3);
+  z-index: 4;
+  border: var(--qo-size-2) dashed var(--qo-color-primary-500);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-info-100);
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.workflow-editor__canvas-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--workflow-editor-grid-dot) var(--qo-size-1), transparent var(--qo-size-1));
+  background-size: var(--workflow-editor-grid-size) var(--workflow-editor-grid-size);
+}
+
+.workflow-editor__edges,
+.workflow-editor__nodes {
+  position: absolute;
+  inset: 0;
+}
+
+.workflow-editor__edges {
+  pointer-events: none;
+  z-index: 1;
+}
+
+.workflow-editor__edge {
+  fill: none;
+  stroke: var(--workflow-editor-edge);
+  stroke-width: var(--qo-size-2);
+}
+
+.workflow-editor__edge--preview {
+  stroke: var(--qo-color-primary-700);
+  stroke-dasharray: 8 6;
+}
+
+.workflow-editor__edge-label rect {
+  fill: var(--workflow-editor-surface);
+  stroke: var(--workflow-editor-border);
+}
+
+.workflow-editor__edge-label text {
+  fill: var(--workflow-editor-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  text-anchor: middle;
+}
+
+marker path {
+  fill: var(--workflow-editor-edge);
+}
+
+.workflow-editor__nodes {
+  z-index: 2;
+}

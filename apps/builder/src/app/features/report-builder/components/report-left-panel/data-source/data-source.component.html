@@ -1,0 +1,36 @@
+<section class="panel-card">
+  <header class="panel-card__header">
+    <h2>{{ t('leftPanel.dataSourceBinding') }}</h2>
+  </header>
+
+  <div class="panel-card__body panel-card__body--stack">
+    <form [formGroup]="form">
+      <label class="field datasource-field">
+        <span>{{ t('leftPanel.datasource') }}</span>
+        <div class="datasource-binding">
+          <qo-icon name="list" size="sm" class="datasource-binding__icon" />
+          <div class="datasource-binding__select">
+            <qo-select
+              formControlName="datasourceId"
+              [options]="datasourceSelectOptions()"
+              (valueChange)="onDatasourceSelectionChange()">
+            </qo-select>
+          </div>
+        </div>
+      </label>
+
+      <label class="field datasource-field">
+        <span>{{ t('leftPanel.form') }}</span>
+        <div class="datasource-binding">
+          <qo-icon name="list" size="sm" class="datasource-binding__icon" />
+          <div class="datasource-binding__select">
+            <qo-select
+              formControlName="formId"
+              [options]="formSelectOptions()">
+            </qo-select>
+          </div>
+        </div>
+      </label>
+    </form>
+  </div>
+</section>

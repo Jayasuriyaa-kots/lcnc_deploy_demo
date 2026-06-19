@@ -1,0 +1,233 @@
+<article
+  class="panel-widget"
+  [attr.data-layout]="layoutVariant()"
+  [class.panel-widget--interactive]="interactive()"
+  [class.panel-widget--card-selected]="isSelected('card')"
+  [class.panel-widget--align-left]="resolvedConfig().alignment === 'left'"
+  [class.panel-widget--align-center]="resolvedConfig().alignment === 'center'"
+  [class.panel-widget--align-right]="resolvedConfig().alignment === 'right'"
+  (click)="selectSection('card', $event)"
+>
+  @switch (layoutVariant()) {
+    @case ('simple-value-top') {
+      <div class="panel-widget__stack panel-widget__stack--center">
+        <p
+          class="panel-widget__value"
+          [class.panel-widget__value--selected]="isSelected('value')"
+          [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+          [style.color]="resolvedConfig().valueColor"
+          (click)="selectSection('value', $event)"
+        >
+          {{ displayValue() }}
+        </p>
+        <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+      </div>
+    }
+    @case ('simple-value-bottom') {
+      <div class="panel-widget__stack panel-widget__stack--center">
+        <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+        <p
+          class="panel-widget__value"
+          [class.panel-widget__value--selected]="isSelected('value')"
+          [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+          [style.color]="resolvedConfig().valueColor"
+          (click)="selectSection('value', $event)"
+        >
+          {{ displayValue() }}
+        </p>
+      </div>
+    }
+    @case ('icon-center-value-top') {
+      <div class="panel-widget__stack panel-widget__stack--center">
+        <span class="panel-widget__icon" [class.panel-widget__icon--selected]="isSelected('icon')" [style.background]="resolvedConfig().iconBackgroundColor" [style.color]="resolvedConfig().iconColor" (click)="selectSection('icon', $event)">
+          <span class="material-symbols-outlined">{{ resolvedConfig().iconSymbol }}</span>
+        </span>
+        <p
+          class="panel-widget__value"
+          [class.panel-widget__value--selected]="isSelected('value')"
+          [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+          [style.color]="resolvedConfig().valueColor"
+          (click)="selectSection('value', $event)"
+        >
+          {{ displayValue() }}
+        </p>
+        <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+      </div>
+    }
+    @case ('icon-center-value-bottom') {
+      <div class="panel-widget__stack panel-widget__stack--center">
+        <span class="panel-widget__icon" [class.panel-widget__icon--selected]="isSelected('icon')" [style.background]="resolvedConfig().iconBackgroundColor" [style.color]="resolvedConfig().iconColor" (click)="selectSection('icon', $event)">
+          <span class="material-symbols-outlined">{{ resolvedConfig().iconSymbol }}</span>
+        </span>
+        <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+        <p
+          class="panel-widget__value"
+          [class.panel-widget__value--selected]="isSelected('value')"
+          [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+          [style.color]="resolvedConfig().valueColor"
+          (click)="selectSection('value', $event)"
+        >
+          {{ displayValue() }}
+        </p>
+      </div>
+    }
+    @case ('icon-left-value-top') {
+      <div class="panel-widget__row panel-widget__row--leading" [class.panel-widget__row--reverse]="shouldReverseMetric()">
+        <span class="panel-widget__icon" [class.panel-widget__icon--selected]="isSelected('icon')" [style.background]="resolvedConfig().iconBackgroundColor" [style.color]="resolvedConfig().iconColor" (click)="selectSection('icon', $event)">
+          <span class="material-symbols-outlined">{{ resolvedConfig().iconSymbol }}</span>
+        </span>
+        <div class="panel-widget__text-stack">
+          <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+          <p
+            class="panel-widget__value"
+            [class.panel-widget__value--selected]="isSelected('value')"
+            [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+            [style.color]="resolvedConfig().valueColor"
+            (click)="selectSection('value', $event)"
+          >
+            {{ displayValue() }}
+          </p>
+        </div>
+      </div>
+    }
+    @case ('icon-left-value-bottom') {
+      <div class="panel-widget__row panel-widget__row--leading" [class.panel-widget__row--reverse]="shouldReverseMetric()">
+        <span class="panel-widget__icon" [class.panel-widget__icon--selected]="isSelected('icon')" [style.background]="resolvedConfig().iconBackgroundColor" [style.color]="resolvedConfig().iconColor" (click)="selectSection('icon', $event)">
+          <span class="material-symbols-outlined">{{ resolvedConfig().iconSymbol }}</span>
+        </span>
+        <div class="panel-widget__text-stack">
+          <p
+            class="panel-widget__value"
+            [class.panel-widget__value--selected]="isSelected('value')"
+            [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+            [style.color]="resolvedConfig().valueColor"
+            (click)="selectSection('value', $event)"
+          >
+            {{ displayValue() }}
+          </p>
+          <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+        </div>
+      </div>
+    }
+    @case ('icon-right-value-top') {
+      <div class="panel-widget__row panel-widget__row--split" [class.panel-widget__row--reverse]="shouldReverseMetric()">
+        <div class="panel-widget__text-stack panel-widget__text-stack--right">
+          <p
+            class="panel-widget__value"
+            [class.panel-widget__value--selected]="isSelected('value')"
+            [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+            [style.color]="resolvedConfig().valueColor"
+            (click)="selectSection('value', $event)"
+          >
+            {{ displayValue() }}
+          </p>
+          <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+        </div>
+        <span class="panel-widget__icon" [class.panel-widget__icon--selected]="isSelected('icon')" [style.background]="resolvedConfig().iconBackgroundColor" [style.color]="resolvedConfig().iconColor" (click)="selectSection('icon', $event)">
+          <span class="material-symbols-outlined">{{ resolvedConfig().iconSymbol }}</span>
+        </span>
+      </div>
+    }
+    @case ('icon-right-value-bottom') {
+      <div class="panel-widget__row panel-widget__row--split" [class.panel-widget__row--reverse]="shouldReverseMetric()">
+        <div class="panel-widget__text-stack panel-widget__text-stack--right">
+          <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+          <p
+            class="panel-widget__value"
+            [class.panel-widget__value--selected]="isSelected('value')"
+            [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+            [style.color]="resolvedConfig().valueColor"
+            (click)="selectSection('value', $event)"
+          >
+            {{ displayValue() }}
+          </p>
+        </div>
+        <span class="panel-widget__icon" [class.panel-widget__icon--selected]="isSelected('icon')" [style.background]="resolvedConfig().iconBackgroundColor" [style.color]="resolvedConfig().iconColor" (click)="selectSection('icon', $event)">
+          <span class="material-symbols-outlined">{{ resolvedConfig().iconSymbol }}</span>
+        </span>
+      </div>
+    }
+    @case ('icon-inline-center-title-top') {
+      <div class="panel-widget__stack panel-widget__stack--center">
+        <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+        <div class="panel-widget__metric-inline panel-widget__metric-inline--center" [class.panel-widget__metric-inline--reverse]="shouldReverseMetric()">
+          <span class="panel-widget__icon panel-widget__icon--small" [class.panel-widget__icon--selected]="isSelected('icon')" [style.background]="resolvedConfig().iconBackgroundColor" [style.color]="resolvedConfig().iconColor" (click)="selectSection('icon', $event)">
+            <span class="material-symbols-outlined">{{ resolvedConfig().iconSymbol }}</span>
+          </span>
+          <p
+            class="panel-widget__value"
+            [class.panel-widget__value--selected]="isSelected('value')"
+            [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+            [style.color]="resolvedConfig().valueColor"
+            (click)="selectSection('value', $event)"
+          >
+            {{ displayValue() }}
+          </p>
+        </div>
+      </div>
+    }
+    @case ('icon-inline-center-title-bottom') {
+      <div class="panel-widget__stack panel-widget__stack--center">
+        <div class="panel-widget__metric-inline panel-widget__metric-inline--center" [class.panel-widget__metric-inline--reverse]="shouldReverseMetric()">
+          <span class="panel-widget__icon panel-widget__icon--small" [class.panel-widget__icon--selected]="isSelected('icon')" [style.background]="resolvedConfig().iconBackgroundColor" [style.color]="resolvedConfig().iconColor" (click)="selectSection('icon', $event)">
+            <span class="material-symbols-outlined">{{ resolvedConfig().iconSymbol }}</span>
+          </span>
+          <p
+            class="panel-widget__value"
+            [class.panel-widget__value--selected]="isSelected('value')"
+            [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+            [style.color]="resolvedConfig().valueColor"
+            (click)="selectSection('value', $event)"
+          >
+            {{ displayValue() }}
+          </p>
+        </div>
+        <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+      </div>
+    }
+    @case ('icon-inline-split-title-top') {
+      <div class="panel-widget__stack panel-widget__stack--center">
+        <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+        <div class="panel-widget__metric-inline" [class.panel-widget__metric-inline--reverse]="shouldReverseMetric()">
+          <p
+            class="panel-widget__value"
+            [class.panel-widget__value--selected]="isSelected('value')"
+            [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+            [style.color]="resolvedConfig().valueColor"
+            (click)="selectSection('value', $event)"
+          >
+            {{ displayValue() }}
+          </p>
+          <span class="panel-widget__icon panel-widget__icon--small" [class.panel-widget__icon--selected]="isSelected('icon')" [style.background]="resolvedConfig().iconBackgroundColor" [style.color]="resolvedConfig().iconColor" (click)="selectSection('icon', $event)">
+            <span class="material-symbols-outlined">{{ resolvedConfig().iconSymbol }}</span>
+          </span>
+        </div>
+      </div>
+    }
+    @case ('icon-inline-split-title-bottom') {
+      <div class="panel-widget__stack panel-widget__stack--center">
+        <div class="panel-widget__metric-inline" [class.panel-widget__metric-inline--reverse]="shouldReverseMetric()">
+          <p
+            class="panel-widget__value"
+            [class.panel-widget__value--selected]="isSelected('value')"
+            [class.panel-widget__value--placeholder]="resolutionState() !== 'ready'"
+            [style.color]="resolvedConfig().valueColor"
+            (click)="selectSection('value', $event)"
+          >
+            {{ displayValue() }}
+          </p>
+          <span class="panel-widget__icon panel-widget__icon--small" [class.panel-widget__icon--selected]="isSelected('icon')" [style.background]="resolvedConfig().iconBackgroundColor" [style.color]="resolvedConfig().iconColor" (click)="selectSection('icon', $event)">
+            <span class="material-symbols-outlined">{{ resolvedConfig().iconSymbol }}</span>
+          </span>
+        </div>
+        <p class="panel-widget__copy" [class.panel-widget__copy--selected]="isSelected('caption')" (click)="selectSection('caption', $event)">{{ displayCopy() }}</p>
+      </div>
+    }
+  }
+  @if (secondaryCopy()) {
+    <p class="panel-widget__subcopy">{{ secondaryCopy() }}</p>
+  }
+  @if (footerCopy()) {
+    <p class="panel-widget__meta">{{ footerCopy() }}</p>
+  }
+</article>

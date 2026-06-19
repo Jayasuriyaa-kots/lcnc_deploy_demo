@@ -1,0 +1,206 @@
+    <aside class="panel panel--right">
+      <section class="panel-card panel-card--sticky">
+        <header class="panel-card__header">
+          <h2>{{ t('common.dataframeConfig') }}</h2>
+        </header>
+
+        <div class="panel-card__body panel-card__body--stack">
+          @if (showRecordDetails() && activePreviewRecord(); as activeRecord) {
+            <section class="record-details">
+              <header class="record-details__header">
+                <h3>{{ t('generated.dataframe_details') }}</h3>
+              </header>
+
+              <div class="record-details__table">
+                @for (column of visibleColumns(); track column.id) {
+                  <div class="record-details__row">
+                    <span class="record-details__label">{{ column.label }}</span>
+                    <strong class="record-details__value">{{ activeRecord.fields[column.id] || '-' }}</strong>
+                  </div>
+                }
+              </div>
+            </section>
+          } @else {
+          <div class="tab-switcher">
+            <qo-button
+              class="tab-switcher__item"
+              variant="ghost"
+              size="sm"
+              [fullWidth]="true"
+              [class.tab-switcher__item--active]="reportConfigTab() === 'quick'"
+              (click)="setTab.emit('quick')">
+              {{ t('generated.quick_view') }}
+            </qo-button>
+
+            <qo-button
+              class="tab-switcher__item"
+              variant="ghost"
+              size="sm"
+              [fullWidth]="true"
+              [class.tab-switcher__item--active]="reportConfigTab() === 'detail'"
+              (click)="setTab.emit('detail')">
+              {{ t('generated.detail_view') }}
+            </qo-button>
+          </div>
+
+          <div class="mode-switcher">
+            <qo-button
+              class="mode-switcher__item"
+              variant="ghost"
+              size="sm"
+              [fullWidth]="true"
+              [class.mode-switcher__item--active]="reportConfigMode() === 'actions'"
+              (click)="setMode.emit('actions')">
+              {{ t('generated.actions') }}
+            </qo-button>
+
+            <qo-button
+              class="mode-switcher__item"
+              variant="ghost"
+              size="sm"
+              [fullWidth]="true"
+              [class.mode-switcher__item--active]="reportConfigMode() === 'layout'"
+              (click)="setMode.emit('layout')">
+              {{ t('generated.layout') }}
+            </qo-button>
+          </div>
+
+          @if (showQuickActionsConfig()) {
+            <section class="config-block config-block--compact">
+              <h3 class="config-block__title">{{ t('rightPanel.pageSize') }}</h3>
+
+              <qo-select
+                class="config-select"
+                [value]="pageSize()"
+                [options]="pageSizeOptions"
+                (valueChange)="onPageSizeChange($event)">
+              </qo-select>
+            </section>
+          }
+
+          @if (showQuickLayoutConfig()) {
+            <app-report-quick-view-layout
+              [quickLayout]="quickLayout()"
+              [visibleCount]="visibleCount()"
+              [customTemplateMode]="report().settings.quickViewCustomLayout.templateMode ?? false"
+              [customTemplateVariant]="report().settings.quickViewCustomLayout.templateVariant ?? 'block'"
+              [createNewLayoutOpen]="createNewLayoutOpen()"
+              [savedCustomLayouts]="savedCustomLayouts()"
+              (setQuickLayout)="setQuickLayout.emit($event)"
+              (openFieldConfig)="openFieldConfig.emit()"
+              (openCustomLayout)="openCustomLayout.emit()"
+              (openCustomLayoutTemplate)="openCustomLayoutTemplate.emit()"
+              (openCustomLayoutListTemplate)="openCustomLayoutListTemplate.emit()"
+              (openCreateNewLayout)="openCreateNewLayout.emit()"
+              (editSavedLayout)="editSavedLayout.emit($event)"
+              (duplicateSavedLayout)="duplicateSavedLayout.emit($event)"
+              (deleteSavedLayout)="deleteSavedLayout.emit($event)"
+              (activateSavedLayout)="activateSavedLayout.emit($event)">
+            </app-report-quick-view-layout>
+          }
+
+          @if (showQuickActionsConfig()) {
+            <app-report-quick-view-actions
+              [quickActionGroups]="quickActionGroups()"
+              [recordClickAction]="report().settings.recordClickAction"
+              (quickActionGroupsChange)="quickActionGroupsChange.emit($event)"
+              (recordClickActionChange)="setRecordClickAction.emit($event)">
+            </app-report-quick-view-actions>
+          }
+
+          @if (showDetailLayoutConfig()) {
+            <app-report-detail-view-layout
+              [detailLayout]="detailLayout()"
+              [savedCustomLayouts]="savedDetailCustomLayouts()"
+              (setDetailLayout)="setDetailLayout.emit($event)"
+              (openDetailLayoutBuilder)="openDetailLayoutConfig.emit()"
+              (openCreateNewLayout)="openDetailCreateNewLayout.emit()"
+              (activateSavedLayout)="activateSavedDetailLayout.emit($event)"
+              (deactivateSavedLayout)="deactivateSavedDetailLayout.emit($event)"
+              (editSavedLayout)="editSavedDetailLayout.emit($event)"
+              (duplicateSavedLayout)="duplicateSavedDetailLayout.emit($event)"
+              (deleteSavedLayout)="deleteSavedDetailLayout.emit($event)">
+            </app-report-detail-view-layout>
+          }
+
+          @if (showDetailActionsConfig()) {
+            <app-report-detail-view-actions
+              [detailActionGroups]="detailActionGroups()"
+              (detailActionGroupsChange)="detailActionGroupsChange.emit($event)"
+              (openActionConfig)="openActionConfig.emit()">
+            </app-report-detail-view-actions>
+          }
+
+          <section class="join-section d-none">
+            <header class="join-section__header">
+              <h3>{{ t('generated.joined_forms') }}</h3>
+              <qo-button class="join-add" variant="secondary" size="sm" (click)="addJoin()">
+                {{ t('generated.add_join') }}
+              </qo-button>
+            </header>
+
+            @if (joinsDraft().length === 0) {
+              <p class="join-section__empty">{{ t('generated.no_joins_configured_add_a_join_to_enrich') }}</p>
+            }
+
+            <div class="join-list">
+              @for (join of joinsDraft(); track $index; let i = $index) {
+                <article class="join-card">
+                  <div class="join-card__top">
+                    <p class="join-card__title">{{ t('generated.join', { index: i + 1 }) }}</p>
+                    <qo-button class="join-remove" variant="ghost" size="sm" (click)="removeJoin(i)">
+                      <qo-icon name="x" size="sm" />
+                    </qo-button>
+                  </div>
+
+                  <label class="join-label">{{ t('leftPanel.form') }}</label>
+                  <qo-select
+                    [value]="join.targetFormId"
+                    [options]="joinedFormOptions()"
+                    (valueChange)="updateJoinTargetForm(i, $event)">
+                  </qo-select>
+
+                  <label class="join-label">{{ t('generated.join_type') }}</label>
+                  <div class="join-type-row">
+                    @for (type of joinTypeOptions; track type.value) {
+                      <qo-button
+                        class="join-type-pill"
+                        variant="ghost"
+                        size="sm"
+                        [class.join-type-pill--active]="join.joinType === type.value"
+                        (click)="setJoinType(i, type.value)">
+                        {{ type.label }}
+                      </qo-button>
+                    }
+                  </div>
+
+                  <label class="join-label">{{ t('generated.join_on') }}</label>
+                  <div class="join-on-row">
+                    <qo-select
+                      [value]="join.on.sourceField"
+                      [options]="sourceFieldOptions()"
+                      (valueChange)="updateJoinSourceField(i, $event)">
+                    </qo-select>
+                    <span class="join-on-row__equals">=</span>
+                    <qo-select
+                      [value]="join.on.targetField"
+                      [options]="getTargetFieldOptions(join.targetFormId)"
+                      (valueChange)="updateJoinTargetField(i, $event)">
+                    </qo-select>
+                  </div>
+
+                  <p class="join-hint">
+                    {{ getJoinDescription(join.joinType, join.on.sourceField) }}
+                  </p>
+                </article>
+              }
+            </div>
+
+            <qo-button class="join-apply" variant="primary" size="sm" (click)="applyJoins()">
+              {{ t('generated.apply_joins') }}
+            </qo-button>
+          </section>
+          }
+        </div>
+      </section>
+    </aside>

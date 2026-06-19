@@ -1,0 +1,255 @@
+<div class="prop-section-card">
+  <div class="prop-section-card__header">{{ t('panel.settings.panelSections') }}</div>
+  <div class="prop-section-card__row prop-section-card__row--stacked">
+    <label class="prop-row-label">Currently editing: {{ panelSectionLabel() }}</label>
+    <div class="icon-category-row">
+      @for (section of panelSectionOptions; track section.id) {
+        <qo-button
+          class="icon-category-chip"
+          type="button"
+          variant="ghost"
+          size="sm"
+          [class.active]="selectedSectionId() === section.id"
+          (click)="selectSection(section.id)"
+        >
+          {{ section.label }}
+        </qo-button>
+      }
+    </div>
+  </div>
+</div>
+
+@if (rightTab() === 'display') {
+  @if (selectedSectionId() === 'card' || selectedSectionId() === 'caption') {
+    <div class="prop-section-card prop-section-card--overflow-visible">
+      <div class="prop-section-card__header">{{ t('panel.settings.cardCopy') }}</div>
+      <div class="prop-section-card__row prop-section-card__row--divided prop-section-card__row--align-center">
+        <label class="prop-row-label">Layout</label>
+        <qo-select
+          class="prop-select"
+          [options]="panelLayoutOptions"
+          [value]="config().layoutVariant"
+          (valueChange)="facade.updatePanelWidgetField('layoutVariant', $any($event))"
+        ></qo-select>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--divided prop-section-card__row--align-center">
+        <label class="prop-row-label">Alignment</label>
+        <qo-select
+          class="prop-select"
+          [options]="panelAlignmentOptions"
+          [value]="config().alignment"
+          (valueChange)="facade.updatePanelWidgetField('alignment', $any($event))"
+        ></qo-select>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--divided prop-section-card__row--align-center">
+        <label class="prop-row-label">{{ t('panel.settings.iconPlacement') }}</label>
+        <qo-select
+          class="prop-select"
+          [options]="panelIconPlacementOptions"
+          [value]="config().iconPlacement"
+          (valueChange)="facade.updatePanelWidgetField('iconPlacement', $any($event))"
+        ></qo-select>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--stacked prop-section-card__row--text-entry">
+        <label class="prop-row-label">Title</label>
+        <div class="prop-section-card__control">
+          <qo-input class="prop-input full-width" [value]="config().title" (valueChange)="facade.updatePanelWidgetField('title', $event)"></qo-input>
+        </div>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--stacked prop-section-card__row--text-entry">
+        <label class="prop-row-label">Subtitle</label>
+        <div class="prop-section-card__control">
+          <qo-input class="prop-input full-width" [value]="config().subtitle" (valueChange)="facade.updatePanelWidgetField('subtitle', $event)"></qo-input>
+        </div>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--stacked prop-section-card__row--text-entry">
+        <label class="prop-row-label">Caption</label>
+        <div class="prop-section-card__control">
+          <qo-input class="prop-input full-width" [value]="config().caption" (valueChange)="facade.updatePanelWidgetField('caption', $event)"></qo-input>
+        </div>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--stacked prop-section-card__row--text-entry">
+        <label class="prop-row-label">{{ t('panel.settings.trend') }}</label>
+        <div class="prop-section-card__control">
+          <qo-input class="prop-input full-width" [value]="config().trend" (valueChange)="facade.updatePanelWidgetField('trend', $event)"></qo-input>
+        </div>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--stacked prop-section-card__row--text-entry">
+        <label class="prop-row-label">{{ t('panel.settings.suffix') }}</label>
+        <div class="prop-section-card__control">
+          <qo-input class="prop-input full-width" [value]="config().suffix" (valueChange)="facade.updatePanelWidgetField('suffix', $event)"></qo-input>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (selectedSectionId() === 'value') {
+    <div class="prop-section-card prop-section-card--overflow-visible">
+      <div class="prop-section-card__header">{{ t('panel.settings.dataBinding') }}</div>
+      <app-data-binding-editor
+        [binding]="facade.binding()"
+        [bindingRootKeys]="facade.bindingRootKeys()"
+        (bindingChange)="facade.updateBinding($event)"
+      ></app-data-binding-editor>
+
+      <div class="prop-section-card__row prop-section-card__row--stacked">
+        <label class="prop-row-label">{{ 'actions.preview' | transloco }}</label>
+        <div class="report-filter-card">
+          <div class="report-filter-card__header">
+            <span>{{ facade.previewValue() }}</span>
+            @if (facade.dataSourceSummary()) {
+              <span>{{ facade.dataSourceSummary() }}</span>
+            }
+          </div>
+          <div class="report-filter-expression">
+            {{ facade.previewMessage() }}
+          </div>
+          @if (facade.resolution().filteredRowCount || facade.resolution().totalRowCount) {
+            <div class="report-filter-expression">
+              Rows: {{ facade.resolution().filteredRowCount || facade.resolution().totalRowCount }}
+              @if (facade.resolution().matchedRowCount && facade.resolution().matchedRowCount !== facade.resolution().filteredRowCount) {
+                / Matches: {{ facade.resolution().matchedRowCount }}
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (selectedSectionId() === 'icon') {
+    <div class="prop-section-card prop-section-card--overflow-visible">
+      <div class="prop-section-card__header">{{ t('panel.settings.iconContent') }}</div>
+      <div class="prop-section-card__row prop-section-card__row--divided prop-section-card__row--align-center">
+        <label class="prop-row-label">Icon</label>
+        <qo-select
+          class="prop-select"
+          [options]="panelIconOptions"
+          [value]="config().iconSymbol"
+          (valueChange)="facade.updatePanelWidgetField('iconSymbol', $any($event))"
+        ></qo-select>
+      </div>
+    </div>
+  }
+}
+
+@if (rightTab() === 'style') {
+  @if (selectedSectionId() === 'card') {
+    <div class="prop-section-card">
+      <div class="prop-section-card__header">{{ t('panel.settings.cardColors') }}</div>
+      <div class="prop-section-card__row">
+        <label class="prop-row-label">{{ t('common.background') }}</label>
+        <qo-color-picker
+          class="prop-color-picker"
+          [value]="config().backgroundColor"
+          [presetColors]="colorPickerPalette()"
+          [showThemeColor]="true"
+          [triggerLabel]="'A'"
+          (valueChange)="facade.updatePanelWidgetField('backgroundColor', $event || 'var(--qo-color-neutral-0)')"
+        ></qo-color-picker>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--divided">
+        <label class="prop-row-label">{{ t('common.border') }}</label>
+        <qo-color-picker
+          class="prop-color-picker"
+          [value]="config().borderColor"
+          [presetColors]="colorPickerPalette()"
+          [showThemeColor]="true"
+          [triggerLabel]="'A'"
+          (valueChange)="facade.updatePanelWidgetField('borderColor', $event || 'var(--qo-border-color)')"
+        ></qo-color-picker>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--divided">
+        <label class="prop-row-label">{{ t('common.radius') }}</label>
+        <qo-input class="prop-input prop-input--compact prop-input--wide" [value]="config().borderRadius" (valueChange)="facade.updatePanelWidgetField('borderRadius', $event)"></qo-input>
+      </div>
+    </div>
+  }
+
+  @if (selectedSectionId() === 'value') {
+    <div class="prop-section-card">
+      <div class="prop-section-card__header">{{ t('panel.settings.valueStyle') }}</div>
+      <div class="prop-section-card__row">
+        <label class="prop-row-label">{{ t('common.color') }}</label>
+        <qo-color-picker
+          class="prop-color-picker"
+          [value]="config().valueColor"
+          [presetColors]="colorPickerPalette()"
+          [showThemeColor]="true"
+          [triggerLabel]="'A'"
+          (valueChange)="facade.updatePanelWidgetField('valueColor', $event || 'var(--qo-color-neutral-900)')"
+        ></qo-color-picker>
+      </div>
+    </div>
+  }
+
+  @if (selectedSectionId() === 'icon') {
+    <div class="prop-section-card">
+      <div class="prop-section-card__header">{{ t('panel.settings.iconStyle') }}</div>
+      <div class="prop-section-card__row">
+        <label class="prop-row-label">{{ t('panel.settings.fill') }}</label>
+        <qo-color-picker
+          class="prop-color-picker"
+          [value]="config().iconBackgroundColor"
+          [presetColors]="colorPickerPalette()"
+          [showThemeColor]="true"
+          [triggerLabel]="'A'"
+          (valueChange)="facade.updatePanelWidgetField('iconBackgroundColor', $event || 'var(--qo-color-info-500)')"
+        ></qo-color-picker>
+      </div>
+      <div class="prop-section-card__row prop-section-card__row--divided">
+        <label class="prop-row-label">{{ t('panel.settings.glyph') }}</label>
+        <qo-color-picker
+          class="prop-color-picker"
+          [value]="config().iconColor"
+          [presetColors]="colorPickerPalette()"
+          [showThemeColor]="true"
+          [triggerLabel]="'A'"
+          (valueChange)="facade.updatePanelWidgetField('iconColor', $event || 'var(--qo-color-neutral-0)')"
+        ></qo-color-picker>
+      </div>
+    </div>
+  }
+
+  @if (selectedSectionId() === 'caption') {
+    <div class="prop-section-card">
+      <div class="prop-section-card__header">{{ t('panel.settings.copyStyle') }}</div>
+      <div class="prop-section-card__row">
+        <label class="prop-row-label">{{ t('common.color') }}</label>
+        <qo-color-picker
+          class="prop-color-picker"
+          [value]="config().titleColor"
+          [presetColors]="colorPickerPalette()"
+          [showThemeColor]="true"
+          [triggerLabel]="'A'"
+          (valueChange)="facade.updatePanelWidgetField('titleColor', $event || 'var(--qo-color-neutral-700)')"
+        ></qo-color-picker>
+      </div>
+    </div>
+  }
+}
+
+@if (facade.filtersModalOpen()) {
+  <app-search-criteria-modal
+    [title]="'Panel filters'"
+    [rows]="config().filters || []"
+    [fieldOptions]="facade.fieldOptions()"
+    [operatorOptions]="operatorOptions"
+    (rowsChange)="facade.updateFilters($event)"
+    (closed)="facade.filtersModalOpen.set(false)"
+    (done)="facade.saveFilters($event)"
+  ></app-search-criteria-modal>
+}
+
+@if (facade.conditionModalOpen()) {
+  <app-search-criteria-modal
+    [title]="'KPI condition'"
+    [rows]="config().condition ? [config().condition] : []"
+    [fieldOptions]="facade.fieldOptions()"
+    [operatorOptions]="operatorOptions"
+    (rowsChange)="facade.updateConditionRows($event)"
+    (closed)="facade.conditionModalOpen.set(false)"
+    (done)="facade.saveCondition($event)"
+  ></app-search-criteria-modal>
+}
+

@@ -1,0 +1,124 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<aside class="workflow-node-config-panel">
+  @if (node() && definition()) {
+    <header class="workflow-node-config-panel__header">
+      <div class="workflow-node-config-panel__header-top">
+        <span class="workflow-node-config-panel__eyebrow">{{ definition()!.category }}</span>
+        <button
+          class="workflow-node-config-panel__collapse-button"
+          type="button"
+          [attr.aria-label]="t('accessibility.collapseConfigurationPanel')"
+          [title]="t('accessibility.collapsePanel')"
+          (click)="collapsePanel()"
+        >
+          <qo-icon name="chevron-right" size="sm"></qo-icon>
+        </button>
+      </div>
+      <div class="workflow-node-config-panel__title-row">
+        <span class="workflow-node-config-panel__node-icon">
+          <qo-icon [name]="definition()!.icon" size="sm"></qo-icon>
+        </span>
+        <div>
+          <h2>{{ node()!.label }}</h2>
+          <p>{{ definition()!.description }}</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="workflow-node-config-panel__body">
+      <section class="workflow-node-config-panel__panel-section">
+        <nav class="workflow-node-config-panel__tabs" [attr.aria-label]="t('accessibility.nodeConfigurationTabs')">
+          @for (tab of visibleTabs(); track tab.id) {
+            <button
+              type="button"
+              [class.workflow-node-config-panel__tab--active]="activeTabId() === tab.id"
+              [class.workflow-node-config-panel__tab--error]="tabHasError(tab.id)"
+              (click)="selectTab(tab.id)"
+            >
+              {{ tab.label }}
+              @if (tabHasError(tab.id)) {
+                <span class="workflow-node-config-panel__tab-dot" [attr.aria-label]="t('accessibility.tabHasErrors')"></span>
+              }
+            </button>
+          }
+        </nav>
+
+        <div class="workflow-node-config-panel__fields">
+          @for (field of visibleFields(); track field.key) {
+            <qo-form-field
+              [label]="field.label"
+              [required]="field.required === true"
+              [hint]="field.hint"
+            >
+              @if (isMappingField(field)) {
+                <app-workflow-field-mapper
+                  [targets]="mappingTargets(field)"
+                  [sources]="mappingSources()"
+                  [value]="rawFieldValue(field)"
+                  (valueChange)="updateField(field, $event)"
+                />
+              } @else if (isRuleBuilderField(field)) {
+                <app-workflow-rule-builder
+                  [fields]="formFields()"
+                  [value]="rawFieldValue(field)"
+                  (valueChange)="updateField(field, $event)"
+                />
+              } @else if (isTextareaField(field)) {
+                <qo-textarea
+                  [rows]="fieldRows(field)"
+                  [placeholder]="field.placeholder ?? ''"
+                  [value]="fieldValue(field) + ''"
+                  (valueChange)="updateField(field, $event)"
+                />
+              } @else if (isSelectField(field)) {
+                <qo-select
+                  [options]="fieldOptions(field)"
+                  [placeholder]="field.placeholder ?? 'fields.selectOption' | transloco"
+                  [value]="fieldValue(field)"
+                  (valueChange)="updateField(field, $event)"
+                />
+              } @else if (isToggleField(field)) {
+                <qo-toggle
+                  [checked]="fieldValue(field) === true"
+                  (checkedChange)="updateField(field, $event)"
+                />
+              } @else if (isInputField(field)) {
+                <qo-input
+                  [type]="inputType(field)"
+                  [placeholder]="field.placeholder ?? ''"
+                  [value]="fieldValue(field)"
+                  (valueChange)="updateField(field, $event)"
+                />
+              }
+              @if (fieldError(field)) {
+                <p class="workflow-node-config-panel__field-error">{{ fieldError(field) }}</p>
+              }
+            </qo-form-field>
+          } @empty {
+            <div class="workflow-node-config-panel__empty-tab">
+              <p>{{ t('emptyStates.configTab') }}</p>
+            </div>
+          }
+        </div>
+      </section>
+    </section>
+
+    <footer class="workflow-node-config-panel__footer">
+      <qo-button variant="secondary" size="sm" type="button" (click)="fillSampleData()">
+        {{ t('common.fillSampleData') }}
+      </qo-button>
+      <qo-button variant="primary" size="sm" type="button">
+        {{ 'actions.done' | transloco }}
+      </qo-button>
+    </footer>
+  } @else {
+    <div class="workflow-node-config-panel__empty">
+      <qo-empty-state
+        icon="workflow"
+        [title]="t('emptyStates.selectedNode.title')"
+        [description]="t('emptyStates.selectedNode.description')"
+      />
+    </div>
+  }
+</aside>
+</ng-container>

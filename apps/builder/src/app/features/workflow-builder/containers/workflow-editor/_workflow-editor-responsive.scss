@@ -1,0 +1,20 @@
+@media (max-width: 64rem) {
+  .workflow-editor {
+    display: block;
+    min-height: 100dvh;
+  }
+
+  .workflow-editor__viewport-blocker {
+    display: grid;
+    min-height: 100dvh;
+    place-items: center;
+    padding: var(--qo-space-6);
+    background: var(--workflow-editor-bg);
+  }
+
+  .workflow-editor__sidebar,
+  .workflow-editor__workspace,
+  app-workflow-node-config-panel {
+    display: none;
+  }
+}

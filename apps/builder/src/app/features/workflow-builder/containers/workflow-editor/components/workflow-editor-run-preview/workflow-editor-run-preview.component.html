@@ -1,0 +1,19 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<aside class="workflow-editor__run-preview" [attr.aria-label]="t('accessibility.workflowJsonPreview')">
+  <header>
+    <div>
+      <span>{{ t('editor.runPreview') }}</span>
+      <strong>{{ t('editor.workflowJson') }}</strong>
+    </div>
+    <button
+      type="button"
+      [attr.aria-label]="t('accessibility.closeWorkflowJsonPreview')"
+      [title]="t('editor.closePreview')"
+      (click)="closePreview.emit()"
+    >
+      <qo-icon name="x" size="sm"></qo-icon>
+    </button>
+  </header>
+  <pre>{{ previewJson() }}</pre>
+</aside>
+</ng-container>

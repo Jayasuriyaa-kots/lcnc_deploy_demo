@@ -1,0 +1,65 @@
+<div class="qo-multi-select">
+  @if (showLabel() && label()) {
+    <label class="qo-multi-select__label">
+      {{ label() }}
+    </label>
+  }
+
+  <button
+    type="button"
+    class="qo-multi-select__trigger"
+    [class.qo-multi-select__trigger--empty]="selectedOptions().length === 0"
+    [disabled]="disabled()"
+    (click)="toggleDropdown()"
+  >
+    @if (selectedOptions().length > 0) {
+      <div class="qo-multi-select__chips">
+        @for (option of selectedOptions(); track option.value) {
+          <span class="qo-multi-select__chip">
+            <span class="qo-multi-select__chip-label">{{ option.label }}</span>
+            <span
+              class="qo-multi-select__chip-remove"
+              (click)="removeChip(option.value, $event)"
+            >
+              <qo-icon name="x" size="sm"></qo-icon>
+            </span>
+          </span>
+        }
+      </div>
+    } @else {
+      <span class="qo-multi-select__placeholder">{{ placeholder() }}</span>
+    }
+  </button>
+
+  @if (isOpen()) {
+    <div class="qo-multi-select__dropdown">
+      <div class="qo-multi-select__search-wrap">
+        <qo-input
+          type="search"
+          prefixIcon="search"
+          size="md"
+          [placeholder]="searchPlaceholder()"
+          [formControl]="searchControl"
+        ></qo-input>
+      </div>
+
+      <div class="qo-multi-select__options">
+        @if (filteredOptions().length > 0) {
+          @for (option of filteredOptions(); track option.value) {
+            <button
+              type="button"
+              class="qo-multi-select__option"
+              [class.qo-multi-select__option--selected]="isSelected(option.value)"
+              [disabled]="option.disabled"
+              (click)="toggleOption(option, $event)"
+            >
+              <span class="qo-multi-select__option-label">{{ option.label }}</span>
+            </button>
+          }
+        } @else {
+          <div class="qo-multi-select__empty">No results found</div>
+        }
+      </div>
+    </div>
+  }
+</div>

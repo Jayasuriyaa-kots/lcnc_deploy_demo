@@ -1,0 +1,76 @@
+:host {
+  display: block;
+  overflow: visible;
+}
+
+.action-btns-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--qo-space-3);
+  min-height: 3.25rem;
+  padding: var(--qo-space-1) 0;
+}
+
+:host ::ng-deep qo-button.action-btn .qo-btn {
+  min-width: 6.5rem;
+  min-height: 2.375rem;
+  padding: 0 var(--qo-space-4);
+  border: var(--qo-border-width) solid var(--qo-border-color-alpha-strong);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: none;
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+:host ::ng-deep qo-button.action-btn .qo-btn:hover {
+  background: var(--qo-color-neutral-100);
+  border-color: var(--qo-border-color-strong);
+}
+
+:host ::ng-deep qo-button.action-btn--primary .qo-btn {
+  border-color: var(--qo-color-neutral-900);
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+}
+
+:host ::ng-deep qo-button.action-btn--primary .qo-btn:hover {
+  background: var(--qo-color-neutral-800);
+}
+
+:host ::ng-deep qo-button.action-btn--secondary .qo-btn {
+  border-color: var(--qo-border-color-strong);
+  color: var(--qo-color-neutral-900);
+}
+
+:host ::ng-deep qo-button.action-btn--ghost .qo-btn {
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-600);
+}
+
+:host ::ng-deep qo-button.action-btn--dashed .qo-btn {
+  border-style: dashed;
+  background: transparent;
+  color: var(--qo-color-neutral-600);
+}
+
+:host ::ng-deep qo-button.action-btn--dashed .qo-btn-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-1);
+}
+
+:host ::ng-deep qo-button.action-btn--dashed .material-symbols-outlined {
+  font-size: var(--qo-text-base);
+  line-height: 1;
+}
+

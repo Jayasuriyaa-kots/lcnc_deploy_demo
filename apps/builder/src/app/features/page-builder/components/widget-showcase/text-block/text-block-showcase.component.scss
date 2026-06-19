@@ -1,0 +1,27 @@
+    :host {
+      display: block;
+      width: 100%;
+    }
+
+    .showcase-page {
+      display: flex;
+      flex-direction: column;
+      background: var(--qo-color-neutral-100);
+      padding: 0;
+    }
+
+    .card {
+      cursor: grab;
+      border-bottom: 0.0625rem solid var(--qo-color-neutral-200);
+      background: var(--qo-color-neutral-0);
+      padding: var(--qo-space-5) var(--qo-space-6);
+    }
+
+    .card-dashed {
+      margin: var(--qo-space-3);
+      border: 0.125rem dashed var(--qo-color-neutral-300);
+      border-radius: var(--qo-radius-xl);
+      background: var(--qo-color-neutral-50);
+    }
+  
+

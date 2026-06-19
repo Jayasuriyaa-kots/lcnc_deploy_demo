@@ -1,0 +1,142 @@
+import { Injectable, computed, signal } from '@angular/core';
+import type { Signal } from '@angular/core';
+import type {
+  AppConfig,
+  BrandingConfig,
+  ThemeConfig,
+  NavPrimaryPage,
+  NavLeftPage,
+  NavSubPage,
+  NavTopTab,
+  FormConfig,
+  DataframeConfig,
+  PageConfig,
+  WorkflowConfig,
+} from '../models/app-config.model';
+import type { NavigationPage } from '../../features/deployment/models/deployment.models';
+import { HEXAWARE_APP_CONFIG } from '../configs/hexaware.config';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RuntimeEngineService
+//
+// Single source of truth for all app configuration. Reads from HEXAWARE_APP_CONFIG
+// (switchable via loadConfig()) and exposes typed Angular signals that consumers
+// can subscribe to reactively. Nothing is hardcoded in consumers.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function toNavPage(p: NavPrimaryPage | NavLeftPage | NavSubPage | NavTopTab): NavigationPage {
+  return { id: p.id, label: p.label, icon: p.icon, tone: p.tone as NavigationPage['tone'] };
+}
+
+@Injectable({ providedIn: 'root' })
+export class RuntimeEngineService {
+
+  private readonly _config = signal<AppConfig>(HEXAWARE_APP_CONFIG);
+
+  readonly config: Signal<AppConfig> = this._config.asReadonly();
+
+  // ── Application metadata ───────────────────────────────────────────────────
+
+  readonly appId    = computed(() => this._config().application.id);
+  readonly appName  = computed(() => this._config().application.name);
+  readonly version  = computed(() => this._config().application.version);
+
+  // ── Branding & Theme ───────────────────────────────────────────────────────
+
+  readonly branding = computed<BrandingConfig>(() => this._config().branding);
+  readonly theme    = computed<ThemeConfig>(()    => this._config().theme);
+
+  // ── Navigation — flat maps consumed by DeploymentFacadeService ────────────
+
+  readonly primaryPages = computed<NavigationPage[]>(() =>
+    this._config().navigation.primaryPages.map(toNavPage),
+  );
+
+  readonly leftPagesByPrimaryId = computed<Record<string, NavigationPage[]>>(() => {
+    const result: Record<string, NavigationPage[]> = {};
+    for (const primary of this._config().navigation.primaryPages) {
+      if (primary.leftPages?.length) {
+        result[primary.id] = primary.leftPages.map(toNavPage);
+      }
+    }
+    return result;
+  });
+
+  readonly subPagesByLeftPageId = computed<Record<string, NavigationPage[]>>(() => {
+    const result: Record<string, NavigationPage[]> = {};
+    for (const primary of this._config().navigation.primaryPages) {
+      for (const left of primary.leftPages ?? []) {
+        if (left.subPages?.length) {
+          result[left.id] = left.subPages.map(toNavPage);
+        }
+      }
+    }
+    return result;
+  });
+
+  readonly topTabPagesBySourceId = computed<Record<string, NavigationPage[]>>(() => {
+    const result: Record<string, NavigationPage[]> = {};
+    for (const primary of this._config().navigation.primaryPages) {
+      // Primary-level top tabs (when dep = primary)
+      if (primary.topTabs?.length) {
+        result[primary.id] = primary.topTabs.map(toNavPage);
+      }
+      for (const left of primary.leftPages ?? []) {
+        // Left-page-level top tabs (when left has NO sub pages)
+        if (!left.subPages?.length && left.topTabs?.length) {
+          result[left.id] = left.topTabs.map(toNavPage);
+        }
+        // Sub-page-level top tabs
+        for (const sub of left.subPages ?? []) {
+          if (sub.topTabs?.length) {
+            result[sub.id] = sub.topTabs.map(toNavPage);
+          }
+        }
+      }
+    }
+    return result;
+  });
+
+  // ── Default page targets from config ──────────────────────────────────────
+
+  readonly defaultPageTargets = computed(() => this._config().pageTargets);
+
+  // ── Forms, Dataframes, Pages, Workflows ───────────────────────────────────
+
+  readonly forms      = computed<FormConfig[]>(()      => this._config().forms);
+  readonly dataframes = computed<DataframeConfig[]>(() => this._config().dataframes);
+  readonly pages      = computed<PageConfig[]>(()      => this._config().pages);
+  readonly workflows  = computed<WorkflowConfig[]>(() => this._config().workflows);
+
+  // ── Deployment configs ─────────────────────────────────────────────────────
+
+  readonly desktopConfig = computed(() => this._config().desktop);
+  readonly mobileConfig  = computed(() => this._config().mobile);
+
+  // ── Mock data schema ───────────────────────────────────────────────────────
+
+  readonly mockDataSchema = computed(() => this._config().mockData);
+
+  // ── Lookup helpers ─────────────────────────────────────────────────────────
+
+  getFormById(id: string): FormConfig | undefined {
+    return this._config().forms.find(f => f.id === id);
+  }
+
+  getDataframeById(id: string): DataframeConfig | undefined {
+    return this._config().dataframes.find(d => d.id === id);
+  }
+
+  getPageById(id: string): PageConfig | undefined {
+    return this._config().pages.find(p => p.id === id);
+  }
+
+  getWorkflowById(id: string): WorkflowConfig | undefined {
+    return this._config().workflows.find(w => w.id === id);
+  }
+
+  /** Replace the active config at runtime (e.g., when switching tenants). */
+  loadConfig(config: AppConfig): void {
+    this._config.set(config);
+  }
+}

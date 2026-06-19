@@ -1,0 +1,62 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.showcase-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: var(--qo-color-neutral-100);
+}
+
+.card {
+  cursor: grab;
+  background: var(--qo-color-neutral-0);
+}
+
+.card-dashed {
+  margin: var(--qo-space-3);
+  border: 0.125rem dashed var(--qo-color-neutral-300);
+  border-radius: var(--qo-radius-xl);
+  background: linear-gradient(180deg, var(--qo-color-neutral-50) 0%, var(--qo-color-neutral-0) 100%);
+  padding: var(--qo-space-5);
+}
+
+.label-card {
+  display: grid;
+  gap: var(--qo-space-4);
+}
+
+.label-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+}
+
+.label-card__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(var(--qo-space-6) + var(--qo-space-1));
+  padding: 0 var(--qo-space-3);
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.08em;
+}
+
+.label-card__hint {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-xs);
+  line-height: 1.4;
+}
+
+.label-card__preview {
+  min-height: var(--qo-space-12);
+  padding: var(--qo-space-3) 0;
+  border-top: 0.0625rem solid var(--qo-color-neutral-200);
+}

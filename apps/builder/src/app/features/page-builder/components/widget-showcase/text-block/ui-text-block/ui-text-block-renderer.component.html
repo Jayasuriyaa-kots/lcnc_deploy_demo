@@ -1,0 +1,114 @@
+<div class="text-block">
+  @if (showFieldLabel()) {
+    <div
+      class="text-block__label"
+      [style.color]="resolvedConfig().labelColor"
+      [style.font-size]="resolvedConfig().labelFontSize"
+    >
+      {{ resolvedConfig().label }}
+      @if (resolvedConfig().required) {
+        <span class="text-block__required">*</span>
+      }
+    </div>
+  }
+  @if (resolvedConfig().visible) {
+    @if (isRichText()) {
+      <div class="text-block__editor" [class.text-block__editor--disabled]="resolvedConfig().disabled">
+        <app-page-builder-rich-text-editor
+          [html]="currentValue()"
+          [placeholder]="displayPlaceholder()"
+          [disabled]="resolvedConfig().disabled || resolvedConfig().readOnly"
+          [backgroundColor]="resolvedConfig().backgroundColor"
+          [borderColor]="resolvedConfig().borderColor"
+          [borderWidth]="inputShellBorderWidth()"
+          [borderRadius]="inputShellBorderRadius()"
+          (htmlChange)="richTextChange.emit($event)"
+        ></app-page-builder-rich-text-editor>
+      </div>
+    } @else {
+      <div
+        class="text-block__input-shell"
+        [class.text-block__input-shell--currency]="isCurrency()"
+        [class.text-block__input-shell--file]="isFilePicker()"
+        [class.text-block__input-shell--labeltext]="isLabelText()"
+        [style.font-family]="isLabelText() ? textBlockFontFamily() : null"
+        [style.background-color]="resolvedConfig().backgroundColor"
+        [style.border-color]="isLabelText() ? null : resolvedConfig().borderColor"
+        [style.border-width]="isLabelText() ? '0' : inputShellBorderWidth()"
+        [style.border-radius]="isLabelText() ? '0' : inputShellBorderRadius()"
+      >
+        @if (isLabelText()) {
+          <div
+            class="text-block__static-text"
+            [class.text-block__static-text--scroll]="resolvedConfig().overflowText === 'scroll'"
+            [class.text-block__static-text--truncate]="resolvedConfig().overflowText === 'truncate'"
+            [style.font-family]="textBlockFontFamily()"
+            [style.font-size]="textBlockFontSize()"
+            [style.font-weight]="textBlockFontWeight()"
+            [style.font-style]="textBlockFontStyle()"
+            [style.line-height]="textBlockLineHeight()"
+            [style.letter-spacing]="textBlockLetterSpacing()"
+            [style.text-decoration]="textBlockTextDecoration()"
+            [style.text-align]="resolvedConfig().textAlign"
+            [style.color]="resolvedConfig().labelColor"
+            [innerHTML]="labelTextHtml()"
+          ></div>
+        } @else if (isCurrency()) {
+          <span class="text-block__prefix">{{ currencyPrefix() }}</span>
+          <input
+            class="text-block__input"
+            [type]="inputType()"
+            [placeholder]="displayPlaceholder()"
+            [value]="resolvedConfig().defaultValue"
+            [required]="resolvedConfig().required"
+            [readOnly]="resolvedConfig().readOnly"
+            [disabled]="resolvedConfig().disabled"
+            [attr.minlength]="resolvedConfig().minLength"
+            [attr.maxlength]="resolvedConfig().maxLength"
+            [attr.pattern]="resolvedConfig().customRegex || null"
+            [attr.min]="isDatePicker() ? resolvedConfig().minDate || null : null"
+            [attr.max]="isDatePicker() ? resolvedConfig().maxDate || null : null"
+          />
+        } @else if (isFilePicker()) {
+          <input
+            class="text-block__file-input"
+            [id]="inputId()"
+            type="file"
+            [accept]="fileAccept() || null"
+            [multiple]="resolvedConfig().maxFiles > 1"
+            [disabled]="resolvedConfig().disabled"
+            (change)="fileChange.emit($event)"
+          />
+          <label class="text-block__file-button" [for]="resolvedConfig().disabled ? null : inputId()">
+            {{ fileButtonLabel() }}
+          </label>
+          <span class="text-block__file-name">{{ fileDisplayName() }}</span>
+        } @else {
+          <input
+            class="text-block__input"
+            [class.text-block__input--invalid]="!!validationMessage()"
+            [type]="inputType()"
+            [placeholder]="displayPlaceholder()"
+            [value]="currentValue()"
+            [required]="resolvedConfig().required"
+            [readOnly]="resolvedConfig().readOnly"
+            [disabled]="resolvedConfig().disabled"
+            [attr.minlength]="resolvedConfig().minLength"
+            [attr.maxlength]="resolvedConfig().maxLength"
+            [attr.pattern]="resolvedConfig().customRegex || null"
+            [attr.min]="isDatePicker() ? resolvedConfig().minDate || null : null"
+            [attr.max]="isDatePicker() ? resolvedConfig().maxDate || null : null"
+            [attr.autocomplete]="inputAutocomplete()"
+            (input)="inputChange.emit($event)"
+          />
+        }
+      </div>
+      @if (validationMessage()) {
+        <div class="text-block__validation-message">{{ validationMessage() }}</div>
+      }
+    }
+  } @else {
+    <div class="text-block__hidden-state">{{ t('textBlock.widget.hidden') }}</div>
+  }
+</div>
+

@@ -1,0 +1,196 @@
+:host {
+  display: block;
+}
+
+.sidebar {
+  box-sizing: border-box;
+  position: fixed;
+  top: var(--qo-nav-height);
+  left: 0;
+  width: var(--qo-sidebar-width);
+  height: calc(100vh - var(--qo-nav-height));
+  padding: var(--qo-size-10) var(--qo-size-10) 0 var(--qo-space-3);
+  background: var(--qo-deployer-sidebar-background);
+  border-right: var(--qo-size-1) solid var(--qo-deployer-sidebar-border);
+  box-shadow: var(--qo-deployer-sidebar-shadow);
+}
+
+.sidebar-flow {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: var(--qo-size-9);
+}
+
+.sidebar-controls {
+  display: grid;
+  gap: var(--qo-size-14);
+  padding-top: var(--qo-size-2);
+}
+
+.add-org-button {
+  justify-self: stretch;
+  width: 100%;
+  --qo-button-width: 100%;
+  --qo-button-min-width: 100%;
+  --qo-button-min-height: var(--qo-size-36);
+  --qo-button-height: var(--qo-size-36);
+  --qo-button-padding: 0 var(--qo-space-4);
+  --qo-button-radius: var(--qo-radius-md);
+  --qo-button-bg: var(--qo-color-neutral-0);
+  --qo-button-color: color-mix(in srgb, var(--qo-color-neutral-900) 68%, transparent);
+  --qo-button-border-color: color-mix(in srgb, var(--qo-color-neutral-0) 12%, transparent);
+  --qo-button-hover-bg: var(--qo-color-neutral-0);
+  --qo-button-hover-color: color-mix(in srgb, var(--qo-color-neutral-900) 68%, transparent);
+  --qo-button-hover-border-color: color-mix(in srgb, var(--qo-color-neutral-0) 12%, transparent);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 600;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+  --qo-button-box-shadow: none;
+}
+
+.sidebar-section-label {
+  padding: var(--qo-size-14) var(--qo-size-2) var(--qo-size-6);
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-size-10);
+  letter-spacing: 0.12em;
+}
+
+.organisation-list {
+  display: grid;
+  gap: var(--qo-space-2);
+  overflow: auto;
+  padding: var(--qo-size-2) 0 0;
+}
+
+.organisation-item {
+  --qo-button-width: 100%;
+  --qo-button-min-width: 100%;
+  --qo-button-height: auto;
+  --qo-button-min-height: var(--qo-size-46);
+  --qo-button-padding: var(--qo-size-7) var(--qo-size-9);
+  --qo-button-radius: var(--qo-radius-md);
+  --qo-button-gap: 0;
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-hover-bg: var(--qo-deployer-surface-highest);
+  --qo-button-hover-border-color: transparent;
+  --qo-button-color: var(--qo-deployer-text-muted);
+  --qo-button-hover-color: var(--qo-deployer-text-muted);
+  --qo-button-box-shadow: none;
+  --qo-button-label-display: flex;
+  --qo-button-label-justify: space-between;
+  --qo-button-label-width: 100%;
+  --qo-button-label-transform: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition:
+    background var(--qo-duration-slow) ease,
+    border-color var(--qo-duration-slow) ease;
+}
+
+.organisation-item:hover {
+  background: var(--qo-deployer-surface-highest);
+}
+
+.organisation-item-active {
+  --qo-button-bg: var(--qo-deployer-brand-soft);
+  --qo-button-border-color: var(--qo-deployer-line);
+  --qo-button-hover-bg: var(--qo-deployer-brand-soft);
+  --qo-button-hover-border-color: var(--qo-deployer-line);
+  box-shadow: none;
+}
+
+.organisation-main {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-size-9);
+  min-width: 0;
+}
+
+.organisation-copy {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.organisation-copy strong {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-sm);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.organisation-item-active .organisation-copy strong,
+.organisation-item-active .row-chevron {
+  color: var(--qo-deployer-text);
+}
+
+.organisation-meta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--qo-space-2);
+  min-width: var(--qo-size-10);
+  text-align: right;
+}
+
+.row-chevron {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-lg);
+  font-weight: 600;
+  line-height: 1;
+}
+
+qo-search-bar .qo-input-element {
+  min-height: var(--qo-size-36);
+  border-radius: var(--qo-size-7);
+  border-color: var(--qo-deployer-line);
+  background: var(--qo-deployer-surface-highest);
+  padding: var(--qo-space-2) var(--qo-space-3);
+  box-shadow: none;
+}
+
+qo-search-bar .qo-input-element:focus {
+  border-color: var(--qo-deployer-line-strong);
+  background: var(--qo-deployer-field-focus-background);
+  box-shadow: none;
+}
+
+qo-search-bar .qo-input-prefix {
+  color: var(--qo-color-neutral-400);
+  opacity: 1;
+}
+
+qo-search-bar qo-icon svg {
+  width: var(--qo-size-13);
+  height: var(--qo-size-13);
+}
+
+qo-search-bar {
+  --qo-input-height-md: var(--qo-size-36);
+  --qo-input-padding-md: var(--qo-space-2) var(--qo-space-3);
+  --qo-input-font-size-md: var(--qo-text-sm);
+  --qo-input-border-radius: var(--qo-size-7);
+  --qo-input-border-color: var(--qo-deployer-line);
+  --qo-input-bg: var(--qo-deployer-surface-highest);
+  --qo-input-color: var(--qo-deployer-text);
+  --qo-input-placeholder-color: var(--qo-deployer-text-muted);
+  --qo-input-prefix-color: var(--qo-deployer-text-muted);
+  --qo-input-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-input-focus-shadow: none;
+}
+
+qo-avatar-badge .qo-avatar.qo-avatar-sm {
+  width: var(--qo-size-30);
+  height: var(--qo-size-30);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-deployer-surface-highest);
+  border-color: color-mix(in srgb, var(--qo-color-neutral-0) 2.5%, transparent);
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: 600;
+}

@@ -1,0 +1,239 @@
+@if (report(); as activeReport) {
+  <section class="report-page">
+    <div class="report-page__hero">
+      <div>
+        <p class="report-page__eyebrow">{{ t('common.dataframeBuilder') }}</p>
+        <h1 class="report-page__title">{{ activeReport.name }}</h1>
+        <p class="report-page__description">{{ activeReport.description }}</p>
+      </div>
+
+      <div class="report-page__hero-actions">
+        <qo-button class="report-page__hero-button report-page__hero-button--secondary" variant="secondary" type="button" (click)="showSettings()">
+          {{ t('generated.settings') }}
+        </qo-button>
+
+        <qo-button class="report-page__hero-button report-page__hero-button--secondary" variant="secondary" type="button" (click)="showPreview()">
+          {{ t('generated.preview') }}
+        </qo-button>
+
+        <qo-button
+          class="report-page__hero-button report-page__hero-button--primary"
+          variant="primary"
+          type="button"
+          (click)="activeReport.status === 'live' ? revertToDraft() : publishReport()">
+          {{ activeReport.status === 'live' ? t('common.saveAsDraft') : t('common.saveAndPublish') }}
+        </qo-button>
+      </div>
+    </div>
+
+    <div class="report-workspace">
+      <div class="left-edge-dock" [class.left-edge-dock--open]="!leftPanelCollapsed()">
+        <qo-button
+          class="left-edge-toggle"
+          type="button"
+          variant="ghost"
+          size="sm"
+          [iconOnly]="true"
+          [iconLeft]="leftPanelCollapsed() ? 'chevron-right' : 'chevron-left'"
+          [attr.aria-label]="leftPanelCollapsed() ? t('preview.expandLeftPanel') : t('preview.collapseLeftPanel')"
+          (click)="toggleLeftPanel()">
+        </qo-button>
+
+        @if (!leftPanelCollapsed()) {
+          <app-report-left-panel
+            [report]="activeReport"
+            [sourceOptions]="sourceOptions"
+            [allColumns]="allColumns()"
+            (updateSettings)="updateReportSettings($event)"
+            (sourceFormChange)="updateSourceForm($event)"
+            (queryRefChange)="updateSourceQueryRef($event)"
+            (applyFilters)="applyFilters($event)"
+            (clearFilters)="clearFilters()">
+          </app-report-left-panel>
+        }
+      </div>
+
+      <div class="report-layout" [style.grid-template-columns]="layoutColumns()">
+        <app-report-center-preview
+          [report]="activeReport"
+          [visibleColumns]="visibleColumns()"
+          [quickLayout]="quickLayout()"
+          [records]="preview.pagedRecords()"
+          [totalRecords]="preview.records().length"
+          [rangeStart]="preview.rangeStart()"
+          [rangeEnd]="preview.rangeEnd()"
+          [currentPage]="preview.currentPage()"
+          [totalPages]="preview.totalPages()"
+          [previewSelection]="previewSelection()"
+          [selectedCount]="selectedPreviewCount()"
+          (viewTypeChange)="updateViewType($event)"
+          (toggleRow)="preview.toggleRow($event)"
+          (clearSelection)="preview.clearSelection()"
+          (nextPage)="preview.nextPage()"
+          (previousPage)="preview.previousPage()"
+          (openSearch)="toggleDrawer('search')"
+          (openFieldConfig)="toggleDrawer('field')"
+          (openBulkEdit)="toggleDrawer('bulk')">
+        </app-report-center-preview>
+
+        <div class="sidebar-slot sidebar-slot--right">
+          @if (!rightPanelCollapsed()) {
+            <app-report-right-panel
+              [report]="activeReport"
+              [sourceOptions]="sourceOptions"
+              [savedCustomLayouts]="quickLayouts.savedLayoutCards()"
+              [savedDetailCustomLayouts]="detailLayouts.savedLayoutCards()"
+              [visibleCount]="visibleColumns().length"
+              [pageSize]="previewPageSize()"
+              [reportConfigTab]="reportConfigTab()"
+              [reportConfigMode]="reportConfigMode()"
+              [quickLayout]="quickLayout()"
+              [detailLayout]="detailLayout()"
+              [visibleColumns]="visibleColumns()"
+              [activePreviewRecord]="preview.activeRecord()"
+              [showRecordDetails]="detailLayout() === 'custom_layout' && !!detailLayouts.activeLayoutId() && !!preview.activeRecord()"
+              [createNewLayoutOpen]="quickLayouts.createNewLayoutOpen()"
+              [quickActionGroups]="quickActionGroups()"
+              [detailActionGroups]="detailActionGroups()"
+              (setTab)="setReportConfigTab($event)"
+              (setMode)="setReportConfigMode($event)"
+              (setQuickLayout)="setQuickLayout($event)"
+              (setDetailLayout)="setDetailLayout($event)"
+              (setPageSize)="preview.setPageSize($event)"
+              (openFieldConfig)="toggleDrawer('field')"
+              (openCustomLayout)="quickLayouts.openModal()"
+              (openCustomLayoutTemplate)="quickLayouts.openTemplateModal()"
+              (openCustomLayoutListTemplate)="quickLayouts.openListTemplateModal()"
+              (openCreateNewLayout)="quickLayouts.openCreateNewModal()"
+              (openDetailCreateNewLayout)="detailLayouts.openCreateNewModal()"
+              (openActionConfig)="toggleDrawer('action')"
+              (openDetailLayoutConfig)="toggleDrawer('detailLayout')"
+              (openDetailBlockLayoutConfig)="toggleDrawer('detailBlockLayout')"
+              (activateSavedDetailLayout)="detailLayouts.activateSaved($event)"
+              (deactivateSavedDetailLayout)="detailLayouts.deactivateSaved($event)"
+              (editSavedDetailLayout)="detailLayouts.editSaved($event)"
+              (duplicateSavedDetailLayout)="detailLayouts.duplicateSaved($event)"
+              (deleteSavedDetailLayout)="detailLayouts.deleteSaved($event)"
+              (activateSavedLayout)="quickLayouts.activateSaved($event)"
+              (editSavedLayout)="quickLayouts.editSaved($event)"
+              (duplicateSavedLayout)="quickLayouts.duplicateSaved($event)"
+              (deleteSavedLayout)="quickLayouts.deleteSaved($event)"
+              (quickActionGroupsChange)="updateQuickActionGroups($event)"
+              (setRecordClickAction)="updateRecordClickAction($event)"
+              (joinsChange)="updateJoins($event)">
+            </app-report-right-panel>
+          }
+
+          <qo-button
+            class="sidebar-toggle sidebar-toggle--right"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [iconOnly]="true"
+            [iconLeft]="rightPanelCollapsed() ? 'chevron-left' : 'chevron-right'"
+            [attr.aria-label]="rightPanelCollapsed() ? t('preview.expandRightPanel') : t('preview.collapseRightPanel')"
+            (click)="toggleRightPanel()">
+          </qo-button>
+        </div>
+      </div>
+    </div>
+
+    @if (reportSettingsOpen()) {
+      <app-report-settings-modal
+        [name]="activeReport.name"
+        [description]="activeReport.description"
+        [viewType]="activeReport.viewType"
+        [defaultLayout]="activeReport.settings.defaultLayout"
+        [recordClickAction]="activeReport.settings.recordClickAction"
+        (saved)="updateReportSettingsGroup($event)"
+        (closed)="closeSettings()">
+      </app-report-settings-modal>
+    }
+
+    @if (previewOpen()) {
+      <app-report-preview-modal
+        [report]="activeReport"
+        [visibleColumns]="visibleColumns()"
+        [detailBlocks]="activeReport.settings.detailBlocks ?? []"
+        [detailTabs]="activeReport.settings.detailTabs ?? []"
+        [records]="preview.records()"
+        [pageSize]="preview.pageSizeNumber()"
+        (closed)="closePreview()">
+      </app-report-preview-modal>
+    }
+
+    @if (customLayoutOpen()) {
+      <app-report-custom-layout-modal
+        [allColumns]="allColumns()"
+        [templateMode]="quickLayouts.templateMode()"
+        [templateVariant]="quickLayouts.templateVariant()"
+        [config]="activeReport.settings.quickViewCustomLayout"
+        (closed)="quickLayouts.closeModal()"
+        (saved)="quickLayouts.save($event)">
+      </app-report-custom-layout-modal>
+    }
+
+    @if (quickLayouts.createNewLayoutOpen()) {
+      <app-report-create-layout-modal
+        [allColumns]="allColumns()"
+        [config]="activeReport.settings.quickViewCustomLayout"
+        (closed)="quickLayouts.closeCreateNewModal()"
+        (saved)="quickLayouts.saveCreateNew($event)">
+      </app-report-create-layout-modal>
+    }
+
+    @if (detailLayouts.createNewLayoutOpen()) {
+      <app-report-detail-create-layout-modal
+        [allColumns]="allColumns()"
+        [initialLayoutName]="detailLayouts.editingLayoutName()"
+        [initialFieldIds]="detailLayouts.editingLayoutFieldIds()"
+        [initialFieldStyles]="detailLayouts.editingLayoutFieldStyles()"
+        [initialCanvasItems]="detailLayouts.editingLayoutCanvasItems()"
+        (closed)="detailLayouts.closeCreateNewModal()"
+        (saved)="detailLayouts.saveCreateNew($event)">
+      </app-report-detail-create-layout-modal>
+    }
+
+    <app-report-drawers
+      [fieldConfigOpen]="fieldConfigOpen()"
+      [searchPanelOpen]="searchPanelOpen()"
+      [bulkEditOpen]="bulkEditOpen()"
+      [actionConfigOpen]="actionConfigOpen()"
+      [detailLayoutConfigOpen]="detailLayoutConfigOpen()"
+      [detailBlockLayoutConfigOpen]="detailBlockLayoutConfigOpen()"
+      [allColumns]="allColumns()"
+      [visibleColumns]="visibleColumns()"
+      [quickLayout]="quickLayout()"
+      [cardFieldTextColor]="activeReport.settings.cardFieldTextColor"
+      [cardFieldFontSize]="activeReport.settings.cardFieldFontSize"
+      [filters]="activeReport.filterRules"
+      [sourceOptions]="sourceOptions"
+      [currentSourceFormId]="activeReport.sourceFormId"
+      [detailLayoutMode]="detailLayout()"
+      [initialDetailBlocks]="activeReport.settings.detailBlocks ?? []"
+      [initialDetailTabs]="activeReport.settings.detailTabs ?? []"
+      [initialAllFieldsLayout]="activeReport.settings.allFieldsLayout ?? { fieldIds: visibleColumns().map((column) => column.id) }"
+      [initialBlockLayout]="activeReport.settings.blockLayout ?? []"
+      [initialTabLayout]="activeReport.settings.tabLayout ?? []"
+      (filtersChange)="applyFilters($event)"
+      (closeAll)="closeDrawers()"
+      (toggleColumn)="toggleColumnVisibility($event)"
+      (reorderColumns)="reorderColumns($event)"
+      (cardStyleChange)="updateCardStyle($event)"
+      (detailBlocksChange)="updateDetailBlocks($event)"
+      (detailTabsChange)="updateDetailTabs($event)"
+      (detailLayoutModeChange)="setDetailLayout($event)"
+      (allFieldsLayoutChange)="updateAllFieldsLayout($event)"
+      (blockLayoutChange)="updateBlockLayout($event)"
+      (tabLayoutChange)="updateTabLayout($event)">
+    </app-report-drawers>
+  </section>
+}
+
+@if (createWizardOpen()) {
+  <app-report-create-wizard
+    [sourceOptions]="sourceOptions"
+    (created)="createReport($event)"
+    (cancelled)="closeWizard()">
+  </app-report-create-wizard>
+}

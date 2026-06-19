@@ -1,0 +1,95 @@
+<aside class="side-drawer">
+  <header class="side-drawer__header">
+    <h2>{{ t('leftPanel.filters') }}</h2>
+    <qo-button class="drawer__close" type="button" variant="ghost" size="sm" [iconOnly]="true" [attr.aria-label]="t('generated.close_drawer')" (click)="closeAll.emit()">
+      <qo-icon name="x" size="sm" />
+    </qo-button>
+  </header>
+
+  <div class="side-drawer__body side-drawer__body--padded">
+    <div class="panel-actions">
+      <qo-button class="btn-primary btn-primary--compact" variant="primary" type="button" (click)="addFilter()">
+        {{ t('generated.add_filter') }}
+      </qo-button>
+    </div>
+
+    <form [formGroup]="filtersForm">
+      <div formArrayName="rules" class="filters-list">
+        @for (ruleGroup of ruleControls; track trackRule($index, ruleGroup); let i = $index) {
+          <div class="filter-card" [formGroupName]="i">
+            <label class="field">
+              <span>{{ t('generated.select_field') }}</span>
+              <qo-select
+                formControlName="columnId"
+                [options]="allColumnOptions()"
+                (valueChange)="onColumnChange(i, String($event ?? ''))"
+              ></qo-select>
+            </label>
+
+            <label class="field">
+              <span>{{ t('generated.condition') }}</span>
+              <qo-select
+                formControlName="operator"
+                [options]="getConditionOptions(ruleGroup.controls.columnId.value)"
+                (valueChange)="onOperatorChange(i, String($event ?? ''))"
+              ></qo-select>
+            </label>
+
+            @if (filterNeedsValue(i)) {
+              @if (!isBetweenOperator(i)) {
+                <label class="field">
+                  <span>{{ t('generated.value') }}</span>
+                  <qo-input
+                    formControlName="singleValue"
+                    [type]="getFilterInputType(i)"
+                    [placeholder]="getFilterValuePlaceholderText(i)"
+                    (input)="onRuleValueChange()"
+                  ></qo-input>
+                </label>
+              } @else {
+                <label class="field">
+                  <span>{{ t('generated.value') }}</span>
+                  <div class="filter-range" formGroupName="rangeValue">
+                    <qo-input
+                      formControlName="start"
+                      [type]="getFilterInputType(i)"
+                      [placeholder]="getFilterRangePlaceholderText(i, 'start')"
+                      (input)="onRuleValueChange()"
+                    ></qo-input>
+                    <qo-input
+                      formControlName="end"
+                      [type]="getFilterInputType(i)"
+                      [placeholder]="getFilterRangePlaceholderText(i, 'end')"
+                      (input)="onRuleValueChange()"
+                    ></qo-input>
+                  </div>
+                </label>
+              }
+            }
+
+            <qo-button
+              class="filter-remove"
+              type="button"
+              variant="ghost"
+              size="sm"
+              [iconOnly]="true"
+              [attr.aria-label]="t('generated.remove_filter')"
+              (click)="removeFilter(i)"
+            >
+              <qo-icon name="x" size="sm" />
+            </qo-button>
+          </div>
+        }
+      </div>
+    </form>
+  </div>
+
+  <footer class="side-drawer__footer">
+    <qo-button class="btn-secondary" variant="secondary" type="button" (click)="clearFilters()">
+      {{ t('generated.clear') }}
+    </qo-button>
+    <qo-button class="btn-primary" variant="primary" type="button" (click)="closeAll.emit()">
+      {{ t('generated.done') }}
+    </qo-button>
+  </footer>
+</aside>

@@ -1,0 +1,598 @@
+:host {
+  display: block;
+}
+
+/* ─────────────────────────────────────────────
+   Backdrop + Panel animations
+───────────────────────────────────────────── */
+.layout-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: var(--qo-space-6);
+  background: var(--qo-overlay-scrim);
+  animation: modal-backdrop-in 220ms ease-in both;
+}
+
+.layout-modal {
+  width: min(70rem, 96vw);
+  height: min(50rem, calc(100vh - var(--qo-space-12)));
+  max-height: calc(100vh - var(--qo-space-12));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--qo-color-neutral-0);
+  border-radius: var(--qo-radius-lg);
+  box-shadow: var(--qo-shadow-modal);
+  /* ease-in on open: starts slow, accelerates into place */
+  animation: modal-panel-in 260ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes modal-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modal-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Header
+───────────────────────────────────────────── */
+.layout-modal__header {
+  min-height: calc(var(--qo-space-16) + var(--qo-space-2));
+  padding: 0 var(--qo-space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-block-end: 1px solid var(--qo-border-color);
+  flex-shrink: 0; // prevent header from being squashed
+
+  h2 {
+    margin: 0;
+    color: var(--qo-color-neutral-900);
+    font-size: var(--qo-text-4xl);
+    font-weight: var(--qo-font-semibold);
+  }
+}
+
+.icon-btn {
+  width: calc(var(--qo-space-8) + var(--qo-space-1));
+  height: calc(var(--qo-space-8) + var(--qo-space-1));
+}
+
+:host ::ng-deep .icon-btn .qo-btn {
+  width: calc(var(--qo-space-8) + var(--qo-space-1));
+  height: calc(var(--qo-space-8) + var(--qo-space-1));
+  border: 0;
+  background: transparent;
+  color: var(--qo-color-neutral-500);
+}
+
+/* ─────────────────────────────────────────────
+   Body — two-column grid (canvas | inspector)
+───────────────────────────────────────────── */
+.layout-modal__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) calc(var(--qo-space-64) + var(--qo-space-16) + var(--qo-space-2));
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* ─────────────────────────────────────────────
+   Canvas — FIX: tighter rows + no excessive gaps
+───────────────────────────────────────────── */
+.layout-canvas {
+  margin: var(--qo-space-3);         // was space-4 — trim outer breathing room
+  padding: var(--qo-space-2);        // was space-3 — tighter canvas padding
+  display: grid;
+  grid-template-columns: var(--qo-space-32) minmax(0, 1fr) minmax(0, 1fr);
+  grid-auto-rows: minmax(var(--qo-space-8), auto); // was space-10 — tighter row height
+  gap: var(--qo-space-2);
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xl);
+  background: var(--qo-color-neutral-50);
+  min-height: 0;
+  overflow: auto;
+  align-content: start; // stack rows from top, no vertical stretch
+}
+
+.layout-canvas--template {
+  grid-template-columns: 1fr;
+  grid-auto-rows: auto;
+}
+
+/* ─────────────────────────────────────────────
+   Layout slots — FIX: height stays content-driven
+───────────────────────────────────────────── */
+.layout-slot {
+  align-self: stretch;
+}
+
+:host ::ng-deep .layout-slot .qo-btn {
+  min-height: var(--qo-space-8);     // was space-10 — match new row height
+  width: 100%;
+  padding: var(--qo-space-1) var(--qo-space-2); // was space-2/space-3 — trim slot padding
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--qo-space-2);
+  border: 1px dashed var(--qo-color-info-100);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-sm);
+  font-weight: inherit;
+  line-height: var(--qo-leading-tight);
+  text-align: left;
+}
+
+:host ::ng-deep .layout-slot[style] .qo-btn {
+  padding: inherit;
+  background: inherit;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  text-align: inherit;
+}
+
+:host ::ng-deep .layout-slot--active .qo-btn {
+  border-color: var(--qo-color-primary-500);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--qo-color-primary-500) 30%, transparent);
+  color: var(--qo-color-primary-500);
+}
+
+.layout-slot--image {
+  grid-row: span 3;
+}
+
+:host ::ng-deep .layout-slot--image .qo-btn {
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.layout-slot--title,
+.layout-slot--body {
+  grid-column: 2 / 4;
+}
+
+.layout-slot--body {
+  grid-row: 2;
+}
+
+/* ─────────────────────────────────────────────
+   Template canvas
+───────────────────────────────────────────── */
+.template-canvas {
+  width: min(100%, 46rem);
+  min-height: 100%;
+  padding: var(--qo-space-3);
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-50);
+  display: grid;
+  align-content: start;
+  gap: var(--qo-space-2); // was space-3 — slightly tighter
+}
+
+.template-slot {
+  text-align: left;
+}
+
+:host ::ng-deep .template-slot .qo-btn {
+  width: 100%;
+  min-height: var(--qo-space-8); // was space-10 — tighter
+  padding: 0 var(--qo-space-3);
+  border: 1px dashed var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  justify-content: flex-start;
+}
+
+:host ::ng-deep .template-slot--active .qo-btn {
+  border-color: var(--qo-color-primary-500);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--qo-color-primary-500) 26%, transparent);
+}
+
+:host ::ng-deep .template-slot--title .qo-btn {
+  border-style: solid;
+}
+
+:host ::ng-deep .template-slot--body .qo-btn {
+  position: relative;
+  min-height: calc(var(--qo-space-10) + var(--qo-space-2)); // was space-12 + space-2
+  padding: var(--qo-space-2);
+  display: grid;
+  align-content: start;
+  gap: var(--qo-space-1);
+  align-items: start;
+  justify-content: start;
+  color: transparent;
+
+  .material-symbols-outlined {
+    position: absolute;
+    inset-inline-end: var(--qo-space-2);
+    inset-block-start: var(--qo-space-2);
+    font-size: var(--qo-text-xs);
+    color: var(--qo-color-primary-500);
+  }
+}
+
+.template-canvas__line {
+  height: 1px;
+  background: var(--qo-color-neutral-200);
+}
+
+.template-canvas__line--xl {
+  width: 100%;
+}
+
+.template-canvas__line--md {
+  width: 52%;
+}
+
+.template-canvas__meta-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--qo-space-2); // was space-3
+}
+
+:host ::ng-deep .template-slot--meta .qo-btn {
+  min-height: var(--qo-space-8); // was space-10
+  padding: 0 var(--qo-space-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────
+   Template list canvas
+───────────────────────────────────────────── */
+.template-list-canvas {
+  width: 100%;
+  min-height: 100%;
+  padding: var(--qo-space-3);
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-50);
+  display: grid;
+  align-content: start;
+  gap: var(--qo-space-2); // was space-3
+}
+
+.template-list-row {
+  text-align: left;
+}
+
+:host ::ng-deep .template-list-row .qo-btn {
+  min-height: var(--qo-space-8); // was space-10
+  width: 100%;
+  padding: 0 var(--qo-space-3);
+  border: 1px dashed var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-900);
+  justify-content: flex-start;
+  gap: var(--qo-space-3);
+  font-size: var(--qo-text-sm);
+}
+
+:host ::ng-deep .template-list-row--active .qo-btn {
+  border-color: var(--qo-color-primary-500);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--qo-color-primary-500) 28%, transparent);
+}
+
+:host ::ng-deep .template-list-row__info {
+  margin-inline-start: auto;
+  color: var(--qo-color-primary-500);
+  font-size: var(--qo-text-xs);
+}
+
+.template-list-add {
+  margin-top: var(--qo-space-2);
+}
+
+:host ::ng-deep .template-list-add .qo-btn {
+  min-height: var(--qo-space-8); // was space-10
+  width: 100%;
+  border: 1px solid var(--qo-color-primary-500);
+  border-radius: var(--qo-radius-sm);
+  color: var(--qo-color-primary-500);
+  background: var(--qo-color-neutral-0);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+}
+
+/* ─────────────────────────────────────────────
+   Inspector panel — outer shell is flex column.
+   Tab-switch sits at the top (flex-shrink: 0),
+   the scrollable content fills the rest.
+   This guarantees a true bounded scroll area.
+───────────────────────────────────────────── */
+.layout-inspector {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  border-inline-start: 1px solid var(--qo-border-color);
+  // No overflow here — child .layout-inspector__scroll handles it
+}
+
+// Scroll region: everything below the tab-switch
+.layout-inspector__scroll {
+  flex: 1;
+  min-height: 0;                         // essential for flex children to shrink + scroll
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--qo-space-3) var(--qo-space-3) var(--qo-space-4);
+  display: grid;
+  align-content: start;
+  gap: var(--qo-space-3);
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--qo-color-neutral-300) transparent;
+}
+
+.layout-inspector--style .layout-inspector__scroll {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+
+.layout-inspector__scroll::-webkit-scrollbar {
+  width: var(--qo-space-2);
+}
+
+.layout-inspector__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.layout-inspector__scroll::-webkit-scrollbar-thumb {
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-neutral-300);
+}
+
+.layout-inspector__scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--qo-color-neutral-400);
+}
+
+// RTL trick for style tab (scrollbar on left side)
+.layout-inspector--style .layout-inspector__scroll {
+  direction: rtl;
+}
+
+.layout-inspector--style .layout-inspector__scroll > * {
+  direction: ltr;
+}
+
+/* ─────────────────────────────────────────────
+   Tab switch (Display / Style) — now a true
+   pinned header outside the scroll region,
+   no sticky hacks needed.
+───────────────────────────────────────────── */
+.tab-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--qo-space-2);
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;                        // never shrink — always fully visible
+  padding: var(--qo-space-2) var(--qo-space-3) var(--qo-space-2);
+  background: var(--qo-color-neutral-0);
+  z-index: 1;
+  border-bottom: 1px solid var(--qo-border-color);
+  // No sticky, no negative margins, no magic offsets
+}
+
+:host ::ng-deep .tab-switch .material-symbols-outlined {
+  font-size: var(--qo-text-sm);
+}
+
+:host ::ng-deep .tab-switch .qo-btn {
+  height: calc(var(--qo-space-10) + var(--qo-space-1));
+  border-radius: var(--qo-radius-xl);
+  border: 1px solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-base);
+  font-weight: var(--qo-font-semibold);
+}
+
+:host ::ng-deep .tab-switch__item--active .qo-btn {
+  border-color: var(--qo-color-primary-500) !important;
+  color: var(--qo-color-primary-500) !important;
+  box-shadow: var(--qo-shadow-focus-ring);
+}
+
+.tab-switch--template {
+  gap: 0;
+  border-bottom: 1px solid var(--qo-border-color);
+}
+
+:host ::ng-deep .tab-switch--template .qo-btn {
+  border: 0;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  justify-content: center;
+  gap: var(--qo-space-1);
+}
+
+:host ::ng-deep .tab-switch--template .tab-switch__item--active .qo-btn {
+  border-color: transparent transparent var(--qo-color-primary-500) transparent !important;
+  color: var(--qo-color-primary-500) !important;
+  box-shadow: none;
+}
+
+/* ─────────────────────────────────────────────
+   Field group in inspector
+───────────────────────────────────────────── */
+.field {
+  display: grid;
+  gap: var(--qo-space-2);            // was space-3 — tighter label-to-input gap
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+
+  span {
+    color: var(--qo-color-neutral-700);
+    font-size: var(--qo-text-base);
+    font-weight: var(--qo-font-semibold);
+  }
+}
+
+:host ::ng-deep .field qo-select .qo-select-trigger,
+:host ::ng-deep .field qo-input .qo-input-element {
+  height: calc(var(--qo-space-10) + var(--qo-space-1));
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  font-size: var(--qo-text-base);
+  color: var(--qo-color-neutral-800);
+  background: var(--qo-color-neutral-0);
+  max-width: 100%;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+:host ::ng-deep .field qo-select .qo-select-trigger {
+  padding: 0 var(--qo-space-3);
+}
+
+:host ::ng-deep .field qo-color-picker {
+  display: block;
+}
+
+/* ─────────────────────────────────────────────
+   Style card — FIX: must be strictly contained
+───────────────────────────────────────────── */
+.style-card {
+  padding: var(--qo-space-3);
+  display: grid;
+  gap: var(--qo-space-2);
+  border: 1px solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+  min-width: 0;
+  box-sizing: border-box;
+  width: 100%;                           // FIX: explicit full width
+  overflow: visible;
+
+  h4 {
+    margin: 0;
+    color: var(--qo-color-neutral-900);
+    font-size: var(--qo-text-base);
+    font-weight: var(--qo-font-semibold);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Padding grid — FIX: inputs must not escape card border
+───────────────────────────────────────────── */
+.padding-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--qo-space-2);
+  row-gap: var(--qo-space-3);
+  min-width: 0;
+  box-sizing: border-box;
+  width: 100%;                           // FIX: must be 100% of the style-card
+
+  label {
+    display: grid;
+    gap: var(--qo-space-1);
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+
+  small {
+    color: var(--qo-color-neutral-500);
+    font-size: var(--qo-text-xs);
+    font-weight: var(--qo-font-medium);
+  }
+}
+
+:host ::ng-deep .padding-grid qo-input .qo-input-element {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  // FIX: ensure shadow DOM element also can't overflow its cell
+  display: block;
+}
+
+/* ─────────────────────────────────────────────
+   Footer
+───────────────────────────────────────────── */
+.layout-modal__footer {
+  min-height: calc(var(--qo-space-16) + var(--qo-space-2));
+  padding: 0 var(--qo-space-5);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--qo-space-3);
+  border-block-start: 1px solid var(--qo-border-color);
+  flex-shrink: 0; // prevent footer from being squashed
+}
+
+.btn-primary,
+.btn-secondary {
+  height: var(--qo-space-10);
+  padding: 0 var(--qo-space-4);
+  border-radius: var(--qo-radius-lg);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  border: 1px solid var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-900);
+}
+
+.btn-primary {
+  border: 1px solid var(--qo-color-neutral-900);
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* ─────────────────────────────────────────────
+   Responsive
+───────────────────────────────────────────── */
+@media (max-width: calc(var(--qo-space-64) + var(--qo-space-64) + var(--qo-space-2))) {
+  .layout-modal__body {
+    grid-template-columns: 1fr;
+  }
+
+  .layout-inspector {
+    border-left: 0;
+    border-block-start: 1px solid var(--qo-border-color);
+  }
+}

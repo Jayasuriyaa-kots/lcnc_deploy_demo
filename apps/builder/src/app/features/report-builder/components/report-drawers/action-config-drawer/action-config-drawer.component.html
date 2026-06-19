@@ -1,0 +1,53 @@
+<aside class="card-editor">
+  <header class="card-editor__header">
+    <h2>{{ t('generated.add_new_action_item') }}</h2>
+    <qo-button class="drawer__close" type="button" variant="ghost" size="sm" [iconOnly]="true" [attr.aria-label]="t('generated.close_drawer')" (click)="closeAll.emit()">
+      <qo-icon name="x" size="sm" />
+    </qo-button>
+  </header>
+
+  <div class="side-drawer__body side-drawer__body--padded action-config-body">
+    <label class="field action-config-row">
+      <span>{{ t('generated.name_your_action_item') }}</span>
+      <qo-input [placeholder]="t('generated.examples_notify_lead_change_status')"></qo-input>
+    </label>
+
+    <div class="field action-config-row">
+      <span>{{ t('generated.enable_the_action_item') }}</span>
+      <div class="action-options">
+        <qo-button type="button" variant="secondary" size="sm" class="action-option action-option--active">
+          {{ t('generated.always') }}
+        </qo-button>
+        <qo-button type="button" variant="secondary" size="sm" class="action-option">
+          {{ t('generated.on_condition') }}
+        </qo-button>
+      </div>
+    </div>
+
+    <div class="field action-config-row">
+      <span>{{ t('generated.execute_the_workflow') }}</span>
+      <div class="action-options">
+        <qo-button type="button" variant="secondary" size="sm" class="action-option action-option--active">
+          {{ t('generated.at_once') }}
+        </qo-button>
+        <qo-button type="button" variant="secondary" size="sm" class="action-option">
+          {{ t('generated.after_confirmation') }}
+        </qo-button>
+      </div>
+    </div>
+
+    <label class="field action-config-row">
+      <span>{{ t('generated.name_the_workflow') }}</span>
+      <qo-input [placeholder]="t('generated.examples_notify_lead_change_status')"></qo-input>
+    </label>
+
+    <div class="panel-actions">
+      <qo-button variant="secondary" type="button">{{ t('generated.create_workflow') }}</qo-button>
+    </div>
+  </div>
+
+  <footer class="side-drawer__footer">
+    <qo-button variant="primary" type="button">{{ t('generated.create') }}</qo-button>
+    <qo-button variant="secondary" type="button" (click)="closeAll.emit()">{{ common('cancel') }}</qo-button>
+  </footer>
+</aside>

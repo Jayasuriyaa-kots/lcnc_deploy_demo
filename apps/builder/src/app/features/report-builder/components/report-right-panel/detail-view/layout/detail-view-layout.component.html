@@ -1,0 +1,66 @@
+<section class="config-block">
+  <h3>{{ t('common.detailView') }}</h3>
+  <p>{{ t('generated.choose_a_layout_type_then_configure_in_the') }}</p>
+  <div class="layout-grid layout-grid--stack">
+    <qo-button class="layout-card layout-card--has-thumb layout-card--stack" variant="ghost" [fullWidth]="true" [class.layout-card--active]="detailLayout() === 'all-fields'" (click)="choose('all-fields')">
+      <!-- Two-column field list thumbnail matching Image 2 -->
+      <div class="layout-thumb layout-thumb--detail-fields" aria-hidden="true">
+        <div class="detail-thumb__col">
+          <span class="detail-thumb__line detail-thumb__line--lg"></span>
+          <span class="detail-thumb__line detail-thumb__line--md"></span>
+          <span class="detail-thumb__line detail-thumb__line--lg"></span>
+          <span class="detail-thumb__line detail-thumb__line--sm"></span>
+        </div>
+        <div class="detail-thumb__col">
+          <span class="detail-thumb__line detail-thumb__line--xl"></span>
+          <span class="detail-thumb__line detail-thumb__line--lg"></span>
+          <span class="detail-thumb__line detail-thumb__line--xl"></span>
+          <span class="detail-thumb__line detail-thumb__line--md"></span>
+        </div>
+      </div>
+      <strong>{{ t('generated.all_fields') }}</strong>
+      <span>{{ t('generated.flat_field_list_with_ordering_and_add_fields') }}</span>
+    </qo-button>
+  </div>
+</section>
+
+<section class="config-block">
+  <h3>{{ t('generated.custom_view') }}</h3>
+  <qo-button
+    class="layout-card layout-card--create-new"
+    variant="ghost"
+    [fullWidth]="true"
+    (click)="openCreateNewLayout.emit()">
+    <span class="layout-card__plus" aria-hidden="true">+</span>
+    <strong class="pl">{{ t('generated.create_new_layout') }}</strong>
+  </qo-button>
+
+  @if (savedCustomLayouts().length > 0) {
+    <div class="saved-layout-list">
+      @for (layout of savedCustomLayouts(); track layout.id) {
+        <article
+          class="saved-layout-card"
+          [class.saved-layout-card--active]="layout.active"
+          (click)="activateSavedLayout.emit(layout.id)">
+          <div class="saved-layout-card__title-row">
+            <strong>{{ layout.name }}</strong>
+            @if (layout.active) {
+              <span class="saved-layout-card__badge">{{ t('generated.active') }}</span>
+            }
+          </div>
+          <p>{{ t('generated.detail_custom_layout') }}</p>
+          <div class="saved-layout-card__actions" (click)="$event.stopPropagation()">
+            @if (layout.active) {
+              <qo-button variant="secondary" size="sm" (click)="deactivateSavedLayout.emit(layout.id)">{{ t('generated.deactivate') }}</qo-button>
+            } @else {
+              <qo-button variant="primary" size="sm" (click)="activateSavedLayout.emit(layout.id)">{{ t('generated.activate') }}</qo-button>
+            }
+            <qo-button variant="secondary" size="sm" (click)="duplicateSavedLayout.emit(layout.id)">{{ common('duplicate') }}</qo-button>
+            <qo-button variant="secondary" size="sm" (click)="editSavedLayout.emit(layout.id)">{{ common('edit') }}</qo-button>
+            <qo-button variant="danger" size="sm" (click)="deleteSavedLayout.emit(layout.id)">{{ common('delete') }}</qo-button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

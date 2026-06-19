@@ -1,0 +1,114 @@
+:host {
+  display: block;
+}
+
+qo-table.users-table-wrapper {
+  --qo-table-border-color: var(--qo-deployer-line);
+  --qo-table-border-radius: var(--qo-radius-lg);
+  --qo-table-bg: var(--qo-deployer-card-background);
+  --qo-table-heading-bg: var(--qo-deployer-surface);
+  --qo-table-heading-color: var(--qo-deployer-text-muted);
+  --qo-table-heading-padding: var(--qo-deployer-table-cell-padding);
+  --qo-table-heading-letter-spacing: 0.14em;
+  --qo-table-row-bg: var(--qo-deployer-card-background);
+  --qo-table-row-hover-bg: var(--qo-deployer-brand-soft);
+  --qo-table-row-border-color: var(--qo-deployer-line);
+  --qo-table-cell-color: var(--qo-deployer-text);
+  --qo-table-cell-padding: var(--qo-deployer-table-cell-padding);
+  --qo-table-empty-padding: var(--qo-space-8);
+  --qo-table-min-width: var(--qo-size-1040);
+}
+
+.user-identity {
+  display: grid;
+  grid-template-columns: var(--qo-size-36) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--qo-space-3);
+}
+
+.user-identity__copy,
+.user-contact,
+.user-login {
+  display: grid;
+  gap: var(--qo-space-1);
+  min-width: 0;
+}
+
+.user-identity strong,
+.user-contact strong,
+.user-login strong {
+  overflow: hidden;
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-text-sm);
+  font-weight: 800;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-identity span {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.user-contact span,
+.user-login span {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-xs);
+}
+
+qo-badge.user-status-badge {
+  --qo-badge-gap: 0;
+  --qo-badge-padding-md: 0;
+  --qo-badge-bg: transparent;
+  --qo-badge-color: var(--qo-color-success-500);
+  --qo-badge-dot-color: currentColor;
+  --qo-badge-font-size-md: var(--qo-text-xs);
+  --qo-badge-dot-size: var(--qo-size-5);
+  --qo-badge-dot-margin: var(--qo-space-1);
+}
+
+qo-badge.user-status-badge.user-status-badge--inactive {
+  --qo-badge-color: color-mix(in srgb, var(--qo-color-neutral-400) 86%, transparent);
+}
+
+.user-session {
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-text-base);
+  font-weight: 800;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+  flex-wrap: wrap;
+}
+
+qo-button.users-row-button {
+  --qo-button-min-height: var(--qo-size-24);
+  --qo-button-padding: 0;
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: var(--qo-deployer-text-muted);
+  --qo-button-hover-bg: transparent;
+  --qo-button-hover-color: var(--qo-deployer-text);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 900;
+  --qo-button-letter-spacing: 0.1em;
+  --qo-button-text-transform: uppercase;
+}
+
+qo-button.users-row-button.users-row-button--danger {
+  --qo-button-color: var(--qo-deployer-text-muted);
+  --qo-button-hover-color: var(--qo-color-danger-500);
+}
+
+qo-button.users-row-button.users-row-button--success {
+  --qo-button-color: color-mix(in srgb, var(--qo-color-success-500) 84%, var(--qo-color-neutral-100));
+  --qo-button-hover-color: var(--qo-color-success-500);
+}
+

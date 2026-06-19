@@ -1,0 +1,13 @@
+<header class="workflow-page-header">
+  <div class="workflow-page-header__content">
+    <p class="workflow-page-header__breadcrumb">{{ breadcrumb() }}</p>
+    <h1 class="workflow-page-header__title">{{ title() }}</h1>
+    @if (subtitle()) {
+      <p class="workflow-page-header__subtitle">{{ subtitle() }}</p>
+    }
+  </div>
+
+  <div class="workflow-page-header__actions">
+    <ng-content></ng-content>
+  </div>
+</header>

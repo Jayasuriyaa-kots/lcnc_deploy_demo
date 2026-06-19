@@ -1,0 +1,210 @@
+    @if (selectedField.type === 'Decision Box') {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.decisionBox') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          <label class="inspector__input"><span>{{ t('inspector.positiveLabel') }}</span><qo-input [value]="selectedField.properties.decisionTrueLabel" (valueChange)="ctx.updateProperty(selectedField, 'decisionTrueLabel', ctx.asString($event))"></qo-input></label>
+          <label class="inspector__input"><span>{{ t('inspector.negativeLabel') }}</span><qo-input [value]="selectedField.properties.decisionFalseLabel" (valueChange)="ctx.updateProperty(selectedField, 'decisionFalseLabel', ctx.asString($event))"></qo-input></label>
+          <label class="inspector__input inspector__input--full">
+            <span>{{ t('inspector.initialValue') }}</span>
+            <qo-select
+              [value]="ctx.getBooleanString(ctx.getDecisionInitialValue(selectedField))"
+              [options]="ctx.decisionInitialOptions"
+              [placeholder]="t('inspector.selectInitialValue')"
+              (valueChange)="ctx.updateProperty(selectedField, 'decisionBoxInitialValue', ctx.parseBooleanString(ctx.asString($event)))">
+            </qo-select>
+          </label>
+        </div>
+      </div>
+    }
+
+    @if (selectedField.type === 'Phone') {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.phoneRules') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          <label class="inspector__input">
+            <span>{{ t('inspector.defaultCountryCode') }}</span>
+            <qo-select
+              [value]="selectedField.properties.defaultCountryCode || selectedField.properties.phoneCountryCode"
+              [options]="ctx.getSelectOptions(ctx.countryCodes)"
+              [placeholder]="t('inspector.selectCountryCode')"
+              (valueChange)="ctx.updateProperty(selectedField, 'defaultCountryCode', ctx.asString($event))">
+            </qo-select>
+          </label>
+          <label class="inspector__input"><span>{{ t('inspector.initialValue') }}</span><qo-input [value]="ctx.getInitialValue(selectedField)" (valueChange)="ctx.updateProperty(selectedField, 'initialValue', ctx.asString($event))"></qo-input></label>
+          <label class="inspector__input inspector__input--full"><span>{{ t('inspector.countryCodeOptions') }}</span><qo-input [value]="selectedField.properties.countryCodeOptions" [placeholder]="t('inspector.countryCodeOptionsPlaceholder')" (valueChange)="ctx.updateProperty(selectedField, 'countryCodeOptions', ctx.asString($event))"></qo-input></label>
+        </div>
+      </div>
+    }
+
+    @if (ctx.isDateField(selectedField)) {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.dateTime') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          <label class="inspector__input">
+            <span>{{ t('inspector.format') }}</span>
+            <qo-select
+              [value]="selectedField.properties.displayFormat || selectedField.properties.format"
+              [options]="ctx.getSelectOptions(ctx.getFormatOptions(selectedField))"
+              [placeholder]="t('inspector.selectFormat')"
+              (valueChange)="ctx.updateProperty(selectedField, 'displayFormat', ctx.asString($event))">
+            </qo-select>
+          </label>
+          <label class="inspector__input">
+            <span>{{ t('inspector.initialValue') }}</span>
+            <qo-select
+              [value]="ctx.getInitialValueMode(selectedField)"
+              [options]="ctx.getDateInitialModeOptions(selectedField)"
+              [placeholder]="t('inspector.selectInitialValue')"
+              (valueChange)="ctx.setInitialValueMode(selectedField, ctx.asString($event))">
+            </qo-select>
+          </label>
+        </div>
+        @if (ctx.getInitialValueMode(selectedField) === 'specific') {
+          <label class="inspector__input inspector__input--full">
+            <span>{{ ctx.getSpecificInitialLabel(selectedField) }}</span>
+            <qo-input
+              [type]="ctx.getInitialValueInputType(selectedField)"
+              [value]="ctx.getSpecificInitialValue(selectedField)"
+              (valueChange)="ctx.updateProperty(selectedField, 'defaultValue', ctx.asString($event))"></qo-input>
+          </label>
+        }
+        @if (selectedField.type === 'Time' || selectedField.type === 'Date-Time') {
+          <div class="inspector__toggles">
+            <div class="inspector__toggle"><qo-checkbox [checked]="selectedField.type === 'Date-Time' ? (selectedField.properties.dateTimeShowSeconds ?? selectedField.properties.timeShowSeconds) : selectedField.properties.timeShowSeconds" [label]="t('inspector.showSeconds')" (checkedChange)="ctx.updateProperty(selectedField, selectedField.type === 'Date-Time' ? 'dateTimeShowSeconds' : 'timeShowSeconds', $event)"></qo-checkbox></div>
+          </div>
+          <div class="inspector__grid inspector__grid--two">
+            <label class="inspector__input"><span>{{ t('inspector.allowedFrom') }}</span><qo-input [value]="selectedField.type === 'Date-Time' ? (selectedField.properties.dateTimeAllowedHoursFrom || '') : selectedField.properties.allowedHoursFrom" [placeholder]="t('inspector.allowedFromPlaceholder')" (valueChange)="ctx.updateProperty(selectedField, selectedField.type === 'Date-Time' ? 'dateTimeAllowedHoursFrom' : 'allowedHoursFrom', ctx.asString($event))"></qo-input></label>
+            <label class="inspector__input"><span>{{ t('inspector.allowedTo') }}</span><qo-input [value]="selectedField.type === 'Date-Time' ? (selectedField.properties.dateTimeAllowedHoursTo || '') : selectedField.properties.allowedHoursTo" [placeholder]="t('inspector.allowedToPlaceholder')" (valueChange)="ctx.updateProperty(selectedField, selectedField.type === 'Date-Time' ? 'dateTimeAllowedHoursTo' : 'allowedHoursTo', ctx.asString($event))"></qo-input></label>
+          </div>
+          @if (selectedField.type === 'Date-Time') {
+            <label class="inspector__input inspector__input--full"><span>{{ t('inspector.minutesInterval') }}</span><qo-input [value]="selectedField.properties.dateTimeMinutesInterval || t('inspector.default')" (valueChange)="ctx.updateProperty(selectedField, 'dateTimeMinutesInterval', ctx.asString($event))"></qo-input></label>
+          }
+        }
+        @if (ctx.isDashboardDateField(selectedField) || selectedField.type === 'Date-Time') {
+          <div class="inspector__option-set">
+            <div class="inspector__option-label">{{ t('inspector.allowedDays') }}</div>
+            <div class="inspector__days">
+              @for (day of ctx.weekdayOptions; track day.value) {
+                <div class="inspector__day">
+                  <qo-checkbox [checked]="(selectedField.type === 'Date-Time' ? (selectedField.properties.dateTimeAllowedDays ?? []) : selectedField.properties.allowedDays).includes(day.value)" [label]="day.label" (checkedChange)="ctx.toggleAllowedDay(selectedField, day.value, $event)"></qo-checkbox>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    @if (ctx.hasEditorSettings(selectedField)) {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.editorSettings') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          <label class="inspector__input"><span>{{ t('inspector.editorHeight') }}</span><qo-input type="number" [value]="selectedField.type === 'Rich Text' ? (selectedField.properties.richTextHeightPx ?? selectedField.properties.heightPx) : selectedField.properties.heightPx" (valueChange)="ctx.updateProperty(selectedField, selectedField.type === 'Rich Text' ? 'richTextHeightPx' : 'heightPx', ctx.asNumber($event))"></qo-input></label>
+          <label class="inspector__input">
+            <span>{{ t('inspector.displayFormat') }}</span>
+            <qo-select
+              [value]="selectedField.properties.displayFormat"
+              [options]="ctx.getSelectOptions(ctx.editorDisplayOptions)"
+              [placeholder]="t('inspector.selectDisplayFormat')"
+              (valueChange)="ctx.updateProperty(selectedField, 'displayFormat', ctx.asString($event))">
+            </qo-select>
+          </label>
+        </div>
+        @if (selectedField.type === 'Rich Text') {
+          <div class="inspector__section-title">{{ t('inspector.toolbarOptions') }}</div>
+          <div class="inspector__grid inspector__grid--two">
+            @for (opt of ctx.toolbarOptionKeys; track opt) {
+              <div class="inspector__toggle inspector__toggle--inline">
+                <qo-checkbox [checked]="ctx.getToolbarFlag(selectedField, opt)" [label]="opt" (checkedChange)="ctx.updateToolbarFlag(selectedField, opt, $event)"></qo-checkbox>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (ctx.hasUploadSettings(selectedField)) {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.uploadSettings') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          @if (selectedField.type === 'Image') {
+            <label class="inspector__input inspector__input--full">
+              <span>{{ t('inspector.imageSource') }}</span>
+              <qo-select
+                [value]="selectedField.properties.mediaSource"
+                [options]="ctx.imageSourceOptions"
+                [placeholder]="t('inspector.selectImageSource')"
+                (valueChange)="ctx.updateProperty(selectedField, 'mediaSource', ctx.asString($event))">
+              </qo-select>
+            </label>
+            <label class="inspector__input inspector__input--full">
+              <span>{{ t('inspector.imageUploadType') }}</span>
+              <qo-select
+                [value]="ctx.getImageUploadType(selectedField)"
+                [options]="ctx.imageUploadTypeOptions"
+                [placeholder]="t('inspector.selectImageUploadType')"
+                (valueChange)="ctx.updateProperty(selectedField, 'imageUploadType', ctx.asString($event))">
+              </qo-select>
+            </label>
+            @if (ctx.getImageUploadType(selectedField) === ctx.multipleImagesUploadLabel) {
+              <label class="inspector__input"><span>{{ t('inspector.maxImageCount') }}</span><qo-input type="number" [value]="selectedField.properties.maxFileCount" (valueChange)="ctx.updateProperty(selectedField, 'maxFileCount', ctx.asNumber($event))"></qo-input></label>
+            }
+          } @else {
+            <label class="inspector__input"><span>{{ t('inspector.acceptedTypes') }}</span><qo-input [value]="selectedField.properties.fileUploadTypes || selectedField.properties.acceptedFileTypes" (valueChange)="ctx.updateProperty(selectedField, 'fileUploadTypes', ctx.asString($event))"></qo-input></label>
+            <label class="inspector__input"><span>{{ t('inspector.maxSizeMb') }}</span><qo-input [value]="selectedField.properties.maxFileSizeMb" (valueChange)="ctx.updateProperty(selectedField, 'maxFileSizeMb', ctx.asString($event))"></qo-input></label>
+            @if (selectedField.type === 'File Upload') {
+              <label class="inspector__input inspector__input--full">
+                <span>{{ t('inspector.fileUploadType') }}</span>
+                <qo-select
+                  [value]="ctx.getFileUploadType(selectedField)"
+                  [options]="ctx.fileUploadTypeOptions"
+                  [placeholder]="t('inspector.selectFileUploadType')"
+                  (valueChange)="ctx.updateProperty(selectedField, 'fileUploadType', ctx.asString($event))">
+                </qo-select>
+              </label>
+              @if (ctx.getFileUploadType(selectedField) === ctx.multipleFilesUploadLabel) {
+                <label class="inspector__input"><span>{{ t('inspector.maxFileCount') }}</span><qo-input type="number" [value]="selectedField.properties.maxFileCount" (valueChange)="ctx.updateProperty(selectedField, 'maxFileCount', ctx.asNumber($event))"></qo-input></label>
+              }
+            }
+          }
+          @if (selectedField.type === 'Video') {
+            <label class="inspector__input"><span>{{ t('inspector.maxDurationMins') }}</span><qo-input type="number" [value]="ctx.getDurationPart(selectedField, 'mins')" (valueChange)="ctx.updateDurationPart(selectedField, 'mins', ctx.asNumber($event))"></qo-input></label>
+            <label class="inspector__input"><span>{{ t('inspector.maxDurationSecs') }}</span><qo-input type="number" [value]="ctx.getDurationPart(selectedField, 'secs')" (valueChange)="ctx.updateDurationPart(selectedField, 'secs', ctx.asNumber($event))"></qo-input></label>
+          }
+          @if (selectedField.type === 'Audio') {
+            <label class="inspector__input"><span>{{ t('inspector.maxDurationMins') }}</span><qo-input type="number" [value]="ctx.getDurationPart(selectedField, 'mins')" (valueChange)="ctx.updateDurationPart(selectedField, 'mins', ctx.asNumber($event))"></qo-input></label>
+            <label class="inspector__input"><span>{{ t('inspector.maxDurationSecs') }}</span><qo-input type="number" [value]="ctx.getDurationPart(selectedField, 'secs')" (valueChange)="ctx.updateDurationPart(selectedField, 'secs', ctx.asNumber($event))"></qo-input></label>
+          }
+        </div>
+      </div>
+    }
+
+    @if (selectedField.type === 'Url') {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.urlOptions') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          <label class="inspector__input">
+            <span>{{ t('inspector.target') }}</span>
+            <qo-select
+              [value]="selectedField.properties.urlTarget || t('inspector.newWindow')"
+              [options]="ctx.urlTargetOptions"
+              [placeholder]="t('inspector.selectTarget')"
+              (valueChange)="ctx.updateProperty(selectedField, 'urlTarget', ctx.asString($event))">
+            </qo-select>
+          </label>
+          <div class="inspector__toggle inspector__toggle--inline"><qo-checkbox [checked]="!!selectedField.properties.urlOptionLinkName" [label]="t('inspector.linkName')" (checkedChange)="ctx.updateProperty(selectedField, 'urlOptionLinkName', $event)"></qo-checkbox></div>
+          <div class="inspector__toggle inspector__toggle--inline"><qo-checkbox [checked]="!!selectedField.properties.urlOptionTitle" [label]="t('inspector.title')" (checkedChange)="ctx.updateProperty(selectedField, 'urlOptionTitle', $event)"></qo-checkbox></div>
+        </div>
+      </div>
+    }
+
+    @if (ctx.hasMobileInputSettings(selectedField)) {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.mobileInput') }}</div>
+        <div class="inspector__toggles inspector__toggles--stack">
+          <div class="inspector__toggle"><qo-checkbox [checked]="selectedField.properties.userInputQrCode" [label]="t('inspector.allowQrCodeInput')" (checkedChange)="ctx.updateProperty(selectedField, 'userInputQrCode', $event)"></qo-checkbox></div>
+          <div class="inspector__toggle"><qo-checkbox [checked]="selectedField.properties.userInputBarcode" [label]="t('inspector.allowBarcodeInput')" (checkedChange)="ctx.updateProperty(selectedField, 'userInputBarcode', $event)"></qo-checkbox></div>
+        </div>
+      </div>
+    }
+

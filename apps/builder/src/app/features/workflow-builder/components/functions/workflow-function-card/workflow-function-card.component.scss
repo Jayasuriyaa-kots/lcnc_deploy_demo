@@ -1,0 +1,80 @@
+:host {
+  display: block;
+}
+
+.workflow-function-card {
+  display: grid;
+  gap: var(--qo-space-4);
+  padding: var(--qo-space-5);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+}
+
+.workflow-function-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+  min-width: 0;
+}
+
+.workflow-function-card__header h3,
+.workflow-function-card__header p {
+  margin: 0;
+}
+
+.workflow-function-card__header h3 {
+  overflow-wrap: anywhere;
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-base);
+  font-weight: var(--qo-font-bold);
+}
+
+.workflow-function-card__header p {
+  margin-top: var(--qo-space-1);
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-xs);
+  line-height: var(--qo-leading-normal);
+}
+
+.workflow-function-card__header span {
+  align-self: flex-start;
+  padding: var(--qo-space-1) var(--qo-space-2);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-full);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.workflow-function-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--qo-space-3);
+  flex-wrap: wrap;
+}
+
+:host .workflow-function-card__actions qo-button {
+  --qo-button-height: var(--qo-size-32);
+  --qo-button-padding: 0 var(--qo-space-3);
+  --qo-button-radius: var(--qo-radius-xs);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: uppercase;
+}
+
+@media (max-width: 40rem) {
+  .workflow-function-card {
+    padding: var(--qo-space-4);
+  }
+
+  .workflow-function-card__header {
+    flex-direction: column;
+  }
+
+  .workflow-function-card__actions {
+    justify-content: flex-start;
+  }
+}

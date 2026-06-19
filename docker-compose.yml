@@ -1,0 +1,56 @@
+version: '3.9'
+services:
+  deployer-api:
+    build:
+      context: .
+      dockerfile: apps/deployer-api/Dockerfile
+    ports: ["8000:8000"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}}
+      JWT_SECRET: ${JWT_SECRET}
+
+  builder-api:
+    build:
+      context: .
+      dockerfile: apps/builder-api/Dockerfile
+    ports: ["8001:8001"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}}
+      JWT_SECRET: ${JWT_SECRET}
+
+  client-api:
+    build:
+      context: .
+      dockerfile: apps/client-api/Dockerfile
+    ports: ["8002:8002"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}}
+      JWT_SECRET: ${JWT_SECRET}
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: services/auth-service/Dockerfile
+    ports: ["8003:8003"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}}
+      JWT_SECRET: ${JWT_SECRET}
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}}
+      AWS_DEFAULT_REGION: us-east-1
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-quantaops}
+      POSTGRES_USER: ${POSTGRES_USER:-quantaops}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+
+volumes:
+  pgdata:

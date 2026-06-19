@@ -1,0 +1,46 @@
+<qo-deployer-topbar
+  [tabs]="topTabs()"
+  [unreadCount]="unreadCount()"
+  [profileMenuOpen]="profileMenuOpen()"
+  [theme]="theme()"
+  (toggleNotifications)="notificationsOpen.set(!notificationsOpen())"
+  (profileMenuToggleRequested)="toggleProfileMenu()"
+  (profileMenuCloseRequested)="closeProfileMenu()"
+  (themeSelected)="setTheme($event)"
+/>
+
+@if (notificationsOpen()) {
+  <app-notifications-panel-host />
+}
+
+<div class="shell">
+  <qo-deployer-organisation-sidebar
+    [organisations]="filteredOrganisations()"
+    [activeId]="activeOrganisationId() ?? ''"
+    [search]="organisationSearch()"
+    (searchChange)="organisationSearch.set($event)"
+    (organisationSelect)="selectOrganisation($event)"
+    (addOrganisation)="openAddOrganisationModal()"
+  />
+
+  <main class="workspace">
+    <div class="workspace-inner">
+      <div class="workspace-header">
+        <qo-breadcrumb [items]="breadcrumbItems()" />
+      </div>
+
+      <div class="workspace-content">
+        <router-outlet />
+      </div>
+    </div>
+  </main>
+</div>
+
+@if (addingOrganisation()) {
+  <app-add-organisation-modal
+    [form]="organisationForm"
+    [entityTypes]="organisationEntityTypes"
+    (close)="closeAddOrganisationModal()"
+    (submitOrganisation)="submitOrganisationForm()"
+  />
+}

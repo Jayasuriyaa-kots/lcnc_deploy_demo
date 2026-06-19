@@ -1,0 +1,44 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<section class="workflow-event-table">
+  @if (!events().length) {
+    <qo-empty-state
+      icon="bolt"
+      [title]="t('emptyStates.events.title')"
+      [description]="t('emptyStates.events.description')"
+    />
+  } @else {
+    <qo-table [data]="eventRows()">
+      <ng-template qoTableColumn="event" [header]="t('tables.event')" let-row>
+        @let event = eventRow(row);
+        <div class="workflow-event-table__event">
+          <strong>{{ event.event }}</strong>
+          <span>{{ event.id }}</span>
+        </div>
+      </ng-template>
+
+      <ng-template qoTableColumn="trigger" [header]="t('tables.trigger')" let-row>
+        <app-workflow-event-trigger-badge [trigger]="eventRow(row).trigger" />
+      </ng-template>
+
+      <ng-template qoTableColumn="source" [header]="t('tables.source')" let-row>
+        <span class="workflow-event-table__muted">{{ eventRow(row).source }}</span>
+      </ng-template>
+
+      <ng-template qoTableColumn="lastRun" [header]="t('tables.lastRun')" let-row>
+        {{ eventRow(row).lastRun }}
+      </ng-template>
+
+      <ng-template qoTableColumn="status" [header]="t('tables.status')" let-row>
+        <qo-workflow-status-badge [status]="eventRow(row).status" />
+      </ng-template>
+
+      <ng-template qoTableColumn="actions" [header]="t('tables.actions')" let-row>
+        <div class="workflow-event-table__actions">
+          <qo-button variant="ghost" size="sm" type="button" (click)="edit.emit(eventRow(row).id)">{{ 'actions.edit' | transloco }}</qo-button>
+          <qo-button variant="ghost" size="sm" type="button" (click)="delete.emit(eventRow(row).id)">{{ 'actions.delete' | transloco }}</qo-button>
+        </div>
+      </ng-template>
+    </qo-table>
+  }
+</section>
+</ng-container>

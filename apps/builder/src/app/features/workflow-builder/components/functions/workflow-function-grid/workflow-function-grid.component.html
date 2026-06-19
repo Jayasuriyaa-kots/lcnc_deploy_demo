@@ -1,0 +1,21 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+@if (!functions().length) {
+  <qo-empty-state
+    icon="code"
+    [title]="t('emptyStates.functions.title')"
+    [description]="t('emptyStates.functions.description')"
+  />
+} @else {
+  <section class="workflow-function-grid">
+    @for (item of functions(); track item.id) {
+      <app-workflow-function-card
+        [item]="item"
+        (edit)="edit.emit($event)"
+        (testRun)="testRun.emit($event)"
+        (duplicate)="duplicate.emit($event)"
+        (delete)="delete.emit($event)"
+      />
+    }
+  </section>
+}
+</ng-container>

@@ -1,0 +1,96 @@
+@let f = field();
+@if (ctx.isMultiSelectField(f)) {
+  <div class="preview-multiselect">
+    <div
+      role="button"
+      tabindex="0"
+      class="preview-field__control preview-multiselect__box"
+      data-preview-focus="true"
+      (click)="ctx.toggleChoiceDropdown(f.id)"
+      (keydown.space)="ctx.toggleChoiceDropdown(f.id); $event.preventDefault()"
+      (keydown.enter)="ctx.toggleChoiceDropdown(f.id); $event.preventDefault()"
+      (focus)="ctx.onFieldFocus(f.id)"
+      (blur)="ctx.onFieldBlur(f.id)">
+      @if (ctx.getVisibleSelectedChoices(f).length) {
+        <span class="preview-multiselect__chips">
+          @for (selected of ctx.getVisibleSelectedChoices(f); track selected) {
+            <span class="preview-multiselect__chip">
+              {{ selected }}
+              <span
+                role="button"
+                tabindex="0"
+                [attr.aria-label]="t('preview.removeOption')"
+                (click)="$event.stopPropagation(); ctx.removeMultiSelectChoice(f, selected)"
+                (keydown.enter)="$event.stopPropagation(); ctx.removeMultiSelectChoice(f, selected)">{{ t('preview.removeOptionGlyph') }}</span>
+            </span>
+          }
+        </span>
+      } @else {
+        <span class="preview-select__placeholder">{{ ctx.getPlaceholder(f) || t('preview.selectPlaceholder') }}</span>
+      }
+      <qo-icon name="chevron-down" size="sm"></qo-icon>
+    </div>
+    @if (ctx.isChoiceDropdownOpen(f.id)) {
+      <div class="preview-select__menu">
+        @for (opt of ctx.getUnselectedChoices(f); track opt) {
+          <div
+            role="button"
+            tabindex="0"
+            class="preview-select__option"
+            (click)="ctx.toggleMultiSelectChoice(f, opt)"
+            (keydown.enter)="ctx.toggleMultiSelectChoice(f, opt)"
+            (keydown.space)="ctx.toggleMultiSelectChoice(f, opt); $event.preventDefault()">
+            {{ opt }}
+          </div>
+        }
+        @if (!ctx.getUnselectedChoices(f).length) {
+          <div class="preview-select__empty">{{ t('preview.allOptionsSelected') }}</div>
+        }
+      </div>
+    }
+  </div>
+  @if (ctx.isOtherChoiceSelected(f)) {
+    <qo-input class="preview-qo-input preview-choice-other" type="text" [value]="ctx.getOtherChoiceValue(f)" [placeholder]="t('preview.enterOtherOption')" (valueChange)="ctx.setOtherChoiceValue(f, $event)"></qo-input>
+  }
+} @else if (ctx.isDropdownLike(f) || f.properties.lookup || (f.label || '').trim().toLowerCase() === 'dropdown') {
+  <div class="preview-select">
+    <qo-select
+      class="preview-qo-select"
+      [value]="ctx.isOtherChoiceSelected(f) ? t('preview.other') : ctx.getChoiceDisplayValue(f)"
+      [options]="ctx.getFieldSelectOptions(f)"
+      [placeholder]="ctx.getPlaceholder(f) || t('preview.selectOption')"
+      (valueChange)="ctx.selectDropdownChoice(f, String($event ?? ''))">
+    </qo-select>
+  </div>
+  @if (ctx.isOtherChoiceSelected(f)) {
+    <qo-input class="preview-qo-input preview-choice-other" type="text" [value]="ctx.getOtherChoiceValue(f)" [placeholder]="t('preview.enterOtherOption')" (valueChange)="ctx.setOtherChoiceValue(f, $event)"></qo-input>
+  }
+} @else if (ctx.isRadioField(f)) {
+  <div class="preview-choice-list">
+    @for (opt of ctx.getChoices(f); track opt) {
+      <qo-button
+        type="button"
+        class="preview-choice-pill"
+        variant="ghost"
+        size="sm"
+        [class.preview-choice-pill--active]="ctx.isChoiceSelected(f, opt)"
+        (click)="ctx.selectChoice(f, opt)">
+        {{ opt }}
+      </qo-button>
+    }
+  </div>
+  @if (ctx.isOtherChoiceSelected(f)) {
+    <qo-input class="preview-qo-input preview-choice-other" type="text" [value]="ctx.getOtherChoiceValue(f)" [placeholder]="t('preview.enterOtherOption')" (valueChange)="ctx.setOtherChoiceValue(f, $event)"></qo-input>
+  }
+} @else if (ctx.isCheckbox(f)) {
+  <div class="preview-choice-list">
+    @for (opt of ctx.getChoices(f); track opt) {
+      <div class="preview-choice-item preview-choice-item--checkbox">
+        <qo-checkbox [checked]="ctx.isChecked(f, opt)" [label]="opt" (checkedChange)="ctx.onCheckboxToggle(f, opt, $event)"></qo-checkbox>
+      </div>
+    }
+  </div>
+  @if (ctx.isOtherChoiceSelected(f)) {
+    <qo-input class="preview-qo-input preview-choice-other" type="text" [value]="ctx.getOtherChoiceValue(f)" [placeholder]="t('preview.enterOtherOption')" (valueChange)="ctx.setOtherChoiceValue(f, $event)"></qo-input>
+  }
+}

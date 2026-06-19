@@ -1,0 +1,480 @@
+<div class="detail-layout-modal-backdrop" (click)="deselectItem()">
+  <section class="detail-layout-modal" (click)="$event.stopPropagation()">
+
+    <header class="detail-layout-modal__header">
+      <h2>{{ t('generated.canvas') }}</h2>
+      <div class="detail-layout-modal__actions">
+        <qo-input class="layout-name-input" [value]="layoutName()" (valueChange)="updateLayoutName($event)"></qo-input>
+        <qo-button variant="secondary" type="button" (click)="saveAsNew()">{{ t('generated.save_as_new') }}</qo-button>
+        <qo-button variant="primary" type="button" (click)="updateLayout()">{{ t('generated.update_layout') }}</qo-button>
+        <qo-button variant="secondary" type="button" (click)="close()">{{ t('generated.close') }}</qo-button>
+      </div>
+    </header>
+
+    <div class="detail-layout-modal__body">
+
+      <!-- Left rail -->
+      <aside class="left-rail">
+        <qo-button variant="ghost" type="button" class="left-rail__item" [class.left-rail__item--active]="activeTool() === 'data'"     (click)="setActiveTool('data')">{{ t('generated.data') }}</qo-button>
+        <qo-button variant="ghost" type="button" class="left-rail__item" [class.left-rail__item--active]="activeTool() === 'elements'" (click)="setActiveTool('elements')">{{ t('generated.elements') }}</qo-button>
+        <qo-button variant="ghost" type="button" class="left-rail__item" [class.left-rail__item--active]="activeTool() === 'style'"    (click)="setActiveTool('style')">{{ t('generated.style') }}</qo-button>
+      </aside>
+
+      <!-- Middle panel -->
+      <aside class="fields-panel">
+
+        <!-- DATA -->
+        @if (activeTool() === 'data') {
+          <qo-input [value]="searchText()" [placeholder]="t('generated.search_2')" (valueChange)="updateSearchText($event)"></qo-input>
+          <div class="fields-panel__header">
+            <h3>{{ t('generated.form_fields') }}</h3>
+            <qo-button variant="ghost" type="button" class="collapse-btn" (click)="toggleFieldsCollapsed()">{{ fieldsCollapsed() ? '+' : '−' }}</qo-button>
+          </div>
+          @if (!fieldsCollapsed()) {
+            <div class="field-list">
+              @for (column of filteredColumns(); track column.id) {
+                <qo-button variant="ghost" type="button" class="field-chip" draggable="true" (dragstart)="onFieldDragStart($event, column)">{{ column.label }}</qo-button>
+              }
+            </div>
+          }
+        }
+
+        <!-- ELEMENTS -->
+        @else if (activeTool() === 'elements') {
+          <div class="elements-grid">
+
+            <!-- Section -->
+            <div class="element-card" draggable="true" (dragstart)="onElementDragStart($event, 'section')" (click)="setElementType('section')">
+              <svg class="element-card__icon" viewBox="0 0 64 48" fill="none">
+                <rect x="4" y="4" width="56" height="40" rx="3" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3" fill="none"/>
+              </svg>
+              <span>{{ t('generated.section') }}</span>
+            </div>
+
+            <!-- Tab -->
+            <div class="element-card" draggable="true" (dragstart)="onElementDragStart($event, 'tab')" (click)="setElementType('tab')">
+              <svg class="element-card__icon" viewBox="0 0 64 48" fill="none">
+                <rect x="4" y="14" width="56" height="30" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                <rect x="4" y="8" width="20" height="10" rx="2 2 0 0" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.15"/>
+                <rect x="26" y="8" width="20" height="10" rx="2 2 0 0" stroke="currentColor" stroke-width="2" fill="none"/>
+              </svg>
+              <span>{{ t('generated.tab') }}</span>
+            </div>
+
+            <!-- Table -->
+            <div class="element-card" draggable="true" (dragstart)="onElementDragStart($event, 'table')" (click)="setElementType('table')">
+              <svg class="element-card__icon" viewBox="0 0 64 48" fill="none">
+                <rect x="4" y="6" width="56" height="36" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                <line x1="4"  y1="18" x2="60" y2="18" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="4"  y1="30" x2="60" y2="30" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="22" y1="6"  x2="22" y2="42" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="42" y1="6"  x2="42" y2="42" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+              <span>{{ t('generated.table') }}</span>
+            </div>
+
+            <!-- Text -->
+            <div class="element-card" draggable="true" (dragstart)="onElementDragStart($event, 'text')" (click)="setElementType('text')">
+              <svg class="element-card__icon" viewBox="0 0 64 48" fill="none">
+                <rect x="4" y="4" width="56" height="40" rx="2" stroke="currentColor" stroke-width="2" stroke-dasharray="5 3" fill="none"/>
+                <text x="32" y="30" text-anchor="middle" font-size="22" font-family="serif" font-style="italic" fill="currentColor">T</text>
+                <line x1="10" y1="36" x2="54" y2="36" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/>
+                <line x1="10" y1="40" x2="40" y2="40" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/>
+              </svg>
+              <span>{{ t('generated.text') }}</span>
+            </div>
+
+            <!-- Icon -->
+            <div class="element-card" draggable="true" (dragstart)="onElementDragStart($event, 'icon')" (click)="setElementType('icon')">
+              <svg class="element-card__icon" viewBox="0 0 64 48" fill="none">
+                <polygon points="32,8 44,32 20,32" stroke="currentColor" stroke-width="2" fill="none"/>
+                <circle cx="46" cy="34" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+                <rect x="8" y="28" width="14" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+              </svg>
+              <span>{{ t('generated.icon') }}</span>
+            </div>
+
+            <!-- Line -->
+            <div class="element-card" draggable="true" (dragstart)="onElementDragStart($event, 'line')" (click)="setElementType('line')">
+              <svg class="element-card__icon" viewBox="0 0 64 48" fill="none">
+                <line x1="8" y1="40" x2="56" y2="8" stroke="currentColor" stroke-width="2.5"/>
+              </svg>
+              <span>{{ t('generated.line') }}</span>
+            </div>
+
+          </div>
+        }
+
+        <!-- STYLE -->
+        @else {
+          <div class="style-panel-tabs">
+            <qo-button variant="ghost" type="button" [class.style-panel-tabs__active]="stylePanelTab() === 'design'"     (click)="setStylePanelTab('design')">{{ t('generated.design') }}</qo-button>
+            <qo-button variant="ghost" type="button" [class.style-panel-tabs__active]="stylePanelTab() === 'properties'" (click)="setStylePanelTab('properties')">{{ t('generated.properties') }}</qo-button>
+            <qo-button variant="ghost" type="button" [class.style-panel-tabs__active]="stylePanelTab() === 'condition'"  (click)="setStylePanelTab('condition')">{{ t('generated.condition') }}</qo-button>
+          </div>
+
+          @if (stylePanelTab() === 'design') {
+            @if (selectedItem(); as item) {
+
+              <!-- ── VALUE ──────────────────────────────────── -->
+              <div class="style-section">
+                <h4 class="style-section__title">{{ t('generated.value') }}</h4>
+                <div class="style-segment">
+                  <qo-button variant="ghost" type="button" [class.style-segment__active]="item.style.styleMode === 'theme'"  (click)="updateItemStyle(item.id, 'styleMode', 'theme')">{{ t('generated.theme') }}</qo-button>
+                  <qo-button variant="ghost" type="button" [class.style-segment__active]="item.style.styleMode === 'styles'" (click)="updateItemStyle(item.id, 'styleMode', 'styles')">{{ t('generated.styles') }}</qo-button>
+                </div>
+
+                @if (item.style.styleMode === 'styles') {
+                  <div class="style-controls-row">
+                    <div class="style-number-input">
+                      <qo-input type="number" min="8" max="72" [value]="item.style.fontSize"
+                        (valueChange)="updateItemStyle(item.id, 'fontSize', +$event)"/>
+                      <span>{{ t('generated.px') }}</span>
+                    </div>
+                    <qo-select class="style-select" [value]="item.style.fontWeight" [options]="fontWeightOptions" (valueChange)="setFontWeight(item.id, $event)"></qo-select>
+                    <!-- Color button opens native picker via hidden input trick -->
+                    <div class="color-btn-wrap">
+                      <div class="color-btn" [style.background]="resolveSwatchColor(item.style.textColor)"></div>
+                      <qo-color-picker [value]="resolveHexColor(item.style.textColor)" (valueChange)="updateItemStyle(item.id, 'textColor', $event)" />
+                    </div>
+                  </div>
+                  <div class="style-text-row">
+                    <qo-button variant="ghost" type="button" [class.style-text-row__active]="item.style.textTransform === 'uppercase'" [attr.title]="t('generated.uppercase')"
+                      (click)="updateItemStyle(item.id, 'textTransform', item.style.textTransform === 'uppercase' ? 'none' : 'uppercase')">{{ t('generated.aa') }}</qo-button>
+                    <qo-button variant="ghost" type="button" [class.style-text-row__active]="item.style.textTransform === 'lowercase'" [attr.title]="t('generated.lowercase')"
+                      (click)="updateItemStyle(item.id, 'textTransform', item.style.textTransform === 'lowercase' ? 'none' : 'lowercase')">{{ t('generated.aa_2') }}</qo-button>
+                    <qo-button variant="ghost" type="button" class="style-btn--italic" [class.style-text-row__active]="item.style.textTransform === 'capitalize'" [attr.title]="t('generated.capitalize')"
+                      (click)="updateItemStyle(item.id, 'textTransform', item.style.textTransform === 'capitalize' ? 'none' : 'capitalize')">{{ t('generated.aa_2') }}</qo-button>
+                    <qo-button variant="ghost" type="button" class="style-btn--italic" [class.style-text-row__active]="item.style.fontStyle === 'italic'" [attr.title]="t('generated.italic')"
+                      (click)="updateItemStyle(item.id, 'fontStyle', item.style.fontStyle === 'italic' ? 'normal' : 'italic')">{{ t('generated.t') }}</qo-button>
+                    <qo-button variant="ghost" type="button" [class.style-text-row__active]="item.style.textDecoration === 'line-through'" [attr.title]="t('generated.strikethrough')"
+                      (click)="updateItemStyle(item.id, 'textDecoration', item.style.textDecoration === 'line-through' ? 'none' : 'line-through')"><s>{{ t('generated.ab') }}</s></qo-button>
+                    <qo-button variant="ghost" type="button" [class.style-text-row__active]="item.style.textAlign === 'left'" [attr.title]="t('generated.align_left')"
+                      (click)="updateItemStyle(item.id, 'textAlign', 'left')">&#9776;</qo-button>
+                    <qo-button variant="ghost" type="button" [class.style-text-row__active]="item.style.textAlign === 'center'" [attr.title]="t('generated.align_center')"
+                      (click)="updateItemStyle(item.id, 'textAlign', 'center')">&#8801;</qo-button>
+                    <qo-button variant="ghost" type="button" [class.style-text-row__active]="item.style.textAlign === 'right'" [attr.title]="t('generated.align_right')"
+                      (click)="updateItemStyle(item.id, 'textAlign', 'right')">&#9776;</qo-button>
+                  </div>
+                }
+
+                <h5 class="style-label">{{ t('generated.label_align') }}</h5>
+                <div class="align-row">
+                  @for (align of labelAligns; track align) {
+                    <qo-button variant="ghost" type="button" [class.align-row__active]="item.style.labelAlign === align"
+                      (click)="updateItemStyle(item.id, 'labelAlign', align)">{{ align }}</qo-button>
+                  }
+                </div>
+
+                <!-- Background -->
+                <h5 class="style-label">{{ t('generated.background') }}</h5>
+                <div class="style-input-row">
+                  <qo-input class="style-hex-input" [value]="item.style.bgColor" (valueChange)="updateItemStyle(item.id, 'bgColor', $event)" />
+                  <div class="color-btn-wrap">
+                    <div class="color-btn" [style.background]="resolveSwatchColor(item.style.bgColor)"></div>
+                    <qo-color-picker [value]="resolveHexColor(item.style.bgColor)" (valueChange)="updateItemStyle(item.id, 'bgColor', $event)" />
+                  </div>
+                </div>
+                <div class="style-row-labels">
+                  <span class="style-input-label style-input-label--grow">{{ t('generated.hex') }}</span>
+                  <span class="style-input-label style-input-label--fixed">{{ t('generated.color') }}</span>
+                </div>
+              </div>
+
+              <!-- ── BORDER ──────────────────────────────────── -->
+              <div class="expand-section">
+                <div class="expand-section__header" (click)="toggleExpandPanel('border')">
+                  <span class="expand-section__title">{{ t('generated.border') }}</span>
+                  <label class="expand-checkbox" (click)="$event.stopPropagation()">
+                    <qo-checkbox [checked]="item.style.borderEnabled" (checkedChange)="toggleItemStyleFlag(item.id, 'borderEnabled')" />
+                  </label>
+                </div>
+                @if (borderOpen()) {
+                  <div class="expand-section__body">
+                    <div class="slider-row">
+                      <!-- qo-input does not support type="range" yet — accepted exception until QoInputComponent gains range support. -->
+                      <input class="style-range" type="range" min="0" max="20" [value]="item.style.borderWidth"
+                        (input)="updateItemStyle(item.id, 'borderWidth', readRangeValue($event))" />
+                      <div class="style-number-input style-number-input--sm">
+                        <qo-input type="number" min="0" max="20" [value]="item.style.borderWidth"
+                          (valueChange)="updateItemStyle(item.id, 'borderWidth', +$event)"/>
+                        <span>{{ t('generated.px') }}</span>
+                      </div>
+                    </div>
+                    <div class="border-details-row">
+                      <div class="border-style-col">
+                        <qo-select class="style-select" [value]="item.style.borderStyle" [options]="borderStyleOptions" (valueChange)="setBorderStyle(item.id, $event)"></qo-select>
+                        <span class="style-input-label">{{ t('generated.style') }}</span>
+                      </div>
+                      <div class="border-hex-col">
+                        <qo-input class="style-hex-input" [value]="item.style.borderColor" (valueChange)="updateItemStyle(item.id, 'borderColor', $event)" />
+                        <span class="style-input-label">{{ t('generated.hex') }}</span>
+                      </div>
+                      <div class="style-input-row__swatch-col">
+                        <div class="color-btn-wrap">
+                          <div class="color-btn" [style.background]="resolveSwatchColor(item.style.borderColor)"></div>
+                          <qo-color-picker [value]="resolveHexColor(item.style.borderColor)" (valueChange)="updateItemStyle(item.id, 'borderColor', $event)" />
+                        </div>
+                        <span class="style-input-label">{{ t('generated.color') }}</span>
+                      </div>
+                    </div>
+                    <label class="same-sides-row">
+                      <qo-checkbox [checked]="item.style.borderSameAllSides" (checkedChange)="updateItemStyle(item.id, 'borderSameAllSides', $event)" />
+                      <span>{{ t('generated.border_same_for_all_sides') }}</span>
+                    </label>
+                  </div>
+                }
+              </div>
+
+              <!-- ── SHADOW ──────────────────────────────────── -->
+              <div class="expand-section">
+                <div class="expand-section__header" (click)="toggleExpandPanel('shadow')">
+                  <span class="expand-section__title">{{ t('generated.shadow') }}</span>
+                  <label class="expand-checkbox" (click)="$event.stopPropagation()">
+                    <qo-checkbox [checked]="item.style.shadowEnabled" (checkedChange)="toggleItemStyleFlag(item.id, 'shadowEnabled')" />
+                  </label>
+                </div>
+                @if (shadowOpen()) {
+                  <div class="expand-section__body">
+                    <div class="shadow-inputs-row">
+                      <div class="shadow-field">
+                        <qo-input type="number" [value]="item.style.shadowX"
+                          (valueChange)="updateItemStyle(item.id, 'shadowX', +$event)" />
+                        <span class="style-input-label">{{ t('generated.x_2') }}</span>
+                      </div>
+                      <div class="shadow-field">
+                        <qo-input type="number" [value]="item.style.shadowY"
+                          (valueChange)="updateItemStyle(item.id, 'shadowY', +$event)" />
+                        <span class="style-input-label">{{ t('generated.y') }}</span>
+                      </div>
+                      <div class="shadow-field">
+                        <qo-input type="number" min="0" [value]="item.style.shadowBlur"
+                          (valueChange)="updateItemStyle(item.id, 'shadowBlur', +$event)" />
+                        <span class="style-input-label">{{ t('generated.blur') }}</span>
+                      </div>
+                      <div class="shadow-field">
+                        <qo-input type="number" [value]="item.style.shadowSpread"
+                          (valueChange)="updateItemStyle(item.id, 'shadowSpread', +$event)" />
+                        <span class="style-input-label">{{ t('generated.spread') }}</span>
+                      </div>
+                      <div class="shadow-field">
+                        <div class="color-btn-wrap">
+                          <div class="color-btn" [style.background]="resolveSwatchColor(item.style.shadowColor)"></div>
+                          <qo-color-picker [value]="resolveHexColor(item.style.shadowColor)" (valueChange)="updateItemStyle(item.id, 'shadowColor', $event)" />
+                        </div>
+                        <span class="style-input-label">{{ t('generated.color') }}</span>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+
+              <!-- ── RADIUS ──────────────────────────────────── -->
+              <div class="expand-section">
+                <div class="expand-section__header" (click)="toggleExpandPanel('radius')">
+                  <span class="expand-section__title">{{ t('generated.radius') }}</span>
+                  <label class="expand-checkbox" (click)="$event.stopPropagation()">
+                    <qo-checkbox [checked]="item.style.radiusEnabled" (checkedChange)="toggleItemStyleFlag(item.id, 'radiusEnabled')" />
+                  </label>
+                </div>
+                @if (radiusOpen()) {
+                  <div class="expand-section__body">
+                    <div class="slider-row">
+                      <!-- qo-input does not support type="range" yet — accepted exception until QoInputComponent gains range support. -->
+                      <input class="style-range" type="range" min="0" max="50" [value]="item.style.radiusValue"
+                        (input)="updateItemStyle(item.id, 'radiusValue', readRangeValue($event))" />
+                      <div class="style-number-input style-number-input--sm">
+                        <qo-input type="number" min="0" max="50" [value]="item.style.radiusValue"
+                          (valueChange)="updateItemStyle(item.id, 'radiusValue', +$event)"/>
+                        <span>{{ t('generated.px') }}</span>
+                      </div>
+                    </div>
+                    <label class="same-sides-row">
+                      <qo-checkbox [checked]="item.style.radiusSameAllSides" (checkedChange)="updateItemStyle(item.id, 'radiusSameAllSides', $event)" />
+                      <span>{{ t('generated.radius_same_for_all_sides') }}</span>
+                    </label>
+                  </div>
+                }
+              </div>
+
+              <!-- ── PADDING ──────────────────────────────────── -->
+              <div class="expand-section">
+                <div class="expand-section__header" (click)="toggleExpandPanel('padding')">
+                  <span class="expand-section__title">{{ t('customLayout.padding') }}</span>
+                  <label class="expand-checkbox" (click)="$event.stopPropagation()">
+                    <qo-checkbox [checked]="item.style.paddingEnabled" (checkedChange)="toggleItemStyleFlag(item.id, 'paddingEnabled')" />
+                  </label>
+                </div>
+                @if (paddingOpen()) {
+                  <div class="expand-section__body">
+                    <div class="slider-row">
+                      <!-- qo-input does not support type="range" yet — accepted exception until QoInputComponent gains range support. -->
+                      <input class="style-range" type="range" min="0" max="80" [value]="item.style.paddingValue"
+                        (input)="updateItemStyle(item.id, 'paddingValue', readRangeValue($event))" />
+                      <div class="style-number-input style-number-input--sm">
+                        <qo-input type="number" min="0" max="80" [value]="item.style.paddingValue"
+                          (valueChange)="updateItemStyle(item.id, 'paddingValue', +$event)"/>
+                        <span>{{ t('generated.px') }}</span>
+                      </div>
+                    </div>
+                    <label class="same-sides-row">
+                      <qo-checkbox [checked]="item.style.paddingSameAllSides" (checkedChange)="updateItemStyle(item.id, 'paddingSameAllSides', $event)" />
+                      <span>{{ t('generated.padding_same_for_all_sides') }}</span>
+                    </label>
+                  </div>
+                }
+              </div>
+
+              <!-- ── MARGIN ──────────────────────────────────── -->
+              <div class="expand-section">
+                <div class="expand-section__header" (click)="toggleExpandPanel('margin')">
+                  <span class="expand-section__title">{{ t('generated.margin') }}</span>
+                  <label class="expand-checkbox" (click)="$event.stopPropagation()">
+                    <qo-checkbox [checked]="item.style.marginEnabled" (checkedChange)="toggleItemStyleFlag(item.id, 'marginEnabled')" />
+                  </label>
+                </div>
+                @if (marginOpen()) {
+                  <div class="expand-section__body">
+                    <p class="style-empty style-empty--padded">{{ t('generated.margin_controls_coming_soon') }}</p>
+                  </div>
+                }
+              </div>
+
+            } @else {
+              <p class="style-empty">{{ t('generated.double_click_a_field_on_the_canvas_to') }}</p>
+            }
+          }
+          @else if (stylePanelTab() === 'properties') {
+            <p class="style-empty">{{ t('generated.select_a_field_to_see_its_properties') }}</p>
+          } @else {
+            <p class="style-empty">{{ t('generated.no_conditions_configured') }}</p>
+          }
+        }
+      </aside>
+
+      <!-- Canvas -->
+      <section class="canvas-area" (click)="deselectItem()">
+        <div class="canvas-frame"
+          (click)="closeContextMenu(); $event.stopPropagation()"
+          (dragover)="onCanvasDragOver($event)"
+          (drop)="onCanvasDrop($event)">
+
+          @for (item of droppedFields(); track item.id) {
+            @if (isItemVisible(item)) {
+            <div
+              class="canvas-item"
+              [class.canvas-item--selected]="selectedItemId() === item.id"
+              [attr.data-type]="item.type"
+              [style.left.px]="item.x"
+              [style.top.px]="item.y"
+              [style.width.px]="item.width"
+              [style.height.px]="item.height"
+              [style.font-size.px]="item.style.fontSize"
+              [style.font-weight]="getCanvasFontWeight(item.style.fontWeight)"
+              [style.color]="item.style.textColor"
+              [style.text-align]="item.style.textAlign"
+              [style.text-transform]="item.style.textTransform"
+              [style.font-style]="item.style.fontStyle"
+              [style.text-decoration]="item.style.textDecoration"
+              [style.background]="item.type !== 'line' ? item.style.bgColor : null"
+              [style.border-width.px]="item.style.borderEnabled ? item.style.borderWidth : null"
+              [style.border-style]="item.style.borderEnabled ? item.style.borderStyle : null"
+              [style.border-color]="item.style.borderEnabled ? item.style.borderColor : null"
+              [style.border-radius.px]="item.style.radiusEnabled ? item.style.radiusValue : null"
+              [style.padding.px]="item.style.paddingEnabled ? item.style.paddingValue : null"
+              [style.box-shadow]="item.style.shadowEnabled ? (item.style.shadowX + 'px ' + item.style.shadowY + 'px ' + item.style.shadowBlur + 'px ' + item.style.shadowSpread + 'px ' + item.style.shadowColor) : null"
+              (mousedown)="startCanvasItemMove($event, item.id)"
+              (click)="selectItem(item.id); $event.stopPropagation()"
+              (contextmenu)="openItemContextMenu($event, item.id)"
+              (dblclick)="selectItem(item.id); $event.stopPropagation()">
+
+              <!-- Field -->
+              @if (item.type === 'field') {
+                <span class="canvas-field-el" (mousedown)="$event.stopPropagation(); startCanvasItemMove($event, item.id)">{{ item.label }}</span>
+              }
+
+              <!-- Section -->
+              @else if (item.type === 'section') {
+                <span class="canvas-element-label">{{ t('generated.section') }}</span>
+              }
+
+              <!-- Tab -->
+              @else if (item.type === 'tab') {
+                <div class="canvas-tab">
+                  @for (tab of (item.tabLabels ?? ['Unnamed Tab']); track tab; let i = $index) {
+                    <qo-button variant="ghost"
+                      type="button"
+                      class="canvas-tab__btn"
+                      [class.canvas-tab__btn--active]="isTabActive(item.id, i)"
+                      (mousedown)="$event.stopPropagation()"
+                      (click)="switchTab(item.id, i); $event.stopPropagation()">
+                      {{ tab }}
+                    </qo-button>
+                  }
+                  <qo-button variant="ghost"
+                    type="button"
+                    class="canvas-tab__add"
+                    (mousedown)="$event.stopPropagation()"
+                    (click)="addTab(item.id); $event.stopPropagation()">
+                    +
+                  </qo-button>
+                </div>
+              }
+
+              <!-- Table -->
+              @else if (item.type === 'table') {
+                <div class="canvas-table">
+                  <div class="canvas-table__row canvas-table__row--header">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="canvas-table__row">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="canvas-table__row">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              }
+
+              <!-- Text -->
+              @else if (item.type === 'text') {
+                <span class="canvas-text-el">{{ item.textContent ?? 'Text' }}</span>
+              }
+
+              <!-- Icon -->
+              @else if (item.type === 'icon') {
+                <svg class="canvas-icon-el" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+              }
+
+              <!-- Line -->
+              @else if (item.type === 'line') {
+                <div class="canvas-line-el"></div>
+              }
+
+              <qo-button variant="ghost" type="button" class="resize-handle" [attr.aria-label]="t('generated.resize')"
+                (mousedown)="startCanvasItemResize($event, item.id)">
+              </qo-button>
+            </div>
+            }
+          }
+
+          @if (contextMenuOpen()) {
+            <div
+              class="canvas-context-menu"
+              [style.left.px]="contextMenuX()"
+              [style.top.px]="contextMenuY()"
+              (click)="$event.stopPropagation()">
+              <qo-button variant="ghost" type="button" class="canvas-context-menu__delete" (click)="deleteContextMenuItem()">
+                {{ t('generated.delete') }}
+              </qo-button>
+            </div>
+          }
+        </div>
+      </section>
+
+    </div>
+  </section>
+</div>

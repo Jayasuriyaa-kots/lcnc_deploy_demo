@@ -1,0 +1,52 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.panel-showcase {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+}
+
+.panel-showcase__header {
+  display: grid;
+  gap: 6px;
+}
+
+.panel-showcase__eyebrow {
+  margin: 0;
+  color: var(--qo-color-neutral-500);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.panel-showcase__title {
+  margin: 0;
+  color: var(--qo-color-neutral-900);
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.panel-showcase__grid {
+  display: grid;
+  gap: 18px;
+}
+
+.panel-showcase__card {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: grab;
+  text-align: inherit;
+}
+
+.panel-showcase__card:active {
+  cursor: grabbing;
+}
+
+app-panel-widget {
+  min-height: 160px;
+}

@@ -1,0 +1,17 @@
+<section class="apps-grid">
+  @for (application of applications(); track application.id) {
+    <app-application-card
+      [application]="application"
+      [actionsOpen]="openActionsApplicationId() === application.id"
+      (openBuilder)="openBuilder.emit($event)"
+      (deleteApplication)="deleteApplication.emit($event)"
+      (actionsToggleRequested)="actionsToggleRequested.emit($event)"
+      (actionsCloseRequested)="actionsCloseRequested.emit()"
+    />
+  } @empty {
+    <qo-empty-state
+      [title]="i18n.translate('dashboard.noApplications')"
+      [description]="i18n.translate('dashboard.noApplicationsDescription')"
+    />
+  }
+</section>

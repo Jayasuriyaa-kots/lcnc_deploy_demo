@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.showcase-page {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  gap: calc(var(--qo-space-3) + var(--qo-space-1));
+  box-sizing: border-box;
+  background: var(--qo-color-neutral-50);
+  padding: calc(var(--qo-space-4) + var(--qo-space-2)) var(--qo-space-4) var(--qo-space-6);
+}
+
+.showcase-page__item {
+  padding: var(--qo-space-3);
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xl);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+  cursor: grab;
+}

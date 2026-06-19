@@ -1,0 +1,106 @@
+:host {
+  display: block;
+  width: 100%;
+  --_qo-input-border-color: var(--qo-input-border-color, var(--qo-border-color));
+  --_qo-input-border-radius: var(--qo-input-border-radius, var(--qo-radius-md));
+  --_qo-input-bg: var(--qo-input-bg, var(--qo-color-neutral-0));
+  --_qo-input-color: var(--qo-input-color, var(--qo-color-neutral-900));
+  --_qo-input-placeholder-color: var(--qo-input-placeholder-color, var(--qo-color-neutral-400));
+  --_qo-input-focus-border-color: var(--qo-input-focus-border-color, var(--qo-border-color-focus));
+  --_qo-input-focus-shadow: var(--qo-input-focus-shadow, 0 0 0 var(--qo-size-2) color-mix(in srgb, var(--qo-color-primary-500) 10%, transparent));
+  --_qo-input-disabled-bg: var(--qo-input-disabled-bg, var(--qo-color-neutral-50));
+  --_qo-input-prefix-color: var(--qo-input-prefix-color, var(--qo-color-neutral-500));
+  --_qo-input-suffix-color: var(--qo-input-suffix-color, var(--qo-color-neutral-500));
+}
+
+.qo-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  &.qo-input-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.qo-input-element {
+  width: 100%;
+  border: var(--qo-size-1) solid var(--_qo-input-border-color);
+  border-radius: var(--_qo-input-border-radius);
+  background-color: var(--_qo-input-bg);
+  color: var(--_qo-input-color);
+  -webkit-text-fill-color: var(--_qo-input-color);
+  font-family: var(--qo-font-family-sans);
+  transition: all 0.2s ease-in-out;
+  outline: none;
+
+  &::placeholder {
+    color: var(--_qo-input-placeholder-color);
+    -webkit-text-fill-color: var(--_qo-input-placeholder-color);
+  }
+
+  &:focus {
+    border-color: var(--_qo-input-focus-border-color);
+    box-shadow: var(--_qo-input-focus-shadow);
+  }
+
+  &:disabled {
+    background-color: var(--_qo-input-disabled-bg);
+    cursor: not-allowed;
+  }
+
+  // Sizes
+  &-sm {
+    height: var(--qo-input-height-sm, var(--qo-size-32));
+    padding: var(--qo-input-padding-sm, 0 var(--qo-space-3));
+    font-size: var(--qo-input-font-size-sm, var(--qo-text-sm));
+  }
+
+  &-md {
+    height: var(--qo-input-height-md, var(--qo-size-40));
+    padding: var(--qo-input-padding-md, 0 var(--qo-space-4));
+    font-size: var(--qo-input-font-size-md, var(--qo-text-base));
+  }
+
+  // Padding for icons
+  &.has-prefix {
+    padding-left: var(--qo-space-10);
+    height: var(--qo-input-height-md, var(--qo-size-36));
+  }
+
+  &.has-suffix {
+    padding-right: var(--qo-space-10);
+  }
+}
+
+.qo-input-prefix, .qo-input-suffix {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--_qo-input-prefix-color);
+  pointer-events: none;
+}
+
+.qo-input-prefix {
+  left: var(--qo-space-3);
+}
+
+.qo-input-suffix {
+  right: var(--qo-space-3);
+  color: var(--_qo-input-suffix-color);
+}
+.qa-style {
+      height: var(--qo-space-9); // ≈36px
+  padding: var(--qo-space-2) var(--qo-space-3); // 10px 12px
+  font-size: var(--qo-text-sm); // 14px    
+  }
+.qo-input-element 
+{
+      min-height: var(--qo-size-44);
+    padding-inline: var(--qo-size-14);
+}

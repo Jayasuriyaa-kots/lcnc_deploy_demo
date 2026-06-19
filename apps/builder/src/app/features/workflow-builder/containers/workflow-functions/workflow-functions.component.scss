@@ -1,0 +1,55 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.workflow-page {
+  display: grid;
+  gap: var(--qo-space-5);
+  min-height: 100%;
+  padding: var(--qo-space-8) var(--qo-space-6) var(--qo-space-6);
+  background:
+    radial-gradient(circle at var(--qo-size-1) var(--qo-size-1), var(--qo-color-neutral-200) var(--qo-size-1), transparent 0) 0 0 / var(--qo-space-8) var(--qo-space-8),
+    var(--qo-color-neutral-50);
+}
+
+.workflow-page__section,
+.workflow-page__loading,
+.workflow-page__error {
+  width: min(100%, 92rem);
+  margin-inline: 0;
+}
+
+.workflow-page__loading,
+.workflow-page__error {
+  margin: 0;
+  padding: var(--qo-space-5);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-base);
+}
+
+.workflow-page__error {
+  color: var(--qo-color-danger-500);
+}
+
+@media (max-width: 64rem) {
+  .workflow-page {
+    gap: var(--qo-space-4);
+    padding: var(--qo-space-5) var(--qo-space-4);
+  }
+}
+
+@media (max-width: 40rem) {
+  .workflow-page {
+    padding: var(--qo-space-4) var(--qo-space-3);
+  }
+
+  .workflow-page__loading,
+  .workflow-page__error {
+    padding: var(--qo-space-4);
+    font-size: var(--qo-text-sm);
+  }
+}

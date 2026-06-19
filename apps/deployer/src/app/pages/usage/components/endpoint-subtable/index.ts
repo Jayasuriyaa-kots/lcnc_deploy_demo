@@ -1,0 +1,1 @@
+export { EndpointSubtableComponent } from './endpoint-subtable.component';

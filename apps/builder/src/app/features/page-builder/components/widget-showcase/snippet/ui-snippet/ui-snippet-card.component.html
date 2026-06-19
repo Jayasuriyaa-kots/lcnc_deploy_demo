@@ -1,0 +1,59 @@
+<article
+  class="snippet-card"
+  [class.snippet-card--selected]="selected()"
+  [class.snippet-card--live]="!!config()"
+>
+  @if (config()) {
+    <div
+      class="snippet-card__live-preview"
+      [style.background]="resolvedConfig().backgroundColor"
+      [style.color]="resolvedConfig().textColor"
+      [style.padding]="resolvedConfig().padding"
+      [style.borderRadius]="resolvedConfig().borderRadius"
+    >
+      @if (rendersLiveMarkup()) {
+        <div
+          class="snippet-card__live-html"
+          [class.snippet-card__live-html--embed]="variant() === 'embed'"
+          [innerHTML]="renderedMarkup()"
+        ></div>
+      } @else {
+        <div class="snippet-card__live-topbar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <pre class="snippet-card__live-code">{{ resolvedConfig().markup }}</pre>
+      }
+    </div>
+  } @else {
+    <div class="snippet-card__icon">
+      @switch (resolvedPreset().variant) {
+        @case ('html') {
+          <div class="snippet-card__doc">
+            <div class="snippet-card__fold"></div>
+            <span class="snippet-card__line snippet-card__line--short"></span>
+            <span class="snippet-card__line"></span>
+            <span class="snippet-card__line"></span>
+            <div class="snippet-card__doc-label">{{ t('snippet.config.html') }}</div>
+          </div>
+        }
+
+        @default {
+          <div class="snippet-card__embed">
+            <div class="snippet-card__embed-topbar">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="snippet-card__embed-code">&lt;/&gt;</div>
+          </div>
+        }
+      }
+    </div>
+
+    <h3 class="snippet-card__title">{{ resolvedPreset().title }}</h3>
+    <p class="snippet-card__description">{{ resolvedPreset().description }}</p>
+  }
+</article>
+

@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+.apps-grid {
+  display: grid;
+  gap: var(--qo-size-12);
+}
+

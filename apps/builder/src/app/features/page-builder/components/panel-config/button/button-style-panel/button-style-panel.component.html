@@ -1,0 +1,296 @@
+<div class="style-panel" [formGroup]="styleForm">
+  <div class="card">
+    <div class="field-label large">{{ t('button.style.boxType') }}</div>
+
+    <div class="segmented">
+      <qo-button type="button" variant="ghost" size="sm" [class.active]="currentBoxType() === 'rectangular'" (click)="setButtonBoxType('rectangular')">{{ t('button.style.rectangled') }}</qo-button>
+
+      <qo-button type="button" variant="ghost" size="sm" [class.active]="currentBoxType() === 'rounded'" (click)="setButtonBoxType('rounded')">{{ t('button.style.rounded') }}</qo-button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="inline-field-row">
+      <div class="field-label large field-label--inline">{{ t('button.style.cornerRadius') }}</div>
+      <div class="unit-input unit-input--compact">
+        <qo-input
+          id="button-corner-radius"
+          type="number"
+          formControlName="cornerRadius"
+          [value]="styleForm.controls.cornerRadius.getRawValue()"
+          (valueChange)="updateNumericField('cornerRadius', $event)"
+        ></qo-input>
+        <span>px</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header">{{ 'layout.style' | transloco }}</div>
+    <div class="row-item row-item--single">
+      <div class="row-actions">
+        <qo-button type="button" variant="ghost" size="sm" class="icon-btn text-btn" [class.active]="localStyleConfig().bold" (click)="toggleStyle('bold')">
+          <b>B</b>
+        </qo-button>
+        <qo-button type="button" variant="ghost" size="sm" class="icon-btn text-btn italic" [class.active]="localStyleConfig().italic" (click)="toggleStyle('italic')">
+          <i>I</i>
+        </qo-button>
+        <qo-button type="button" variant="ghost" size="sm" class="icon-btn text-btn" [class.active]="localStyleConfig().underline" (click)="toggleStyle('underline')">
+          <u>U</u>
+        </qo-button>
+        <qo-button
+          type="button"
+          variant="ghost"
+          size="sm"
+          class="icon-btn text-btn"
+          [class.active]="localStyleConfig().textCase !== 'default'"
+          [class.text-btn--lowercase]="localStyleConfig().textCase === 'lowercase'"
+          (click)="toggleTextCase()"
+        >
+          AA
+        </qo-button>
+      </div>
+    </div>
+  </div>
+
+  @if (!isIconOnly()) {
+  <div class="card">
+    <div class="field-label large">{{ t('button.style.fontFamily') }}</div>
+    <div class="select-wrap" (click)="$event.stopPropagation()">
+      <qo-button
+        type="button"
+        variant="ghost"
+        size="sm"
+        class="dropdown-trigger"
+        [class.dropdown-trigger--open]="isFontFamilyOpen()"
+        (click)="toggleFontFamilyDropdown()">
+        <span>{{ getSelectedFontFamilyLabel() }}</span>
+      </qo-button>
+
+      @if (isFontFamilyOpen()) {
+        <div class="dropdown-menu">
+          @for (option of fontFamilyOptions; track option.value) {
+            <qo-button
+              type="button"
+              variant="ghost"
+              size="sm"
+              class="dropdown-option"
+              [class.dropdown-option--active]="localStyleConfig().fontFamily === option.value"
+              (click)="selectFontFamily(option)">
+              {{ option.label }}
+            </qo-button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+  }
+
+  @if (!isIconOnly()) {
+  <div class="card">
+    <div class="field-label large">{{ t('panelConfig.fontSize') }}</div>
+    <div class="select-wrap select-wrap--compact" (click)="$event.stopPropagation()">
+      <qo-button
+        type="button"
+        variant="ghost"
+        size="sm"
+        class="dropdown-trigger dropdown-trigger--compact"
+        [class.dropdown-trigger--open]="isFontSizeOpen()"
+        (click)="toggleFontSizeDropdown()">
+        <span>{{ getSelectedFontSizeLabel() }}</span>
+      </qo-button>
+
+      @if (isFontSizeOpen()) {
+        <div class="dropdown-menu dropdown-menu--compact">
+          @for (option of fontSizeOptions; track option.value) {
+            <qo-button
+              type="button"
+              variant="ghost"
+              size="sm"
+              class="dropdown-option"
+              [class.dropdown-option--active]="localStyleConfig().fontSize === option.value"
+              (click)="selectFontSize(option)">
+              {{ option.label }}
+            </qo-button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+  }
+
+  <div class="section-card">
+    <div class="section-header">{{ t('common.color') }}</div>
+    <div class="row-item row-item--single">
+      <div class="row-actions">
+        <qo-color-picker
+          [value]="localStyleConfig().color"
+          [presetColors]="colorPickerPalette"
+          [showThemeColor]="true"
+          [triggerLabel]="'AA'"
+          [triggerVariant]="'text-only'"
+          (valueChange)="setColor($event)"
+        ></qo-color-picker>
+        <qo-color-picker
+          [value]="localStyleConfig().fillColor"
+          [presetColors]="colorPickerPalette"
+          [showThemeColor]="true"
+          [triggerLabel]="''"
+          (valueChange)="setFillColor($event)"
+        ></qo-color-picker>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header">{{ t('button.style.stroke') }}</div>
+
+    <div class="row-item">
+      <div class="row-label">{{ t('common.color') }}</div>
+      <div class="row-actions">
+        <qo-color-picker
+          [value]="localStyleConfig().strokeColor"
+          [presetColors]="colorPickerPalette"
+          [showThemeColor]="true"
+          (valueChange)="setStrokeColor($event)"
+        ></qo-color-picker>
+      </div>
+    </div>
+
+    <div class="row-item">
+      <div class="row-label">{{ t('common.width') }}</div>
+      <div class="unit-input unit-input--compact">
+        <qo-input
+          id="button-stroke-width"
+          type="number"
+          formControlName="strokeWidth"
+          [value]="styleForm.controls.strokeWidth.getRawValue()"
+          (valueChange)="updateNumericField('strokeWidth', $event)"
+        ></qo-input>
+        <span>px</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="field-label large">{{ t('common.padding') }}</div>
+    <div class="padding-grid">
+      <div class="padding-item">
+        <div class="padding-input-wrap">
+          <qo-input
+            id="button-padding-top"
+            type="number"
+            formControlName="paddingTop"
+            [value]="styleForm.controls.paddingTop.getRawValue()"
+            (valueChange)="updateNumericField('paddingTop', $event)"
+          ></qo-input>
+          <span>px</span>
+        </div>
+        <label for="button-padding-top">{{ 'layout.top' | transloco }}</label>
+      </div>
+
+      <div class="padding-item">
+        <div class="padding-input-wrap">
+          <qo-input
+            id="button-padding-right"
+            type="number"
+            formControlName="paddingRight"
+            [value]="styleForm.controls.paddingRight.getRawValue()"
+            (valueChange)="updateNumericField('paddingRight', $event)"
+          ></qo-input>
+          <span>px</span>
+        </div>
+        <label for="button-padding-right">{{ 'layout.right' | transloco }}</label>
+      </div>
+
+      <div class="padding-item">
+        <div class="padding-input-wrap">
+          <qo-input
+            id="button-padding-bottom"
+            type="number"
+            formControlName="paddingBottom"
+            [value]="styleForm.controls.paddingBottom.getRawValue()"
+            (valueChange)="updateNumericField('paddingBottom', $event)"
+          ></qo-input>
+          <span>px</span>
+        </div>
+        <label for="button-padding-bottom">{{ 'layout.bottom' | transloco }}</label>
+      </div>
+
+      <div class="padding-item">
+        <div class="padding-input-wrap">
+          <qo-input
+            id="button-padding-left"
+            type="number"
+            formControlName="paddingLeft"
+            [value]="styleForm.controls.paddingLeft.getRawValue()"
+            (valueChange)="updateNumericField('paddingLeft', $event)"
+          ></qo-input>
+          <span>px</span>
+        </div>
+        <label for="button-padding-left">{{ 'layout.left' | transloco }}</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="field-label large">{{ t('button.style.margin') }}</div>
+    <div class="padding-grid">
+      <div class="padding-item">
+        <div class="padding-input-wrap">
+          <qo-input
+            id="button-margin-top"
+            type="number"
+            formControlName="marginTop"
+            [value]="styleForm.controls.marginTop.getRawValue()"
+            (valueChange)="updateNumericField('marginTop', $event)"
+          ></qo-input>
+          <span>px</span>
+        </div>
+        <label for="button-margin-top">{{ 'layout.top' | transloco }}</label>
+      </div>
+
+      <div class="padding-item">
+        <div class="padding-input-wrap">
+          <qo-input
+            id="button-margin-right"
+            type="number"
+            formControlName="marginRight"
+            [value]="styleForm.controls.marginRight.getRawValue()"
+            (valueChange)="updateNumericField('marginRight', $event)"
+          ></qo-input>
+          <span>px</span>
+        </div>
+        <label for="button-margin-right">{{ 'layout.right' | transloco }}</label>
+      </div>
+
+      <div class="padding-item">
+        <div class="padding-input-wrap">
+          <qo-input
+            id="button-margin-bottom"
+            type="number"
+            formControlName="marginBottom"
+            [value]="styleForm.controls.marginBottom.getRawValue()"
+            (valueChange)="updateNumericField('marginBottom', $event)"
+          ></qo-input>
+          <span>px</span>
+        </div>
+        <label for="button-margin-bottom">{{ 'layout.bottom' | transloco }}</label>
+      </div>
+
+      <div class="padding-item">
+        <div class="padding-input-wrap">
+          <qo-input
+            id="button-margin-left"
+            type="number"
+            formControlName="marginLeft"
+            [value]="styleForm.controls.marginLeft.getRawValue()"
+            (valueChange)="updateNumericField('marginLeft', $event)"
+          ></qo-input>
+          <span>px</span>
+        </div>
+        <label for="button-margin-left">{{ 'layout.left' | transloco }}</label>
+      </div>
+    </div>
+  </div>
+</div>

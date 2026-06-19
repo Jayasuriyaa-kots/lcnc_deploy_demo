@@ -1,0 +1,80 @@
+{
+  "formId": "travel-reimbursement-form",
+  "formLabel": "Travel Reimbursement",
+  "tableName": "travel_expenses",
+  "actionLabels": ["Submit Claim"],
+  "fields": [
+    {
+      "id": "employee_id",
+      "label": "Employee ID",
+      "dbColumn": "employee_id",
+      "type": "text",
+      "placeholder": "Enter employee code",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "travel_purpose",
+      "label": "Purpose of Travel",
+      "dbColumn": "purpose",
+      "type": "dropdown",
+      "placeholder": "Select purpose",
+      "required": true,
+      "options": ["Client Visit", "Conference", "Training", "Internal Meeting", "Site Inspection", "Other"]
+    },
+    {
+      "id": "travel_from",
+      "label": "Travel From",
+      "dbColumn": "origin_city",
+      "type": "text",
+      "placeholder": "Origin city",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "travel_to",
+      "label": "Travel To",
+      "dbColumn": "destination_city",
+      "type": "text",
+      "placeholder": "Destination city",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "travel_date",
+      "label": "Travel Date",
+      "dbColumn": "travel_date",
+      "type": "date",
+      "placeholder": "Select date",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "total_amount",
+      "label": "Total Claim Amount (₹)",
+      "dbColumn": "total_amount",
+      "type": "number",
+      "placeholder": "Enter total amount in INR",
+      "required": true,
+      "options": []
+    },
+    {
+      "id": "mode_of_transport",
+      "label": "Mode of Transport",
+      "dbColumn": "transport_mode",
+      "type": "dropdown",
+      "placeholder": "Select mode",
+      "required": true,
+      "options": ["Flight", "Train", "Bus", "Cab / Taxi", "Own Vehicle", "Metro"]
+    },
+    {
+      "id": "receipt_attached",
+      "label": "Receipts Attached",
+      "dbColumn": "receipts_attached",
+      "type": "checkbox",
+      "placeholder": "",
+      "required": false,
+      "options": []
+    }
+  ]
+}

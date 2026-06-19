@@ -1,0 +1,86 @@
+<div class="section-grid" (click)="closeApplicationActionsMenu()">
+  <section class="page-header">
+    <div class="page-title-group">
+      <div class="mini-label">{{ i18n.translate('dashboard.eyebrow') }}</div>
+      <h1>{{ i18n.translate('dashboard.title') }}</h1>
+    </div>
+    <qo-button variant="secondary" class="dashboard-new-app" (click)="addingApplication.set(true)">{{ i18n.translate('dashboard.newApplication') }}</qo-button>
+  </section>
+
+  <section class="hero-card app-card">
+    <div class="hero-copy">
+      <div class="mini-label">{{ i18n.translate('dashboard.selectedOrganisationLabel') }}</div>
+      <h1>{{ selectedOrganisation()?.name ?? i18n.translate('organisations.noOrganisationSelected') }}</h1>
+      <p>
+        {{ i18n.translate('dashboard.heroDescription') }}
+      </p>
+    </div>
+    <div class="hero-meta">
+      <span class="hero-chip">{{ i18n.translate('dashboard.liveWorkspaces', { count: liveWorkspaceCount() }) }}</span>
+      <span class="hero-chip hero-chip-soft">{{ i18n.translate('dashboard.lastSynced') }}</span>
+    </div>
+  </section>
+
+  <app-summary-metrics-row [kpis]="kpis()" />
+
+  <section class="applications-surface">
+    <qo-page-section
+      [eyebrow]="i18n.translate('dashboard.appInstancesEyebrow')"
+      [title]="i18n.translate('dashboard.appInstancesTitle')"
+      [description]="i18n.translate('dashboard.appInstancesDescription')"
+    >
+      <div section-actions class="list-controls">
+        <qo-search-bar
+          class="toolbar-search"
+          [placeholder]="i18n.translate('dashboard.searchApps')"
+          size="sm"
+          (search)="applicationSearch.set($event)"
+        />
+        <qo-button variant="ghost" class="toolbar-filter" (click)="cycleStatusFilter()">
+          <span class="toolbar-filter-icon" aria-hidden="true">
+            <qo-icon name="filter" size="md"></qo-icon>
+          </span>
+          <span>{{ statusFilterLabel() }}</span>
+        </qo-button>
+      </div>
+    </qo-page-section>
+
+    @if (selectedOrganisation()) {
+      <app-application-list
+        [applications]="filteredApplications()"
+        [openActionsApplicationId]="openActionsApplicationId()"
+        (openBuilder)="openBuilder($event)"
+        (deleteApplication)="deleteApplication($event)"
+        (actionsToggleRequested)="toggleApplicationActionsMenu($event)"
+        (actionsCloseRequested)="closeApplicationActionsMenu()"
+      />
+    }
+
+    @if (selectedOrganisation()) {
+      <qo-button variant="ghost" class="deploy-cta" (click)="addingApplication.set(true)">
+        <span class="deploy-cta-icon">+</span>
+        <span class="deploy-cta-label">{{ i18n.translate('dashboard.deployCta') }}</span>
+      </qo-button>
+    }
+  </section>
+</div>
+
+@if (addingApplication()) {
+  <app-add-application-modal
+    [organisationName]="selectedOrganisation()?.name ?? i18n.translate('organisations.noOrganisationSelected')"
+    [form]="applicationForm"
+    [applicationTypes]="applicationTypes"
+    [primaryOwners]="primaryOwners"
+    [applicationTypeOpen]="applicationTypeOpen()"
+    [primaryOwnerOpen]="primaryOwnerOpen()"
+    [selectedApplicationType]="selectedApplicationType()"
+    [selectedPrimaryOwner]="selectedPrimaryOwner()"
+    (toggleApplicationType)="toggleApplicationTypeDropdown()"
+    (togglePrimaryOwner)="togglePrimaryOwnerDropdown()"
+    (applicationTypeSelect)="selectApplicationType($event)"
+    (primaryOwnerSelect)="selectPrimaryOwner($event)"
+    (dismissDropdowns)="closeAddApplicationDropdowns()"
+    (submitApplication)="addApplication($event)"
+    (close)="closeAddApplicationModal()"
+  />
+}

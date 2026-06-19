@@ -1,0 +1,28 @@
+<div class="edit-modal__backdrop" (click)="event.emit({type:'close'})"></div>
+<section class="edit-modal" (click)="$event.stopPropagation()">
+  <header class="edit-modal__header">
+    <h3>{{ state().reportLabel }}</h3>
+    <qo-button variant="ghost" type="button" [iconOnly]="true" [attr.aria-label]="t('common.closeEdit')"
+      class="edit-modal__close" (click)="event.emit({type:'close'})">
+      <qo-icon name="x" size="sm" />
+    </qo-button>
+  </header>
+
+  <div class="edit-modal__body">
+    @for (field of state().fields; track field.id) {
+      <label class="edit-modal__field">
+        <span>{{ field.label }}</span>
+        <qo-input
+          type="text"
+          [value]="field.value"
+          (valueChange)="event.emit({type:'fieldChange', fieldId:field.id, value:$event})"
+        ></qo-input>
+      </label>
+    }
+  </div>
+
+  <footer class="edit-modal__footer">
+    <qo-button variant="secondary" type="button" (click)="event.emit({type:'close'})">{{ common('cancel') }}</qo-button>
+    <qo-button variant="primary"   type="button" (click)="event.emit({type:'save'})">{{ common('save') }}</qo-button>
+  </footer>
+</section>

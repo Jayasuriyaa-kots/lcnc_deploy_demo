@@ -1,0 +1,161 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.panel-display-settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-3);
+  background: var(--qo-color-neutral-50);
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.qo-card {
+  background: var(--qo-color-neutral-0);
+  border: 0.0625rem solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xl);
+  box-shadow: var(--qo-shadow-sm);
+  padding: var(--qo-space-4);
+}
+
+.qo-card--tight {
+  padding: 0;
+  overflow: hidden;
+}
+
+.qo-field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-1);
+  margin-bottom: calc(var(--qo-space-2) + 0.125rem);
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-semibold);
+  line-height: 1.2;
+}
+
+.qo-info-icon {
+  color: var(--qo-color-neutral-500);
+  font-size: calc(var(--qo-text-xs) + 0.0625rem);
+  line-height: 1;
+}
+
+.qo-static-value {
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-size: var(--qo-text-sm);
+  line-height: 1.35;
+}
+
+:host ::ng-deep qo-select.qo-form-select .qo-select-trigger {
+  width: 100%;
+  min-height: calc(var(--qo-space-10) + var(--qo-space-1));
+  border-radius: var(--qo-radius-lg);
+  border-color: var(--qo-border-color-strong);
+  box-shadow: none;
+}
+
+:host ::ng-deep .qo-link-select .qo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-1);
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--qo-color-info-500);
+  font-size: var(--qo-text-sm);
+  font-size: var(--qo-text-sm);
+  line-height: 1.35;
+}
+
+.qo-link-select__chevron {
+  color: var(--qo-color-info-500);
+  font-size: var(--qo-text-xs);
+  font-size: var(--qo-text-xs);
+  line-height: 1;
+}
+
+.qo-segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 0.0625rem solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-lg);
+  overflow: hidden;
+  background: var(--qo-color-neutral-0);
+}
+:host ::ng-deep .qo-segmented__button .qo-btn { border-right: 0.0625rem solid var(--qo-color-neutral-200); }
+:host ::ng-deep .qo-segmented__button:last-child .qo-btn { border-right: 0; }
+
+.qo-segmented__button {
+  min-height: calc(var(--qo-space-10) + var(--qo-space-1));
+  border: 0;
+  border-right: 0.0625rem solid var(--qo-border-color-strong);
+  background: transparent;
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+  cursor: pointer;
+}
+
+.qo-segmented__button:last-child {
+  border-right: 0;
+}
+
+.qo-segmented__button--active {
+  color: var(--qo-color-info-500);
+  background: var(--qo-color-info-100);
+}
+
+.qo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  min-height: calc(var(--qo-space-12) - 0.25rem);
+  padding: 0 var(--qo-space-4);
+  border-top: 0.0625rem solid var(--qo-border-color);
+}
+
+.qo-row:first-child {
+  border-top: 0;
+}
+
+.qo-row--stacked {
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  min-height: calc(var(--qo-space-16) + var(--qo-space-2));
+  gap: calc(var(--qo-space-1) + 0.125rem);
+  padding-block: var(--qo-space-3);
+}
+
+.qo-row__label {
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-semibold);
+  line-height: 1.2;
+}
+
+.qo-row__bottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.qo-count-badge {
+  color: var(--qo-color-info-500);
+  font-size: var(--qo-text-lg);
+  font-size: var(--qo-text-lg);
+  line-height: 1;
+}
+
+:host ::ng-deep qo-toggle .qo-toggle-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+

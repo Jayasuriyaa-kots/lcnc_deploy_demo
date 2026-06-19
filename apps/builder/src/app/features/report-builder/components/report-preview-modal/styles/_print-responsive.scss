@@ -1,0 +1,375 @@
+// ── Print styles ─────────────────────────────────────────────────────────────
+
+// Hide print area on screen
+.print-area {
+  display: none;
+}
+
+@media print {
+  // Show only print area, hide everything else inside :host
+  :host * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: white;
+    padding: 1.5rem 2rem;
+    font-family: inherit;
+  }
+
+  // Report title block
+  .print-area__header {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--qo-color-neutral-900);
+
+    h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--qo-color-neutral-900);
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.75rem;
+      color: var(--qo-color-neutral-600);
+    }
+  }
+
+  .print-area__meta {
+    margin-top: 0.25rem !important;
+    font-size: var(--qo-text-xs) !important; /* 0.75rem = 12px — minimum per UX §3.3 */
+    color: var(--qo-color-neutral-500) !important;
+  }
+
+  // Full-width clean table
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    color: var(--qo-color-neutral-900);
+    table-layout: auto;
+  }
+
+  .print-table thead tr {
+    background: var(--qo-color-neutral-100);
+  }
+
+  .print-table th {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--qo-color-neutral-300);
+    font-weight: 700;
+    text-align: left;
+    font-size: var(--qo-text-xs); /* 0.75rem = 12px — minimum per UX §3.3 */
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .print-table td {
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--qo-color-neutral-200);
+    vertical-align: top;
+    word-break: break-word;
+  }
+
+  .print-table tbody tr:nth-child(even) {
+    background: var(--qo-color-neutral-50);
+  }
+
+  // Group header row in print
+  .print-table__group-row td {
+    background: var(--qo-color-neutral-200);
+    font-weight: 700;
+    font-size: var(--qo-text-xs); /* 0.75rem = 12px — minimum per UX §3.3 */
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--qo-color-neutral-300);
+  }
+
+  // Prevent rows from splitting across pages
+  .print-table tbody tr {
+    page-break-inside: avoid;
+  }
+
+  // Page setup
+  @page {
+    margin: 1.5cm;
+    size: landscape;
+  }
+}
+
+// ── Responsive viewport overrides ───────────────────────────────────────────
+
+// Tablet: 2-col card grid
+:host.viewport-tablet .card-grid {
+  grid-template-columns: repeat(2, 1fr) !important;
+  padding: var(--qo-space-3);
+  gap: var(--qo-space-3);
+}
+
+// Mobile: single column stacked cards
+:host.viewport-mobile .card-grid {
+  grid-template-columns: 1fr !important;
+  padding: var(--qo-space-3);
+  gap: var(--qo-space-3);
+}
+
+// Mobile: tighter card padding
+:host.viewport-mobile .record-card {
+  padding: var(--qo-space-3);
+}
+
+// Tablet/mobile: keep pagination metadata compact inside the simulated device.
+:host.viewport-tablet .preview-pagination-bar,
+:host.viewport-mobile .preview-pagination-bar {
+  gap: var(--qo-space-2);
+  padding: var(--qo-space-2) var(--qo-space-3);
+}
+
+:host.viewport-tablet .preview-pagination-bar__status,
+:host.viewport-mobile .preview-pagination-bar__status {
+  font-size: var(--qo-size-10);
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+}
+
+:host.viewport-tablet .preview-pagination-bar__page,
+:host.viewport-mobile .preview-pagination-bar__page {
+  font-size: var(--qo-size-11);
+  line-height: 1.2;
+  text-align: center;
+}
+
+:host.viewport-tablet .preview-pagination-bar__actions,
+:host.viewport-mobile .preview-pagination-bar__actions {
+  gap: var(--qo-space-1);
+}
+
+// Tablet/mobile: prevent the record detail drawer from exceeding the preview viewport.
+:host.viewport-tablet .detail-panel__backdrop,
+:host.viewport-mobile .detail-panel__backdrop {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: var(--qo-z-print-area);
+  background: transparent;
+}
+
+:host.viewport-tablet .detail-panel {
+  width: min(26rem, 100%) !important;
+  min-width: 0;
+  max-width: 100%;
+  border-radius: var(--qo-size-12) 0 0 var(--qo-size-12);
+  box-shadow: var(--qo-shadow-modal);
+  z-index: var(--qo-z-print-area);
+}
+
+:host.viewport-mobile .detail-panel {
+  inset: var(--qo-size-10);
+  width: auto !important;
+  min-width: 0;
+  max-width: none;
+  height: auto;
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-size-14);
+  box-shadow: var(--qo-shadow-modal);
+  overflow: hidden;
+  animation-name: preview-mobile-detail-in;
+  z-index: var(--qo-z-print-area);
+}
+
+:host.viewport-tablet .detail-panel__resize-handle,
+:host.viewport-mobile .detail-panel__resize-handle {
+  display: none;
+}
+
+:host.viewport-tablet .detail-panel__header,
+:host.viewport-mobile .detail-panel__header {
+  align-items: flex-start;
+  gap: var(--qo-size-10);
+  padding: var(--qo-size-12);
+}
+
+:host.viewport-mobile .detail-panel__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  background: var(--qo-color-neutral-0);
+}
+
+:host.viewport-tablet .detail-panel__header h3,
+:host.viewport-mobile .detail-panel__header h3 {
+  font-size: var(--qo-size-16);
+  line-height: 1.25;
+}
+
+:host.viewport-mobile .detail-panel__header h3 {
+  min-width: 0;
+  padding-top: var(--qo-size-3);
+}
+
+:host.viewport-tablet .detail-panel__header-actions,
+:host.viewport-mobile .detail-panel__header-actions {
+  gap: var(--qo-size-6);
+}
+
+:host.viewport-mobile .detail-panel__header-actions {
+  justify-content: flex-end;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+:host.viewport-tablet .detail-panel__body,
+:host.viewport-mobile .detail-panel__body {
+  padding: var(--qo-size-10);
+  background: linear-gradient(180deg, var(--qo-color-neutral-50), var(--qo-color-neutral-0) 4.5rem);
+}
+
+:host.viewport-tablet .detail-panel__row,
+:host.viewport-mobile .detail-panel__row {
+  grid-template-columns: minmax(0, 44%) minmax(0, 1fr);
+}
+
+:host.viewport-tablet .detail-panel__row span,
+:host.viewport-tablet .detail-panel__row strong,
+:host.viewport-mobile .detail-panel__row span,
+:host.viewport-mobile .detail-panel__row strong {
+  padding: var(--qo-size-10);
+  font-size: var(--qo-size-13);
+  line-height: 1.35;
+  min-width: 0;
+}
+
+:host.viewport-mobile .detail-panel__row {
+  grid-template-columns: minmax(0, 1fr);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-size-8);
+  background: var(--qo-color-neutral-0);
+  overflow: hidden;
+}
+
+:host.viewport-mobile .detail-panel__row + .detail-panel__row {
+  margin-top: var(--qo-size-8);
+}
+
+:host.viewport-mobile .detail-panel__row span {
+  padding-bottom: var(--qo-size-4);
+  border-right: 0;
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-size-12);
+}
+
+:host.viewport-mobile .detail-panel__row strong {
+  padding-top: 0;
+  font-size: var(--qo-size-14);
+}
+
+:host.viewport-mobile .detail-panel__block {
+  border-radius: var(--qo-size-10);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+}
+
+:host.viewport-mobile .detail-panel__block h4 {
+  padding: var(--qo-size-10) var(--qo-size-12);
+  font-size: var(--qo-size-12);
+  letter-spacing: 0.06em;
+}
+
+:host.viewport-mobile .detail-panel__block-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-size-8);
+  padding: var(--qo-size-8);
+}
+
+:host.viewport-mobile .detail-panel__block-col {
+  border-left: 0;
+  min-width: 0;
+}
+
+:host.viewport-mobile .detail-panel__block-col + .detail-panel__block-col {
+  border-left: 0;
+}
+
+:host.viewport-mobile .detail-panel__block-col .detail-panel__row + .detail-panel__row {
+  margin-top: var(--qo-size-8);
+}
+
+:host.viewport-mobile ::ng-deep .detail-panel__action .qo-btn {
+  min-height: var(--qo-size-36);
+  padding-inline: var(--qo-size-10);
+  border-radius: var(--qo-size-8);
+  font-size: var(--qo-size-12);
+}
+
+:host.viewport-mobile .detail-panel__close {
+  width: var(--qo-size-36);
+  height: var(--qo-size-36);
+  justify-content: center;
+  border-radius: var(--qo-size-8);
+}
+
+:host.viewport-mobile .detail-panel__close:hover {
+  background: var(--qo-color-neutral-100);
+  color: var(--qo-color-neutral-900);
+}
+
+@keyframes preview-mobile-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 360px) {
+  :host.viewport-mobile .detail-panel__block-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-card--preview button,
+  .record-card,
+  .detail-panel,
+  .detail-panel__tab,
+  .detail-panel__canvas-tab-btn,
+  .context-row-menu,
+  .row-menu,
+  .column-menu,
+  .export-menu,
+  .detail-panel__more-menu,
+  :host ::ng-deep .modal-card--preview qo-button .qo-btn {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+// Mobile/Tablet: hide list/card toggle pills (auto-switched by viewport)
+:host.viewport-tablet .preview-toolbar__left,
+:host.viewport-mobile .preview-toolbar__left {
+  display: none !important;
+}
+
+:host.viewport-tablet .export-menu,
+:host.viewport-mobile .export-menu {
+  left: 0;
+  right: auto;
+  max-width: calc(100vw - (var(--qo-space-4) * 2));
+}

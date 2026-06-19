@@ -1,0 +1,59 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<header class="workflow-editor__topbar">
+  <button
+    class="workflow-editor__collapse"
+    type="button"
+    [attr.aria-label]="t('accessibility.collapseSidebar')"
+    [title]="t('accessibility.collapseSidebar')"
+  >
+    <span></span>
+  </button>
+  <p>{{ workflowContextLabel() }}</p>
+
+  <div class="workflow-editor__topbar-actions">
+    <span class="workflow-editor__topbar-pill">{{ workflowStatusLabel() }}</span>
+    <span class="workflow-editor__topbar-pill">{{ workflowVersionLabel() }}</span>
+    <span class="workflow-editor__topbar-pill" [class.workflow-editor__topbar-pill--dirty]="dirty()">
+      {{ saveStateLabel() }}
+    </span>
+
+    @if (canDeleteSelectedNode()) {
+      <qo-button variant="danger" size="sm" type="button" iconLeft="trash" (click)="deleteSelectedNode.emit()">
+        {{ 'actions.delete' | transloco }}
+      </qo-button>
+    }
+
+    <qo-button
+      variant="secondary"
+      size="sm"
+      type="button"
+      iconLeft="check"
+      (click)="validateWorkflow.emit()"
+    >
+      {{ 'actions.validate' | transloco }}
+    </qo-button>
+
+    <qo-button
+      variant="secondary"
+      size="sm"
+      type="button"
+      iconLeft="play"
+      [loading]="running()"
+      (click)="testRunWorkflow.emit()"
+    >
+      {{ t('common.testRun') }}
+    </qo-button>
+
+    <qo-button
+      variant="primary"
+      size="sm"
+      type="button"
+      iconLeft="save"
+      [loading]="saving()"
+      (click)="saveWorkflow.emit()"
+    >
+      {{ 'actions.save' | transloco }}
+    </qo-button>
+  </div>
+</header>
+</ng-container>

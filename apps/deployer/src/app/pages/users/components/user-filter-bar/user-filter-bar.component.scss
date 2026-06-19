@@ -1,0 +1,67 @@
+:host {
+  display: block;
+}
+
+.users-toolbar,
+.users-toolbar__filters {
+  display: flex;
+  align-items: center;
+}
+
+.users-toolbar {
+  justify-content: space-between;
+  gap: var(--qo-space-6);
+  flex-wrap: wrap;
+}
+
+.users-toolbar__filters {
+  gap: var(--qo-space-4);
+  flex: 1 1 var(--qo-size-540);
+  min-width: 0;
+}
+
+qo-search-bar {
+  width: var(--qo-size-384);
+  max-width: 42vw;
+  --qo-input-border-color: var(--qo-deployer-line);
+  --qo-input-border-radius: var(--qo-radius-md);
+  --qo-input-bg: var(--qo-deployer-field-background);
+  --qo-input-color: var(--qo-deployer-text);
+  --qo-input-placeholder-color: var(--qo-deployer-text-muted);
+  --qo-input-prefix-color: var(--qo-deployer-text-muted);
+  --qo-input-height-md: var(--qo-size-40);
+  --qo-input-font-size-md: var(--qo-text-sm);
+}
+
+qo-filter-pills {
+  --qo-filter-pills-gap: var(--qo-space-3);
+  --qo-filter-pills-padding: 0;
+  --qo-filter-pills-border: 0;
+  --qo-filter-pills-radius: 0;
+  --qo-filter-pills-bg: transparent;
+  --qo-filter-pill-min-width: var(--qo-size-84);
+  --qo-filter-pill-min-height: var(--qo-size-38);
+  --qo-filter-pill-radius: var(--qo-radius-md);
+  --qo-filter-pill-bg: var(--qo-deployer-card-background);
+  --qo-filter-pill-color: var(--qo-deployer-text-muted);
+  --qo-filter-pill-font-size: var(--qo-text-xs);
+  --qo-filter-pill-font-weight: 800;
+  --qo-filter-pill-letter-spacing: 0.12em;
+  --qo-filter-pill-text-transform: uppercase;
+  --qo-filter-pill-hover-color: var(--qo-deployer-text);
+  --qo-filter-pill-active-bg: var(--qo-deployer-brand-soft);
+  --qo-filter-pill-active-color: var(--qo-deployer-text);
+}
+
+.users-count {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-sm);
+  white-space: nowrap;
+}
+
+@media (max-width: var(--qo-size-980)) {
+  qo-search-bar {
+    width: 100%;
+    max-width: none;
+  }
+}

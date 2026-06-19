@@ -1,0 +1,13 @@
+<pb-ui-panel-widget-renderer
+  [resolvedConfig]="resolvedConfig()"
+  [layoutVariant]="layoutVariant()"
+  [interactive]="interactive()"
+  [displayValue]="displayValue()"
+  [displayCopy]="displayCopy()"
+  [secondaryCopy]="secondaryCopy()"
+  [footerCopy]="footerCopy()"
+  [selectedSectionId]="selectedSectionId()"
+  [resolutionState]="resolution().state"
+  [shouldReverseMetric]="shouldReverseMetricOrder()"
+  (sectionSelected)="onSectionSelected($event)"
+></pb-ui-panel-widget-renderer>

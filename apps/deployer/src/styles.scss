@@ -1,0 +1,638 @@
+@use '../../../libs/ui-components/src/styles/reset';
+@use '../../../libs/ui-components/src/styles/tokens';
+@use '../../../libs/ui-components/src/styles/typography';
+
+:root {
+  background-color: var(--qo-shell-bg);
+  color: var(--qo-shell-text);
+
+  --deployer-bg: var(--qo-color-neutral-900);
+  --deployer-surface: var(--qo-color-neutral-800);
+  --deployer-surface-raised: var(--qo-color-neutral-700);
+  --deployer-border: var(--qo-color-neutral-700);
+  --deployer-text: var(--qo-color-neutral-0);
+  --deployer-text-muted: var(--qo-color-neutral-400);
+  --deployer-input-bg: var(--qo-color-neutral-800);
+  --deployer-input-border: var(--qo-color-neutral-700);
+  --deployer-modal-backdrop: var(--qo-overlay-backdrop-dark);
+
+  // Compatibility aliases for existing deployer SCSS while it is migrated.
+  --bg: var(--qo-shell-bg);
+  --bg-elevated: var(--qo-shell-bg-elevated);
+  --surface: var(--qo-shell-surface);
+  --surface-muted: var(--qo-shell-surface-muted);
+  --surface-soft: var(--qo-shell-surface-soft);
+  --surface-strong: var(--qo-shell-surface-strong);
+  --surface-input: var(--qo-shell-surface-input);
+  --line: var(--qo-shell-line);
+  --line-strong: var(--qo-shell-line-strong);
+  --text: var(--qo-shell-text);
+  --text-soft: var(--qo-shell-text-soft);
+  --text-muted: var(--qo-shell-text-muted);
+  --brand: var(--qo-shell-brand);
+  --brand-soft: var(--qo-shell-brand-soft);
+  --brand-deep: var(--qo-shell-brand-deep);
+  --accent: var(--qo-shell-accent);
+  --accent-soft: var(--qo-shell-accent-soft);
+  --danger: var(--qo-shell-danger);
+  --danger-soft: var(--qo-shell-danger-soft);
+  --warning: var(--qo-shell-warning);
+  --warning-soft: var(--qo-shell-warning-soft);
+  --shadow-sm: var(--qo-shell-shadow-sm);
+  --shadow-md: var(--qo-shell-shadow-md);
+  --shadow-lg: var(--qo-shell-shadow-lg);
+  --radius-sm: var(--qo-shell-radius-sm);
+  --radius-md: var(--qo-shell-radius-md);
+  --radius-lg: var(--qo-shell-radius-lg);
+  --radius-xl: var(--qo-shell-radius-xl);
+  --nav-height: var(--qo-shell-nav-height);
+  --sidebar-width: var(--qo-shell-sidebar-width);
+  --shell-width: var(--qo-shell-width);
+  --font-sans: var(--qo-shell-font-sans);
+  --content-gap: var(--qo-shell-content-gap);
+  --section-gap: var(--qo-shell-section-gap);
+}
+
+html {
+  min-height: 100%;
+  background: var(--deployer-bg);
+}
+
+body {
+  min-width: var(--qo-deployer-body-min-width);
+  min-height: 100vh;
+  margin: 0;
+  background: var(--deployer-bg);
+  color: var(--deployer-text);
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+  background: var(--deployer-bg);
+  color: var(--deployer-text);
+}
+
+body.qo-theme-dark {
+  --deployer-bg: var(--qo-color-neutral-900);
+  --deployer-surface: var(--qo-color-neutral-800);
+  --deployer-surface-raised: color-mix(in srgb, var(--qo-color-neutral-800) 82%, var(--qo-color-neutral-700));
+  --deployer-border: var(--qo-color-neutral-700);
+  --deployer-text: var(--qo-color-neutral-0);
+  --deployer-text-muted: var(--qo-color-neutral-400);
+  --deployer-input-bg: var(--qo-deployer-surface-highest);
+  --deployer-input-border: color-mix(in srgb, var(--qo-deployer-outline-variant) 26%, transparent);
+  --deployer-modal-backdrop: var(--qo-overlay-backdrop-dark);
+
+  --qo-deployer-surface-lowest: var(--qo-color-neutral-900);
+  --qo-deployer-surface-dim: var(--qo-color-neutral-900);
+  --qo-deployer-surface-low: color-mix(in srgb, var(--qo-color-neutral-900) 92%, var(--qo-color-neutral-800));
+  --qo-deployer-surface: var(--qo-color-neutral-800);
+  --qo-deployer-surface-high: color-mix(in srgb, var(--qo-color-neutral-800) 82%, var(--qo-color-neutral-700));
+  --qo-deployer-surface-highest: color-mix(in srgb, var(--qo-color-neutral-800) 68%, var(--qo-color-neutral-700));
+  --qo-deployer-outline-variant: var(--qo-color-neutral-700);
+  --qo-deployer-outline: var(--qo-color-neutral-500);
+  --qo-deployer-body-background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--qo-deployer-surface-highest) 20%, transparent), transparent 28%),
+    linear-gradient(180deg, var(--qo-deployer-surface-dim), var(--qo-deployer-surface-dim));
+  --qo-deployer-shell-background: var(--qo-deployer-surface-dim);
+  --qo-deployer-shell-border: color-mix(in srgb, var(--qo-deployer-outline-variant) 18%, transparent);
+  --qo-deployer-sidebar-background: var(--qo-deployer-surface-low);
+  --qo-deployer-sidebar-border: color-mix(in srgb, var(--qo-deployer-outline-variant) 12%, transparent);
+  --qo-deployer-workspace-grid-line: color-mix(in srgb, var(--qo-color-neutral-700) 24%, transparent);
+  --qo-deployer-workspace-glow: color-mix(in srgb, var(--qo-deployer-surface-highest) 20%, transparent);
+  --qo-deployer-card-background: var(--qo-deployer-surface-low);
+  --qo-deployer-brand-soft: var(--qo-deployer-surface);
+  --qo-deployer-line: color-mix(in srgb, var(--qo-deployer-outline-variant) 26%, transparent);
+  --qo-deployer-line-strong: color-mix(in srgb, var(--qo-deployer-outline) 36%, transparent);
+  --qo-deployer-card-shadow: var(--qo-shadow-md);
+  --qo-deployer-sidebar-shadow: var(--qo-shadow-lg);
+  --qo-deployer-heading-color: var(--deployer-text);
+  --qo-deployer-text: var(--deployer-text);
+  --qo-deployer-text-muted: var(--deployer-text-muted);
+  --qo-deployer-field-background: var(--qo-deployer-surface-highest);
+  --qo-deployer-field-focus-background: var(--qo-deployer-hover-surface);
+  --qo-deployer-field-focus-shadow: 0 0 0 var(--qo-size-1) color-mix(in srgb, var(--qo-deployer-outline) 48%, transparent);
+  --qo-deployer-hover-surface: color-mix(in srgb, var(--qo-deployer-surface-highest) 88%, var(--qo-color-neutral-0));
+}
+
+body.qo-theme-light {
+  --deployer-bg: var(--qo-color-neutral-50);
+  --deployer-grid-line: var(--qo-color-neutral-200);
+  --deployer-topbar-bg: var(--qo-color-neutral-0);
+  --deployer-sidebar-bg: var(--qo-color-neutral-0);
+  --deployer-surface: var(--qo-color-neutral-0);
+  --deployer-surface-raised: var(--qo-color-neutral-100);
+  --deployer-border: var(--qo-color-neutral-200);
+  --deployer-text: var(--qo-color-neutral-900);
+  --deployer-text-muted: var(--qo-color-neutral-500);
+  --deployer-input-bg: var(--qo-color-neutral-0);
+  --deployer-input-border: var(--qo-color-neutral-200);
+  --deployer-modal-backdrop: var(--qo-overlay-backdrop);
+  --deployer-button-primary-bg: var(--qo-color-neutral-900);
+  --deployer-button-primary-text: var(--qo-color-neutral-0);
+  --deployer-button-primary-hover-bg: var(--qo-color-neutral-700);
+  --deployer-button-secondary-bg: var(--qo-color-neutral-0);
+  --deployer-button-secondary-text: var(--qo-color-neutral-900);
+  --deployer-button-secondary-border: var(--qo-color-neutral-300);
+  --deployer-button-secondary-hover-bg: var(--qo-color-neutral-100);
+  --deployer-button-disabled-bg: var(--qo-color-neutral-100);
+  --deployer-button-disabled-text: var(--qo-color-neutral-500);
+
+  --qo-deployer-surface-lowest: var(--qo-color-neutral-50);
+  --qo-deployer-surface-dim: var(--qo-color-neutral-50);
+  --qo-deployer-surface-low: var(--qo-color-neutral-0);
+  --qo-deployer-surface: var(--qo-color-neutral-100);
+  --qo-deployer-surface-high: var(--qo-color-neutral-0);
+  --qo-deployer-surface-highest: color-mix(in srgb, var(--qo-color-neutral-0) 78%, var(--qo-color-neutral-100));
+  --qo-deployer-outline-variant: var(--qo-color-neutral-200);
+  --qo-deployer-outline: var(--qo-color-neutral-500);
+  --qo-deployer-body-background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--qo-color-neutral-200) 28%, transparent), transparent 28%),
+    linear-gradient(180deg, var(--qo-deployer-surface-dim), var(--qo-deployer-surface-dim));
+  --qo-deployer-shell-background: var(--deployer-topbar-bg);
+  --qo-deployer-shell-border: var(--qo-color-neutral-200);
+  --qo-deployer-sidebar-background: var(--deployer-sidebar-bg);
+  --qo-deployer-sidebar-border: var(--qo-color-neutral-200);
+  --qo-deployer-workspace-grid-line: color-mix(in srgb, var(--deployer-grid-line) 64%, transparent);
+  --qo-deployer-workspace-glow: color-mix(in srgb, var(--qo-color-neutral-200) 22%, transparent);
+  --qo-deployer-card-background: var(--deployer-surface);
+  --qo-deployer-brand-soft: var(--deployer-surface-raised);
+  --qo-deployer-line: var(--deployer-border);
+  --qo-deployer-line-strong: var(--qo-color-neutral-300);
+  --qo-deployer-card-shadow: var(--qo-shadow-sm);
+  --qo-deployer-sidebar-shadow: var(--qo-shadow-sm);
+  --qo-deployer-heading-color: var(--deployer-text);
+  --qo-deployer-text: var(--deployer-text);
+  --qo-deployer-text-muted: var(--deployer-text-muted);
+  --qo-deployer-field-background: var(--deployer-input-bg);
+  --qo-deployer-field-focus-background: var(--deployer-input-bg);
+  --qo-deployer-field-focus-shadow: 0 0 0 var(--qo-size-1) color-mix(in srgb, var(--qo-color-neutral-700) 32%, transparent);
+  --qo-deployer-hover-surface: var(--qo-color-neutral-100);
+}
+
+body.qo-theme-light,
+body.qo-theme-light app-root,
+body.qo-theme-light app-shell {
+  min-height: 100vh;
+  background: var(--deployer-bg);
+  color: var(--deployer-text);
+}
+
+body.qo-theme-light .app-card,
+body.qo-theme-light .settings-card,
+body.qo-theme-light .hero-card,
+body.qo-theme-light .application-card {
+  background: var(--deployer-surface);
+  border-color: var(--deployer-border);
+  color: var(--deployer-text);
+}
+
+body.qo-theme-light .workspace,
+body.qo-theme-light .shell {
+  background-color: var(--deployer-bg);
+}
+
+body.qo-theme-light .settings-card__label,
+body.qo-theme-light .mini-label,
+body.qo-theme-light .usage-layer__label,
+body.qo-theme-light .users-breadcrumb,
+body.qo-theme-light .usage-breadcrumb,
+body.qo-theme-light .settings-breadcrumb,
+body.qo-theme-light .summary-row span,
+body.qo-theme-light .support-copy,
+body.qo-theme-light .admin-item__copy span,
+body.qo-theme-light .user-identity span,
+body.qo-theme-light .user-contact span,
+body.qo-theme-light .user-login span {
+  color: var(--deployer-text-muted);
+}
+
+body.qo-theme-light h1,
+body.qo-theme-light h2,
+body.qo-theme-light h3,
+body.qo-theme-light .qo-page-section-title,
+body.qo-theme-light .summary-row strong,
+body.qo-theme-light .admin-item__copy strong,
+body.qo-theme-light .user-identity strong,
+body.qo-theme-light .user-contact strong,
+body.qo-theme-light .user-login strong,
+body.qo-theme-light .user-session {
+  color: var(--deployer-text);
+}
+
+body.qo-theme-light .qo-page-section-description,
+body.qo-theme-light .qo-page-section-eyebrow {
+  color: var(--deployer-text-muted);
+}
+
+body.qo-theme-light qo-search-bar {
+  --qo-input-bg: var(--deployer-input-bg);
+  --qo-input-border-color: var(--deployer-input-border);
+  --qo-input-color: var(--deployer-text);
+  --qo-input-placeholder-color: var(--deployer-text-muted);
+  --qo-input-prefix-color: var(--deployer-text-muted);
+  --qo-input-focus-border-color: var(--qo-deployer-line-strong);
+}
+
+body.qo-theme-light qo-table,
+body.qo-theme-light qo-table.users-table-wrapper {
+  --qo-table-bg: var(--deployer-surface);
+  --qo-table-heading-bg: var(--deployer-surface-raised);
+  --qo-table-heading-color: var(--deployer-text-muted);
+  --qo-table-border-color: var(--deployer-border);
+  --qo-table-row-bg: var(--deployer-surface);
+  --qo-table-row-hover-bg: var(--deployer-surface-raised);
+  --qo-table-row-border-color: var(--deployer-border);
+  --qo-table-cell-color: var(--deployer-text);
+  --qo-table-detail-bg: var(--deployer-surface-raised);
+}
+
+body.qo-theme-light qo-filter-pills {
+  --qo-filter-pills-gap: var(--qo-space-2);
+  --qo-filter-pills-bg: transparent;
+  --qo-filter-pills-border: 0;
+  --qo-filter-pill-min-height: var(--qo-size-36);
+  --qo-filter-pill-padding: 0 var(--qo-space-4);
+  --qo-filter-pill-radius: var(--qo-radius-md);
+  --qo-filter-pill-border: var(--qo-size-1) solid var(--deployer-button-secondary-border);
+  --qo-filter-pill-bg: var(--deployer-button-secondary-bg);
+  --qo-filter-pill-color: var(--deployer-button-secondary-text);
+  --qo-filter-pill-hover-bg: var(--deployer-button-secondary-hover-bg);
+  --qo-filter-pill-hover-color: var(--deployer-button-secondary-text);
+  --qo-filter-pill-hover-border-color: var(--deployer-button-secondary-border);
+  --qo-filter-pill-active-bg: var(--deployer-button-primary-bg);
+  --qo-filter-pill-active-color: var(--deployer-button-primary-text);
+  --qo-filter-pill-active-border-color: var(--deployer-button-primary-bg);
+  --qo-filter-pill-font-weight: 800;
+  --qo-filter-pill-letter-spacing: 0.08em;
+  --qo-filter-pill-text-transform: uppercase;
+}
+
+body.qo-theme-light qo-button.add-org-button,
+body.qo-theme-light qo-button.toolbar-filter,
+body.qo-theme-light qo-button.invoice-export-button,
+body.qo-theme-light qo-button.settings-secondary-button,
+body.qo-theme-light qo-button.settings-builder-button,
+body.qo-theme-light qo-button.billing-plan-button {
+  --qo-button-height: var(--qo-size-36);
+  --qo-button-min-height: var(--qo-size-36);
+  --qo-button-min-width: auto;
+  --qo-button-padding: 0 var(--qo-space-4);
+  --qo-button-radius: var(--qo-radius-md);
+  --qo-button-bg: var(--deployer-button-secondary-bg);
+  --qo-button-border-color: var(--deployer-button-secondary-border);
+  --qo-button-color: var(--deployer-button-secondary-text);
+  --qo-button-hover-bg: var(--deployer-button-secondary-hover-bg);
+  --qo-button-hover-border-color: var(--deployer-button-secondary-border);
+  --qo-button-hover-color: var(--deployer-button-secondary-text);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 800;
+  --qo-button-letter-spacing: 0.08em;
+  --qo-button-text-transform: uppercase;
+  --qo-button-box-shadow: none;
+}
+
+body.qo-theme-light qo-button.toolbar-filter {
+  --qo-button-min-width: var(--qo-size-108);
+}
+
+body.qo-theme-light qo-button.users-row-button,
+body.qo-theme-light qo-button.inline-action,
+body.qo-theme-light qo-button.admin-item__action,
+body.qo-theme-light qo-button.row-action,
+body.qo-theme-light qo-button.table-action,
+body.qo-theme-light qo-button.invoice-pdf-button {
+  --qo-button-min-height: var(--qo-size-28);
+  --qo-button-height: var(--qo-size-28);
+  --qo-button-padding: 0 var(--qo-space-1);
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: var(--deployer-text-muted);
+  --qo-button-hover-bg: var(--deployer-surface-raised);
+  --qo-button-hover-color: var(--deployer-text);
+  --qo-button-hover-border-color: transparent;
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 800;
+  --qo-button-letter-spacing: 0.08em;
+  --qo-button-text-transform: uppercase;
+  --qo-button-box-shadow: none;
+}
+
+body.qo-theme-light qo-button.dashboard-new-app,
+body.qo-theme-light qo-button.users-add-button,
+body.qo-theme-light qo-button.settings-save-button,
+body.qo-theme-light qo-button.record-payment-button,
+body.qo-theme-light qo-button.org-modal-submit,
+body.qo-theme-light qo-button.app-modal-submit,
+body.qo-theme-light qo-button.user-modal__submit,
+body.qo-theme-light qo-button.edit-user-modal__save,
+body.qo-theme-light qo-button.password-reset-modal__send,
+body.qo-theme-light qo-button.payment-modal__submit,
+body.qo-theme-light qo-button.billing-action-button {
+  --qo-button-height: var(--qo-size-36);
+  --qo-button-min-height: var(--qo-size-36);
+  --qo-button-padding: 0 var(--qo-space-4);
+  --qo-button-radius: var(--qo-radius-md);
+  --qo-button-bg: var(--deployer-button-primary-bg);
+  --qo-button-border-color: var(--deployer-button-primary-bg);
+  --qo-button-color: var(--deployer-button-primary-text);
+  --qo-button-hover-bg: var(--deployer-button-primary-hover-bg);
+  --qo-button-hover-border-color: var(--deployer-button-primary-hover-bg);
+  --qo-button-hover-color: var(--deployer-button-primary-text);
+  --qo-button-disabled-bg: var(--deployer-button-disabled-bg);
+  --qo-button-disabled-color: var(--deployer-button-disabled-text);
+  --qo-button-disabled-border-color: var(--deployer-button-secondary-border);
+  --qo-button-disabled-opacity: 1;
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 800;
+  --qo-button-letter-spacing: 0.08em;
+  --qo-button-text-transform: uppercase;
+  --qo-button-box-shadow: none;
+}
+
+body.qo-theme-light qo-button.org-modal-cancel,
+body.qo-theme-light qo-button.app-modal-cancel,
+body.qo-theme-light qo-button.user-modal__cancel,
+body.qo-theme-light qo-button.edit-user-modal__cancel,
+body.qo-theme-light qo-button.edit-user-modal__reset,
+body.qo-theme-light qo-button.password-reset-modal__cancel,
+body.qo-theme-light qo-button.payment-modal__cancel {
+  --qo-button-height: var(--qo-size-36);
+  --qo-button-min-height: var(--qo-size-36);
+  --qo-button-padding: 0 var(--qo-space-2);
+  --qo-button-radius: var(--qo-radius-md);
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: var(--deployer-text-muted);
+  --qo-button-hover-bg: var(--deployer-surface-raised);
+  --qo-button-hover-color: var(--deployer-text);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 800;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+  --qo-button-box-shadow: none;
+}
+
+body.qo-theme-light qo-form-field {
+  --qo-form-label-color: var(--deployer-text-muted);
+  --qo-form-hint-color: var(--deployer-text-muted);
+}
+
+body.qo-theme-light qo-input,
+body.qo-theme-light qo-input.settings-input,
+body.qo-theme-light qo-input.settings-input--danger,
+body.qo-theme-light qo-select {
+  --qo-input-bg: var(--deployer-input-bg);
+  --qo-input-border-color: var(--deployer-input-border);
+  --qo-input-color: var(--deployer-text);
+  --qo-input-placeholder-color: var(--deployer-text-muted);
+  --qo-input-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-select-bg: var(--deployer-input-bg);
+  --qo-select-bg-hover: var(--deployer-input-bg);
+  --qo-select-bg-focus: var(--deployer-input-bg);
+  --qo-select-border-color: var(--deployer-input-border);
+  --qo-select-border-color-hover: var(--qo-deployer-line-strong);
+  --qo-select-border-color-focus: var(--qo-deployer-line-strong);
+  --qo-select-color: var(--deployer-text);
+  --qo-select-placeholder-color: var(--deployer-text-muted);
+  --qo-select-dropdown-bg: var(--deployer-surface);
+  --qo-select-dropdown-border-color: var(--deployer-border);
+  --qo-select-option-color: var(--deployer-text);
+  --qo-select-option-hover-bg: var(--deployer-surface-raised);
+  --qo-select-option-selected-bg: var(--deployer-surface-raised);
+  --qo-select-option-selected-color: var(--deployer-text);
+}
+
+body.qo-theme-light .settings-textarea,
+body.qo-theme-light .settings-select__value,
+body.qo-theme-light .settings-select__option,
+body.qo-theme-light .settings-select__trigger {
+  color: var(--deployer-text);
+}
+
+body.qo-theme-light .settings-select__trigger,
+body.qo-theme-light .settings-select__trigger--open,
+body.qo-theme-light .field-shell {
+  background: var(--deployer-input-bg);
+  border-color: var(--deployer-input-border);
+}
+
+body.qo-theme-light .settings-select__panel {
+  background: var(--deployer-surface);
+  border-color: var(--deployer-border);
+  box-shadow: var(--qo-shadow-lg);
+}
+
+body.qo-theme-light .settings-select__option:hover,
+body.qo-theme-light .settings-select__option--selected {
+  background: var(--deployer-surface-raised);
+  color: var(--deployer-text);
+}
+
+body.qo-theme-light .settings-card--danger {
+  background: var(--deployer-surface);
+  border-color: color-mix(in srgb, var(--qo-color-danger-500) 28%, var(--deployer-border));
+}
+
+body.qo-theme-light .admin-item__avatar {
+  background: var(--deployer-surface-raised);
+  color: var(--deployer-text);
+}
+
+body.qo-theme-light app-user-table qo-table.users-table-wrapper,
+body.qo-theme-light app-data-source-table qo-table,
+body.qo-theme-light app-payment-records qo-table.payments-table-wrapper {
+  --qo-table-bg: var(--deployer-surface);
+  --qo-table-heading-bg: var(--deployer-surface-raised);
+  --qo-table-heading-color: var(--deployer-text-muted);
+  --qo-table-border-color: var(--deployer-border);
+  --qo-table-row-bg: var(--deployer-surface);
+  --qo-table-row-hover-bg: var(--deployer-surface-raised);
+  --qo-table-row-border-color: var(--deployer-border);
+  --qo-table-cell-color: var(--deployer-text);
+  --qo-table-detail-bg: var(--deployer-surface-raised);
+}
+
+body.qo-theme-light app-user-table .user-identity strong,
+body.qo-theme-light app-user-table .user-contact strong,
+body.qo-theme-light app-user-table .user-login strong,
+body.qo-theme-light app-user-table .user-session,
+body.qo-theme-light app-data-source-table .usage-detail-block__title,
+body.qo-theme-light app-payment-records .payment-reference,
+body.qo-theme-light app-payment-records .payment-invoice {
+  color: var(--deployer-text);
+}
+
+body.qo-theme-light app-user-table .user-identity span,
+body.qo-theme-light app-user-table .user-contact span,
+body.qo-theme-light app-user-table .user-login span,
+body.qo-theme-light app-data-source-table .subtle-cell,
+body.qo-theme-light app-data-source-table .usage-detail-block__counts,
+body.qo-theme-light app-data-source-table .usage-detail-hint,
+body.qo-theme-light app-data-source-table .usage-detail-block__label,
+body.qo-theme-light app-payment-records .payment-muted {
+  color: var(--deployer-text-muted);
+}
+
+body.qo-theme-light app-user-filter-bar qo-search-bar {
+  --qo-input-bg: var(--deployer-input-bg);
+  --qo-input-border-color: var(--deployer-input-border);
+  --qo-input-color: var(--deployer-text);
+  --qo-input-placeholder-color: var(--deployer-text-muted);
+  --qo-input-prefix-color: var(--deployer-text-muted);
+}
+
+body.qo-theme-light app-user-filter-bar qo-filter-pills {
+  --qo-filter-pill-bg: var(--deployer-button-secondary-bg);
+  --qo-filter-pill-color: var(--deployer-button-secondary-text);
+  --qo-filter-pill-hover-bg: var(--deployer-button-secondary-hover-bg);
+  --qo-filter-pill-hover-color: var(--deployer-button-secondary-text);
+  --qo-filter-pill-active-bg: var(--deployer-button-primary-bg);
+  --qo-filter-pill-active-color: var(--deployer-button-primary-text);
+}
+
+body.qo-theme-light app-cumulative-metrics-grid .usage-metric-card,
+body.qo-theme-light app-outstanding-balance-card .payments-balance-card,
+body.qo-theme-light app-settings-billing-tax-tab .billing-card {
+  background: var(--deployer-surface);
+  border-color: var(--deployer-border);
+  color: var(--deployer-text);
+  box-shadow: var(--qo-deployer-card-shadow);
+}
+
+body.qo-theme-light app-cumulative-metrics-grid .usage-metric-card:hover {
+  background: var(--deployer-surface-raised);
+  border-color: var(--qo-deployer-line-strong);
+  box-shadow: var(--qo-deployer-card-shadow);
+}
+
+body.qo-theme-light app-cumulative-metrics-grid .usage-metric-card__label,
+body.qo-theme-light app-cumulative-metrics-grid .usage-metric-card__meta,
+body.qo-theme-light app-outstanding-balance-card .payments-label,
+body.qo-theme-light app-outstanding-balance-card .payments-balance-line span,
+body.qo-theme-light app-outstanding-balance-card .payments-balance-copy p,
+body.qo-theme-light app-settings-billing-tax-tab .settings-card__label,
+body.qo-theme-light app-settings-billing-tax-tab .field-hint,
+body.qo-theme-light app-settings-billing-tax-tab .plan-summary-row,
+body.qo-theme-light app-settings-billing-tax-tab .plan-summary-row span {
+  color: var(--deployer-text-muted);
+}
+
+body.qo-theme-light app-cumulative-metrics-grid .usage-metric-card__value,
+body.qo-theme-light app-settings-billing-tax-tab .plan-summary-row strong {
+  color: var(--deployer-text);
+}
+
+body.qo-theme-light app-data-source-table .type-chip {
+  background: var(--deployer-surface-raised);
+  color: var(--deployer-text-muted);
+}
+
+body.qo-theme-light app-data-source-table .usage-detail-block {
+  background: var(--deployer-surface-raised);
+  border-top-color: var(--deployer-border);
+}
+
+body.qo-theme-light app-settings-organisation-tab .settings-card,
+body.qo-theme-light app-organisation-details-form .settings-card {
+  background: var(--deployer-surface);
+  border-color: var(--deployer-border);
+  color: var(--deployer-text);
+}
+
+body.qo-theme-light app-settings-organisation-tab .settings-card__label,
+body.qo-theme-light app-organisation-details-form .settings-card__label,
+body.qo-theme-light app-settings-organisation-tab .summary-row span,
+body.qo-theme-light app-settings-organisation-tab .support-copy,
+body.qo-theme-light app-organisation-details-form .support-copy,
+body.qo-theme-light app-settings-organisation-tab .admin-item__copy span {
+  color: var(--deployer-text-muted);
+}
+
+body.qo-theme-light app-settings-organisation-tab .summary-row strong,
+body.qo-theme-light app-settings-organisation-tab .admin-item__copy strong,
+body.qo-theme-light app-organisation-details-form .settings-textarea,
+body.qo-theme-light app-organisation-details-form .settings-select__value {
+  color: var(--deployer-text);
+}
+
+body.qo-theme-light app-settings-organisation-tab qo-input.settings-input,
+body.qo-theme-light app-settings-organisation-tab qo-input.settings-input--danger,
+body.qo-theme-light app-organisation-details-form qo-input.settings-input,
+body.qo-theme-light app-organisation-details-form qo-select,
+body.qo-theme-light app-settings-billing-tax-tab .billing-card,
+body.qo-theme-light app-settings-billing-tax-tab .billing-card qo-input {
+  --qo-input-bg: var(--deployer-input-bg);
+  --qo-input-border-color: var(--deployer-input-border);
+  --qo-input-color: var(--deployer-text);
+  --qo-input-placeholder-color: var(--deployer-text-muted);
+  --qo-input-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-select-bg: var(--deployer-input-bg);
+  --qo-select-bg-hover: var(--deployer-input-bg);
+  --qo-select-bg-focus: var(--deployer-input-bg);
+  --qo-select-border-color: var(--deployer-input-border);
+  --qo-select-border-color-hover: var(--qo-deployer-line-strong);
+  --qo-select-border-color-focus: var(--qo-deployer-line-strong);
+  --qo-select-color: var(--deployer-text);
+  --qo-select-placeholder-color: var(--deployer-text-muted);
+}
+
+body.qo-theme-light app-usage-filter-bar qo-button.usage-control {
+  --qo-button-height: var(--qo-size-36);
+  --qo-button-min-height: var(--qo-size-36);
+  --qo-button-padding: 0 var(--qo-space-4);
+  --qo-button-radius: var(--qo-radius-md);
+  --qo-button-bg: var(--deployer-button-secondary-bg);
+  --qo-button-border-color: var(--deployer-button-secondary-border);
+  --qo-button-color: var(--deployer-button-secondary-text);
+  --qo-button-hover-bg: var(--deployer-button-secondary-hover-bg);
+  --qo-button-hover-border-color: var(--deployer-button-secondary-border);
+  --qo-button-hover-color: var(--deployer-button-secondary-text);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 800;
+  --qo-button-letter-spacing: 0.02em;
+  --qo-button-text-transform: none;
+  --qo-button-box-shadow: none;
+}
+
+body.qo-theme-dark app-add-organisation-modal,
+body.qo-theme-dark app-add-application-modal,
+body.qo-theme-dark app-add-user-modal,
+body.qo-theme-dark app-edit-user-modal,
+body.qo-theme-dark app-password-reset-dialog,
+body.qo-theme-dark app-mark-as-paid-dialog,
+body.qo-theme-dark app-invoice-detail-dialog,
+body.qo-theme-dark app-record-payment-modal,
+body.qo-theme-light app-add-organisation-modal,
+body.qo-theme-light app-add-application-modal,
+body.qo-theme-light app-add-user-modal,
+body.qo-theme-light app-edit-user-modal,
+body.qo-theme-light app-password-reset-dialog,
+body.qo-theme-light app-mark-as-paid-dialog,
+body.qo-theme-light app-invoice-detail-dialog,
+body.qo-theme-light app-record-payment-modal {
+  --qo-modal-surface: var(--deployer-surface);
+  --qo-modal-border: var(--deployer-border);
+  --qo-modal-title-color: var(--deployer-text);
+  --qo-modal-subtitle-color: var(--deployer-text-muted);
+  --qo-modal-close-color: var(--deployer-text-muted);
+  --qo-modal-close-hover-bg: var(--qo-deployer-hover-surface);
+  --qo-modal-close-hover-color: var(--deployer-text);
+  --qo-modal-header-border-color: var(--deployer-border);
+  --qo-modal-footer-border-color: var(--deployer-border);
+  --qo-form-label-color: var(--deployer-text-muted);
+  --qo-form-hint-color: var(--deployer-text-muted);
+  --qo-input-bg: var(--qo-deployer-field-background);
+  --qo-input-border-color: var(--deployer-border);
+  --qo-input-color: var(--deployer-text);
+  --qo-input-placeholder-color: var(--deployer-text-muted);
+  --qo-input-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-select-bg: var(--qo-deployer-field-background);
+  --qo-select-border-color: var(--deployer-border);
+  --qo-select-dropdown-bg: var(--deployer-surface);
+  --qo-select-dropdown-border-color: var(--deployer-border);
+  --qo-select-color: var(--deployer-text);
+  --qo-select-option-color: var(--deployer-text);
+  --qo-select-placeholder-color: var(--deployer-text-muted);
+}

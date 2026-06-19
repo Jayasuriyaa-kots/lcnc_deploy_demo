@@ -1,0 +1,40 @@
+@let f = field();
+<div
+  class="preview-field preview-field--inline"
+  [class.preview-field--bordered]="ctx.settings.showSectionBorders"
+  [class.preview-field--small]="(f.properties.fieldSize || f.properties.width) === 'Small'"
+  [class.preview-field--medium]="(f.properties.fieldSize || f.properties.width) === 'Medium'"
+  [class.preview-field--large]="(f.properties.fieldSize || f.properties.width) === 'Large'">
+  <span class="preview-field__label">{{ f.label }}</span>
+  <div class="preview-decision">
+    <qo-button
+      type="button"
+      class="preview-choice-pill"
+      variant="ghost"
+      size="sm"
+      [class.preview-choice-pill--active]="ctx.isDecisionSelected(f, true)"
+      (click)="ctx.setValue(f.id, true, f)">
+      {{ ctx.getDecisionLabel(f, true) }}
+    </qo-button>
+    <qo-button
+      type="button"
+      class="preview-choice-pill"
+      variant="ghost"
+      size="sm"
+      [class.preview-choice-pill--active]="ctx.isDecisionSelected(f, false)"
+      (click)="ctx.setValue(f.id, false, f)">
+      {{ ctx.getDecisionLabel(f, false) }}
+    </qo-button>
+  </div>
+  @if (ctx.hasTooltip(f)) {
+    <span class="preview-field__tooltip" [title]="f.properties.descriptionText">
+      <qo-icon name="info" size="sm"></qo-icon>
+    </span>
+  }
+  @if (ctx.showFieldError(f)) {
+    <small class="preview-field__error preview-field__error--inline">
+      <qo-icon name="info" size="sm"></qo-icon>
+      {{ ctx.getFieldError(f) }}
+    </small>
+  }
+</div>

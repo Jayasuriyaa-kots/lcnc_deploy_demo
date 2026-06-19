@@ -1,0 +1,91 @@
+// ─── date & time ─────────────────────────────────────────────────────────────
+.preview-date-control { display: block; position: relative; width: 100%; min-height: var(--qo-space-11); cursor: pointer; }
+
+.preview-date-control__native {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.preview-datetime-row {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+  flex-wrap: wrap;
+}
+
+.preview-field__control--datetime { min-width: 17rem; }
+.preview-qo-input--datetime { min-width: 14rem; }
+
+// ─── signature ────────────────────────────────────────────────────────────────
+.preview-signature { margin-top: var(--qo-space-1); }
+
+.preview-signature__box {
+  position: relative;
+  overflow: hidden;
+  min-height: 7.5rem;
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-0);
+}
+
+.preview-signature__box:hover { border-color: var(--qo-color-neutral-300); }
+
+.preview-signature__placeholder {
+  position: absolute;
+  top: var(--qo-space-3);
+  left: var(--qo-space-4);
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-sm);
+  pointer-events: none;
+}
+
+.preview-signature__clear {
+  position: absolute;
+  top: var(--qo-space-2);
+  right: var(--qo-space-3);
+  border: 0;
+  background: transparent;
+  color: var(--qo-color-primary-700);
+  font-size: var(--qo-text-xs);
+  cursor: pointer;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.preview-signature__clear--visible { visibility: visible; }
+
+app-form-preview-content qo-button.preview-signature__clear .qo-btn {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--qo-color-primary-700);
+  font-size: var(--qo-text-xs);
+  box-shadow: none;
+}
+
+app-form-preview-content qo-button.preview-signature__clear .qo-btn:hover {
+  background: transparent;
+  color: var(--qo-color-primary-800);
+}
+
+.preview-signature__canvas {
+  display: block;
+  width: 100%;
+  height: 8.75rem;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.preview-signature__baseline {
+  position: absolute;
+  inset: auto 0 0;
+  height: 0.125rem;
+  background: var(--qo-color-neutral-900);
+}

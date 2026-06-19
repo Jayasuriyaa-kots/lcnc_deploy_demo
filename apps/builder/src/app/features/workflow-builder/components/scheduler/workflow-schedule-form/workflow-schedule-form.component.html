@@ -1,0 +1,212 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<form
+  class="workflow-schedule-form"
+  [class.workflow-schedule-form--date-field]="scheduleMode() === 'dateField'"
+  [formGroup]="form()"
+  (ngSubmit)="save.emit()"
+>
+  <header class="workflow-schedule-form__header">
+    <h2>{{ t('modals.scheduleWorkflow.title') }}</h2>
+  </header>
+
+  <div class="workflow-schedule-form__tabs">
+    <button
+      type="button"
+      [class.workflow-schedule-form__tab--active]="scheduleMode() === 'specific'"
+      (click)="onScheduleModeChange('specific')"
+    >
+      <qo-icon name="calendar-clock" size="sm"></qo-icon>
+      {{ t('modals.scheduleWorkflow.specifyDateTab') }}
+    </button>
+    <button
+      type="button"
+      [class.workflow-schedule-form__tab--active]="scheduleMode() === 'dateField'"
+      (click)="onScheduleModeChange('dateField')"
+    >
+      <qo-icon name="calendar" size="sm"></qo-icon>
+      {{ t('modals.scheduleWorkflow.dateFieldTab') }}
+    </button>
+  </div>
+
+  <div class="workflow-schedule-form__body">
+    @if (scheduleMode() === 'specific') {
+      <div class="workflow-schedule-form__row">
+        <span>{{ t('formLabels.startDateTime') }}</span>
+        <div class="workflow-schedule-form__field-stack">
+          <div class="workflow-schedule-form__split">
+            <qo-input type="date" formControlName="startDate"></qo-input>
+            <qo-input type="time" formControlName="time"></qo-input>
+          </div>
+          @if (fieldError('startDate', t('formLabels.startDateTime')) || fieldError('time', t('formLabels.atTime'))) {
+            <p class="workflow-schedule-form__error">{{ fieldError('startDate', t('formLabels.startDateTime')) ?? fieldError('time', t('formLabels.atTime')) }}</p>
+          }
+        </div>
+      </div>
+
+      <div class="workflow-schedule-form__row">
+        <span>{{ t('formLabels.run') }}</span>
+        <qo-select [options]="repeatOptions" formControlName="repeat"></qo-select>
+      </div>
+    } @else {
+      <div class="workflow-schedule-form__row">
+        <span>{{ t('formLabels.startDateField') }}</span>
+        <div class="workflow-schedule-form__field-stack">
+          <div class="workflow-schedule-form__split">
+            <qo-select
+              [placeholder]="t('placeholders.selectForm')"
+              [options]="formOptions()"
+              formControlName="formId"
+              (valueChange)="onFormChange($event)"
+            ></qo-select>
+            <qo-select
+              [placeholder]="t('placeholders.chooseField')"
+              [options]="dateFieldOptions()"
+              formControlName="dateFieldId"
+            ></qo-select>
+          </div>
+          @if (fieldError('formId', 'layout.form' | transloco) || fieldError('dateFieldId', t('formLabels.startDateField'))) {
+            <p class="workflow-schedule-form__error">{{ fieldError('formId', 'layout.form' | transloco) ?? fieldError('dateFieldId', t('formLabels.startDateField')) }}</p>
+          }
+        </div>
+      </div>
+
+      <div class="workflow-schedule-form__row">
+        <span>{{ t('formLabels.executeWorkflow') }}</span>
+        <qo-select [options]="executeOptions" formControlName="executeWorkflow"></qo-select>
+      </div>
+
+      @if (showOffsetControls()) {
+        <div class="workflow-schedule-form__row">
+          <span>{{ t('formLabels.offset') }}</span>
+          <div class="workflow-schedule-form__split">
+            <qo-input type="number" [placeholder]="t('placeholders.offsetCount')" formControlName="offsetCount"></qo-input>
+            <qo-select [options]="offsetUnitOptions" formControlName="offsetUnit"></qo-select>
+          </div>
+        </div>
+      }
+
+      <div class="workflow-schedule-form__row">
+        <span>{{ t('formLabels.atTime') }}</span>
+        <div class="workflow-schedule-form__field-stack">
+          <qo-input type="time" formControlName="time"></qo-input>
+          @if (fieldError('time', t('formLabels.atTime'))) {
+            <p class="workflow-schedule-form__error">{{ fieldError('time', t('formLabels.atTime')) }}</p>
+          }
+        </div>
+      </div>
+
+      <div class="workflow-schedule-form__row">
+        <span>{{ t('formLabels.repeatInterval') }}</span>
+        <qo-select [options]="repeatOptions" formControlName="repeat"></qo-select>
+      </div>
+    }
+
+    <div class="workflow-schedule-form__row">
+      <span>{{ t('formLabels.workflowName') }}</span>
+      <div class="workflow-schedule-form__field-stack">
+        <qo-input [placeholder]="t('placeholders.workflowName')" formControlName="workflowName"></qo-input>
+        @if (fieldError('workflowName', t('formLabels.workflowName'))) {
+          <p class="workflow-schedule-form__error">{{ fieldError('workflowName', t('formLabels.workflowName')) }}</p>
+        }
+      </div>
+    </div>
+
+    @if (scheduleMode() === 'dateField') {
+      <div class="workflow-schedule-form__row workflow-schedule-form__process">
+        <span>{{ t('formLabels.runProcess') }}</span>
+        <div class="workflow-schedule-form__segmented" role="radiogroup" [attr.aria-label]="t('accessibility.processMode')">
+          <button
+            class="workflow-schedule-form__segment"
+            type="button"
+            role="radio"
+            [attr.aria-checked]="processMode() === 'always'"
+            [class.workflow-schedule-form__segment--active]="processMode() === 'always'"
+            (click)="onProcessModeChange('always')"
+          >
+            {{ t('options.scheduleProcess.always') }}
+          </button>
+          <button
+            class="workflow-schedule-form__segment"
+            type="button"
+            role="radio"
+            [attr.aria-checked]="processMode() === 'condition'"
+            [class.workflow-schedule-form__segment--active]="processMode() === 'condition'"
+            (click)="onProcessModeChange('condition')"
+          >
+            {{ t('options.scheduleProcess.condition') }}
+          </button>
+        </div>
+      </div>
+
+      @if (processMode() === 'condition') {
+        <div class="workflow-schedule-form__conditions">
+          <div formArrayName="conditions">
+            @for (row of conditionRows().controls; track row; let index = $index) {
+              <div class="workflow-schedule-form__condition-stack" [formGroupName]="index">
+                @if (index > 0) {
+                  <span class="workflow-schedule-form__connector-label">
+                    {{ conditionConnector(index) }}
+                  </span>
+                }
+
+                <div class="workflow-schedule-form__condition-row">
+                  <qo-select [placeholder]="t('placeholders.selectField')" [options]="fieldOptions()" formControlName="fieldId"></qo-select>
+                  <qo-select [placeholder]="t('placeholders.selectOperator')" [options]="operatorOptions" formControlName="operator"></qo-select>
+                  <qo-select [placeholder]="t('placeholders.selectOption')" [options]="valueOptions" formControlName="value"></qo-select>
+
+                  <button
+                    class="workflow-schedule-form__icon-button"
+                    type="button"
+                    [attr.aria-label]="t('accessibility.removeCondition')"
+                    (click)="removeCondition.emit(index)"
+                  >
+                    <qo-icon name="trash" size="sm"></qo-icon>
+                  </button>
+
+                  @if (isLastCondition(index)) {
+                    <button class="workflow-schedule-form__logic-button" type="button" (click)="addCondition.emit('AND')">{{ t('options.logic.and') }}</button>
+                    <button class="workflow-schedule-form__logic-button" type="button" (click)="addCondition.emit('OR')">{{ t('options.logic.or') }}</button>
+                  } @else {
+                    <span class="workflow-schedule-form__logic-spacer"></span>
+                    <span class="workflow-schedule-form__logic-spacer"></span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="workflow-schedule-form__add-row">
+            @if (showAddConnector()) {
+              <qo-select
+                class="workflow-schedule-form__add-connector"
+                [options]="[
+                  { label: t('options.logic.and'), value: 'AND' },
+                  { label: t('options.logic.or'), value: 'OR' }
+                ]"
+                [placeholder]="t('placeholders.logicConnector')"
+                formControlName="nextConnector"
+                (valueChange)="onAddConnectorSelected($event)"
+              ></qo-select>
+            } @else {
+              <button type="button" (click)="onAddNewClick()">+ {{ t('common.addNew') }}</button>
+            }
+          </div>
+        </div>
+      }
+    }
+
+    @if (mode() === 'edit') {
+      <app-workflow-next-runs-preview [nextRuns]="nextRuns()" />
+    }
+  </div>
+
+  <div class="workflow-schedule-form__footer">
+    @if (validationSummary()) {
+      <p class="workflow-schedule-form__summary-error">{{ validationSummary() }}</p>
+    }
+    <qo-button class="workflow-schedule-form__submit" type="submit" variant="primary" [loading]="saving()" [disabled]="!canSubmit()">
+      {{ mode() === 'create' ? t('common.createWorkflow') : t('common.updateWorkflow') }}
+    </qo-button>
+  </div>
+</form>
+</ng-container>

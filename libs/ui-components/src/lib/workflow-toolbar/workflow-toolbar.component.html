@@ -1,0 +1,27 @@
+<div class="workflow-toolbar">
+  <div class="workflow-toolbar__meta">
+    <div class="workflow-toolbar__search">
+      <qo-input
+        type="search"
+        prefixIcon="search"
+        [placeholder]="searchPlaceholder()"
+        [formControl]="searchControl"
+      />
+    </div>
+
+    @if (countLabel()) {
+      <p class="workflow-toolbar__count">{{ countLabel() }}</p>
+    }
+  </div>
+
+  <div class="workflow-toolbar__actions">
+    <qo-button
+      variant="primary"
+      iconLeft="plus"
+      [disabled]="disableCreate()"
+      (click)="create.emit()"
+    >
+      {{ createLabel() }}
+    </qo-button>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+@if (ctx.richTextLinkEditorFieldId) {
+  <qo-modal [title]="t('preview.insertLinkTitle')" [subtitle]="t('preview.insertLinkSubtitle')" size="sm" (close)="ctx.closeRichTextLinkEditor()">
+    <div class="preview-link-modal">
+      <qo-form-field [label]="t('preview.url')" [required]="true">
+        <qo-input
+          type="url"
+          [value]="ctx.richTextLinkDraft"
+          (valueChange)="ctx.richTextLinkDraft = $event"
+          [placeholder]="t('preview.urlPlaceholder')">
+        </qo-input>
+      </qo-form-field>
+    </div>
+    <div qo-modal-footer class="preview-link-modal__footer">
+      <qo-button variant="secondary" type="button" (click)="ctx.closeRichTextLinkEditor()">{{ 'actions.cancel' | transloco }}</qo-button>
+      <qo-button variant="primary" type="button" (click)="ctx.saveRichTextLink()">{{ t('preview.insertLink') }}</qo-button>
+    </div>
+  </qo-modal>
+}
+
+@if (ctx.imageCaptureFieldId) {
+  <div class="preview-capture-modal">
+    <div class="preview-capture-modal__backdrop" (click)="ctx.closeImageCapture()"></div>
+    <div class="preview-capture-modal__content">
+      <h3>{{ t('preview.image') }}</h3>
+      <video #imageCaptureVideo class="preview-capture-modal__video" autoplay playsinline muted></video>
+      <qo-button type="button" class="preview-capture-modal__action" (click)="ctx.captureImageFromVideo()">
+        <qo-icon name="camera" size="sm"></qo-icon>
+      </qo-button>
+      <qo-button type="button" class="preview-capture-modal__close" (click)="ctx.closeImageCapture()">
+        <qo-icon name="x" size="sm"></qo-icon>
+      </qo-button>
+    </div>
+  </div>
+}
+
+@if (ctx.audioRecordingModalFieldId) {
+  <div class="preview-capture-modal">
+    <div class="preview-capture-modal__backdrop" (click)="ctx.closeAudioRecordModal()"></div>
+    <div class="preview-capture-modal__content preview-capture-modal__content--audio">
+      <h3>{{ t('preview.audio') }}</h3>
+      <div class="preview-audio-waveform">
+        <canvas #audioWaveformCanvas class="preview-audio-waveform__canvas"></canvas>
+      </div>
+      <div class="preview-audio-record__actions">
+        <span class="preview-audio-record__timer">{{ ctx.audioRecordTimerDisplay }}</span>
+        <qo-button type="button" class="preview-audio-record__button" [class.preview-audio-record__button--recording]="ctx.audioRecordingInModal" (click)="ctx.toggleAudioRecordInModal()">
+          <qo-icon name="mic" size="sm"></qo-icon>
+        </qo-button>
+      </div>
+      <p class="preview-audio-record__hint">{{ ctx.audioRecordingInModal ? t('preview.audioRecordStopHint') : t('preview.audioRecordStartHint') }}</p>
+      <qo-button type="button" class="preview-capture-modal__close" (click)="ctx.closeAudioRecordModal()">
+        <qo-icon name="x" size="sm"></qo-icon>
+      </qo-button>
+    </div>
+  </div>
+}
+
+@if (ctx.videoCaptureModalFieldId) {
+  <div class="preview-capture-modal">
+    <div class="preview-capture-modal__backdrop" (click)="ctx.closeVideoCaptureModal()"></div>
+    <div class="preview-capture-modal__content">
+      <h3>{{ t('preview.video') }}</h3>
+      <video #videoCapturePreview class="preview-capture-modal__video" autoplay playsinline muted></video>
+      <div class="preview-video-record__actions">
+        @if (ctx.videoRecordingInModal) {
+          <span class="preview-video-record__timer">{{ ctx.videoRecordTimerDisplay }}</span>
+        }
+        <qo-button type="button" class="preview-video-record__button" [class.preview-video-record__button--recording]="ctx.videoRecordingInModal" (click)="ctx.toggleVideoRecordInModal()">
+          <qo-icon name="video" size="sm"></qo-icon>
+        </qo-button>
+      </div>
+      <qo-button type="button" class="preview-capture-modal__close" (click)="ctx.closeVideoCaptureModal()">
+        <qo-icon name="x" size="sm"></qo-icon>
+      </qo-button>
+    </div>
+  </div>
+}
+

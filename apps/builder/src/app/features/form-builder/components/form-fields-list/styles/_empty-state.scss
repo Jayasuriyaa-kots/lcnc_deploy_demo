@@ -1,0 +1,34 @@
+/* Empty state */
+.fields-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-16) var(--qo-space-8);
+  color: var(--qo-color-neutral-400);
+  text-align: center;
+  border: var(--qo-border-width) dashed var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  margin: var(--qo-space-4);
+  background: rgba(255, 255, 255, 0.72);
+
+  .material-symbols-outlined {
+    font-size: var(--qo-space-10);
+    color: var(--qo-color-neutral-300);
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--qo-text-sm);
+    line-height: var(--qo-leading-loose);
+  }
+
+  strong {
+    color: var(--qo-color-neutral-600);
+  }
+}
+
+:host ::ng-deep .fields-empty .qo-btn {
+  min-height: 2.25rem;
+  padding: 0 var(--qo-space-4);
+}

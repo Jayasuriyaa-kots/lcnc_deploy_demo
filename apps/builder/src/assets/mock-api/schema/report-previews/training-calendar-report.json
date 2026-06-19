@@ -1,0 +1,27 @@
+{
+  "reportId": "training-calendar-report",
+  "reportLabel": "Training Calendar — June 2026",
+  "sourceFormId": "training-registration-form",
+  "sourceFormLabel": "Training Registration",
+  "sourceTable": "training_registrations",
+  "columns": [
+    { "id": "employee_id",      "label": "Emp Code",  "dbColumn": "employee_id" },
+    { "id": "training_program", "label": "Program",   "dbColumn": "program_name" },
+    { "id": "training_mode",    "label": "Mode",      "dbColumn": "mode" },
+    { "id": "preferred_date",   "label": "Start Date","dbColumn": "start_date" }
+  ],
+  "rows": [
+    { "id": "1",  "values": ["EMP-0001", "Leadership Excellence",           "In-Person", "2026-06-23"] },
+    { "id": "2",  "values": ["EMP-0002", "Cloud Architecture (AWS)",        "Online",    "2026-06-17"] },
+    { "id": "3",  "values": ["EMP-0006", "Agile & Scrum Practitioner",      "Online",    "2026-06-18"] },
+    { "id": "4",  "values": ["EMP-0009", "Advanced SQL & Analytics",        "Online",    "2026-06-19"] },
+    { "id": "5",  "values": ["EMP-0011", "Communication Skills",            "Hybrid",    "2026-06-20"] },
+    { "id": "6",  "values": ["EMP-0013", "Leadership Excellence",           "In-Person", "2026-06-23"] },
+    { "id": "7",  "values": ["EMP-0016", "Cybersecurity Fundamentals",      "Online",    "2026-06-24"] },
+    { "id": "8",  "values": ["EMP-0017", "Design Thinking",                 "In-Person", "2026-06-25"] },
+    { "id": "9",  "values": ["EMP-0019", "Project Management (PMP)",        "Online",    "2026-06-26"] },
+    { "id": "10", "values": ["EMP-0022", "Cloud Architecture (AWS)",        "Online",    "2026-06-28"] },
+    { "id": "11", "values": ["EMP-0024", "Agile & Scrum Practitioner",      "Hybrid",    "2026-06-30"] },
+    { "id": "12", "values": ["EMP-0028", "Advanced SQL & Analytics",        "Online",    "2026-06-30"] }
+  ]
+}

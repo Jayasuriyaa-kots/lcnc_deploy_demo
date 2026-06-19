@@ -1,0 +1,104 @@
+/**
+ * Global English strings shared across builder features, workflow, and deployer.
+ * Extracted from overlapping keys in:
+ * - form-builder.en.ts, report-builder.en.ts, page-builder.en.ts
+ * - datasources.en.ts, workflow-builder.en.ts, deployer.en.ts
+ *
+ * Feature lang files should import this and only define feature-specific text.
+ * Mirrors docs/i18n-localization-approach.md §3–4 (global common namespace).
+ */
+export const COMMON_LANG = {
+  actions: {
+    add: 'Add',
+    apply: 'Apply',
+    back: 'Back',
+    cancel: 'Cancel',
+    clear: 'Clear',
+    close: 'Close',
+    confirm: 'Confirm',
+    continue: 'Continue',
+    create: 'New',
+    delete: 'Delete',
+    done: 'Done',
+    duplicate: 'Duplicate',
+    edit: 'Edit',
+    preview: 'Preview',
+    publish: 'Publish',
+    remove: 'Remove',
+    reset: 'Reset',
+    save: 'Save',
+    saveChanges: 'Save Changes',
+    search: 'Search',
+    searchEllipsis: 'Search...',
+    settings: 'Settings',
+    validate: 'Validate',
+  },
+  fields: {
+    description: 'Description',
+    label: 'Label',
+    datasource: 'Datasource',
+    query: 'Query',
+    optional: 'Optional',
+    required: 'Required',
+    unique: 'Unique',
+    none: 'None',
+    value: 'Value',
+    status: 'Status',
+    name: 'Name',
+    enterValue: 'Enter value',
+    selectDatasource: 'Select datasource',
+    selectField: 'Select field',
+    selectOption: 'Select an option',
+  },
+  dataBinding: {
+    queryBinding: 'Query / Binding',
+    queryBindingPlaceholder: 'Paste JSON or type {{ }} binding',
+  },
+  layout: {
+    yes: 'Yes',
+    no: 'No',
+    desktop: 'Desktop',
+    tablet: 'Tablet',
+    mobile: 'Mobile',
+    left: 'Left',
+    center: 'Center',
+    right: 'Right',
+    top: 'Top',
+    bottom: 'Bottom',
+    display: 'Display',
+    style: 'Style',
+    content: 'Content',
+    properties: 'Properties',
+    general: 'General',
+    form: 'Form',
+    report: 'Report',
+    page: 'Page',
+  },
+  states: {
+    loading: 'Loading…',
+    empty: 'Nothing here yet',
+    active: 'Active',
+    inactive: 'Inactive',
+    live: 'Live',
+    draft: 'Draft',
+    public: 'Public',
+  },
+  validation: {
+    required: 'This field is required.',
+    fieldRequired: 'This field is required.',
+    emailInvalid: 'Enter a valid email address.',
+    tooLong: 'Must be {{ max }} characters or fewer',
+    fieldRequiredLabel: (label: string) => `${label} is required.`,
+  },
+  viewport: {
+    desktopRequiredTitle: 'Desktop Required',
+    desktopRequiredDescription:
+      'This workspace is available on desktop-sized viewports only. Please resize your browser or switch to a larger screen.',
+  },
+  dialogs: {
+    deleteTitle: 'Delete',
+    unsavedChanges: 'You have unsaved changes. Discard them?',
+  },
+} as const;
+
+export type CommonLang = typeof COMMON_LANG;

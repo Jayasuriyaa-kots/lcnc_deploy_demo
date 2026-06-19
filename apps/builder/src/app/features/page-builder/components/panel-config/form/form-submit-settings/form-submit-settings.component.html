@@ -1,0 +1,40 @@
+<div class="settings-panel" [formGroup]="form">
+  <div class="panel-body">
+    <div class="setting-card">
+      <label class="field-label">{{ t('form.submit.successMessage') }}<span class="info">i</span>
+      </label>
+      <qo-input
+        class="text-input"
+        [placeholder]="'fields.enterValue' | transloco"
+        formControlName="successMessage"
+      ></qo-input>
+    </div>
+
+    <div class="setting-card">
+      <label class="field-label">{{ t('form.submit.submitButtonText') }}</label>
+      <qo-input
+        formControlName="submitButtonText"
+        [placeholder]="'fields.enterValue' | transloco"
+      ></qo-input>
+    </div>
+
+    <div class="setting-card">
+      <label class="field-label">{{ t('form.submit.resetButtonText') }}</label>
+      <qo-input
+        formControlName="resetButtonText"
+        [placeholder]="'fields.enterValue' | transloco"
+      ></qo-input>
+    </div>
+
+    <div class="setting-card toggle-card">
+      <div class="toggle-left">
+        <span class="field-label no-margin">{{ t('form.submit.allowPublicAccess') }}<span class="info">i</span>
+        </span>
+      </div>
+
+      <div class="toggle-right">
+        <qo-toggle formControlName="allowPublicAccess" [label]="'layout.yes' | transloco"></qo-toggle>
+      </div>
+    </div>
+  </div>
+</div>

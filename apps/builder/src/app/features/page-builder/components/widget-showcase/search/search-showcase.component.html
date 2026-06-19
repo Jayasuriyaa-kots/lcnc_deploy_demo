@@ -1,0 +1,13 @@
+<div class="showcase-page">
+  @for (preset of presets; track preset.id) {
+    <div
+      class="card"
+      [class.card-dashed]="preset.highlighted"
+      draggable="true"
+      (dragstart)="startDrag($event, preset.variant)"
+      (dragend)="endDrag()"
+    >
+      <app-widget-search [variant]="preset.variant"></app-widget-search>
+    </div>
+  }
+</div>

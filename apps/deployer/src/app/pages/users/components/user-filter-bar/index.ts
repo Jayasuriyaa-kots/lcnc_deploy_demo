@@ -1,0 +1,1 @@
+export { UserFilterBarComponent } from './user-filter-bar.component';

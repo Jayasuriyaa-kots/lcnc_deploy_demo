@@ -1,0 +1,55 @@
+<qo-modal
+  class="user-modal-shell"
+  [title]="title()"
+  [subtitle]="subtitle()"
+  size="md"
+  [maxWidth]="'var(--qo-size-480)'"
+  panelClass="qo-modal-panel--user"
+  (close)="close.emit()"
+>
+  <form class="user-modal" [formGroup]="form()" (ngSubmit)="submit()">
+    <div class="user-modal__note">
+      <span class="user-modal__note-icon">i</span>
+      <p>
+        {{ noteText() }}
+      </p>
+    </div>
+
+    <div class="user-modal__grid user-modal__grid--two">
+      <qo-form-field class="user-modal__field" [label]="i18n.translate('users.firstName')" [required]="true">
+        <qo-input class="user-modal__input" type="text" formControlName="firstName" [placeholder]="i18n.translate('users.firstNamePlaceholder')" />
+      </qo-form-field>
+      <qo-form-field class="user-modal__field" [label]="i18n.translate('users.lastName')" [required]="true">
+        <qo-input class="user-modal__input" type="text" formControlName="lastName" [placeholder]="i18n.translate('users.lastNamePlaceholder')" />
+      </qo-form-field>
+    </div>
+
+    <div class="user-modal__grid">
+      <qo-form-field class="user-modal__field" [label]="i18n.translate('users.emailAddress')" [required]="true">
+        <qo-input class="user-modal__input" type="email" formControlName="email" [placeholder]="i18n.translate('users.userEmailPlaceholder')" />
+      </qo-form-field>
+      <qo-form-field class="user-modal__field" [label]="i18n.translate('users.phoneNumber')">
+        <qo-input class="user-modal__input" type="text" formControlName="phone" [placeholder]="i18n.translate('users.phoneNumberPlaceholder')" />
+      </qo-form-field>
+      @if (showDepartmentField()) {
+        <qo-form-field class="user-modal__field" [label]="i18n.translate('users.department')" [required]="true">
+          <qo-input class="user-modal__input" type="text" formControlName="department" [placeholder]="i18n.translate('users.departmentPlaceholder')" />
+        </qo-form-field>
+      }
+      <qo-form-field class="user-modal__field" [label]="i18n.translate('users.profilePhoto')">
+        <qo-file-upload
+          class="user-modal__upload"
+          accept="image/*"
+          icon="camera"
+          [label]="selectedPhotoName() || i18n.translate('users.uploadPhotoOptional')"
+          (filesSelected)="onPhotoSelected($event)"
+        />
+      </qo-form-field>
+    </div>
+  </form>
+
+  <div qo-modal-footer class="user-modal__footer">
+    <qo-button variant="link" class="user-modal__cancel" (click)="closeModal()">{{ i18n.translate('users.cancel') }}</qo-button>
+    <qo-button variant="secondary" class="user-modal__submit" [disabled]="isSubmitDisabled()" (click)="submit()">{{ submitLabel() }}</qo-button>
+  </div>
+</qo-modal>

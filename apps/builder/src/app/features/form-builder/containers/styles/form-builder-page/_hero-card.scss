@@ -1,0 +1,142 @@
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+}
+
+.builder-page {
+  width: 100%;
+  max-width: 91.25rem;
+  margin: 0 auto;
+  padding: var(--qo-space-8) var(--qo-space-6) var(--qo-space-40);
+}
+
+.builder-page--blocked {
+  min-height: calc(100vh - var(--qo-space-12));
+  display: grid;
+  place-items: center;
+}
+
+.builder-page__hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--qo-space-6);
+  margin-bottom: var(--qo-space-7);
+  padding: var(--qo-space-6);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: calc(var(--qo-radius-md) + var(--qo-space-1));
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--qo-shadow-sm);
+}
+
+.builder-page__hero-copy {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.builder-page__eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+  margin-bottom: var(--qo-space-3);
+  flex-wrap: wrap;
+}
+
+.builder-page__eyebrow {
+  margin: 0;
+  color: var(--qo-color-neutral-400);
+  font-size: var(--qo-text-2xs);
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.builder-page__eyebrow-row qo-badge {
+  align-self: center;
+}
+
+.builder-page__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+  min-width: 0;
+}
+
+.builder-page__title {
+  margin: 0;
+  color: var(--qo-color-neutral-900);
+  font-family: var(--qo-font-family-sans);
+  font-size: clamp(var(--qo-text-3xl), 4vw, calc(var(--qo-text-4xl) + var(--qo-space-3)));
+  line-height: 0.98;
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.builder-page__description-field {
+  max-width: calc(var(--qo-space-64) + var(--qo-space-64));
+  margin-top: var(--qo-space-4);
+}
+
+.builder-page__hero-actions {
+  display: flex;
+  gap: var(--qo-space-2);
+  flex-shrink: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 22rem;
+}
+
+:host ::ng-deep qo-button.builder-btn .qo-btn {
+  min-height: var(--qo-space-10);
+  padding: 0 var(--qo-space-5);
+  border-radius: var(--qo-radius-lg);
+  font-size: var(--qo-text-sm);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  border: var(--qo-border-width) solid transparent;
+  box-shadow: none;
+}
+
+:host ::ng-deep qo-button.builder-btn--secondary .qo-btn {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--qo-color-neutral-900);
+  border-color: var(--qo-border-color-strong);
+}
+
+:host ::ng-deep qo-button.builder-btn--secondary .qo-btn:hover {
+  background: var(--qo-color-neutral-100);
+}
+
+:host ::ng-deep qo-button.builder-btn--emphasis .qo-btn {
+  background: var(--qo-color-neutral-100);
+  color: var(--qo-color-neutral-900);
+  border-color: var(--qo-color-neutral-300);
+}
+
+:host ::ng-deep qo-button.builder-btn--primary .qo-btn {
+  background: var(--qo-color-neutral-900);
+  color: var(--qo-color-neutral-0);
+  border-color: var(--qo-color-neutral-900);
+  box-shadow: var(--qo-shadow-lg);
+}
+
+:host ::ng-deep qo-button.builder-btn--primary .qo-btn:hover {
+  background: var(--qo-color-neutral-800);
+}
+
+:host ::ng-deep qo-button.builder-btn .qo-btn:disabled {
+  background: var(--qo-color-neutral-500);
+  color: var(--qo-color-neutral-0);
+  border-color: var(--qo-color-neutral-500);
+  opacity: 1;
+}
+
+:host ::ng-deep qo-button.builder-btn--sm .qo-btn {
+  min-height: var(--qo-space-8);
+  padding: 0 var(--qo-space-3);
+}
+

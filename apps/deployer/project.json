@@ -1,0 +1,93 @@
+{
+  "name": "deployer",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/deployer/src",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/deployer",
+        "index": "apps/deployer/src/index.html",
+        "browser": "apps/deployer/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "apps/deployer/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "libs/lang/src/lib/i18n",
+            "output": "/assets/i18n/"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/deployer/src/assets",
+            "output": "/assets/"
+          }
+        ],
+        "styles": [
+          "apps/deployer/src/styles.scss"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/deployer/src/environments/environment.ts",
+              "with": "apps/deployer/src/environments/environment.prod.ts"
+            }
+          ],
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "deployer:build:production"
+        },
+        "development": {
+          "buildTarget": "deployer:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4200
+      },
+      "continuous": true
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "tsConfig": "apps/deployer/tsconfig.spec.json",
+        "karmaConfig": "apps/deployer/karma.conf.js",
+        "styles": ["apps/deployer/src/styles.scss"]
+      },
+      "continuous": true
+    }
+  }
+}

@@ -1,0 +1,134 @@
+<div class="search-result-panel">
+  <div class="search-result-panel__body">
+
+    <div class="search-result-panel__card search-result-panel__card--flush">
+      <div class="search-result-panel__section-header">
+        {{ selectionStep() === 'type' ? 'Select how search should return results' : detailHeading() }}
+      </div>
+
+      @if (selectionStep() === 'type') {
+        <div class="search-result-panel__option-list search-result-panel__option-list--type-selection">
+          @for (option of resultOptions; track option.id) {
+            <qo-button
+              type="button"
+              variant="ghost"
+              size="sm"
+              class="search-result-panel__option-card"
+              (click)="selectResultTarget(option.id)"
+            >
+              <span class="search-result-panel__option-icon" aria-hidden="true">
+                <span class="material-symbols-outlined">{{ option.icon }}</span>
+              </span>
+
+              <span class="search-result-panel__option-content">
+                <span class="search-result-panel__option-title">{{ option.title }}</span>
+                <span class="search-result-panel__option-description">{{ option.description }}</span>
+              </span>
+            </qo-button>
+          }
+        </div>
+      } @else {
+        <div class="search-result-panel__detail-panel">
+          <qo-button type="button" variant="ghost" size="sm" class="search-result-panel__detail-trigger" (click)="goToTypeSelection()">
+            <span>{{ currentSelectionName() }}</span>
+            <span class="search-result-panel__detail-chevron">⌄</span>
+          </qo-button>
+
+          <div class="search-result-panel__detail-list">
+            @for (item of currentItems(); track item.id) {
+              <qo-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                class="search-result-panel__detail-item"
+                [class.search-result-panel__detail-item--selected]="item.id === selectedItemId()"
+                (click)="selectItem(item.id)"
+              >
+                {{ item.name }}
+              </qo-button>
+            }
+          </div>
+
+          <div class="search-result-panel__detail-footer">
+            {{ detailFooterText() }}
+            <a href="javascript:void(0)">{{ t('form.selectPanel.changeApp') }}</a>
+          </div>
+        </div>
+
+        @if (criteriaConfigured()) {
+          <div class="search-result-panel__stack-card">
+            <div class="search-result-panel__stack-title">{{ t('search.resultPanel.searchCriteria') }}</div>
+            <qo-button type="button" variant="secondary" class="search-result-panel__criteria-preview" (click)="openCriteriaModal()">
+              {{ criteriaPreview() }}
+            </qo-button>
+          </div>
+
+          <div class="search-result-panel__stack-card">
+            <div class="search-result-panel__stack-title">{{ t('common.openIn') }}</div>
+            <button type="button" class="search-result-panel__inline-link" (click)="toggleOpenIn()">
+              {{ openIn() }} <span class="search-result-panel__detail-chevron">⌄</span>
+            </button>
+          </div>
+
+          <div class="search-result-panel__stack-card search-result-panel__stack-card--warning">
+            <div class="search-result-panel__toggle-row">
+              <div class="search-result-panel__toggle-copy">
+                <span class="search-result-panel__stack-title">{{ t('search.resultPanel.allowPublicAccess') }}</span>
+                <span class="search-result-panel__hint-icon">?</span>
+              </div>
+
+              <qo-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                class="search-result-panel__toggle"
+                [class.search-result-panel__toggle--active]="allowPublicAccess()"
+                (click)="toggleAllowPublicAccess()"
+              >
+                <span class="search-result-panel__toggle-thumb"></span>
+                <span class="search-result-panel__toggle-label">{{ allowPublicAccess() ? 'Yes' : 'No' }}</span>
+              </qo-button>
+            </div>
+          </div>
+
+          <div class="search-result-panel__stack-card">
+            <div class="search-result-panel__stack-title">{{ t('search.resultPanel.defaultValue') }}</div>
+            <qo-input
+              class="search-result-panel__stack-input"
+              type="text"
+              [value]="defaultValue()"
+              placeholder="Enter value"
+              (input)="handleDefaultValueChange($event)"
+            ></qo-input>
+          </div>
+
+          <div class="search-result-panel__stack-card">
+            <div class="search-result-panel__toggle-copy">
+              <span class="search-result-panel__stack-title">{{ t('search.resultPanel.placeholder') }}</span>
+              <span class="search-result-panel__hint-icon">?</span>
+            </div>
+            <qo-input
+              class="search-result-panel__stack-input"
+              type="text"
+              [value]="placeholder()"
+              placeholder="Enter value"
+              (input)="handlePlaceholderChange($event)"
+            ></qo-input>
+          </div>
+        }
+      }
+    </div>
+  </div>
+
+  @if (criteriaModalOpen()) {
+    <app-search-criteria-modal
+      [rows]="criteriaRows()"
+      [fieldOptions]="fieldOptions"
+      [operatorOptions]="operatorOptions"
+      (rowsChange)="updateCriteriaRows($event)"
+      (closed)="closeCriteriaModal()"
+      (done)="doneCriteriaModal($event)"
+    ></app-search-criteria-modal>
+  }
+</div>
+

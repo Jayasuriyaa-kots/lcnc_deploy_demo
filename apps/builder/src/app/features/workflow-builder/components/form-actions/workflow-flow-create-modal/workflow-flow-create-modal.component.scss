@@ -1,0 +1,73 @@
+:host {
+  display: contents;
+}
+
+.workflow-flow-create-modal {
+  display: grid;
+  gap: var(--qo-space-4);
+}
+
+:host qo-input,
+:host qo-select {
+  --qo-input-border-radius: var(--qo-radius-sm);
+  --qo-select-border-radius: var(--qo-radius-sm);
+}
+
+.workflow-flow-create-modal__segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--qo-space-2);
+  min-height: var(--qo-size-36);
+  align-items: center;
+  padding: var(--qo-space-1);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-100);
+}
+
+.workflow-flow-create-modal__segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--qo-size-32);
+  padding: 0 var(--qo-space-3);
+  border: var(--qo-border-width) solid transparent;
+  border-radius: var(--qo-radius-sm);
+  background: transparent;
+  color: var(--qo-color-neutral-900);
+  font: inherit;
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-normal);
+  line-height: var(--qo-leading-normal);
+  cursor: pointer;
+}
+
+.workflow-flow-create-modal__segment:hover,
+.workflow-flow-create-modal__segment:focus-visible {
+  border-color: var(--qo-border-color-focus);
+  background: var(--qo-color-neutral-0);
+  outline: var(--qo-size-2) solid var(--qo-color-primary-100);
+  outline-offset: var(--qo-size-1);
+}
+
+.workflow-flow-create-modal__segment--active {
+  border-color: var(--qo-border-color-strong);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+  font-weight: var(--qo-font-semibold);
+}
+
+.workflow-flow-create-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--qo-space-3);
+}
+
+.workflow-flow-create-modal__footer qo-button {
+  --qo-button-height: var(--qo-size-36);
+  --qo-button-min-width: var(--qo-size-112);
+  --qo-button-padding: 0 var(--qo-space-4);
+  --qo-button-radius: var(--qo-radius-sm);
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: var(--qo-font-semibold);
+}

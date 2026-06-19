@@ -1,0 +1,27 @@
+@let f = field();
+@if (ctx.isTextareaLike(f)) {
+  <qo-textarea class="preview-qo-textarea" [rows]="ctx.getTextareaRows(f)" [value]="ctx.getDisplayValue(f.id)" (valueChange)="ctx.setValue(f.id, $event, f)" [placeholder]="ctx.getPlaceholder(f)"></qo-textarea>
+}
+
+@if (ctx.isNumericField(f)) {
+  <app-text-field-renderer class="preview-qo-input" [type]="'text'" [value]="ctx.getControlValue(f)" [placeholder]="ctx.getPlaceholder(f)" (valueChange)="ctx.setValue(f.id, $event, f)"></app-text-field-renderer>
+}
+@if (f.type === 'Url') {
+  <div class="preview-url-stack">
+    <qo-input class="preview-qo-input" type="url" [value]="ctx.getUrlValue(f.id).url" (valueChange)="ctx.setUrlPart(f, 'url', $event)" [placeholder]="ctx.getPlaceholder(f) || 'https://'"></qo-input>
+    @if (ctx.getUrlValue(f.id).url) {
+      <a class="preview-secondary-action" [href]="ctx.getUrlValue(f.id).url" [target]="f.properties.urlTarget === t('inspectorOptions.sameWindow') ? '_self' : '_blank'" rel="noreferrer">
+        {{ t('preview.openLink') }}
+      </a>
+    }
+    @if (f.properties.urlOptionLinkName) {
+      <qo-input class="preview-qo-input" type="text" [value]="ctx.getUrlValue(f.id).name" (valueChange)="ctx.setUrlPart(f, 'name', $event)" [placeholder]="t('preview.linkNamePlaceholder')"></qo-input>
+    }
+    @if (f.properties.urlOptionTitle) {
+      <qo-input class="preview-qo-input" type="text" [value]="ctx.getUrlValue(f.id).title" (valueChange)="ctx.setUrlPart(f, 'title', $event)" [placeholder]="t('preview.titlePlaceholder')"></qo-input>
+    }
+  </div>
+}
+@if (!ctx.isNumericField(f) && f.type !== 'Url' && !ctx.isDropdownLike(f) && !ctx.isRadioField(f) && !ctx.isMultiSelectField(f) && !ctx.isCheckbox(f) && !ctx.isTextareaLike(f) && !ctx.isFileUpload(f) && !ctx.isPhoneField(f) && !ctx.isNameField(f) && !ctx.isAddressField(f) && !ctx.isRichTextField(f) && !ctx.isSignatureField(f) && !ctx.isTimeField(f) && !ctx.isDatePickerField(f) && !ctx.isDateTimeField(f)) {
+  <app-text-field-renderer class="preview-qo-input" [type]="ctx.getInputType(f)" [value]="ctx.getDisplayValue(f.id)" [placeholder]="ctx.getPlaceholder(f)" (valueChange)="ctx.setValue(f.id, $event, f)"></app-text-field-renderer>
+}

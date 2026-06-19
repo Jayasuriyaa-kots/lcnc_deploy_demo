@@ -1,0 +1,146 @@
+<div class="create-screen">
+  <div class="create-screen__backdrop" (click)="cancel()"></div>
+  <section class="create-screen__surface">
+    <header class="create-screen__header">
+      <div class="create-screen__heading">
+        <h1>{{ w.t('createWizard.title') }}</h1>
+        <p>{{ w.t('createWizard.subtitle') }}</p>
+      </div>
+      <qo-button variant="ghost" type="button" (click)="cancel()">{{ 'actions.close' | transloco }}</qo-button>
+    </header>
+
+    <section class="create-flow">
+      <div class="create-flow__header">
+        <div class="create-flow__steps">
+          <qo-badge [color]="w.step() === 1 ? 'blue' : 'default'">{{ w.t('createWizard.setupStep') }}</qo-badge>
+          <qo-badge [color]="w.step() === 2 ? 'blue' : 'default'">{{ w.t('createWizard.reviewFieldsStep') }}</qo-badge>
+        </div>
+
+        <div class="create-flow__header-actions">
+          @if (w.step() > 1) {
+            <qo-button variant="secondary" type="button" (click)="w.back()">{{ w.t('createWizard.back') }}</qo-button>
+          }
+          @if (w.step() < 2) {
+            <qo-button variant="primary" type="button" [disabled]="!w.canContinue()" (click)="w.next()">{{ w.t('createWizard.continue') }}</qo-button>
+          }
+          @if (w.step() === 2) {
+            <qo-button variant="primary" type="button" [disabled]="!w.canCreate()" (click)="confirm()">{{ w.t('createWizard.createForm') }}</qo-button>
+          }
+        </div>
+      </div>
+
+      <div class="create-flow__body">
+        @if (w.step() === 1) {
+          <section class="create-panel">
+            <div class="create-panel__intro">
+              <h2>{{ w.t('createWizard.formSetupTitle') }}</h2>
+              <p>{{ w.t('createWizard.formSetupDescription') }}</p>
+            </div>
+
+            <div class="create-grid">
+              <qo-form-field class="create-grid__wide" [label]="w.t('createWizard.formName')" [required]="true" [error]="w.hasFormNameError() ? w.getFormNameError() : undefined">
+                <qo-input [formControl]="w.formName" [placeholder]="w.t('createWizard.formNamePlaceholder')"></qo-input>
+              </qo-form-field>
+
+              <qo-form-field class="create-grid__wide" [label]="w.t('settings.description')">
+                <qo-textarea
+                  [value]="w.formDescription.getRawValue()"
+                  (valueChange)="w.formDescription.setValue($event)"
+                  [rows]="4"
+                  [placeholder]="w.t('createWizard.descriptionPlaceholder')">
+                </qo-textarea>
+              </qo-form-field>
+
+              <qo-form-field class="create-grid__wide" [label]="w.t('createWizard.datasource')">
+                <qo-select
+                  [options]="w.datasourceSelectOptions()"
+                  [value]="w.selectedDatasourceId()"
+                  (valueChange)="onDatasourceChange($event)">
+                </qo-select>
+              </qo-form-field>
+
+              <qo-form-field class="create-grid__wide" [label]="w.t('createWizard.selectQuery')">
+                <qo-select
+                  [options]="w.querySelectOptions()"
+                  [value]="w.selectedQueryKey()"
+                  (valueChange)="onQueryChange($event)">
+                </qo-select>
+              </qo-form-field>
+            </div>
+
+            @if (w.selectedConnectionMeta(); as selected) {
+              <div class="connection-card">
+                <div class="connection-card__main">
+                  <div class="connection-card__label">{{ w.t('createWizard.selectedQuery') }}</div>
+                  <strong>{{ selected.qualifiedName }}</strong>
+                  <p>{{ w.t('createWizard.columnsLoaded', { count: w.columns().length }) }}</p>
+                </div>
+
+                <div class="connection-card__meta">
+                  <qo-badge>{{ w.t('createWizard.datasourceBadge', { label: selected.datasourceLabel }) }}</qo-badge>
+                  <qo-badge>{{ w.t('createWizard.queryBadge', { label: selected.queryLabel }) }}</qo-badge>
+                  <qo-badge>{{ w.t('createWizard.expectedInputs', { count: selected.expectedInput.length }) }}</qo-badge>
+                </div>
+              </div>
+            }
+          </section>
+        }
+
+        @if (w.step() === 2) {
+          <section class="create-panel">
+            <div class="create-panel__intro create-panel__intro--split">
+              <div>
+                <h2>{{ w.t('createWizard.fieldMappingTitle') }}</h2>
+                <p>{{ w.t('createWizard.fieldMappingDescription') }}</p>
+              </div>
+              <qo-badge>{{ w.t('createWizard.columns', { count: w.columns().length }) }}</qo-badge>
+            </div>
+
+            <div class="helper-banner">
+              {{ w.t('createWizard.helperBanner') }}
+            </div>
+
+            <div class="wizard-columns">
+              @for (column of w.columns(); track column.id) {
+                <div class="wizard-column">
+                  <div class="wizard-column__info">
+                    <strong>{{ column.label }}</strong>
+                    <div class="wizard-column__meta">
+                      <qo-badge>{{ column.dataType }}</qo-badge>
+                      @if (column.required) {
+                        <qo-badge color="warning">{{ w.t('createWizard.required') }}</qo-badge>
+                      }
+                      @if (column.unique) {
+                        <qo-badge color="info">{{ w.t('createWizard.unique') }}</qo-badge>
+                      }
+                      @if (column.lookup || (column.options?.length ?? 0) > 0) {
+                        <qo-badge>{{ w.t('createWizard.lookup') }}</qo-badge>
+                      }
+                    </div>
+                  </div>
+
+                  <qo-form-field [label]="w.t('createWizard.fieldType')">
+                    <qo-select
+                      [options]="w.availableFieldTypes()"
+                      [value]="w.getDisplayFieldType(column.id)"
+                      (valueChange)="onFieldTypeChange(column.id, $event)">
+                    </qo-select>
+                  </qo-form-field>
+                </div>
+              }
+            </div>
+          </section>
+        }
+      </div>
+      <footer class="create-flow__footer">
+        <div class="create-flow__footer-summary">
+          @if (w.selectedConnectionMeta(); as selected) {
+            <strong>{{ w.formName.getRawValue().trim() || w.t('createWizard.newForm') }}</strong>
+            <span>{{ selected.qualifiedName }}</span>
+          }
+        </div>
+        <qo-button variant="secondary" type="button" (click)="cancel()">{{ 'actions.cancel' | transloco }}</qo-button>
+      </footer>
+    </section>
+  </section>
+</div>

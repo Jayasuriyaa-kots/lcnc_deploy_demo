@@ -1,0 +1,125 @@
+:host {
+  display: block;
+}
+
+.invoices-panel {
+  display: grid;
+  gap: var(--qo-space-5);
+}
+
+.invoice-table-wrapper {
+  border-radius: var(--qo-deployer-radius-lg);
+  overflow: hidden;
+}
+
+qo-table.invoice-table-wrapper {
+  --qo-table-border-color: var(--qo-deployer-line);
+  --qo-table-border-radius: var(--qo-deployer-radius-lg);
+  --qo-table-bg: var(--qo-deployer-surface-low);
+  --qo-table-heading-bg: transparent;
+  --qo-table-heading-color: var(--qo-deployer-text-muted);
+  --qo-table-heading-padding: var(--qo-space-4) var(--qo-space-6);
+  --qo-table-heading-letter-spacing: 0.12em;
+  --qo-table-row-bg: transparent;
+  --qo-table-row-hover-bg: var(--qo-deployer-surface);
+  --qo-table-row-border-color: color-mix(in srgb, var(--qo-deployer-outline-variant) 16%, transparent);
+  --qo-table-cell-color: var(--qo-deployer-text);
+  --qo-table-cell-padding: var(--qo-space-4) var(--qo-space-6);
+}
+
+.invoices-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-4);
+}
+
+.invoices-toolbar p {
+  margin: 0;
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-text-base);
+}
+
+.invoice-number {
+  color: var(--qo-deployer-text);
+  font-weight: 800;
+}
+
+.invoice-muted {
+  color: var(--qo-deployer-text-muted);
+}
+
+.invoice-amount {
+  color: var(--qo-deployer-text);
+}
+
+.invoice-status {
+  display: inline-flex;
+  min-height: var(--qo-size-22);
+  align-items: center;
+  border-radius: var(--qo-radius-full);
+  padding: var(--qo-space-1) var(--qo-space-3);
+  font-size: var(--qo-text-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.invoice-status--paid {
+  background: color-mix(in srgb, var(--qo-color-success-500) 34%, transparent);
+  color: var(--qo-color-success-500);
+}
+
+.invoice-status--pending {
+  background: color-mix(in srgb, var(--qo-color-warning-500) 34%, transparent);
+  color: var(--qo-color-warning-500);
+}
+
+.invoice-status--overdue {
+  background: color-mix(in srgb, var(--qo-color-danger-500) 34%, transparent);
+  color: var(--qo-color-danger-500);
+}
+
+.invoice-export-icon,
+.invoice-pdf-icon {
+  display: inline-flex;
+}
+
+.invoice-export-icon svg,
+.invoice-pdf-icon svg {
+  width: var(--qo-size-13);
+  height: var(--qo-size-13);
+  fill: currentColor;
+}
+
+qo-button.invoice-export-button {
+  --qo-button-min-height: var(--qo-size-40);
+  --qo-button-padding: 0 var(--qo-space-4);
+  --qo-button-gap: var(--qo-space-2);
+  --qo-button-radius: var(--qo-radius-md);
+  --qo-button-bg: var(--qo-deployer-surface-highest);
+  --qo-button-border-color: var(--qo-deployer-line);
+  --qo-button-color: var(--qo-deployer-text);
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 600;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+  --qo-button-hover-bg: var(--qo-deployer-hover-surface);
+  --qo-button-hover-color: var(--qo-deployer-text);
+  --qo-button-box-shadow: none;
+}
+
+qo-button.invoice-pdf-button {
+  --qo-button-min-height: var(--qo-size-28);
+  --qo-button-min-width: var(--qo-size-28);
+  --qo-button-padding: 0;
+  --qo-button-radius: var(--qo-radius-sm);
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: color-mix(in srgb, var(--qo-color-neutral-300) 84%, transparent);
+  --qo-button-hover-bg: transparent;
+  --qo-button-hover-color: var(--qo-color-neutral-50);
+  --qo-button-box-shadow: none;
+}
+
+
+

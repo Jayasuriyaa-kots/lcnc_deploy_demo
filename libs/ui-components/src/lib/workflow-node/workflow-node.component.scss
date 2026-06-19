@@ -1,0 +1,84 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.workflow-node {
+  position: relative;
+  display: grid;
+  gap: 0.45rem;
+  min-width: 9.45rem;
+  padding: 1rem 0.95rem 0.85rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: var(--qo-radius-xs);
+  background: var(--qo-color-neutral-0);
+  box-shadow: none;
+}
+
+.workflow-node--active {
+  border-color: var(--qo-color-neutral-300);
+}
+
+.workflow-node__accent {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0.14rem;
+  border-radius: var(--qo-radius-sm) 0 0 var(--qo-radius-sm);
+}
+
+.workflow-node__accent--primary {
+  background: var(--qo-color-primary-500);
+}
+
+.workflow-node__accent--success {
+  background: var(--qo-color-success-500);
+}
+
+.workflow-node__accent--info {
+  background: var(--qo-color-info-500);
+}
+
+.workflow-node__accent--warning {
+  background: var(--qo-color-warning-500);
+}
+
+.workflow-node__label,
+.workflow-node__title,
+.workflow-node__description {
+  margin: 0;
+}
+
+.workflow-node__label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding-left: 0.45rem;
+  color: #606773;
+  font-size: 0.6rem;
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.workflow-node__label::before {
+  content: '';
+  width: 0.32rem;
+  height: 0.32rem;
+  border-radius: var(--qo-radius-full);
+  background: currentColor;
+}
+
+.workflow-node__title {
+  padding-left: 0.45rem;
+  color: var(--qo-color-neutral-900);
+  font-size: clamp(0.95rem, 0.98vw, 1.08rem);
+  font-weight: var(--qo-font-semibold);
+  line-height: 1.2;
+}
+
+.workflow-node__description {
+  padding-left: 0.45rem;
+  color: #989fa9;
+  font-size: 0.62rem;
+  line-height: 1.25;
+}

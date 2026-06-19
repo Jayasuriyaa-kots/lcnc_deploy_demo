@@ -1,0 +1,82 @@
+<div class="report-preview-page">
+
+  <!-- Top bar: viewport toggle + edit link + close -->
+  <header class="report-preview-page__topbar">
+
+    <!-- Viewport toggle (desktop / tablet / mobile) -->
+    <div class="report-preview-page__viewport-group" role="group" [attr.aria-label]="t('preview.viewportToggle')">
+      <qo-button
+        class="report-preview-page__viewport-btn"
+        [class.report-preview-page__viewport-btn--active]="selectedViewport() === 'desktop'"
+        type="button"
+        variant="ghost"
+        [iconOnly]="true"
+        iconLeft="monitor"
+        [title]="t('common.desktop')"
+        [attr.aria-label]="t('common.desktop')"
+        (click)="selectedViewport.set('desktop')">
+      </qo-button>
+      <qo-button
+        class="report-preview-page__viewport-btn"
+        [class.report-preview-page__viewport-btn--active]="selectedViewport() === 'tablet'"
+        type="button"
+        variant="ghost"
+        [iconOnly]="true"
+        iconLeft="tablet"
+        [title]="t('common.tablet')"
+        [attr.aria-label]="t('common.tablet')"
+        (click)="selectedViewport.set('tablet')">
+      </qo-button>
+      <qo-button
+        class="report-preview-page__viewport-btn"
+        [class.report-preview-page__viewport-btn--active]="selectedViewport() === 'mobile'"
+        type="button"
+        variant="ghost"
+        [iconOnly]="true"
+        iconLeft="smartphone"
+        [title]="t('common.mobile')"
+        [attr.aria-label]="t('common.mobile')"
+        (click)="selectedViewport.set('mobile')">
+      </qo-button>
+    </div>
+
+    <!-- Right side actions -->
+    <div class="report-preview-page__topbar-actions">
+      <qo-button class="report-preview-page__edit-btn" type="button" variant="secondary" iconLeft="edit" (click)="goToBuilder()">
+        {{ t('common.editThisApplication') }}
+      </qo-button>
+      <qo-button class="report-preview-page__close-btn" type="button" variant="ghost" (click)="closeTab()">
+        {{ common('close') }}
+      </qo-button>
+    </div>
+
+  </header>
+
+  <!-- Viewport frame -->
+  <div class="report-preview-page__frame" [attr.data-viewport]="selectedViewport()">
+    <div
+      class="report-preview-page__canvas"
+      [style.width]="viewportWidth() ? viewportWidth() + 'px' : null"
+      [style.maxWidth.%]="100"
+    >
+      @if (report()) {
+        <app-report-preview-modal
+          #previewModal
+          [asPage]="true"
+          [viewport]="selectedViewport()"
+          [report]="report()!"
+          [visibleColumns]="visibleColumns()"
+          [detailBlocks]="report()!.settings.detailBlocks ?? []"
+          [detailTabs]="report()!.settings.detailTabs ?? []"
+          [records]="records()"
+          [pageSize]="pageSize()">
+        </app-report-preview-modal>
+      } @else {
+        <div class="report-preview-page__empty">
+          {{ t('page.previewMissing') }}
+        </div>
+      }
+    </div>
+  </div>
+
+</div>

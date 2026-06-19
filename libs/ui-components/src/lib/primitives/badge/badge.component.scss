@@ -1,0 +1,76 @@
+:host {
+  display: inline-block;
+  --qo-badge-gap: 0;
+  --qo-badge-padding-sm: 2px 8px;
+  --qo-badge-padding-md: 4px 10px;
+  --qo-badge-font-size-sm: var(--qo-text-xs);
+  --qo-badge-font-size-md: var(--qo-text-sm);
+  --qo-badge-radius: var(--qo-radius-full);
+  --qo-badge-dot-size: 6px;
+  --qo-badge-dot-margin: 6px;
+}
+
+.qo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-badge-gap);
+  border-radius: var(--qo-badge-radius);
+  font-family: var(--qo-font-family-sans);
+  font-weight: var(--qo-font-medium);
+  white-space: nowrap;
+
+  &-sm {
+    padding: var(--qo-badge-padding-sm);
+    font-size: var(--qo-badge-font-size-sm);
+  }
+
+  &-md {
+    padding: var(--qo-badge-padding-md);
+    font-size: var(--qo-badge-font-size-md);
+  }
+
+  .qo-badge-dot {
+    width: var(--qo-badge-dot-size);
+    height: var(--qo-badge-dot-size);
+    border-radius: 50%;
+    margin-right: var(--qo-badge-dot-margin);
+    display: inline-block;
+  }
+
+  // Colors (Filled)
+  &-default {
+    background-color: var(--qo-badge-bg, var(--qo-color-neutral-100));
+    color: var(--qo-badge-color, var(--qo-color-neutral-700));
+    .qo-badge-dot { background-color: var(--qo-badge-dot-color, var(--qo-color-neutral-500)); }
+  }
+
+  &-success {
+    background-color: var(--qo-badge-bg, var(--qo-color-success-100));
+    color: var(--qo-badge-color, var(--qo-color-success-500));
+    .qo-badge-dot { background-color: var(--qo-badge-dot-color, var(--qo-color-success-500)); }
+  }
+
+  &-warning {
+    background-color: var(--qo-badge-bg, var(--qo-color-warning-100));
+    color: var(--qo-badge-color, var(--qo-color-warning-500));
+    .qo-badge-dot { background-color: var(--qo-badge-dot-color, var(--qo-color-warning-500)); }
+  }
+
+  &-danger {
+    background-color: var(--qo-badge-bg, var(--qo-color-danger-100));
+    color: var(--qo-badge-color, var(--qo-color-danger-500));
+    .qo-badge-dot { background-color: var(--qo-badge-dot-color, var(--qo-color-danger-500)); }
+  }
+
+  &-info, &-blue {
+    background-color: var(--qo-badge-bg, var(--qo-color-info-100));
+    color: var(--qo-badge-color, var(--qo-color-info-500));
+    .qo-badge-dot { background-color: var(--qo-badge-dot-color, var(--qo-color-info-500)); }
+  }
+
+  // Outlined variant
+  &.qo-badge-outlined {
+    background-color: transparent;
+    border: 1px solid currentColor;
+  }
+}

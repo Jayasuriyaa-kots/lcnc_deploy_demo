@@ -1,0 +1,45 @@
+@if (ctx.draftSaved) {
+  <div class="preview-status preview-status--draft">
+    <qo-icon name="list" size="sm"></qo-icon>
+    <span>{{ t('preview.draftSaved') }}</span>
+  </div>
+}
+
+<div
+  class="preview-grid"
+  [class.preview-grid--two]="ctx.settings.formLayout === 'Two Column'"
+  [class.preview-grid--multi]="ctx.settings.formLayout === 'Multi Section'">
+  @for (field of ctx.fields; track field.id) {
+    @if (!ctx.isDecisionBox(field)) {
+      <app-form-preview-field [field]="field" />
+    }
+    @if (ctx.isDecisionBox(field)) {
+      <app-form-preview-decision-field [field]="field" />
+    }
+  }
+</div>
+
+@if (ctx.settings.duplicateDetection !== 'None') {
+  <div class="preview-warning">
+    <qo-icon name="info" size="sm"></qo-icon>
+    <span>{{ t('preview.duplicateDetectionMessage', { mode: ctx.settings.duplicateDetection, outcome: ctx.settings.duplicateDetection === 'Warn' ? t('preview.duplicateWarnOutcome') : t('preview.duplicateBlockOutcome') }) }}</span>
+  </div>
+}
+
+@if (ctx.actions.length) {
+  <div class="preview-actions">
+    @for (action of ctx.actions; track action.id) {
+      <qo-button
+        type="button"
+        class="preview-action-btn"
+        variant="secondary"
+        size="sm"
+        [class.preview-action-btn--primary]="action.style === 'primary'"
+        [class.preview-action-btn--secondary]="action.style === 'secondary'"
+        [class.preview-action-btn--ghost]="action.style === 'ghost'"
+        (click)="ctx.runAction(action)">
+        {{ action.name }}
+      </qo-button>
+    }
+  </div>
+}

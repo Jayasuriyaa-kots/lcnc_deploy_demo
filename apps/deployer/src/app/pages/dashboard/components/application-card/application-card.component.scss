@@ -1,0 +1,212 @@
+:host {
+  display: block;
+}
+
+.application-card {
+  padding: var(--qo-space-3) var(--qo-size-14);
+  min-height: auto;
+  overflow: visible;
+  border: var(--qo-size-1) solid var(--qo-deployer-line);
+  background: var(--qo-deployer-surface-low);
+  transition:
+    background var(--qo-duration-slower) ease,
+    border-color var(--qo-duration-slower) ease,
+    box-shadow var(--qo-duration-slower) ease;
+}
+
+.application-card:hover {
+  background: var(--qo-deployer-surface);
+  border-color: var(--qo-deployer-line);
+  box-shadow: none;
+}
+
+.application-card:hover h3 {
+  color: var(--qo-deployer-text);
+}
+
+.application-card:hover .row-metric strong {
+  color: var(--qo-deployer-text);
+}
+
+.application-main {
+  display: grid;
+  grid-template-columns: minmax(var(--qo-size-220), 1.45fr) var(--qo-size-76) var(--qo-size-82) var(--qo-size-110) var(--qo-size-96) var(--qo-size-88) max-content;
+  align-items: center;
+  gap: var(--qo-space-3);
+}
+
+.application-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-2);
+  min-width: 0;
+}
+
+.identity-copy {
+  display: grid;
+  gap: var(--qo-size-3);
+  min-width: 0;
+}
+
+.identity-copy h3,
+.identity-copy p {
+  margin: 0;
+}
+
+.identity-copy h3 {
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-text-base);
+  letter-spacing: 0;
+}
+
+.identity-copy p {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  line-height: 1.4;
+  max-width: var(--qo-size-250);
+}
+
+.row-metric {
+  display: grid;
+  gap: var(--qo-size-3);
+  align-content: center;
+}
+
+.row-metric strong {
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-text-xs);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.footer-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+  justify-content: flex-end;
+  position: relative;
+}
+
+qo-button.row-action {
+  --qo-button-min-height: auto;
+  --qo-button-height: auto;
+  --qo-button-padding: 0;
+  --qo-button-gap: 0;
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: color-mix(in srgb, var(--qo-deployer-text) 82%, transparent);
+  --qo-button-hover-bg: transparent;
+  --qo-button-hover-border-color: transparent;
+  --qo-button-hover-color: var(--qo-deployer-text);
+  --qo-button-hover-text-decoration: none;
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 700;
+  --qo-button-letter-spacing: 0.05em;
+  --qo-button-text-transform: uppercase;
+  --qo-button-box-shadow: none;
+}
+
+qo-button.row-action-more {
+  --qo-button-width: auto;
+  --qo-button-min-width: auto;
+  --qo-button-min-height: auto;
+  --qo-button-height: auto;
+  --qo-button-padding: 0;
+  --qo-button-radius: 0;
+  --qo-button-gap: 0;
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 600;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+}
+
+.application-actions-menu {
+  position: relative;
+  isolation: isolate;
+}
+
+.application-actions-popover {
+  position: absolute;
+  top: calc(100% + var(--qo-space-2));
+  right: 0;
+  z-index: 20;
+  min-width: calc(
+    var(--qo-space-16) + var(--qo-space-16) + var(--qo-space-16) + var(--qo-space-4)
+  );
+  padding: var(--qo-space-2);
+  border: var(--qo-size-1) solid var(--qo-deployer-line);
+  border-radius: var(--qo-radius-xl);
+  background: var(--qo-deployer-surface-high);
+  box-shadow: var(--qo-deployer-card-shadow);
+  backdrop-filter: blur(var(--qo-size-12));
+}
+
+.application-actions-popover__item {
+  --qo-button-width: 100%;
+  --qo-button-min-width: 100%;
+  --qo-button-min-height: var(--qo-space-10);
+  --qo-button-height: var(--qo-space-10);
+  --qo-button-padding: 0 var(--qo-space-3);
+  --qo-button-radius: var(--qo-radius-md);
+  --qo-button-gap: 0;
+  --qo-button-justify: flex-start;
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: var(--qo-deployer-text);
+  --qo-button-hover-bg: var(--qo-deployer-surface-highest);
+  --qo-button-hover-color: var(--qo-deployer-text);
+  --qo-button-box-shadow: none;
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: var(--qo-font-medium);
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+  width: 100%;
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--qo-radius-md);
+  background: transparent;
+  color: var(--qo-deployer-text);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-medium);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background var(--qo-duration-slow) ease,
+    color var(--qo-duration-slow) ease;
+}
+
+.application-actions-popover__item .qo-btn {
+  justify-content: flex-start;
+  width: 100%;
+  background: transparent;
+}
+
+.application-actions-popover__item .qo-btn-label {
+  transform: none;
+}
+
+.application-actions-popover__item:hover {
+  background: transparent;
+}
+
+.application-actions-popover__item--danger {
+  --qo-button-color: var(--qo-color-danger-600);
+  --qo-button-hover-color: var(--qo-color-danger-600);
+  --qo-button-hover-bg: color-mix(in srgb, var(--qo-color-danger-500) 14%, transparent);
+  color: var(--qo-color-danger-600);
+  background: transparent;
+}
+
+.application-actions-popover__item--danger:hover {
+  background: color-mix(in srgb, var(--qo-color-danger-500) 14%, transparent);
+  color: var(--qo-color-danger-600);
+}
+
+.application-actions-popover__item--danger .qo-btn {
+  background: transparent;
+}
+
+.application-actions-popover__item--danger .qo-btn:hover {
+  background: transparent;
+}

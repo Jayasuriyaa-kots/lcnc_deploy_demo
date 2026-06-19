@@ -1,0 +1,68 @@
+<qo-modal [title]="t('submissions.title')" [subtitle]="t('submissions.subtitle')" size="xl" (close)="close()">
+  <div class="submission-viewer-modal__body">
+    @if (submissions(); as bucket) {
+      <div class="submission-meta">
+        <qo-badge>{{ t('submissions.formMeta', { name: bucket.formName }) }}</qo-badge>
+        @if (bucket.datasourceLabel) {
+          <qo-badge>{{ t('submissions.datasourceMeta', { label: bucket.datasourceLabel }) }}</qo-badge>
+        }
+        @if (bucket.queryLabel) {
+          <qo-badge>{{ t('submissions.queryMeta', { label: bucket.queryLabel }) }}</qo-badge>
+        }
+        <qo-badge color="info">{{ bucket.records.length }} records</qo-badge>
+      </div>
+
+      <div class="submission-layout">
+        <aside class="submission-list">
+          @for (record of bucket.records; track trackRecord($index, record)) {
+            <qo-button
+              type="button"
+              class="submission-list__item"
+              [class.submission-list__item--active]="selectedRecord()?.submissionId === record.submissionId"
+              (click)="selectSubmission(record.submissionId)">
+              <strong>{{ t('submissions.submissionItem', { index: $index + 1 }) }}</strong>
+              <span>{{ record.submittedAt | date: 'medium' }}</span>
+              <small>{{ record.submissionId }}</small>
+            </qo-button>
+          }
+        </aside>
+
+        <section class="submission-viewer">
+          @if (selectedRecord(); as record) {
+            <div class="submission-viewer__header">
+              <div>
+                <strong>{{ record.submissionId }}</strong>
+                <span>{{ record.submittedAt | date: 'full' }}</span>
+              </div>
+            </div>
+            <pre class="submission-json">{{ formatSubmission(record) }}</pre>
+          } @else {
+            <qo-empty-state
+              icon="database"
+              [title]="t('submissions.noSubmissionSelectedTitle')"
+              [description]="t('submissions.noSubmissionSelectedDescription')">
+            </qo-empty-state>
+          }
+        </section>
+      </div>
+    } @else {
+      <qo-empty-state
+        icon="database"
+        [title]="t('submissions.emptyTitle')"
+        [description]="t('submissions.emptyDescription')">
+      </qo-empty-state>
+    }
+  </div>
+
+  <div qo-modal-footer class="submission-viewer-modal__footer">
+    <qo-button variant="secondary" type="button" (click)="close()">{{ 'actions.close' | transloco }}</qo-button>
+    <qo-button
+      variant="ghost"
+      type="button"
+      [disabled]="!submissions()?.records?.length"
+      (click)="clear()">
+      {{ t('confirm.clearSubmissionsTitle') }}
+    </qo-button>
+  </div>
+</qo-modal>
+

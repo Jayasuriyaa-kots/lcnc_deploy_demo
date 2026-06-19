@@ -1,0 +1,43 @@
+<section class="invoices-panel">
+  <div class="invoices-toolbar">
+    <p>{{ i18n.translate('settings.invoicesFound', { count: invoices().length }) }}</p>
+    <qo-button variant="ghost" class="invoice-export-button">
+      <span class="invoice-export-icon" aria-hidden="true">
+        <qo-icon name="download" size="sm"></qo-icon>
+      </span>
+      <span>{{ i18n.translate('settings.exportAll') }}</span>
+    </qo-button>
+  </div>
+
+  <qo-table class="invoice-table-wrapper" [data]="invoiceRows()">
+    <ng-template qoTableColumn="invoiceNumber" [header]="i18n.translate('settings.colInvoiceNumber')" let-invoice>
+      <span class="invoice-number">{{ invoice.invoiceNumber }}</span>
+    </ng-template>
+    <ng-template qoTableColumn="dateRaised" [header]="i18n.translate('settings.colDateRaised')" let-invoice>
+      {{ invoice.dateRaised }}
+    </ng-template>
+    <ng-template qoTableColumn="billingPeriod" [header]="i18n.translate('settings.colBillingPeriod')" let-invoice>
+      <span class="invoice-muted">{{ invoice.billingPeriod }}</span>
+    </ng-template>
+    <ng-template qoTableColumn="amount" [header]="i18n.translate('settings.colAmount')" let-invoice>
+      <strong class="invoice-amount">{{ invoice.amount }}</strong>
+    </ng-template>
+    <ng-template qoTableColumn="status" [header]="i18n.translate('settings.colStatus')" let-invoice>
+      <span class="invoice-status" [class]="invoiceStatusTone(invoice.status)">{{ invoice.status }}</span>
+    </ng-template>
+    <ng-template qoTableColumn="pdf" [header]="i18n.translate('settings.colPdf')">
+      <qo-button variant="ghost" size="sm" class="invoice-pdf-button" [attr.aria-label]="i18n.translate('settings.downloadInvoicePdf')">
+        <span class="invoice-pdf-icon" aria-hidden="true">
+          <qo-icon name="download" size="sm"></qo-icon>
+        </span>
+      </qo-button>
+    </ng-template>
+
+    <ng-template qoTableEmpty>
+      <qo-empty-state
+        [title]="i18n.translate('settings.noInvoices')"
+        [description]="i18n.translate('settings.noInvoicesDescription')"
+      />
+    </ng-template>
+  </qo-table>
+</section>

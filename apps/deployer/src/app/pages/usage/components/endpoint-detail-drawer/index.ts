@@ -1,0 +1,1 @@
+export { EndpointDetailDrawerComponent } from './endpoint-detail-drawer.component';

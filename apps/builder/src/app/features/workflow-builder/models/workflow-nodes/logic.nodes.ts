@@ -1,0 +1,172 @@
+import {
+  ACTION_CONFIG_TABS,
+  ALL_BUILDERS,
+  TRIGGER_CONFIG_TABS,
+  fieldActionCriteriaFields,
+  generalFields,
+  standardMappingFields,
+  targetFieldField,
+} from './workflow-node-fields.config';
+import { WorkflowNodeDefinition } from './workflow-node.types';
+import { WORKFLOW_LANGUAGE } from '../../services/workflow-language';
+
+const NODE = WORKFLOW_LANGUAGE.nodes;
+const CONFIG = WORKFLOW_LANGUAGE.nodeConfig;
+
+export const LOGIC_NODES: readonly WorkflowNodeDefinition[] = [
+{
+    id: 'condition',
+    label: NODE.condition.label,
+    category: CONFIG.categories.logic,
+    icon: 'workflow',
+    type: 'condition',
+    description: NODE.condition.description,
+    allowedBuilders: ALL_BUILDERS,
+    defaultConfig: {
+      label: NODE.condition.label,
+      enabled: true,
+      matchType: 'all',
+      expression: 'status == "active"',
+    },
+    configTabs: ACTION_CONFIG_TABS,
+    configSchema: [
+      ...generalFields(NODE.condition.label),
+      {
+        key: 'ruleMode',
+        label: CONFIG.fields.ruleMode,
+        type: 'select',
+        tab: 'action',
+        required: true,
+        options: CONFIG.options.ruleMode,
+      },
+      {
+        key: 'expression',
+        label: CONFIG.fields.expression,
+        type: 'code',
+        tab: 'action',
+      },
+      {
+        key: 'conditions',
+        label: CONFIG.fields.conditions,
+        type: 'ruleBuilder',
+        tab: 'action',
+      },
+      {
+        key: 'matchType',
+        label: CONFIG.fields.matchType,
+        type: 'select',
+        tab: 'action',
+        required: true,
+        options: CONFIG.options.allAnyCustom,
+      },
+      {
+        key: 'trueBranchLabel',
+        label: CONFIG.fields.trueBranchLabel,
+        type: 'text',
+        tab: 'action',
+      },
+      {
+        key: 'falseBranchLabel',
+        label: CONFIG.fields.falseBranchLabel,
+        type: 'text',
+        tab: 'action',
+      },
+      ...standardMappingFields,
+    ],
+    validationRules: [
+      CONFIG.validationRules.conditionRequired,
+      CONFIG.validationRules.trueBranchRequired,
+      CONFIG.validationRules.falseBranchRequired,
+    ],
+    ports: { inputs: 1, outputs: 2, outputLabels: [CONFIG.ports.true, CONFIG.ports.false] },
+    paletteVisible: true,
+  },
+{
+    id: 'retry_action',
+    label: NODE.retryAction.label,
+    category: CONFIG.categories.errorHandling,
+    icon: 'shuffle',
+    type: 'delay',
+    description: NODE.retryAction.description,
+    allowedBuilders: ['workflow-builder'],
+    defaultConfig: {
+      label: NODE.retryAction.label,
+      enabled: true,
+      maxAttempts: 3,
+      backoff: 'exponential',
+    },
+    configTabs: ACTION_CONFIG_TABS,
+    configSchema: [
+      ...generalFields(NODE.retryAction.label),
+      {
+        key: 'maxAttempts',
+        label: CONFIG.fields.maxAttempts,
+        type: 'number',
+        tab: 'action',
+        required: true,
+      },
+      {
+        key: 'backoff',
+        label: CONFIG.fields.backoff,
+        type: 'select',
+        tab: 'action',
+        required: true,
+        options: CONFIG.options.backoff,
+      },
+      {
+        key: 'retryDelay',
+        label: CONFIG.fields.retryDelay,
+        type: 'duration',
+        tab: 'action',
+      },
+      ...standardMappingFields,
+    ],
+    validationRules: [CONFIG.validationRules.maxAttemptsRequired],
+    ports: { inputs: 1, outputs: 2, outputLabels: [CONFIG.ports.retried, CONFIG.ports.failed] },
+    paletteVisible: true,
+  },
+{
+    id: 'escalate_failure',
+    label: NODE.escalateFailure.label,
+    category: CONFIG.categories.errorHandling,
+    icon: 'bell',
+    type: 'notification',
+    description: NODE.escalateFailure.description,
+    allowedBuilders: ['workflow-builder'],
+    defaultConfig: {
+      label: NODE.escalateFailure.label,
+      enabled: true,
+      severity: 'warning',
+    },
+    configTabs: ACTION_CONFIG_TABS,
+    configSchema: [
+      ...generalFields(NODE.escalateFailure.label),
+      {
+        key: 'owners',
+        label: CONFIG.fields.owners,
+        type: 'multiSelect',
+        tab: 'action',
+        required: true,
+      },
+      {
+        key: 'severity',
+        label: CONFIG.fields.severity,
+        type: 'select',
+        tab: 'action',
+        required: true,
+        options: CONFIG.options.severityEscalation,
+      },
+      {
+        key: 'message',
+        label: CONFIG.fields.message,
+        type: 'textarea',
+        tab: 'action',
+        required: true,
+      },
+      ...standardMappingFields,
+    ],
+    validationRules: [CONFIG.validationRules.escalationOwnerRequired, CONFIG.validationRules.failureMessageRequired],
+    ports: { inputs: 1, outputs: 1 },
+    paletteVisible: true,
+  }
+];

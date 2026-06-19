@@ -1,0 +1,114 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: var(--qo-space-6);
+}
+
+.confirm-backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--qo-color-neutral-900) 68%, transparent);
+  backdrop-filter: blur(var(--qo-size-4));
+}
+
+.confirm-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(var(--qo-size-480), calc(100vw - var(--qo-space-12)));
+  background: color-mix(in srgb, var(--qo-color-primary-700) 98%, transparent);
+  border: var(--qo-size-1) solid color-mix(in srgb, var(--qo-color-neutral-0) 7%, transparent);
+  border-radius: var(--qo-radius-2xl);
+  box-shadow: var(--qo-shadow-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--qo-space-7) var(--qo-space-7) var(--qo-space-6);
+  gap: var(--qo-space-5);
+  text-align: left;
+}
+
+.confirm-dialog__icon {
+  width: var(--qo-size-40);
+  height: var(--qo-size-40);
+  border-radius: var(--qo-radius-full);
+  background: color-mix(in srgb, var(--qo-color-neutral-0) 5%, transparent);
+  display: grid;
+  place-items: center;
+  color: color-mix(in srgb, var(--qo-color-neutral-300) 88%, transparent);
+}
+
+.confirm-dialog__icon--danger {
+  background: color-mix(in srgb, var(--qo-color-danger-500) 14%, transparent);
+  color: color-mix(in srgb, var(--qo-color-danger-500) 92%, var(--qo-color-neutral-50));
+}
+
+.confirm-dialog__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qo-space-2);
+}
+
+.confirm-dialog__title {
+  margin: 0;
+  color: var(--qo-color-neutral-50);
+  font-size: var(--qo-text-2xl);
+  font-weight: var(--qo-font-bold);
+  line-height: var(--qo-leading-tight);
+}
+
+.confirm-dialog__message {
+  margin: 0;
+  color: color-mix(in srgb, var(--qo-color-neutral-300) 90%, transparent);
+  font-size: var(--qo-text-base);
+  line-height: var(--qo-leading-normal);
+}
+
+.confirm-dialog__actions {
+  display: flex;
+  gap: var(--qo-space-3);
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: var(--qo-space-1);
+}
+
+.confirm-dialog__actions qo-button {
+  flex: 0 0 auto;
+}
+
+.confirm-dialog__cancel-button {
+  --qo-button-min-width: var(--qo-size-120);
+  --qo-button-min-height: var(--qo-size-40);
+  --qo-button-radius: var(--qo-radius-lg);
+  --qo-button-bg: transparent;
+  --qo-button-color: color-mix(in srgb, var(--qo-color-neutral-50) 88%, transparent);
+  --qo-button-border-color: transparent;
+  --qo-button-hover-bg: color-mix(in srgb, var(--qo-color-neutral-0) 5%, transparent);
+  --qo-button-hover-color: var(--qo-color-neutral-0);
+  --qo-button-box-shadow: none;
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 600;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+}
+
+.confirm-dialog__confirm-button {
+  --qo-button-min-width: var(--qo-size-144);
+  --qo-button-min-height: var(--qo-size-44);
+  --qo-button-radius: var(--qo-radius-lg);
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 600;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+  --qo-button-box-shadow: none;
+}
+
+.confirm-dialog__confirm-button--danger {
+  --qo-button-bg: color-mix(in srgb, var(--qo-color-danger-500) 76%, var(--qo-color-primary-700));
+  --qo-button-border-color: transparent;
+  --qo-button-color: var(--qo-color-neutral-0);
+  --qo-button-hover-bg: color-mix(in srgb, var(--qo-color-danger-500) 88%, var(--qo-color-primary-700));
+  --qo-button-hover-color: var(--qo-color-neutral-0);
+}

@@ -1,0 +1,84 @@
+<header class="top-navbar">
+  <div class="nav-left">
+    <div class="brand">
+      <div class="brand-mark">QO</div>
+      <div class="brand-copy">
+        <div class="mini-label">QUANTA OPS</div>
+        <strong>Deployer</strong>
+      </div>
+    </div>
+
+    <nav class="top-links">
+      <!-- Exemption: keeping routerLink anchors because @qo/ui-components does not currently provide a nav-link component -->
+      @for (tab of tabs(); track tab.path) {
+        <a routerLinkActive="nav-link-active" [routerLink]="tab.path">{{ tab.label }}</a>
+      }
+    </nav>
+  </div>
+
+  <div class="nav-actions">
+    <div class="nav-action-wrapper bell-wrapper">
+      <qo-button
+        type="button"
+        variant="ghost"
+        size="sm"
+        class="bell-trigger"
+        iconLeft="bell"
+        [iconOnly]="true"
+        [attr.aria-label]="unreadCount() > 0 ? 'Notifications, ' + unreadCount() + ' unread' : 'Notifications'"
+        (click)="toggleNotifications.emit()"
+      />
+      @if (unreadCount() > 0) {
+        <span class="notification-count" aria-hidden="true"></span>
+      }
+    </div>
+
+    <qo-button
+      type="button"
+      variant="ghost"
+      size="sm"
+      class="icon-trigger help-trigger"
+      iconLeft="help-circle"
+      [iconOnly]="true"
+      aria-label="Help"
+    />
+
+    <div class="avatar-menu">
+      <qo-button type="button" variant="ghost" size="sm" class="profile-button" aria-label="Open profile menu" (click)="profileMenuToggleRequested.emit()">
+        <span class="profile-initials">DV</span>
+      </qo-button>
+
+      @if (profileMenuOpen()) {
+        <div class="dropdown app-card" role="menu" aria-label="Profile menu">
+          <!-- Exemption: semantic profile menu links retained; no qo menu-link component is available -->
+          <a href="/" role="menuitem">Profile</a>
+          <a href="/" role="menuitem">Preferences</a>
+          <a href="/" role="menuitem">Switch workspace</a>
+
+          <div class="dropdown-divider"></div>
+
+          <div class="theme-menu" aria-label="Theme">
+            <span class="theme-menu-label">Theme</span>
+            <qo-button
+              type="button"
+              variant="ghost"
+              size="sm"
+              class="theme-switch"
+              buttonRole="switch"
+              [class.theme-switch--dark]="theme() === 'dark'"
+              [aria-checked]="theme() === 'dark'"
+              [aria-label]="theme() === 'dark' ? 'Dark mode on' : 'Light mode on'"
+              (click)="toggleTheme()"
+            >
+              <span class="theme-switch__label">Light</span>
+              <span class="theme-switch__track" aria-hidden="true">
+                <span class="theme-switch__thumb"></span>
+              </span>
+              <span class="theme-switch__label">Dark</span>
+            </qo-button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</header>

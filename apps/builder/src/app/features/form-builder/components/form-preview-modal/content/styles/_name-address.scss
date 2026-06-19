@@ -1,0 +1,84 @@
+// ─── name grid ────────────────────────────────────────────────────────────────
+.preview-name-grid,
+.preview-address-grid {
+  display: grid;
+  gap: var(--qo-space-3);
+}
+
+.preview-name-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--preview-field-name-min)), 1fr));
+}
+
+.preview-address-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--preview-field-address-min)), 1fr));
+}
+
+.preview-name-part,
+.preview-address-part {
+  display: grid;
+  gap: var(--qo-space-1);
+}
+
+.preview-name-part > span,
+.preview-address-part > span {
+  font-size: var(--qo-text-2xs);
+  color: var(--qo-color-neutral-500);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+// ─── geo capture ─────────────────────────────────────────────────────────────
+.preview-address-geo {
+  display: grid;
+  gap: var(--qo-space-3);
+  margin-top: var(--qo-space-1);
+}
+
+.preview-address-geo__summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-2);
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-semibold);
+}
+
+.preview-address-geo__summary .material-symbols-outlined {
+  font-size: var(--qo-text-base);
+  color: var(--qo-color-neutral-500);
+}
+
+.preview-address-geo__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--qo-space-2);
+}
+
+.preview-address-geo__editor {
+  display: grid;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-3);
+  border: var(--qo-border-width) dashed var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+  border-radius: var(--qo-radius-xs);
+}
+
+.preview-address-geo__editor label {
+  display: grid;
+  gap: var(--qo-space-1);
+}
+
+.preview-address-geo__editor label span {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-2xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.preview-address-geo__editor-actions {
+  display: flex;
+  gap: var(--qo-space-2);
+  flex-wrap: wrap;
+}

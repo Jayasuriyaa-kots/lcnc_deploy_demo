@@ -1,0 +1,56 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.workflow-event-table {
+  background: var(--qo-color-neutral-0);
+  min-width: 0;
+}
+
+.workflow-event-table__event {
+  display: grid;
+  gap: var(--qo-space-1);
+}
+
+.workflow-event-table__event strong {
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+}
+
+.workflow-event-table__event span,
+.workflow-event-table__muted {
+  color: var(--qo-color-neutral-400);
+  font-size: var(--qo-text-xs);
+  overflow-wrap: anywhere;
+}
+
+.workflow-event-table__actions {
+  display: flex;
+  gap: var(--qo-space-2);
+  justify-content: flex-end;
+}
+
+:host ::ng-deep .qo-table-th-actions {
+  text-align: right;
+}
+
+:host ::ng-deep qo-button {
+  --qo-button-height: var(--qo-size-30);
+  --qo-button-padding: 0 var(--qo-space-3);
+  --qo-button-radius: var(--qo-radius-xs);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: uppercase;
+}
+
+@media (max-width: 64rem) {
+  :host ::ng-deep .qo-table {
+    min-width: 48rem;
+  }
+
+  :host ::ng-deep .qo-table-td,
+  :host ::ng-deep .qo-table-th {
+    white-space: nowrap;
+  }
+}

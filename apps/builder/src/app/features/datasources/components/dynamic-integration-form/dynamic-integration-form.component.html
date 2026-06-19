@@ -1,0 +1,143 @@
+@if (schema(); as activeSchema) {
+  <form class="dynamic-integration-form" [formGroup]="form()">
+    @for (section of activeSchema.sections; track section.title) {
+      <section class="datasources-page__form-card dynamic-integration-form__section">
+        <div class="datasources-page__form-card-title">{{ section.title }}</div>
+        <div class="datasources-page__form-grid dynamic-integration-form__grid">
+          @for (field of nonMappingFields(section); track field.key) {
+              <qo-form-field
+                [class.datasources-page__form-grid-span]="field.type === 'textarea'"
+                [label]="field.label"
+                [required]="field.required"
+                [error]="fieldError(field)"
+              >
+                @switch (field.type) {
+                  @case ('textarea') {
+                  <qo-textarea
+                    [formControlName]="field.key"
+                    [value]="fieldTextValue(field.key)"
+                    [rows]="field.rows ?? 4"
+                    [placeholder]="field.placeholder ?? ''"
+                    (valueChange)="onFieldValueChange(field.key, $event)"
+                  ></qo-textarea>
+                }
+                @case ('select') {
+                  <qo-select
+                    [formControlName]="field.key"
+                    [value]="fieldSelectValue(field.key)"
+                    [options]="field.options ?? []"
+                    (valueChange)="onFieldValueChange(field.key, $event)"
+                  ></qo-select>
+                }
+                @case ('checkbox') {
+                  <qo-checkbox
+                    [checked]="controlValue(field.key)"
+                    [label]="field.label"
+                    (checkedChange)="setBooleanValue(field.key, $event)"
+                  ></qo-checkbox>
+                }
+                @case ('toggle') {
+                  <qo-toggle
+                    [checked]="controlValue(field.key)"
+                    [label]="controlValue(field.key) ? t('common.active') : t('common.inactive')"
+                    (checkedChange)="setBooleanValue(field.key, $event)"
+                  ></qo-toggle>
+                }
+                @default {
+                  <qo-input
+                    [formControlName]="field.key"
+                    [value]="fieldTextValue(field.key)"
+                    [type]="field.type === 'password' ? 'password' : field.type === 'number' ? 'number' : field.type === 'email' ? 'email' : 'text'"
+                    [placeholder]="field.placeholder ?? ''"
+                    (valueChange)="onFieldValueChange(field.key, $event)"
+                  ></qo-input>
+                }
+                }
+              </qo-form-field>
+          }
+
+          @if (mappingFields(section).length) {
+            <div class="dynamic-integration-form__mapping-tabs datasources-page__form-grid-span">
+              <div class="dynamic-integration-form__mapping-tabs-head">
+                <div class="dynamic-integration-form__mapping-tab-list" role="tablist" aria-[label]="t('uiText.mappingSections')">
+                  @for (field of mappingFields(section); track field.key) {
+                    <qo-button
+                      class="dynamic-integration-form__mapping-tab"
+                      variant="text"
+                      size="sm"
+                      type="button"
+                      [class.dynamic-integration-form__mapping-tab--active]="field.key === activeMappingTab()"
+                      [attr.aria-selected]="field.key === activeMappingTab()"
+                      [aria-checked]="field.key === activeMappingTab()"
+                      buttonRole="tab"
+                      (click)="setActiveMappingTab(field.key)"
+                    >
+                      {{ mappingTabTitle(field) }}
+                    </qo-button>
+                  }
+                </div>
+
+                @if (activeMappingField(section); as field) {
+                  <qo-button variant="secondary" size="sm" type="button" (click)="addMappingRow(field.key)">{{ t('dynamicForm.addMapping') }}</qo-button>
+                }
+              </div>
+
+              @for (field of activeMappingFields(section); track field.key) {
+                <div class="dynamic-integration-form__mapping-panel">
+                  <div class="dynamic-integration-form__mapping-stack" [formArrayName]="field.key">
+                    @for (mapping of mappingRows(field.key); track $index; let index = $index) {
+                      <div class="dynamic-integration-form__mapping-item" [formGroupName]="index">
+                        <div class="dynamic-integration-form__mapping-item-title">Mapping {{ index + 1 }}</div>
+
+                        <div class="dynamic-integration-form__mapping-item-grid">
+                          <qo-form-field [label]="field.sourceLabel ?? 'Source Path'">
+                            <qo-input
+                              formControlName="sourcePath"
+                              [value]="mappingTextValue(mapping, 'sourcePath')"
+                              [placeholder]="field.sourcePlaceholder ?? 'results[0].properties.email'"
+                              (valueChange)="notifyMappingChange()"
+                            ></qo-input>
+                          </qo-form-field>
+
+                          <qo-form-field [label]="field.targetLabel ?? 'Target Field'">
+                            <qo-input
+                              formControlName="targetField"
+                              [value]="mappingTextValue(mapping, 'targetField')"
+                              [placeholder]="field.targetPlaceholder ?? 'email'"
+                              (valueChange)="notifyMappingChange()"
+                            ></qo-input>
+                          </qo-form-field>
+
+                          <qo-form-field [label]="t('uiText.type')">
+                            <qo-select
+                              formControlName="fieldType"
+                              [value]="mappingSelectValue(mapping, 'fieldType')"
+                              [options]="mappingTypeOptions(field)"
+                              (valueChange)="notifyMappingChange()"
+                            ></qo-select>
+                          </qo-form-field>
+                        </div>
+
+                        <div class="dynamic-integration-form__mapping-required">
+                          <qo-checkbox
+                            [checked]="!!mapping.controls['required'].value"
+                            [label]="t('uiText.required')"
+                            (checkedChange)="mapping.controls['required'].setValue($event); notifyMappingChange()"
+                          ></qo-checkbox>
+                        </div>
+
+                        <div class="dynamic-integration-form__mapping-action">
+                          <qo-button variant="secondary" size="sm" type="button" (click)="removeMappingRow(field.key, index)">{{ t('dynamicForm.deleteMapping') }}</qo-button>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </section>
+    }
+  </form>
+}

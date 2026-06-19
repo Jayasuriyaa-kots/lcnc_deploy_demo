@@ -1,0 +1,198 @@
+/* You can add global styles to this file, and also import other style files */
+@use '../../../libs/ui-components/src/styles/reset';
+@use '../../../libs/ui-components/src/styles/tokens';
+@use '../../../libs/ui-components/src/styles/typography';
+
+:root {
+  background-color: var(--qo-color-primary-50);
+  color: var(--qo-color-neutral-900);
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: var(--qo-font-family-sans);
+  background: var(--qo-color-primary-50);
+  color: var(--qo-color-neutral-900);
+  overflow: hidden;
+}
+
+html.page-builder-preview-mode,
+body.page-builder-preview-mode {
+  min-height: 100%;
+  overflow: auto;
+}
+
+body {
+  background:
+    var(--qo-builder-grid-background),
+    var(--qo-color-primary-50);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  line-height: var(--qo-leading-normal);
+}
+
+/* ─────────────────────────────────────────────────────────
+   Color-picker panel — rendered via CDK Overlay into body,
+   outside any modal stacking context.
+───────────────────────────────────────────────────────── */
+.qo-color-picker__panel {
+  width: var(--qo-size-220, 220px);
+  border: var(--qo-size-1, 1px) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-lg);
+  padding: var(--qo-size-8, 8px);
+  font-family: var(--qo-font-family-sans);
+  z-index: 1400;
+}
+
+.qo-color-picker__option,
+.qo-color-picker__more {
+  width: 100%;
+  min-height: var(--qo-size-32, 32px);
+  border: 0;
+  border-radius: var(--qo-radius-sm);
+  background: transparent;
+  color: var(--qo-color-neutral-700);
+  display: flex;
+  align-items: center;
+  gap: var(--qo-size-8, 8px);
+  justify-content: flex-start;
+  cursor: pointer;
+  padding: 0 var(--qo-size-8, 8px);
+  font-size: var(--qo-text-sm);
+  text-align: left;
+}
+
+.qo-color-picker__option:hover,
+.qo-color-picker__more:hover {
+  background: var(--qo-color-neutral-50);
+}
+
+.qo-color-picker__option--active {
+  color: var(--qo-color-primary-500);
+  font-weight: 500;
+}
+
+.qo-color-picker__option-swatch {
+  width: var(--qo-size-14, 14px);
+  height: var(--qo-size-14, 14px);
+  border-radius: var(--qo-radius-full);
+  border: var(--qo-size-1, 1px) solid var(--qo-border-color-strong);
+  flex-shrink: 0;
+}
+
+.qo-color-picker__option-swatch--empty {
+  border-radius: 50%;
+  background:
+    linear-gradient(135deg, transparent 46%, var(--qo-color-danger-500) 46%, var(--qo-color-danger-500) 54%, transparent 54%),
+    var(--qo-color-neutral-0);
+}
+
+.qo-color-picker__section-label {
+  margin: var(--qo-size-8, 8px) var(--qo-size-8, 8px) var(--qo-size-6, 6px);
+  color: var(--qo-color-neutral-600);
+  font-size: var(--qo-text-xs);
+  font-weight: 500;
+}
+
+.qo-color-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: var(--qo-size-4, 4px);
+  padding: 0 var(--qo-size-8, 8px) var(--qo-size-8, 8px);
+}
+
+.qo-color-picker__cell {
+  aspect-ratio: 1;
+  border: var(--qo-size-1, 1px) solid var(--qo-border-color);
+  border-radius: var(--qo-size-2, 2px);
+  cursor: pointer;
+  padding: 0;
+}
+
+.qo-color-picker__cell--active {
+  outline: var(--qo-size-2, 2px) solid var(--qo-color-primary-500);
+  outline-offset: var(--qo-size-1, 1px);
+}
+
+.qo-color-picker__more {
+  margin-top: var(--qo-size-4, 4px);
+  justify-content: space-between;
+}
+
+.qo-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// ── Mobile preview route: full-viewport takeover ─────────────────────────────
+// These global rules guarantee the standalone app preview fills the entire
+// viewport and doesn't inherit the builder's dark grid background.
+body:has(app-mobile-preview-page) {
+  background: var(--qo-color-neutral-50, #f9fafb) !important;
+  overflow: hidden !important;
+}
+
+app-mobile-preview-page {
+  display: flex !important;
+  flex-direction: column !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  background: var(--qo-color-neutral-50, #f9fafb) !important;
+}
+
+.viewport-warning {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  // Standalone routes designed for mobile (e.g. /mobile-preview) must not be hidden.
+  app-root > *:not(.viewport-warning):not(app-mobile-preview-page) {
+    display: none !important;
+  }
+
+  .viewport-warning {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: var(--qo-space-8);
+    font-family: var(--qo-font-family-sans);
+    font-size: var(--qo-font-size-lg);
+    color: var(--qo-color-neutral-900);
+    background: var(--qo-color-primary-50);
+  }
+
+  // When the mobile preview page is active, suppress the desktop-only warning.
+  app-root:has(app-mobile-preview-page) .viewport-warning {
+    display: none !important;
+  }
+}

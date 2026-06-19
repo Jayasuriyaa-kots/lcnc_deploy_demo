@@ -1,0 +1,155 @@
+// ─── capture / record modals ──────────────────────────────────────────────────
+.preview-capture-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--qo-space-5);
+}
+
+.preview-capture-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 50%);
+}
+
+.preview-capture-modal__content {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 32rem);
+  padding: var(--qo-space-5);
+  border-radius: var(--qo-radius-lg);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-elevated);
+}
+
+.preview-capture-modal__content h3 {
+  margin: 0 0 var(--qo-space-4);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-lg);
+  font-weight: var(--qo-font-extrabold);
+}
+
+.preview-capture-modal__video {
+  display: block;
+  width: 100%;
+  max-width: 30rem;
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-900);
+}
+
+.preview-capture-modal__action,
+.preview-audio-record__button,
+.preview-video-record__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: var(--qo-space-4) auto 0;
+  border: 0;
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-primary-700);
+  color: var(--qo-color-neutral-0);
+  cursor: pointer;
+}
+
+.preview-capture-modal__action .material-symbols-outlined,
+.preview-audio-record__button .material-symbols-outlined,
+.preview-video-record__button .material-symbols-outlined { font-size: var(--qo-text-xl); }
+
+app-form-preview-content qo-button.preview-capture-modal__action .qo-btn,
+app-form-preview-content qo-button.preview-audio-record__button .qo-btn,
+app-form-preview-content qo-button.preview-video-record__button .qo-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  min-width: 3.5rem;
+  height: 3.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--qo-radius-full);
+  background: var(--qo-color-primary-700);
+  color: var(--qo-color-neutral-0);
+  box-shadow: none;
+}
+
+app-form-preview-content qo-button.preview-audio-record__button .qo-btn {
+  background: var(--qo-color-primary-500);
+}
+
+app-form-preview-content qo-button.preview-audio-record__button--recording .qo-btn,
+app-form-preview-content qo-button.preview-video-record__button--recording .qo-btn {
+  background: var(--qo-color-danger-500);
+}
+
+.preview-audio-record__button { background: var(--qo-color-primary-500); margin: 0; }
+.preview-video-record__button { margin: 0; }
+
+.preview-audio-record__button--recording,
+.preview-video-record__button--recording { background: var(--qo-color-danger-500); }
+
+.preview-capture-modal__close {
+  position: absolute;
+  top: var(--qo-space-3);
+  right: var(--qo-space-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--qo-space-8);
+  height: var(--qo-space-8);
+  border: 0;
+  background: transparent;
+  color: var(--qo-color-neutral-500);
+  cursor: pointer;
+}
+
+app-form-preview-content qo-button.preview-capture-modal__close .qo-btn {
+  width: var(--qo-space-8);
+  min-width: var(--qo-space-8);
+  height: var(--qo-space-8);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--qo-color-neutral-500);
+  box-shadow: none;
+}
+
+app-form-preview-content qo-button.preview-capture-modal__close .qo-btn:hover {
+  background: var(--qo-color-neutral-100);
+  color: var(--qo-color-neutral-900);
+}
+
+// ─── audio waveform ───────────────────────────────────────────────────────────
+.preview-audio-waveform {
+  width: 100%;
+  height: 5rem;
+  margin-bottom: var(--qo-space-4);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-100);
+  background-image: linear-gradient(90deg, rgb(0 0 0 / 6%) var(--qo-border-width), transparent var(--qo-border-width));
+  background-size: 0.375rem 100%;
+}
+
+.preview-audio-waveform__canvas { width: 100%; height: 100%; border-radius: var(--qo-radius-sm); }
+
+.preview-audio-record__actions,
+.preview-video-record__actions { display: flex; align-items: center; justify-content: center; gap: var(--qo-space-4); }
+
+.preview-audio-record__timer,
+.preview-video-record__timer {
+  min-width: 3rem;
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-lg);
+  font-variant-numeric: tabular-nums;
+}
+
+.preview-audio-record__hint {
+  margin: var(--qo-space-3) 0 0;
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-xs);
+  text-align: center;
+}

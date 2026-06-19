@@ -1,0 +1,183 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.library-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--qo-space-4);
+  min-height: var(--qo-space-10);
+  border-bottom: var(--qo-border-width) solid var(--qo-border-color);
+  flex-shrink: 0;
+
+  &__title {
+    color: var(--qo-color-neutral-400);
+    font-size: var(--qo-text-2xs);
+    font-weight: var(--qo-font-extrabold);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+}
+
+:host ::ng-deep qo-button.library-header__close .qo-btn {
+  width: var(--qo-space-7);
+  min-width: var(--qo-space-7);
+  height: var(--qo-space-7);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--qo-color-neutral-500);
+  cursor: pointer;
+  border-radius: var(--qo-radius-sm);
+  transition: color 120ms ease, background-color 120ms ease;
+}
+
+:host ::ng-deep qo-button.library-header__close .qo-btn:hover {
+  color: var(--qo-color-neutral-900);
+  background: var(--qo-color-neutral-100);
+}
+
+.library-search {
+  padding: var(--qo-space-3) var(--qo-space-4);
+  border-bottom: var(--qo-border-width) solid var(--qo-border-color);
+  flex-shrink: 0;
+}
+
+.library-search__input {
+  width: 100%;
+}
+
+:host ::ng-deep .library-search__input .qo-input-element {
+  height: var(--qo-space-9);
+  border-radius: var(--qo-radius-sm);
+  border-color: var(--qo-border-color);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-700);
+  box-shadow: none;
+  font-size: var(--qo-text-sm);
+}
+
+:host ::ng-deep .library-search__input .qo-input-element:focus {
+  border-color: var(--qo-color-neutral-300);
+  box-shadow: inset 0 0 0 var(--qo-border-width) rgba(17, 17, 17, 0.08);
+}
+
+.library-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--qo-space-4);
+  display: grid;
+  gap: var(--qo-space-5);
+  scrollbar-width: none;
+}
+
+.library-body::-webkit-scrollbar {
+  display: none;
+}
+
+.library-group {
+  display: grid;
+  gap: var(--qo-space-2);
+
+  &__label {
+    color: var(--qo-color-neutral-500);
+    font-size: var(--qo-text-2xs);
+    font-weight: var(--qo-font-extrabold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: var(--qo-space-1);
+  }
+}
+
+:host ::ng-deep qo-button.library-item .qo-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--qo-space-11);
+  padding: 0 var(--qo-space-3);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  background: var(--qo-color-neutral-50);
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-bold);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+  justify-content: initial;
+}
+
+:host ::ng-deep qo-button.library-item .qo-btn-label {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+  width: 100%;
+  min-width: 0;
+}
+
+:host ::ng-deep qo-button.library-item .qo-btn:hover {
+  background: var(--qo-color-neutral-0);
+  border-color: var(--qo-border-color-strong);
+}
+
+.library-item__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--qo-space-7);
+  height: var(--qo-space-7);
+  background: var(--qo-color-neutral-0);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xs);
+  flex-shrink: 0;
+
+  qo-icon {
+    color: var(--qo-color-neutral-500);
+  }
+}
+
+.library-item__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.library-item__add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--qo-space-6);
+  height: var(--qo-space-6);
+  margin-left: auto;
+  color: var(--qo-color-neutral-500);
+  border-radius: var(--qo-radius-full);
+  flex-shrink: 0;
+}
+
+:host ::ng-deep qo-button.library-item .qo-btn:hover .library-item__add {
+  color: var(--qo-color-neutral-900);
+  background: var(--qo-color-neutral-100);
+}
+
+.library-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--qo-space-2);
+  padding: var(--qo-space-10) var(--qo-space-4);
+  color: var(--qo-color-neutral-400);
+  text-align: center;
+
+  qo-icon {
+    color: var(--qo-color-neutral-300);
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--qo-text-sm);
+  }
+}

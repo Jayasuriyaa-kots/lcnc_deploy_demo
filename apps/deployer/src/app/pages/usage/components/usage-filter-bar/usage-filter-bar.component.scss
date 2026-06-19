@@ -1,0 +1,24 @@
+:host {
+  display: block;
+}
+
+.usage-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--qo-size-12);
+  flex-wrap: wrap;
+}
+
+qo-button.usage-control {
+  --qo-button-min-height: var(--qo-size-40);
+  --qo-button-padding: 0 var(--qo-size-18);
+  --qo-button-radius: var(--qo-size-10);
+  --qo-button-border-color: var(--qo-deployer-line);
+  --qo-button-bg: var(--qo-deployer-card-background);
+  --qo-button-color: var(--qo-deployer-text);
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 700;
+  --qo-button-hover-bg: var(--qo-deployer-brand-soft);
+  --qo-button-hover-border-color: var(--qo-deployer-line-strong);
+  --qo-button-hover-color: var(--qo-deployer-text);
+}

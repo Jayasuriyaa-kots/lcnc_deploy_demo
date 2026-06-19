@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.workflow-form-action-list {
+  display: grid;
+  gap: var(--qo-space-5);
+  max-width: 92rem;
+  min-width: 0;
+}
+
+@media (max-width: 40rem) {
+  .workflow-form-action-list {
+    gap: var(--qo-space-4);
+  }
+}

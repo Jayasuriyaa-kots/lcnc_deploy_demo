@@ -1,0 +1,43 @@
+    @if (ctx.hasSecuritySettings(selectedField)) {
+      <div class="inspector__section">
+        <div class="inspector__section-title">{{ t('inspector.displaySecurity') }}</div>
+        <div class="inspector__grid inspector__grid--two">
+          <label class="inspector__input">
+            <span>{{ t('inspector.descriptionMode') }}</span>
+            <qo-select
+              [value]="ctx.getDescriptionMode(selectedField)"
+              [options]="ctx.descriptionModeOptions"
+              [placeholder]="t('inspector.selectDescriptionMode')"
+              (valueChange)="ctx.updateProperty(selectedField, 'descriptionShow', ctx.asString($event))">
+            </qo-select>
+          </label>
+          <label class="inspector__input">
+            <span>{{ t('inspector.fieldLayout') }}</span>
+            <qo-select
+              [value]="selectedField.properties.fieldLayout"
+              [options]="ctx.getSelectOptions(ctx.fieldLayoutOptions)"
+              [placeholder]="t('inspector.selectFieldLayout')"
+              (valueChange)="ctx.updateProperty(selectedField, 'fieldLayout', ctx.asString($event))">
+            </qo-select>
+          </label>
+        </div>
+        <div class="inspector__toggles inspector__toggles--stack">
+          <div class="inspector__toggle"><qo-checkbox [checked]="selectedField.properties.containsPII" [label]="t('inspector.containsPii')" (checkedChange)="ctx.updateProperty(selectedField, 'containsPII', $event)"></qo-checkbox></div>
+          <div class="inspector__toggle"><qo-checkbox [checked]="selectedField.properties.encryptData" [label]="t('inspector.encryptData')" (checkedChange)="ctx.updateProperty(selectedField, 'encryptData', $event)"></qo-checkbox></div>
+          <div class="inspector__toggle"><qo-checkbox [checked]="!!selectedField.properties.containsEPHI" [label]="t('inspector.containsEphi')" (checkedChange)="ctx.updateProperty(selectedField, 'containsEPHI', $event)"></qo-checkbox></div>
+        </div>
+      </div>
+    }
+
+    @if (ctx.getDescriptionMode(selectedField) !== 'none') {
+      <div class="inspector__section">
+        <div class="inspector__section-title">
+          {{ ctx.getDescriptionMode(selectedField) === 'tooltip' ? t('inspector.tooltipText') : t('inspector.helpText') }}
+        </div>
+        <label class="inspector__input inspector__input--full">
+          <span>{{ ctx.getDescriptionMode(selectedField) === 'tooltip' ? t('inspector.tooltipMessage') : t('inspector.helpMessage') }}</span>
+          <qo-textarea [rows]="3" [value]="selectedField.properties.descriptionText" (valueChange)="ctx.updateProperty(selectedField, 'descriptionText', ctx.asString($event))"></qo-textarea>
+        </label>
+      </div>
+    }
+

@@ -1,0 +1,639 @@
+@if (!asPage()) {
+  <div class="modal-backdrop" (click)="closed.emit()"></div>
+}
+
+<section class="modal-shell" [class.modal-shell--page]="asPage()">
+  <article class="modal-card modal-card--preview" [class.modal-card--page]="asPage()" (click)="$event.stopPropagation()">
+    <header class="modal-card__header">
+      <div>
+        <h2>{{ t('preview.titleWithReport', { name: report().name }) }}</h2>
+        <p>{{ report().viewType }} · {{ report().sourceFormLabel }}</p>
+      </div>
+      @if (!asPage()) {
+        <qo-button variant="ghost" type="button" iconLeft="x" [iconOnly]="true" [attr.aria-label]="t('generated.close_preview')" (click)="closed.emit()"></qo-button>
+      }
+    </header>
+
+    <div class="modal-card__body modal-card__body--preview">
+      <!-- Selection toolbar -->
+      @if (previewSelection().length > 0) {
+        <div class="selection-toolbar">
+          <div class="selection-toolbar__left">
+            <span>{{ t('preview.selectedCount', { count: previewSelection().length }) }}</span>
+            <div class="selection-toolbar__actions">
+              @for (action of enabledMultipleSelectionActions(); track action.key) {
+                <qo-button class="pill-btn" [class.pill-btn--danger]="action.key === 'delete'"
+                  [variant]="action.key === 'delete' ? 'danger' : 'secondary'" type="button"
+                  (click)="runMultipleSelectionAction(action.key)">
+                  {{ action.label }}
+                </qo-button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Main toolbar (view toggle, search, export, print) -->
+      <div class="preview-toolbar preview-toolbar--modal">
+        <div class="preview-toolbar__left" [class.preview-toolbar__left--hidden]="asPage()">
+          @if (!asPage()) {
+            <qo-button class="pill-btn" variant="secondary" type="button"
+              [class.pill-btn--active]="effectiveViewType() === 'List View'"
+              (click)="setPreviewViewType('List View')">{{ t('common.list') }}</qo-button>
+            <qo-button class="pill-btn" variant="secondary" type="button"
+              [class.pill-btn--active]="effectiveViewType() === 'Card View'"
+              (click)="setPreviewViewType('Card View')">{{ t('common.card') }}</qo-button>
+          }
+        </div>
+
+        <div class="preview-toolbar__right">
+          @if (inlineSearchOpen()) {
+            <div class="inline-search">
+              <qo-icon name="search" size="sm" class="inline-search__icon" />
+              <qo-input class="inline-search__input" [placeholder]="t('generated.search_records')" [value]="inlineSearchQuery()"
+                (valueChange)="inlineSearchQuery.set($event)" />
+              @if (inlineSearchQuery()) {
+                <qo-button class="inline-search__clear" variant="ghost" type="button" [attr.aria-label]="t('generated.clear_search')"
+                  (click)="inlineSearchQuery.set('')"><qo-icon name="x" size="sm" /></qo-button>
+              }
+              <qo-button class="inline-search__close" variant="ghost" type="button" [attr.aria-label]="t('generated.close_search')"
+                (click)="clearInlineSearch()"><qo-icon name="corner-down-left" size="sm" /></qo-button>
+            </div>
+          } @else {
+            <qo-button class="icon-btn" variant="ghost" type="button" [attr.aria-label]="t('generated.toggle_search')"
+              (click)="toggleInlineSearch()"><qo-icon name="search" size="sm" /></qo-button>
+          }
+
+          <qo-button class="icon-btn" variant="ghost" type="button" [attr.aria-label]="t('generated.add_record')">
+            <qo-icon name="plus" size="sm" />
+          </qo-button>
+
+          <div class="export-menu-anchor">
+            <qo-button class="icon-btn export-menu-trigger" variant="ghost" type="button" [attr.aria-label]="t('generated.export_options')"
+              (click)="toggleExportMenu($event)"><qo-icon name="more-vertical" size="sm" /></qo-button>
+            @if (exportMenuOpen()) {
+              <div class="export-menu" (click)="$event.stopPropagation()">
+                <qo-button class="export-menu__header" variant="ghost" type="button" (click)="selectExportFormat('Export')">
+                  <span>{{ t('generated.export') }}</span><qo-icon name="chevron-down" size="sm" />
+                </qo-button>
+                @for (format of exportFormats; track format) {
+                  <qo-button variant="ghost" type="button" (click)="selectExportFormat(format)">{{ format }}</qo-button>
+                }
+                <div class="export-menu__divider"></div>
+                <div class="export-menu__section-label">{{ t('generated.row_height') }}</div>
+                <qo-button variant="ghost" type="button" [class.export-menu__item--active]="rowHeight() === 'compact'"
+                  (click)="setRowHeight('compact')"><qo-icon name="align-justify" size="sm" />{{ t('generated.compact') }}</qo-button>
+                <qo-button variant="ghost" type="button" [class.export-menu__item--active]="rowHeight() === 'comfortable'"
+                  (click)="setRowHeight('comfortable')"><qo-icon name="align-center" size="sm" />{{ t('generated.comfortable') }}</qo-button>
+                <qo-button variant="ghost" type="button" [class.export-menu__item--active]="rowHeight() === 'expanded'"
+                  (click)="setRowHeight('expanded')"><qo-icon name="layout-list" size="sm" />{{ t('generated.expanded') }}</qo-button>
+              </div>
+            }
+          </div>
+
+          <qo-button class="icon-btn" variant="ghost" type="button" [attr.aria-label]="t('generated.print_report')" (click)="printReport()">
+            <qo-icon name="printer" size="sm" />
+          </qo-button>
+
+          <qo-button class="icon-btn" variant="ghost" type="button" [attr.aria-label]="t('generated.refresh_data')" (click)="currentPage.set(1)">
+            <qo-icon name="rotate-cw" size="sm" />
+          </qo-button>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="preview-pagination-bar">
+        <span class="preview-pagination-bar__status">
+          {{ t('preview.showingResults', { start: rangeStart(), end: rangeEnd(), total: sortedRows().length }) }}
+        </span>
+        <div class="preview-pagination-bar__actions">
+          <qo-button class="pill-btn" variant="secondary" type="button" [disabled]="currentPage() <= 1" (click)="goToPreviousPage()">{{ t('generated.prev') }}</qo-button>
+          <span class="preview-pagination-bar__page">{{ t('preview.pageOf', { current: currentPage(), total: totalPages() }) }}</span>
+          <qo-button class="pill-btn" variant="secondary" type="button" [disabled]="currentPage() >= totalPages()" (click)="goToNextPage()">{{ t('generated.next') }}</qo-button>
+        </div>
+      </div>
+
+      <!-- List View with sub-component (Command pattern) -->
+      @if (effectiveViewType() === 'List View') {
+        <app-report-preview-table [state]="tableState()" (event)="handleTableEvent($event)"></app-report-preview-table>
+      }
+
+      <!-- Standard Card View -->
+      @if (effectiveViewType() === 'Card View' && !isCustomCardView()) {
+        <div class="card-grid" [style.grid-template-columns]="getCardGridTemplateColumns()">
+          @for (row of getCardRows(); track row.id) {
+            <article
+              class="record-card"
+              [class.record-card--selected]="isPreviewRowSelected(row.id)"
+              [class.record-card--detail-active]="isDetailRowActive(row.id)"
+              (click)="openRecordDetails(row)"
+              (contextmenu)="openContextMenu(row, $event)"
+            >
+              <span class="record-card__select-indicator"></span>
+              @if (cardPrimaryColumn()) {
+                <header class="record-card__header">
+                  <h3>{{ getCardFieldValue(row, cardPrimaryColumn()) }}</h3>
+                  <span>{{ cardPrimaryColumn()?.label }}</span>
+                </header>
+              }
+              @if (cardSecondaryColumn()) {
+                <div class="record-card__body">
+                  <div class="record-card__line">
+                    <span>{{ cardSecondaryColumn()?.label }}</span>
+                    <strong>{{ getCardFieldValue(row, cardSecondaryColumn()) }}</strong>
+                  </div>
+                </div>
+              }
+            </article>
+          }
+        </div>
+      }
+
+      <!--
+        Custom Card View. A "custom" quick layout resolves to one of four
+        renderings, mirrored from the builder's center preview so the standalone
+        preview looks identical:
+          1. Designed canvas  — absolutely-positioned designer elements.
+          2. Block template   — title / body / meta stacked card.
+          3. List template    — label/value rows.
+          4. Default slots     — image + title/body + meta two-up card.
+        Clicking a card opens the detail panel (preview behaviour).
+      -->
+      @if (effectiveViewType() === 'Card View' && isCustomCardView()) {
+        <div class="card-grid">
+          @for (row of getCardRows(); track row.id) {
+            @if (hasDesignedCanvasLayout()) {
+              <!-- 1. Designed canvas: free-positioned image / icon / button / text elements -->
+              <article
+                class="record-card custom-card custom-card--designed"
+                [style]="getCustomCardStyle()"
+                [class.record-card--selected]="isPreviewRowSelected(row.id)"
+                [class.record-card--detail-active]="isDetailRowActive(row.id)"
+                (click)="openRecordDetails(row)"
+                (contextmenu)="openContextMenu(row, $event)">
+                <div class="custom-card__designer-canvas" [style]="getDesignerContainerStyle()">
+                  @for (element of getDesignerElements(); track element.instanceId) {
+                    <div
+                      class="custom-card__designer-item"
+                      [style.left.px]="element.x"
+                      [style.top.px]="element.y"
+                      [style.width.px]="element.width"
+                      [style.height.px]="element.height"
+                      [style.textAlign]="element.textAlign ?? 'left'"
+                      [style.color]="element.textColor ?? 'var(--qo-color-neutral-700)'"
+                      [style.background]="element.backgroundColor ?? 'var(--qo-color-neutral-0)'"
+                      [style.fontSize.px]="element.fontSize ?? 14"
+                      [style.fontWeight]="element.fontWeight ?? 500">
+                      @if (element.visualType === 'image') {
+                        <div class="custom-card__designer-image">
+                          <qo-icon name="image" size="sm" />
+                          <span>{{ getDesignerElementText(row, element) || t('generated.image') }}</span>
+                        </div>
+                      } @else if (element.visualType === 'icon') {
+                        <div class="custom-card__designer-icon">
+                          <qo-icon [name]="element.iconGlyph || 'bookmark'" size="sm" />
+                          <span>{{ getDesignerElementText(row, element) }}</span>
+                        </div>
+                      } @else if (element.visualType === 'button') {
+                        <span
+                          class="custom-card__designer-button"
+                          [class.custom-card__designer-button--filled]="element.buttonVariant === 'filled'"
+                          [class.custom-card__designer-button--outline]="element.buttonVariant !== 'filled'">
+                          {{ getDesignerElementText(row, element) }}
+                        </span>
+                      } @else {
+                        <span class="custom-card__designer-text">{{ getDesignerElementText(row, element) }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </article>
+            } @else if (isTemplateCustomCardView() && !isListTemplateCustomCardView()) {
+              <!-- 2. Block template -->
+              <article
+                class="record-card custom-card custom-card--template"
+                [style]="getCustomCardStyle()"
+                [class.record-card--selected]="isPreviewRowSelected(row.id)"
+                [class.record-card--detail-active]="isDetailRowActive(row.id)"
+                (click)="openRecordDetails(row)"
+                (contextmenu)="openContextMenu(row, $event)">
+                <div
+                  class="custom-card__template-title"
+                  [style]="getSlotStyle('title')"
+                  [style.color]="report().settings.quickViewCustomLayout.styles.titleColor"
+                  [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.titleFontSize"
+                  [style.fontWeight]="report().settings.quickViewCustomLayout.styles.titleFontWeight">
+                  {{ getCustomSlotValue(row, 'title') || row.groupLabel }}
+                </div>
+                <div class="custom-card__template-body" [style]="getSlotStyle('body')">
+                  <p
+                    [style.color]="report().settings.quickViewCustomLayout.styles.bodyColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.bodyFontSize">
+                    {{ getCustomSlotValue(row, 'body') || report().sourceFormLabel }}
+                  </p>
+                </div>
+                <div class="custom-card__template-meta-row">
+                  <div class="custom-card__template-meta" [style]="getSlotStyle('meta_left')">
+                    {{ getCustomSlotValue(row, 'meta_left') || '-' }}
+                  </div>
+                  <div class="custom-card__template-meta" [style]="getSlotStyle('meta_right')">
+                    {{ getCustomSlotValue(row, 'meta_right') || '-' }}
+                  </div>
+                  <div class="custom-card__template-meta" [style]="getSlotStyle('body')">
+                    {{ getCustomSlotValue(row, 'body') || '-' }}
+                  </div>
+                </div>
+              </article>
+            } @else if (isListTemplateCustomCardView()) {
+              <!-- 3. List template: label / value rows -->
+              <article
+                class="record-card custom-card custom-card--list-template"
+                [style]="getCustomCardStyle()"
+                [class.record-card--selected]="isPreviewRowSelected(row.id)"
+                [class.record-card--detail-active]="isDetailRowActive(row.id)"
+                (click)="openRecordDetails(row)"
+                (contextmenu)="openContextMenu(row, $event)">
+                <div class="custom-card__list-row" [style]="getSlotStyle('title')">
+                  <span>{{ getCustomSlotLabel('title') }}</span>
+                  <strong
+                    [style.color]="report().settings.quickViewCustomLayout.styles.titleColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.titleFontSize"
+                    [style.fontWeight]="report().settings.quickViewCustomLayout.styles.titleFontWeight">
+                    {{ getCustomSlotValue(row, 'title') || '-' }}
+                  </strong>
+                </div>
+                <div class="custom-card__list-row" [style]="getSlotStyle('meta_left')">
+                  <span>{{ getCustomSlotLabel('meta_left') }}</span>
+                  <strong
+                    [style.color]="report().settings.quickViewCustomLayout.styles.metaColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.metaFontSize">
+                    {{ getCustomSlotValue(row, 'meta_left') || '-' }}
+                  </strong>
+                </div>
+                <div class="custom-card__list-row" [style]="getSlotStyle('meta_right')">
+                  <span>{{ getCustomSlotLabel('meta_right') }}</span>
+                  <strong
+                    [style.color]="report().settings.quickViewCustomLayout.styles.metaColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.metaFontSize">
+                    {{ getCustomSlotValue(row, 'meta_right') || '-' }}
+                  </strong>
+                </div>
+                <div class="custom-card__list-row" [style]="getSlotStyle('body')">
+                  <span>{{ getCustomSlotLabel('body') }}</span>
+                  <strong
+                    [style.color]="report().settings.quickViewCustomLayout.styles.bodyColor"
+                    [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.bodyFontSize">
+                    {{ getCustomSlotValue(row, 'body') || '-' }}
+                  </strong>
+                </div>
+              </article>
+            } @else {
+              <!-- 4. Default slots card: image + title/body + meta two-up -->
+              <article
+                class="record-card custom-card"
+                [style]="getCustomCardStyle()"
+                [class.record-card--selected]="isPreviewRowSelected(row.id)"
+                [class.record-card--detail-active]="isDetailRowActive(row.id)"
+                (click)="openRecordDetails(row)"
+                (contextmenu)="openContextMenu(row, $event)">
+                <header class="record-card__header custom-card__header">
+                  <div
+                    class="custom-card__image"
+                    [style]="getSlotStyle('image')"
+                    [class]="getImageShapeClass()">
+                    @if (getCustomSlotValue(row, 'image')) {
+                      <span>{{ getCustomSlotValue(row, 'image') }}</span>
+                    } @else {
+                      <qo-icon name="image" size="sm" />
+                    }
+                  </div>
+                  <div class="custom-card__main">
+                    <h3
+                      [style]="getSlotStyle('title')"
+                      [style.color]="report().settings.quickViewCustomLayout.styles.titleColor"
+                      [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.titleFontSize"
+                      [style.fontWeight]="report().settings.quickViewCustomLayout.styles.titleFontWeight">
+                      {{ getCustomSlotValue(row, 'title') || row.groupLabel }}
+                    </h3>
+                    <p
+                      [style]="getSlotStyle('body')"
+                      [style.color]="report().settings.quickViewCustomLayout.styles.bodyColor"
+                      [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.bodyFontSize">
+                      {{ getCustomSlotValue(row, 'body') || report().sourceFormLabel }}
+                    </p>
+                    <div class="custom-card__meta">
+                      <div>
+                        <div [style]="getSlotStyle('meta_left')">
+                          <span>{{ getCustomSlotLabel('meta_left') }}</span>
+                          <strong
+                            [style.color]="report().settings.quickViewCustomLayout.styles.metaColor"
+                            [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.metaFontSize">
+                            {{ getCustomSlotValue(row, 'meta_left') || '-' }}
+                          </strong>
+                        </div>
+                      </div>
+                      <div>
+                        <div [style]="getSlotStyle('meta_right')">
+                          <span>{{ getCustomSlotLabel('meta_right') }}</span>
+                          <strong
+                            [style.color]="report().settings.quickViewCustomLayout.styles.metaColor"
+                            [style.fontSize.px]="report().settings.quickViewCustomLayout.styles.metaFontSize">
+                            {{ getCustomSlotValue(row, 'meta_right') || '-' }}
+                          </strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </header>
+              </article>
+            }
+          }
+        </div>
+      }
+    </div>
+  </article>
+
+  <!-- Search drawer sub-component (Command pattern) -->
+  @if (searchPanelOpen()) {
+    <app-report-search-drawer [state]="searchDrawerState()" (event)="handleSearchEvent($event)"></app-report-search-drawer>
+  }
+
+  <!-- Edit modal sub-component (Command pattern) -->
+  @if (editModalOpen()) {
+    <app-report-edit-modal [state]="editModalState()" (event)="handleEditEvent($event)"></app-report-edit-modal>
+  }
+
+  <!-- Context menu (simplified, inline) -->
+  @if (contextMenuOpen() && getContextMenuRow()) {
+    <div class="context-row-menu" [style.left]="contextMenuX() + 'px'" [style.top]="contextMenuY() + 'px'"
+      (click)="$event.stopPropagation()">
+      @for (action of enabledRightClickActions(); track action.key) {
+        <qo-button variant="ghost" type="button" (click)="runRowAction(action.key, getContextMenuRow()!)">
+          <qo-icon [name]="action.icon" size="sm" />
+          <span>{{ action.label }}</span>
+        </qo-button>
+      }
+    </div>
+  }
+
+  <!-- Detail Panel (right-side slide-over) -->
+  @if (detailPanelOpen()) {
+    <div
+      class="detail-panel__backdrop"
+      (pointerdown)="closeDetailPanelFromEvent($event)"
+      (click)="closeDetailPanelFromEvent($event)"
+    ></div>
+
+    <aside
+      class="detail-panel"
+      [style.width.px]="detailPanelWidth()"
+      (pointerdown)="$event.stopPropagation()"
+      (click)="$event.stopPropagation()"
+    >
+      <div
+        class="detail-panel__resize-handle"
+        [attr.title]="t('generated.resize_detail_panel')"
+        (mousedown)="onDetailPanelResizeStart($event)"
+      ></div>
+
+      <header class="detail-panel__header">
+        @if (activeDetailRow()) {
+          <h3>{{ t('preview.recordTitle', { id: activeDetailRow()!.id }) }}</h3>
+        }
+        <div class="detail-panel__header-actions">
+          <qo-button
+            class="detail-panel__close"
+            type="button"
+            variant="ghost"
+            size="sm"
+            [iconOnly]="true"
+            iconLeft="x"
+            [attr.aria-label]="t('generated.close_detail_panel')"
+            (pointerdown)="closeDetailPanelFromEvent($event)"
+            (mousedown)="closeDetailPanelFromEvent($event)"
+            (click)="closeDetailPanelFromEvent($event)">
+          </qo-button>
+        </div>
+      </header>
+
+      <div class="detail-panel__body">
+        <div class="detail-panel__content">
+          @if (detailLayoutMode() === 'all-fields') {
+            @for (field of activeAllFields(); track field.fieldId) {
+              <div class="detail-panel__row">
+                <span>{{ field.label }}</span>
+                <strong>{{ field.value || '-' }}</strong>
+              </div>
+            }
+          } @else if (detailLayoutMode() === 'tab-view' && hasCustomDetailCanvas()) {
+            <div class="detail-panel__custom-canvas">
+              @for (item of getCustomCanvasTopLevelItems(); track item.id) {
+                @if (item.type === 'tab') {
+                  <div class="detail-panel__canvas-tab-widget" [style]="getCustomCanvasTabStyle(item)">
+                    <div class="detail-panel__canvas-tab">
+                      @for (tab of (item.tabLabels ?? [t('detailLayout.unnamedTab')]); track tab; let i = $index) {
+                        <qo-button type="button" variant="ghost" class="detail-panel__canvas-tab-btn"
+                          [class.detail-panel__canvas-tab-btn--active]="isCustomCanvasTabActive(item.id, i)"
+                          (click)="switchCustomCanvasTab(item.id, i)">
+                          {{ tab }}
+                        </qo-button>
+                      }
+                    </div>
+                    <div class="detail-panel__canvas-tab-body">
+                      @for (tab of (item.tabLabels ?? [t('detailLayout.unnamedTab')]); track tab; let i = $index) {
+                        @if (isCustomCanvasTabActive(item.id, i)) {
+                          @for (child of getCustomCanvasTabChildren(item.id, tab); track child.id) {
+                            @if (child.type === 'field') {
+                              <div class="detail-panel__canvas-item detail-panel__canvas-item--child"
+                                [attr.data-type]="child.type"
+                                [style]="getCustomCanvasChildFieldStyle(child)">
+                                <span>{{ child.label }}</span>
+                                <strong>{{ getCustomCanvasFieldValue(child.fieldId) }}</strong>
+                              </div>
+                            } @else if (child.type === 'line') {
+                              <div class="detail-panel__canvas-item detail-panel__canvas-item--child" data-type="line">
+                                <div class="detail-panel__canvas-line"></div>
+                              </div>
+                            } @else {
+                              <div class="detail-panel__canvas-item detail-panel__canvas-item--child"
+                                [attr.data-type]="child.type">
+                                <span>{{ child.label || child.type }}</span>
+                              </div>
+                            }
+                          }
+                        }
+                      }
+                    </div>
+                  </div>
+                } @else if (item.type === 'field') {
+                  <div class="detail-panel__canvas-item" [attr.data-type]="item.type" [style]="getCustomCanvasItemStyle(item)">
+                    <span>{{ item.label }}</span>
+                    <strong>{{ getCustomCanvasFieldValue(item.fieldId) }}</strong>
+                  </div>
+                } @else if (item.type === 'section') {
+                  <div class="detail-panel__canvas-item" [attr.data-type]="item.type" [style]="getCustomCanvasItemStyle(item)">
+                    <span class="detail-panel__canvas-label">{{ item.label || t('detailLayout.section') }}</span>
+                  </div>
+                } @else if (item.type === 'line') {
+                  <div class="detail-panel__canvas-item" [attr.data-type]="item.type" [style]="getCustomCanvasItemStyle(item)">
+                    <div class="detail-panel__canvas-line"></div>
+                  </div>
+                } @else {
+                  <div class="detail-panel__canvas-item" [attr.data-type]="item.type" [style]="getCustomCanvasItemStyle(item)">
+                    <span>{{ item.label || item.type }}</span>
+                  </div>
+                }
+              }
+            </div>
+          } @else if (detailLayoutMode() === 'tab-view' && activeCustomLayoutFields().length > 0) {
+            @for (field of activeCustomLayoutFields(); track field.fieldId) {
+              <div class="detail-panel__row" [style]="getCustomDetailFieldStyle(field.fieldId)">
+                <span>{{ field.label }}</span>
+                <strong>{{ field.value || '-' }}</strong>
+              </div>
+            }
+          } @else if (detailLayoutMode() === 'tab-view' && !isCustomDetailLayout()) {
+            @if (tabLayoutResolved().length > 0) {
+              <div class="detail-panel__tabs" role="tablist" [attr.aria-label]="t('generated.record_detail_tabs')">
+                @for (tab of tabLayoutResolved(); track tab.id) {
+                  <qo-button type="button" variant="ghost" size="sm" class="detail-panel__tab"
+                    role="tab"
+                    [id]="'detail-tab-' + tab.id"
+                    [attr.aria-selected]="activeDetailTabId() === tab.id"
+                    [attr.aria-controls]="'detail-tabpanel-' + tab.id"
+                    [class.detail-panel__tab--active]="activeDetailTabId() === tab.id"
+                    (pointerdown)="$event.stopPropagation()"
+                    (mousedown)="$event.stopPropagation()"
+                    (click)="switchDetailTabFromEvent(tab.id, $event)">
+                    {{ tab.title }}
+                  </qo-button>
+                }
+              </div>
+            }
+            <div class="detail-panel__tabpanel"
+              role="tabpanel"
+              [id]="'detail-tabpanel-' + activeDetailTabId()"
+              [attr.aria-labelledby]="'detail-tab-' + activeDetailTabId()">
+              @if (activeSimpleTabFields().length > 0 || activeTabBlocks().length > 0) {
+                @for (field of activeSimpleTabFields(); track field.fieldId) {
+                  <div class="detail-panel__row">
+                    <span>{{ field.label }}</span>
+                    <strong>{{ field.value || '-' }}</strong>
+                  </div>
+                }
+                @for (block of activeTabBlocks(); track block.id) {
+                  <section class="detail-panel__block" [class.detail-panel__block--split]="block.columns.length > 1">
+                    <h4>{{ block.title }}</h4>
+                    @if (block.columns.length > 1) {
+                      <div class="detail-panel__block-columns">
+                        @for (column of block.columns; track $index) {
+                          <div class="detail-panel__block-col">
+                            @for (field of column; track field.fieldId) {
+                              <div class="detail-panel__row">
+                                <span>{{ field.label }}</span>
+                                <strong>{{ field.value || '-' }}</strong>
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    } @else {
+                      @for (field of block.fields; track field.fieldId) {
+                        <div class="detail-panel__row">
+                          <span>{{ field.label }}</span>
+                          <strong>{{ field.value || '-' }}</strong>
+                        </div>
+                      }
+                    }
+                  </section>
+                }
+              } @else {
+                <p class="detail-panel__empty">{{ t('generated.no_fields_configured_for_this_tab') }}</p>
+              }
+            </div>
+          } @else {
+            @for (block of blockLayoutResolved(); track block.id) {
+              <section class="detail-panel__block" [class.detail-panel__block--split]="block.columns && block.columns.length > 1">
+                <h4>{{ block.title }}</h4>
+                @if (block.columns && block.columns.length > 1) {
+                  <div class="detail-panel__block-columns">
+                    @for (col of block.columns; track $index) {
+                      <div class="detail-panel__block-col">
+                        @for (fieldId of col; track fieldId) {
+                          <div class="detail-panel__row">
+                            <span>{{ getColumnLabel(fieldId) }}</span>
+                            <strong>{{ getDetailFieldValue(activeDetailRow()!, fieldId, block.sourceFormId) }}</strong>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  @for (fieldId of block.fieldIds; track fieldId) {
+                    <div class="detail-panel__row">
+                      <span>{{ getColumnLabel(fieldId) }}</span>
+                      <strong>{{ getDetailFieldValue(activeDetailRow()!, fieldId, block.sourceFormId) }}</strong>
+                    </div>
+                  }
+                }
+              </section>
+            }
+          }
+        </div>
+      </div>
+
+      <footer class="detail-panel__footer">
+        @for (action of enabledRowActions(); track action.key) {
+          <qo-button
+            [variant]="action.key === 'delete' ? 'danger' : 'secondary'"
+            type="button"
+            (click)="runActiveDetailAction(action.key)"
+          >
+            {{ action.label }}
+          </qo-button>
+        }
+      </footer>
+
+    </aside>
+  }
+
+  <!-- Print-only area: full table, no pagination, no UI chrome -->
+  <div class="print-area">
+    <div class="print-area__header">
+      <h1>{{ report().name }}</h1>
+      <p>{{ report().viewType }} · {{ report().sourceFormLabel }}</p>
+      <p class="print-area__meta">
+        {{ t('preview.totalRecords', { count: sortedRows().length }) }} &nbsp;·&nbsp;
+        {{ t('preview.printed', { name: report().name }) }}
+      </p>
+    </div>
+
+    <table class="print-table">
+      <thead>
+        <tr>
+          @for (column of displayColumns(); track column.id) {
+            <th>{{ column.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (group of groupedRows(); track $index) {
+          @if (group.label) {
+            <tr class="print-table__group-row">
+              <td [attr.colspan]="displayColumns().length">
+                {{ group.label }} ({{ group.rows.length }})
+              </td>
+            </tr>
+          }
+          @for (row of group.rows; track row.id) {
+            <tr>
+              @for (column of displayColumns(); track column.id) {
+                <td>{{ row.fields[column.id] ?? '' }}</td>
+              }
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

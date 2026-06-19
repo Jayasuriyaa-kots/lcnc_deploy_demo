@@ -1,0 +1,49 @@
+<qo-modal
+  class="edit-user-modal-shell"
+  [title]="i18n.translate('users.editUser')"
+  [subtitle]="i18n.translate('users.updateProfileDetails', { name: user().name })"
+  size="md"
+  [maxWidth]="'var(--qo-size-480)'"
+  panelClass="qo-modal-panel--edit-user"
+  (close)="close.emit()"
+>
+  <div class="edit-user-modal">
+    <div class="edit-user-modal__grid edit-user-modal__grid--two">
+      <qo-form-field [label]="i18n.translate('users.firstName')">
+        <qo-input type="text" [value]="firstName()" [readonly]="true" />
+      </qo-form-field>
+      <qo-form-field [label]="i18n.translate('users.lastName')">
+        <qo-input type="text" [value]="lastName()" [readonly]="true" />
+      </qo-form-field>
+    </div>
+
+    <div class="edit-user-modal__grid">
+      <qo-form-field [label]="i18n.translate('users.emailAddress')">
+        <qo-input type="email" [value]="user().email" [readonly]="true" />
+      </qo-form-field>
+      <qo-form-field [label]="i18n.translate('users.phoneNumber')">
+        <qo-input type="text" [value]="user().phone" [readonly]="true" />
+      </qo-form-field>
+    </div>
+
+    <div class="edit-user-modal__divider"></div>
+
+    <div class="account-status-row">
+      <div>
+        <strong>{{ i18n.translate('users.accountStatus') }}</strong>
+        <p>{{ i18n.translate('users.accountStatusNote') }}</p>
+      </div>
+      <qo-toggle class="account-status-toggle" [formControl]="accountStatusControl()" />
+    </div>
+  </div>
+
+  <div qo-modal-footer class="edit-user-modal__footer">
+    <qo-button variant="link" class="edit-user-modal__reset" (click)="resetPassword.emit()">
+      {{ i18n.translate('users.sendPasswordReset') }}
+    </qo-button>
+    <div class="edit-user-modal__actions">
+      <qo-button variant="link" class="edit-user-modal__cancel" (click)="close.emit()">{{ i18n.translate('users.cancel') }}</qo-button>
+      <qo-button variant="secondary" class="edit-user-modal__save" (click)="save.emit()">{{ i18n.translate('users.saveChanges') }}</qo-button>
+    </div>
+  </div>
+</qo-modal>

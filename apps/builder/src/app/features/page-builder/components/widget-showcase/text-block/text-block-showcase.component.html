@@ -1,0 +1,13 @@
+<div class="showcase-page">
+  @for (preset of presets; track preset.variant; let isLast = $last) {
+    <article
+      class="card"
+      [class.card-dashed]="isLast"
+      draggable="true"
+      (dragstart)="startDrag($event, preset)"
+      (dragend)="endDrag()"
+    >
+      <app-text-block [variant]="preset.variant"></app-text-block>
+    </article>
+  }
+</div>

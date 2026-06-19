@@ -1,0 +1,123 @@
+<section class="settings-grid">
+  <div class="settings-column">
+    <app-organisation-details-form
+      [organisation]="organisation()"
+      [organisationTypes]="organisationTypes"
+      [organisationStatuses]="organisationStatuses"
+      [organisationTypeOpen]="organisationTypeOpen()"
+      [organisationStatusOpen]="organisationStatusOpen()"
+      [selectedOrganisationType]="selectedOrganisationType()"
+      [selectedOrganisationStatus]="selectedOrganisationStatus()"
+      (organisationTypeToggleRequested)="organisationTypeToggleRequested.emit()"
+      (organisationStatusToggleRequested)="organisationStatusToggleRequested.emit()"
+      (organisationTypeSelected)="organisationTypeSelected.emit($event)"
+      (organisationStatusSelected)="organisationStatusSelected.emit($event)"
+      (dropdownsCloseRequested)="dropdownsCloseRequested.emit()"
+    />
+
+    <article class="settings-card app-card">
+      <div class="settings-card__label">{{ i18n.translate('settings.orgPrimaryOwnerLabel') }}</div>
+      <div class="details-grid">
+        <qo-form-field [label]="i18n.translate('settings.orgOwnerName')">
+          <qo-input class="settings-input" type="text" [readonly]="true" [value]="organisation().primaryOwner" />
+        </qo-form-field>
+
+        <qo-form-field [label]="i18n.translate('settings.orgOwnerEmail')">
+          <qo-input class="settings-input" type="email" [readonly]="true" [value]="organisation().primaryOwnerEmail" />
+        </qo-form-field>
+
+        <qo-form-field [label]="i18n.translate('settings.orgOwnerPhone')">
+          <qo-input class="settings-input" type="text" [readonly]="true" [value]="organisation().primaryOwnerPhone" />
+        </qo-form-field>
+
+        <qo-form-field [label]="i18n.translate('settings.orgTransferOwnership')">
+          <qo-button variant="secondary" class="settings-secondary-button">
+            {{ i18n.translate('settings.orgTransferButton') }}
+          </qo-button>
+        </qo-form-field>
+      </div>
+    </article>
+
+    <article class="settings-card app-card">
+      <div class="settings-card__header">
+        <div class="settings-card__label">{{ i18n.translate('settings.orgAdminUsersLabel') }}</div>
+        <qo-button variant="link" class="inline-action" (click)="addAdminOpenRequested.emit()">{{ i18n.translate('settings.orgAddAdmin') }}</qo-button>
+      </div>
+
+      <div class="admin-list">
+        @for (admin of adminUsers(); track admin.email) {
+          <article class="admin-item">
+            <div class="admin-item__avatar">{{ admin.initials }}</div>
+            <div class="admin-item__copy">
+              <strong>{{ admin.name }}</strong>
+              <span>{{ admin.email }}</span>
+            </div>
+            <qo-button
+              variant="link"
+              class="admin-item__action"
+              [class.admin-item__action--danger]="admin.role === 'Remove'"
+            >
+              {{ admin.role }}
+            </qo-button>
+          </article>
+        }
+      </div>
+    </article>
+  </div>
+
+  <aside class="settings-column settings-column--side">
+    <article class="settings-card app-card">
+      <div class="settings-card__label">{{ i18n.translate('settings.orgSummaryLabel') }}</div>
+      <div class="summary-list">
+        @for (item of organisationSummary(); track item.label) {
+          <div class="summary-row">
+            <span>{{ item.label }}</span>
+            <strong [class.is-status]="item.tone === 'positive'">
+              @if (item.tone === 'positive') {
+                <span class="status-dot"></span>
+              }
+              {{ item.value }}
+            </strong>
+          </div>
+        }
+      </div>
+    </article>
+
+    <article class="settings-card app-card">
+      <div class="settings-card__label">{{ i18n.translate('settings.orgBuilderAccessLabel') }}</div>
+      <p class="support-copy">
+        {{ i18n.translate('settings.orgBuilderAccessDescription') }}
+      </p>
+      <qo-button variant="secondary" class="settings-builder-button" [fullWidth]="true" iconLeft="external-link" [attr.aria-label]="i18n.translate('settings.orgOpenInBuilderAria')">
+        {{ i18n.translate('settings.orgOpenBuilder') }}
+      </qo-button>
+    </article>
+
+    <article class="settings-card settings-card--danger">
+      <h3>{{ i18n.translate('settings.orgDangerZone') }}</h3>
+      <p class="support-copy">
+        {{ i18n.translate('settings.orgDangerDescription') }}
+      </p>
+      <qo-form-field [label]="i18n.translate('settings.orgDangerConfirmLabel', { name: organisation().entityName.toUpperCase() })">
+        <qo-input class="settings-input settings-input--danger" type="text" [placeholder]="i18n.translate('settings.orgDangerConfirmPlaceholder')" />
+      </qo-form-field>
+      <qo-button variant="danger" class="danger-button" (click)="deleteOrganisationRequested.emit()">
+        {{ i18n.translate('settings.orgDeleteButton') }}
+      </qo-button>
+    </article>
+  </aside>
+</section>
+
+@if (addAdminOpen()) {
+  <app-add-user-modal
+    [title]="i18n.translate('settings.inviteAdminTitle')"
+    [subtitle]="i18n.translate('settings.inviteAdminSubtitle')"
+    [noteText]="addAdminNoteText"
+    [submitLabel]="i18n.translate('users.addUser')"
+    [form]="addAdminForm()"
+    [selectedPhotoName]="selectedAdminPhotoName()"
+    [showDepartmentField]="false"
+    (close)="addAdminCloseRequested.emit()"
+    (photoSelected)="adminPhotoSelected.emit($event)"
+  />
+}

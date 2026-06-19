@@ -1,0 +1,66 @@
+:host {
+  display: block;
+}
+
+qo-table {
+  --qo-table-border-color: color-mix(in srgb, var(--qo-color-neutral-0) 3%, transparent);
+  --qo-table-border-radius: 0;
+  --qo-table-bg: transparent;
+  --qo-table-heading-bg: transparent;
+  --qo-table-heading-color: var(--qo-color-neutral-500);
+  --qo-table-heading-padding: var(--qo-size-10) var(--qo-size-14);
+  --qo-table-heading-letter-spacing: 0.12em;
+  --qo-table-row-bg: transparent;
+  --qo-table-row-hover-bg: color-mix(in srgb, var(--qo-color-neutral-0) 4%, transparent);
+  --qo-table-row-border-color: color-mix(in srgb, var(--qo-color-neutral-0) 3%, transparent);
+  --qo-table-cell-color: var(--qo-color-neutral-100);
+  --qo-table-cell-padding: var(--qo-size-10) var(--qo-size-14);
+}
+
+.method-badge {
+  --qo-badge-padding-sm: var(--qo-size-4) var(--qo-size-8);
+  --qo-badge-radius: var(--qo-radius-full);
+  --qo-badge-font-size-sm: var(--qo-text-xs);
+  --qo-badge-bg: color-mix(in srgb, var(--qo-color-neutral-0) 8%, transparent);
+  --qo-badge-color: var(--qo-color-neutral-300);
+  display: inline-flex;
+  min-width: var(--qo-size-48);
+  justify-content: center;
+  font-weight: 800;
+}
+
+.method-badge--success {
+  --qo-badge-bg: color-mix(in srgb, var(--qo-color-success-500) 14%, transparent);
+  --qo-badge-color: var(--qo-color-success-500);
+}
+
+.method-badge--warning {
+  --qo-badge-bg: color-mix(in srgb, var(--qo-color-warning-500) 14%, transparent);
+  --qo-badge-color: var(--qo-color-warning-500);
+}
+
+.method-badge--danger {
+  --qo-badge-bg: color-mix(in srgb, var(--qo-color-danger-500) 14%, transparent);
+  --qo-badge-color: var(--qo-color-danger-500);
+}
+
+.metric-cell.is-positive {
+  color: var(--qo-color-success-500);
+}
+
+qo-button.table-action {
+  --qo-button-min-height: auto;
+  --qo-button-padding: 0;
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: color-mix(in srgb, var(--qo-color-neutral-200) 82%, transparent);
+  --qo-button-hover-bg: transparent;
+  --qo-button-hover-border-color: transparent;
+  --qo-button-hover-color: var(--qo-color-neutral-0);
+  --qo-button-font-size: var(--qo-text-xs);
+  --qo-button-font-weight: 700;
+  --qo-button-letter-spacing: 0.03em;
+  --qo-button-text-transform: none;
+  --qo-button-box-shadow: none;
+}
+

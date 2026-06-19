@@ -1,0 +1,85 @@
+<qo-modal
+  class="org-modal-shell"
+  [title]="i18n.translate('organisations.addModalTitle')"
+  [subtitle]="i18n.translate('organisations.addModalSubtitle')"
+  size="md"
+  [maxWidth]="'var(--qo-size-480)'"
+  panelClass="qo-modal-panel--organisation"
+  (close)="close.emit()"
+>
+  <form class="org-modal-form" [formGroup]="form()" (ngSubmit)="submitOrganisation.emit()">
+    <qo-form-field
+      class="org-modal-field"
+      [label]="i18n.translate('organisations.organisationName')"
+      [required]="true"
+      [error]="controlError('organisationName')"
+    >
+      <qo-input
+        class="org-modal-input"
+        type="text"
+        [placeholder]="i18n.translate('organisations.organisationNamePlaceholder')"
+        formControlName="organisationName"
+      />
+    </qo-form-field>
+
+    <qo-form-field
+      class="org-modal-field"
+      [label]="i18n.translate('organisations.entityType')"
+      [required]="true"
+      [error]="controlError('entityType')"
+    >
+      <qo-select
+        class="org-modal-select"
+        [options]="entityTypeOptions()"
+        formControlName="entityType"
+      />
+    </qo-form-field>
+
+    <div class="org-modal-two-column">
+      <qo-form-field
+        class="org-modal-field"
+        [label]="i18n.translate('organisations.primaryOwnerEmail')"
+        [required]="true"
+        [error]="controlError('primaryOwnerEmail')"
+      >
+        <qo-input
+          class="org-modal-input"
+          type="email"
+          [placeholder]="i18n.translate('organisations.primaryOwnerEmailPlaceholder')"
+          formControlName="primaryOwnerEmail"
+        />
+      </qo-form-field>
+
+      <qo-form-field
+        class="org-modal-field"
+        [label]="i18n.translate('organisations.billingEmail')"
+        [required]="true"
+        [error]="controlError('billingEmail')"
+      >
+        <qo-input
+          class="org-modal-input"
+          type="email"
+          [placeholder]="i18n.translate('organisations.billingEmailPlaceholder')"
+          formControlName="billingEmail"
+        />
+      </qo-form-field>
+    </div>
+
+    <qo-form-field
+      class="org-modal-field"
+      [label]="i18n.translate('organisations.additionalAdminUsers')"
+    >
+      <qo-input
+        class="org-modal-input"
+        type="text"
+        [placeholder]="i18n.translate('organisations.additionalAdminUsersPlaceholder')"
+        formControlName="additionalAdminUsers"
+      />
+    </qo-form-field>
+
+    <div qo-modal-footer class="org-modal-actions">
+      <qo-button class="org-modal-cancel" variant="link" type="button" (click)="close.emit()">{{ i18n.translate('organisations.cancel') }}</qo-button>
+      <qo-button class="org-modal-submit" variant="secondary" type="submit">{{ i18n.translate('organisations.createOrganisation') }}</qo-button>
+    </div>
+  </form>
+</qo-modal>

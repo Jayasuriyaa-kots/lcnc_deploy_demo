@@ -1,0 +1,20 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+<article class="workflow-function-card">
+  <header class="workflow-function-card__header">
+    <div>
+      <h3>{{ item().name }}</h3>
+      <p>{{ item().description }}</p>
+    </div>
+    <span>{{ item().language }}</span>
+  </header>
+
+  <qo-workflow-code-block [code]="item().code" [language]="item().language" />
+
+  <footer class="workflow-function-card__actions">
+    <qo-button variant="secondary" size="sm" (click)="edit.emit(item().id)">{{ 'actions.edit' | transloco }}</qo-button>
+    <qo-button variant="ghost" size="sm" (click)="testRun.emit(item().id)">{{ t('common.testRun') }}</qo-button>
+    <qo-button variant="ghost" size="sm" (click)="duplicate.emit(item().id)">{{ 'actions.duplicate' | transloco }}</qo-button>
+    <qo-button variant="ghost" size="sm" (click)="delete.emit(item().id)">{{ 'actions.delete' | transloco }}</qo-button>
+  </footer>
+</article>
+</ng-container>

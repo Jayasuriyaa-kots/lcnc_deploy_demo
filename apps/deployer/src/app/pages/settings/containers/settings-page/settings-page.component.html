@@ -1,0 +1,63 @@
+<div class="settings-page">
+  <section class="settings-header">
+    <div class="settings-breadcrumb">
+      {{ i18n.translate('settings.breadcrumb', { organisationName: selectedOrganisation()?.name ?? i18n.translate('organisations.noOrganisationSelected') }) }}
+    </div>
+    <h1>{{ i18n.translate('settings.title') }}</h1>
+  </section>
+
+  <qo-tabs class="settings-tabs" [selectedTitle]="activeTab()" (selectedTitleChange)="activeTab.set($event)">
+    <qo-tab [title]="i18n.translate('settings.tabOrganisation')">
+      <app-settings-organisation-tab
+        [organisation]="organisation()"
+        [adminUsers]="adminUsers()"
+        [organisationSummary]="organisationSummary()"
+        [addAdminOpen]="addAdminOpen()"
+        [addAdminForm]="addAdminForm"
+        [selectedAdminPhotoName]="selectedAdminPhotoName()"
+        [organisationTypeOpen]="organisationTypeOpen()"
+        [organisationStatusOpen]="organisationStatusOpen()"
+        [selectedOrganisationType]="selectedOrganisationType()"
+        [selectedOrganisationStatus]="selectedOrganisationStatus()"
+        (addAdminOpenRequested)="openAddAdminModal()"
+        (addAdminCloseRequested)="closeAddAdminModal()"
+        (adminPhotoSelected)="handleAdminPhotoSelected($event)"
+        (organisationTypeToggleRequested)="toggleOrganisationType()"
+        (organisationStatusToggleRequested)="toggleOrganisationStatus()"
+        (organisationTypeSelected)="selectOrganisationType($event)"
+        (organisationStatusSelected)="selectOrganisationStatus($event)"
+        (dropdownsCloseRequested)="closeOrganisationDropdowns()"
+        (deleteOrganisationRequested)="deleteSelectedOrganisation()"
+      />
+    </qo-tab>
+
+    <qo-tab [title]="i18n.translate('settings.tabBillingTax')">
+      <app-settings-billing-tax-tab [billing]="billing()" [currentPlan]="currentPlan()" />
+    </qo-tab>
+
+    <qo-tab [title]="i18n.translate('settings.tabInvoices')">
+      <app-settings-invoices-tab [invoiceRows]="invoiceRows()" />
+    </qo-tab>
+
+    <qo-tab [title]="i18n.translate('settings.tabPayments')">
+      <app-settings-payments-tab
+        [paymentRows]="paymentRows()"
+        [outstandingAmount]="outstandingAmount()"
+        [pendingCount]="pendingCount()"
+        [dueDetail]="dueDetail()"
+      />
+    </qo-tab>
+  </qo-tabs>
+
+  @if (invoiceById(invoiceDialogId()); as invoice) {
+    <app-invoice-detail-dialog [invoice]="invoice" (close)="invoiceDialogId.set(null)" />
+  }
+
+  @if (invoiceById(markPaidId()); as invoice) {
+    <app-mark-as-paid-dialog
+      [invoice]="invoice"
+      (close)="markPaidId.set(null)"
+      (confirm)="markPaidId.set(null)"
+    />
+  }
+</div>

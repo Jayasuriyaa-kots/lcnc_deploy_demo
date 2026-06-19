@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.new-role-modal {
+  display: grid;
+  gap: var(--qo-space-4);
+}
+
+.new-role-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}

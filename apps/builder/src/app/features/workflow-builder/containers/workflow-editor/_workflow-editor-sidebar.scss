@@ -1,0 +1,164 @@
+.workflow-editor__sidebar {
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  min-height: 100dvh;
+  padding: var(--qo-space-3) var(--qo-space-3) var(--qo-space-3);
+  border-right: var(--qo-border-width) solid var(--workflow-editor-border);
+  background: var(--workflow-editor-surface-muted);
+}
+
+.workflow-editor__identity {
+  margin: var(--qo-space-5) 0 var(--qo-space-3);
+}
+
+.workflow-editor__identity h1,
+.workflow-editor__identity p,
+.workflow-editor__palette-group h2,
+.workflow-editor__topbar p,
+.workflow-editor__feedback p {
+  margin: 0;
+}
+
+.workflow-editor__identity h1 {
+  color: var(--workflow-editor-text);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-bold);
+  line-height: 1.2;
+}
+
+.workflow-editor__identity p,
+.workflow-editor__palette-group h2 {
+  margin-top: var(--qo-space-2);
+  color: var(--workflow-editor-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.workflow-editor__palette {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: var(--qo-space-1);
+}
+
+.workflow-editor__palette-search {
+  display: grid;
+  gap: var(--qo-space-2);
+  margin-bottom: var(--qo-space-3);
+}
+
+.workflow-editor__palette-search span {
+  color: var(--workflow-editor-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-bold);
+  text-transform: uppercase;
+}
+
+.workflow-editor__palette-search qo-input {
+  width: 100%;
+  --qo-input-height-sm: var(--qo-size-34);
+  --qo-input-border-radius: var(--qo-radius-sm);
+  --qo-input-font-size-sm: var(--qo-text-xs);
+  --qo-input-bg: var(--workflow-editor-surface);
+  --qo-input-color: var(--workflow-editor-text);
+}
+
+.workflow-editor__palette-group + .workflow-editor__palette-group {
+  margin-top: var(--qo-space-3);
+}
+
+.workflow-editor__palette-list {
+  display: grid;
+  gap: var(--qo-space-2);
+  margin-top: var(--qo-space-2);
+}
+
+.workflow-editor__palette-node {
+  display: grid;
+  grid-template-columns: var(--qo-size-22) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--qo-space-2);
+  width: 100%;
+  min-height: var(--qo-size-38);
+  padding: var(--qo-space-2) var(--qo-space-3);
+  border: var(--qo-border-width) solid var(--workflow-editor-border-strong);
+  border-radius: var(--qo-radius-sm);
+  background: var(--workflow-editor-bg);
+  color: var(--workflow-editor-text);
+  cursor: grab;
+  font: inherit;
+  font-size: var(--qo-text-xs);
+  text-align: left;
+}
+
+.workflow-editor__palette-node:hover,
+.workflow-editor__palette-node:focus-visible {
+  border-color: var(--qo-border-color-focus);
+  background: var(--workflow-editor-surface);
+  outline: var(--qo-size-2) solid var(--qo-color-primary-100);
+  outline-offset: var(--qo-size-2);
+}
+
+.workflow-editor__palette-node:active {
+  cursor: grabbing;
+}
+
+.workflow-editor__palette-icon,
+.workflow-editor__node-icon {
+  display: inline-grid;
+  place-items: center;
+  width: var(--qo-size-18);
+  height: var(--qo-size-18);
+  border-radius: var(--qo-radius-sm);
+  color: var(--qo-color-info-500);
+  font-size: var(--qo-text-xs);
+  font-weight: var(--qo-font-extrabold);
+  text-transform: uppercase;
+}
+
+.workflow-editor__palette-icon qo-icon,
+.workflow-editor__node-icon qo-icon {
+  display: grid;
+}
+
+.workflow-editor__palette-icon[data-type='trigger'],
+.workflow-editor__node-icon[data-type='trigger'] {
+  color: var(--qo-color-success-500);
+}
+
+.workflow-editor__palette-icon[data-type='condition'],
+.workflow-editor__node-icon[data-type='condition'] {
+  color: var(--qo-color-warning-500);
+}
+
+.workflow-editor__palette-icon[data-type='email'],
+.workflow-editor__node-icon[data-type='email'] {
+  color: var(--qo-color-primary-500);
+}
+
+.workflow-editor__palette-icon[data-type='api_call'],
+.workflow-editor__node-icon[data-type='api_call'] {
+  color: var(--qo-color-info-500);
+}
+
+.workflow-editor__palette-icon[data-type='database_write'],
+.workflow-editor__node-icon[data-type='database_write'] {
+  color: var(--qo-color-primary-600);
+}
+
+.workflow-editor__palette-icon[data-type='custom_function'],
+.workflow-editor__node-icon[data-type='custom_function'] {
+  color: var(--qo-color-info-600);
+}
+
+.workflow-editor__palette-icon[data-type='notification'],
+.workflow-editor__node-icon[data-type='notification'] {
+  color: var(--qo-color-success-600);
+}
+
+.workflow-editor__sidebar-footer {
+  margin-top: var(--qo-space-4);
+  padding-top: var(--qo-space-4);
+  border-top: var(--qo-border-width) solid var(--workflow-editor-border);
+}

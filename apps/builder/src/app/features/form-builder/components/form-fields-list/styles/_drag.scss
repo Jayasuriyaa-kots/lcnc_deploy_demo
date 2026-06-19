@@ -1,0 +1,79 @@
+/* ── Drag Handle ─────────────────────────────────────────────────────── */
+.builder-row__drag-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--qo-space-7) + var(--qo-space-1));
+  flex-shrink: 0;
+  color: var(--qo-color-neutral-300);
+  cursor: grab;
+  transition: color 120ms ease;
+
+  .material-symbols-outlined {
+    font-size: var(--qo-text-lg);
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.builder-row:hover .builder-row__drag-handle,
+.builder-row--active .builder-row__drag-handle {
+  color: var(--qo-color-neutral-500);
+}
+
+/* ── CDK Placeholder ─────────────────────────────────────────────────── */
+.drag-placeholder {
+  min-height: calc(var(--qo-space-16) + var(--qo-space-1));
+  background: transparent;
+  border: calc(var(--qo-border-width) * 2) dashed var(--qo-border-color-focus);
+  border-radius: var(--qo-radius-md);
+  transition: border-color 120ms;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* ── CDK Drag Preview ────────────────────────────────────────────────── */
+.drag-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-3) var(--qo-space-5);
+  background: var(--qo-color-neutral-0);
+  border: var(--qo-border-width) solid var(--qo-border-color-strong);
+  border-radius: var(--qo-radius-md);
+  box-shadow: var(--qo-shadow-elevated);
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-bold);
+
+  .material-symbols-outlined {
+    font-size: var(--qo-text-base);
+    color: var(--qo-color-neutral-600);
+  }
+}
+
+@media (max-width: 62rem) {
+  .builder-row,
+  .builder-row__content {
+    gap: var(--qo-space-3);
+  }
+
+  .builder-row__content {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .builder-row__meta {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .builder-row__flags {
+    justify-content: flex-start;
+    max-width: none;
+  }
+}

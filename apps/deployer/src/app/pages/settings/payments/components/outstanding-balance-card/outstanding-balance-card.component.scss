@@ -1,0 +1,79 @@
+:host {
+  display: block;
+}
+
+.payments-balance-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-6);
+  min-height: var(--qo-size-126);
+  padding: var(--qo-space-8);
+  border-radius: var(--qo-radius-2xl);
+  border: var(--qo-size-1) solid var(--qo-deployer-line);
+  background: var(--qo-deployer-card-background);
+}
+
+.payments-balance-copy {
+  display: grid;
+  gap: var(--qo-space-3);
+}
+
+.payments-label {
+  color: var(--qo-deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.payments-balance-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--qo-space-3);
+}
+
+.payments-balance-line strong {
+  color: var(--qo-color-warning-500);
+  font-size: clamp(var(--qo-text-4xl), 4vw, var(--qo-text-5xl));
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 0.92;
+}
+
+.payments-balance-line span,
+.payments-balance-copy p {
+  color: var(--qo-deployer-text-muted);
+}
+
+.payments-balance-copy p {
+  margin: 0;
+  font-size: var(--qo-text-base);
+}
+
+qo-button.record-payment-button {
+  --qo-button-min-width: var(--qo-size-174);
+  --qo-button-min-height: var(--qo-size-40);
+  --qo-button-padding: 0 var(--qo-space-5);
+  --qo-button-gap: var(--qo-space-2);
+  --qo-button-radius: var(--qo-radius-md);
+  --qo-button-border-color: color-mix(in srgb, var(--qo-color-neutral-50) 92%, transparent);
+  --qo-button-bg: var(--qo-color-neutral-50);
+  --qo-button-color: var(--qo-color-neutral-700);
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 600;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+  --qo-button-hover-bg: var(--qo-color-neutral-0);
+  --qo-button-hover-color: var(--qo-color-neutral-900);
+  --qo-button-box-shadow: none;
+}
+
+.record-payment-icon,
+.record-payment-icon svg {
+  width: var(--qo-size-14);
+  height: var(--qo-size-14);
+  fill: currentColor;
+}
+
+

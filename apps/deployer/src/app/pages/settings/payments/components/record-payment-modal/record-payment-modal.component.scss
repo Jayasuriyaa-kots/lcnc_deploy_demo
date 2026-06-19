@@ -1,0 +1,332 @@
+:host {
+  display: block;
+}
+
+qo-modal.payment-modal-shell {
+  --qo-modal-surface: var(--deployer-surface);
+  --qo-modal-border: var(--deployer-border);
+  --qo-modal-title-color: var(--deployer-text);
+  --qo-modal-subtitle-color: var(--deployer-text-muted);
+  --qo-modal-close-color: var(--deployer-text-muted);
+  --qo-modal-close-hover-bg: var(--qo-deployer-hover-surface);
+  --qo-modal-close-hover-color: var(--deployer-text);
+  --qo-modal-radius: var(--qo-radius-2xl);
+  --qo-modal-shadow:
+    0 var(--qo-size-28) calc(var(--qo-size-64) + var(--qo-size-6)) color-mix(in srgb, var(--qo-color-neutral-900) 42%, transparent),
+    inset 0 var(--qo-size-1) 0 color-mix(in srgb, var(--qo-color-neutral-0) 3%, transparent);
+  --qo-modal-header-padding: var(--qo-space-6) var(--qo-space-8) var(--qo-space-3);
+  --qo-modal-header-border-color: var(--deployer-border);
+  --qo-modal-heading-gap: var(--qo-space-2);
+  --qo-modal-title-size: var(--qo-text-base);
+  --qo-modal-subtitle-size: var(--qo-text-xs);
+  --qo-modal-subtitle-max-width: var(--qo-size-360);
+  --qo-modal-close-margin-top: calc(var(--qo-space-1) * -1);
+  --qo-modal-close-padding: var(--qo-space-1);
+  --qo-modal-content-padding: var(--qo-space-3) var(--qo-space-8) var(--qo-space-2);
+  --qo-modal-content-overflow-y: visible;
+  --qo-modal-footer-padding: var(--qo-space-5) var(--qo-space-8) var(--qo-space-6);
+  --qo-modal-footer-border-color: var(--deployer-border);
+  --qo-modal-footer-justify: space-between;
+  display: block;
+  max-width: var(--qo-size-480);
+}
+
+.payment-modal,
+.payment-modal__grid {
+  display: grid;
+  gap: var(--qo-space-4);
+}
+
+.payment-modal qo-form-field {
+  --qo-form-field-margin-bottom: 0;
+  --qo-form-label-color: var(--deployer-text-muted);
+  --qo-form-label-size: var(--qo-text-xs);
+  --qo-form-label-weight: 700;
+  --qo-form-label-letter-spacing: 0.14em;
+  --qo-form-label-transform: uppercase;
+  --qo-form-label-margin-bottom: var(--qo-space-2);
+}
+
+.payment-modal qo-input,
+.payment-modal qo-select {
+  --qo-input-bg: var(--deployer-input-bg);
+  --qo-input-border-color: var(--deployer-input-border);
+  --qo-input-border-radius: var(--qo-size-7);
+  --qo-input-color: var(--deployer-text);
+  --qo-input-placeholder-color: var(--deployer-text-muted);
+  --qo-input-focus-border-color: var(--qo-deployer-line-strong);
+  --qo-input-focus-shadow: var(--qo-deployer-field-focus-shadow);
+  --qo-input-height-md: var(--qo-size-44);
+  --qo-input-padding-md: 0 var(--qo-space-3);
+  --qo-select-bg: var(--deployer-input-bg);
+  --qo-select-bg-hover: var(--deployer-input-bg);
+  --qo-select-bg-focus: var(--deployer-input-bg);
+  --qo-select-border-color: var(--deployer-input-border);
+  --qo-select-border-color-hover: var(--qo-deployer-line-strong);
+  --qo-select-border-color-focus: var(--qo-deployer-line-strong);
+  --qo-select-border-radius: var(--qo-size-7);
+  --qo-select-color: var(--deployer-text);
+  --qo-select-placeholder-color: var(--deployer-text-muted);
+  --qo-select-caret-color: var(--deployer-text-muted);
+  --qo-select-dropdown-bg: var(--deployer-surface);
+  --qo-select-dropdown-border-color: var(--deployer-border);
+  --qo-select-dropdown-shadow: 0 var(--qo-size-14) var(--qo-size-28) color-mix(in srgb, var(--qo-color-neutral-900) 32%, transparent);
+  --qo-select-option-color: var(--deployer-text);
+  --qo-select-option-hover-bg: var(--deployer-surface-raised);
+  --qo-select-option-selected-bg: var(--deployer-surface-raised);
+  --qo-select-option-selected-color: var(--deployer-text);
+  --qo-select-focus-shadow: var(--qo-deployer-field-focus-shadow);
+  --qo-select-height-md: var(--qo-size-44);
+  --qo-select-padding-md: 0 var(--qo-space-3);
+  --qo-select-font-size-md: var(--qo-text-sm);
+}
+
+.payment-modal__grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qo-space-4);
+}
+
+label,
+.payment-modal-select {
+  display: grid;
+  gap: var(--qo-space-2);
+}
+
+.payment-modal .mini-label {
+  color: var(--deployer-text-muted);
+  font-size: var(--qo-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.payment-modal__input {
+  width: 100%;
+  min-height: var(--qo-size-44);
+  border-radius: var(--qo-size-7);
+  border-color: var(--deployer-input-border);
+  background: var(--deployer-input-bg);
+  box-shadow: none;
+  color: var(--deployer-text);
+  font-size: var(--qo-text-sm);
+  line-height: 1.2;
+  padding-inline: var(--qo-space-3);
+  -webkit-text-fill-color: var(--deployer-text);
+}
+
+.payment-modal__input::placeholder {
+  color: var(--deployer-text-muted);
+  -webkit-text-fill-color: var(--deployer-text-muted);
+}
+
+.payment-modal__input:focus,
+.payment-modal__input:focus-within {
+  border-color: var(--qo-deployer-line-strong);
+  background: var(--deployer-input-bg);
+  box-shadow: var(--qo-deployer-field-focus-shadow);
+}
+
+.payment-modal__input--icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  position: relative;
+}
+
+.payment-modal__date-shell {
+  cursor: text;
+}
+
+.payment-modal__date-value {
+  color: inherit;
+  font: inherit;
+  line-height: 1.2;
+}
+
+.payment-modal__native-date {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.payment-modal__calendar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--qo-size-14);
+  height: var(--qo-size-14);
+  color: var(--deployer-text-muted);
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+.payment-modal__calendar-icon svg,
+.payment-modal__submit-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.payment-modal-select {
+  position: relative;
+  z-index: 4;
+}
+
+.payment-modal-select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--qo-space-3);
+  text-align: left;
+  cursor: pointer;
+}
+
+.payment-modal-select__trigger--open {
+  border-color: var(--qo-deployer-line-strong);
+  background: var(--deployer-input-bg);
+  box-shadow: var(--qo-deployer-field-focus-shadow);
+}
+
+.payment-modal-select__value {
+  color: var(--deployer-text);
+  font-size: var(--qo-text-sm);
+  line-height: 1;
+}
+
+.payment-modal-select__chevron {
+  width: var(--qo-size-10);
+  height: var(--qo-size-6);
+  margin-left: var(--qo-size-10);
+  flex: 0 0 auto;
+  position: relative;
+  transition: transform var(--qo-duration-base) ease;
+}
+
+.payment-modal-select__chevron::before,
+.payment-modal-select__chevron::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: var(--qo-size-6);
+  height: var(--qo-size-1);
+  background: var(--deployer-text-muted);
+  transform-origin: center;
+}
+
+.payment-modal-select__chevron::before {
+  left: 0;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.payment-modal-select__chevron::after {
+  right: 0;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.payment-modal-select__trigger--open .payment-modal-select__chevron {
+  transform: rotate(180deg);
+}
+
+.payment-modal-select__panel {
+  position: absolute;
+  top: calc(100% + var(--qo-size-5));
+  left: 0;
+  width: 100%;
+  padding: var(--qo-size-4) 0;
+  border: var(--qo-size-1) solid var(--deployer-border);
+  background: var(--deployer-surface);
+  box-shadow: 0 var(--qo-size-14) var(--qo-size-28) color-mix(in srgb, var(--qo-color-neutral-900) 32%, transparent);
+  overflow: hidden;
+}
+
+.payment-modal-select__option {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: var(--qo-size-6) var(--qo-size-16);
+  color: var(--deployer-text);
+  font-size: var(--qo-text-xs);
+  line-height: 1.25;
+  text-align: left;
+  transition: background-color var(--qo-duration-fast) ease, color var(--qo-duration-fast) ease;
+}
+
+.payment-modal-select__option:hover {
+  background: var(--deployer-surface-raised);
+}
+
+.payment-modal-select__option--selected {
+  background: var(--deployer-surface-raised);
+  color: var(--deployer-text);
+}
+
+.payment-modal__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+  width: 100%;
+}
+
+qo-button.payment-modal__cancel {
+  --qo-button-padding: 0;
+  --qo-button-bg: transparent;
+  --qo-button-border-color: transparent;
+  --qo-button-color: var(--deployer-text-muted);
+  --qo-button-hover-bg: transparent;
+  --qo-button-hover-color: var(--deployer-text);
+  --qo-button-hover-text-decoration: none;
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 700;
+}
+
+qo-button.payment-modal__submit {
+  --qo-button-min-width: var(--qo-size-188);
+  --qo-button-min-height: var(--qo-size-44);
+  --qo-button-padding: 0 var(--qo-space-5);
+  --qo-button-gap: var(--qo-space-2);
+  --qo-button-radius: var(--qo-radius-lg);
+  --qo-button-justify: center;
+  --qo-button-bg: var(--qo-color-neutral-50);
+  --qo-button-color: var(--qo-color-neutral-600);
+  --qo-button-font-size: var(--qo-text-sm);
+  --qo-button-font-weight: 800;
+  --qo-button-letter-spacing: 0;
+  --qo-button-text-transform: none;
+}
+
+.payment-modal__submit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--qo-size-12);
+  height: var(--qo-size-12);
+}
+
+@media (max-width: var(--qo-size-640)) {
+  qo-modal.payment-modal-shell {
+    --qo-modal-header-padding: var(--qo-space-5) var(--qo-space-5) var(--qo-space-3);
+    --qo-modal-content-padding: var(--qo-space-3) var(--qo-space-5) 0;
+    --qo-modal-footer-padding: var(--qo-space-4) var(--qo-space-5) var(--qo-space-5);
+  }
+
+  .payment-modal__grid--two {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-modal__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  qo-button.payment-modal__cancel,
+  qo-button.payment-modal__submit {
+    width: 100%;
+  }
+}

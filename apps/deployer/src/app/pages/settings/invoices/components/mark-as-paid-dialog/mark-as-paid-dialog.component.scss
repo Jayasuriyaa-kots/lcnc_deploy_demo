@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.dialog-stack {
+  display: grid;
+  gap: var(--qo-space-4);
+}
+
+.row-actions {
+  display: flex;
+  gap: var(--qo-space-3);
+  flex-wrap: wrap;
+}
+

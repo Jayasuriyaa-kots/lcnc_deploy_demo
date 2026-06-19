@@ -1,0 +1,26 @@
+{
+  "reportId": "headcount-by-department-report",
+  "reportLabel": "Headcount by Department",
+  "sourceFormId": "add-employee-form",
+  "sourceFormLabel": "Add Employee Form",
+  "sourceTable": "employees",
+  "columns": [
+    { "id": "department",      "label": "Department",     "dbColumn": "department_name" },
+    { "id": "headcount",       "label": "Headcount",      "dbColumn": "headcount" },
+    { "id": "open_positions",  "label": "Open Positions", "dbColumn": "open_positions" },
+    { "id": "avg_tenure_yrs",  "label": "Avg Tenure (Yrs)", "dbColumn": "avg_tenure" },
+    { "id": "attrition_pct",   "label": "Attrition %",   "dbColumn": "attrition_pct" }
+  ],
+  "rows": [
+    { "id": "1",  "values": ["Engineering",  "2,841", "47", "3.2", "8.4%"]  },
+    { "id": "2",  "values": ["Sales",        "1,523", "62", "2.7", "14.1%"] },
+    { "id": "3",  "values": ["Operations",   "1,204", "18", "4.1", "6.2%"]  },
+    { "id": "4",  "values": ["Product",      "874",   "23", "3.8", "7.5%"]  },
+    { "id": "5",  "values": ["Finance",      "643",   "9",  "5.3", "4.8%"]  },
+    { "id": "6",  "values": ["HR",           "521",   "14", "3.9", "9.1%"]  },
+    { "id": "7",  "values": ["Marketing",    "487",   "11", "2.9", "11.3%"] },
+    { "id": "8",  "values": ["Data Science", "412",   "31", "2.4", "10.7%"] },
+    { "id": "9",  "values": ["IT Support",   "368",   "8",  "4.6", "5.9%"]  },
+    { "id": "10", "values": ["Legal",        "127",   "3",  "6.1", "3.2%"]  }
+  ]
+}

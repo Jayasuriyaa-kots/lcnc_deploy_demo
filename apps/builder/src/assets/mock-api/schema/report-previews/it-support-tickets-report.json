@@ -1,0 +1,26 @@
+{
+  "reportId": "it-support-tickets-report",
+  "reportLabel": "IT Support Tickets",
+  "sourceFormId": "it-support-ticket-form",
+  "sourceFormLabel": "IT Support Ticket",
+  "sourceTable": "it_tickets",
+  "columns": [
+    { "id": "employee_id",    "label": "Emp Code",  "dbColumn": "employee_id" },
+    { "id": "issue_category", "label": "Category",  "dbColumn": "category" },
+    { "id": "issue_title",    "label": "Issue",     "dbColumn": "title" },
+    { "id": "severity",       "label": "Severity",  "dbColumn": "severity" },
+    { "id": "affected_since", "label": "Reported",  "dbColumn": "issue_date" }
+  ],
+  "rows": [
+    { "id": "1",  "values": ["EMP-0002", "Software",              "VS Code not launching after update",      "P3 - Medium", "2026-06-15"] },
+    { "id": "2",  "values": ["EMP-0008", "Network / VPN",         "VPN disconnects every 30 minutes",        "P2 - High",   "2026-06-14"] },
+    { "id": "3",  "values": ["EMP-0012", "Access & Permissions",  "Unable to access prod S3 bucket",         "P1 - Critical","2026-06-16"] },
+    { "id": "4",  "values": ["EMP-0016", "Email & Collaboration", "Outlook calendar sync broken",            "P3 - Medium", "2026-06-13"] },
+    { "id": "5",  "values": ["EMP-0020", "Hardware",              "Laptop keyboard keys sticking",           "P4 - Low",    "2026-06-12"] },
+    { "id": "6",  "values": ["EMP-0001", "Software",              "Jira login redirect loop",                "P2 - High",   "2026-06-15"] },
+    { "id": "7",  "values": ["EMP-0024", "Data & Backup",         "Backup job failed for past 3 nights",     "P1 - Critical","2026-06-16"] },
+    { "id": "8",  "values": ["EMP-0007", "Network / VPN",         "Slow internet on 5 GHz band at desk",     "P3 - Medium", "2026-06-14"] },
+    { "id": "9",  "values": ["EMP-0028", "Access & Permissions",  "SSO not working on new MacBook",          "P2 - High",   "2026-06-16"] },
+    { "id": "10", "values": ["EMP-0004", "Hardware",              "Monitor flickers on external HDMI",       "P3 - Medium", "2026-06-11"] }
+  ]
+}

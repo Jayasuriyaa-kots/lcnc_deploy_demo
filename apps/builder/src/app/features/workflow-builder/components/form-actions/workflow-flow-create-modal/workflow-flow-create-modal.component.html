@@ -1,0 +1,57 @@
+<ng-container *transloco="let t; read: 'workflowBuilder'">
+@if (open()) {
+  <qo-modal
+    [title]="t('modals.createFormFlow.title')"
+    [subtitle]="t('modals.createFormFlow.subtitle')"
+    size="md"
+    [maxWidth]="'var(--qo-size-480)'"
+    (close)="close.emit()"
+  >
+    <form class="workflow-flow-create-modal" [formGroup]="form()" (ngSubmit)="create.emit()">
+      <qo-form-field [label]="t('formLabels.chooseForm')" [required]="true" [error]="fieldError('formId', 'layout.form' | transloco)">
+        <qo-select
+          formControlName="formId"
+          [options]="formOptions()"
+          [placeholder]="t('placeholders.chooseForm')"
+        />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.runWhenRecordIs')" [hint]="t('formLabels.recordEvent')" [required]="true" [error]="fieldError('recordEvent', t('formLabels.recordEvent'))">
+        <div class="workflow-flow-create-modal__segmented" role="radiogroup" [attr.aria-label]="t('accessibility.recordEvent')">
+          @for (option of recordEventOptions; track option.value) {
+            <button
+              class="workflow-flow-create-modal__segment"
+              type="button"
+              role="radio"
+              [attr.aria-checked]="selectedRecordEvent() === option.value"
+              [class.workflow-flow-create-modal__segment--active]="selectedRecordEvent() === option.value"
+              (click)="selectRecordEvent(option.value)"
+            >
+              {{ option.label }}
+            </button>
+          }
+        </div>
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.triggerWorkflow')" [hint]="t('formLabels.formEvent')" [required]="true" [error]="fieldError('formEvent', t('formLabels.formEvent'))">
+        <qo-select
+          formControlName="formEvent"
+          [options]="formEventOptions"
+          [placeholder]="t('placeholders.select')"
+        />
+      </qo-form-field>
+
+      <qo-form-field [label]="t('formLabels.workflowName')" [required]="true" [error]="fieldError('name', t('formLabels.workflowName'))">
+        <qo-input formControlName="name" [placeholder]="t('placeholders.formWorkflowName')" />
+      </qo-form-field>
+
+      <div qo-modal-footer class="workflow-flow-create-modal__footer">
+        <qo-button variant="secondary" type="button" [disabled]="saving()" (click)="close.emit()">{{ 'actions.cancel' | transloco }}</qo-button>
+        <qo-button variant="primary" type="button" [loading]="saving()" [disabled]="form().invalid || saving()" (click)="create.emit()">
+          {{ t('common.createWorkflow') }}
+        </qo-button>
+      </div>
+    </form>
+  </qo-modal>
+}
+</ng-container>

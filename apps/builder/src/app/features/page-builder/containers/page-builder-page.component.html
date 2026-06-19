@@ -1,0 +1,510 @@
+    <section class="builder-page" [class.builder-page--standalone]="pageFacade.isStandalonePreviewMode()">
+      <div class="builder-page__hero">
+        <div>
+          <p class="builder-page__eyebrow">{{ pageFacade.isStandalonePreviewMode() ? t('page.previewEyebrow') : t('page.title') }}</p>
+          <h1 class="builder-page__title">{{ pageFacade.selectedPage()?.name ?? t('page.title') }}</h1>
+          @if (!pageFacade.isStandalonePreviewMode()) {
+          <p class="builder-page__description">
+            {{ pageFacade.selectedPage()?.description || t('page.description') }}
+          </p>
+          }
+        </div>
+
+        @if (pageFacade.hasPages()) {
+        <div class="builder-page__hero-actions">
+          @if (!pageFacade.isStandalonePreviewMode()) {
+          <qo-button class="builder-page__secondary-btn" variant="secondary" (click)="pageFacade.navigateToEditPage()" type="button">
+            {{ 'actions.edit' | transloco }}
+          </qo-button>
+          }
+          <div class="builder-page__viewport-toggle" role="group" [attr.aria-label]="t('page.canvasViewportAria')">
+            <qo-button
+              class="builder-page__viewport-btn"
+              [class.builder-page__viewport-btn--active]="pageFacade.selectedViewport() === 'desktop'"
+              type="button"
+              variant="ghost"
+              size="sm"
+              (click)="pageFacade.setViewport('desktop')"
+            >
+              <span class="material-symbols-outlined">desktop_windows</span>
+              {{ t('page.desktop') }}
+            </qo-button>
+            <qo-button
+              class="builder-page__viewport-btn"
+              [class.builder-page__viewport-btn--active]="pageFacade.selectedViewport() === 'tablet'"
+              type="button"
+              variant="ghost"
+              size="sm"
+              (click)="pageFacade.setViewport('tablet')"
+            >
+              <span class="material-symbols-outlined">tablet_mac</span>
+              {{ t('page.tablet') }}
+            </qo-button>
+            <qo-button
+              class="builder-page__viewport-btn"
+              [class.builder-page__viewport-btn--active]="pageFacade.selectedViewport() === 'mobile'"
+              type="button"
+              variant="ghost"
+              size="sm"
+              (click)="pageFacade.setViewport('mobile')"
+            >
+              <span class="material-symbols-outlined">smartphone</span>
+              {{ t('page.mobile') }}
+            </qo-button>
+          </div>
+          @if (pageFacade.isStandalonePreviewMode()) {
+          <qo-button
+            class="builder-page__secondary-btn builder-page__close-btn"
+            variant="secondary"
+            type="button"
+            (click)="pageFacade.closeStandalonePreview()"
+          >
+            {{ 'actions.close' | transloco }}
+          </qo-button>
+          }
+          @if (!pageFacade.isStandalonePreviewMode()) {
+          <qo-button
+            class="builder-page__secondary-btn"
+            variant="secondary"
+            type="button"
+            [disabled]="!pageFacade.selectedPage()"
+            (click)="pageFacade.openPreviewPage()"
+          >
+            {{ 'actions.preview' | transloco }}
+          </qo-button>
+          <qo-button
+            class="builder-page__primary-btn"
+            variant="primary"
+            type="button"
+            [disabled]="!pageFacade.selectedPage()"
+            (click)="pageFacade.publishSelectedPage()"
+          >
+             {{ 'actions.publish' | transloco }}
+          </qo-button>
+          }
+        </div>
+        }
+      </div>
+
+      @if (pageFacade.hasPages()) {
+      <article class="builder-card" [class.builder-card--standalone]="pageFacade.isStandalonePreviewMode()">
+        @if (!pageFacade.isStandalonePreviewMode()) {
+        <header class="builder-card__header">
+          <h2>{{ t('page.pageCanvas') }}</h2>
+        </header>
+        }
+        <div class="builder-card__body">
+          @if (pageFacade.isStandalonePreviewMode() && pageFacade.publishedPages().length) {
+            <div class="builder-page__published-nav" role="tablist" [attr.aria-label]="t('page.publishedPagesAria')">
+              @for (page of pageFacade.publishedPages(); track page.id) {
+                <button
+                  class="builder-page__published-page-btn"
+                  type="button"
+                  [class.builder-page__published-page-btn--active]="pageFacade.selectedPage()?.id === page.id"
+                  (click)="pageFacade.openPublishedPreviewPage(page.id)"
+                >
+                  {{ page.name }}
+                </button>
+              }
+            </div>
+          }
+          <div
+            class="page-canvas"
+            [class.page-canvas--standalone]="pageFacade.isStandalonePreviewMode()"
+            [attr.data-viewport]="pageFacade.selectedViewport()"
+            [style.minHeight.px]="pageFacade.renderedCanvasPreviewHeight()"
+            [style.width.px]="pageFacade.viewportSurfaceWidth()"
+            [style.maxWidth.%]="100"
+          >
+            @if (pageFacade.previewWidgets().length) {
+              <div
+                class="page-canvas__surface"
+                [class.page-canvas__surface--standalone]="pageFacade.isStandalonePreviewMode()"
+                [style.minHeight.px]="pageFacade.renderedCanvasPreviewHeight()"
+              >
+                <div
+                  class="page-canvas__surface-content"
+                  [style.width.px]="pageFacade.viewportCanvasWidth()"
+                  [style.minHeight.px]="pageFacade.canvasPreviewHeight()"
+                >
+                  @for (widget of pageFacade.previewWidgets(); track widget.id) {
+                    <article
+                      class="page-canvas__widget"
+                  [style.left.px]="widget.x"
+                  [style.top.px]="widget.y"
+                  [style.width.px]="widget.width"
+                  [style.height.px]="widget.height"
+                >
+                <div
+                  class="page-canvas__widget-content"
+                  [style.width.px]="widget.width / widget.renderScale"
+                  [style.height.px]="widget.renderHeight"
+                  [style.transform]="'scale(' + widget.renderScale + ')'"
+                >
+                @switch (widget.type) {
+                  @case ('form-embed') {
+                    <div class="page-canvas__panel page-canvas__panel--stack">
+                      <div class="page-canvas__form-embed">
+                        @if (widget.widgetProps?.formConfig; as formConfig) {
+                          <form
+                            class="page-canvas__form-shell"
+                            (submit)="submitWidgetForm($event, widget, formConfig)"
+                          >
+                            <div class="page-canvas__form-head">
+                              <div>
+                                <div class="page-canvas__form-eyebrow">{{ 'layout.form' | transloco }}</div>
+                                <div class="page-canvas__form-title">{{ formConfig.formLabel }}</div>
+                              </div>
+                              <div class="page-canvas__form-count">{{ t('form.fieldsCount', { count: formConfig.fields.length }) }}</div>
+                            </div>
+                            <div class="page-canvas__form-toolbar">
+                              <span class="page-canvas__form-chip">{{ formConfig.applicationLabel }}</span>
+                              <span class="page-canvas__form-chip page-canvas__form-chip--ghost">
+                                  {{ getFormSubmissionCount(formConfig) }} {{ t('form.savedChipSuffix') }}
+                              </span>
+                              @if (formConfig.submitConfig.allowPublicAccess) {
+                                <span class="page-canvas__form-chip page-canvas__form-chip--ghost">{{ 'states.public' | transloco }}</span>
+                              }
+                            </div>
+                            @for (field of formConfig.fields; track field.id || $index) {
+                              <div class="page-canvas__form-preview-field">
+                                <div class="page-canvas__form-preview-label">
+                                  {{ field.label }}
+                                  @if (field.required) {
+                                    <span class="page-canvas__form-required">*</span>
+                                  }
+                                </div>
+                                <div
+                                  class="page-canvas__form-preview-control"
+                                  [class.page-canvas__form-preview-control--choice]="field.options.length > 0"
+                                >
+                                  @if (isSelectLikeField(field)) {
+                                    <qo-select
+                                      class="page-canvas__form-preview-input page-canvas__form-preview-select"
+                                      [value]="getWidgetFormFieldValue(widget, field)"
+                                      [options]="getWidgetFieldSelectOptions(field.options, field.placeholder || t('form.preview.selectOption'))"
+                                      [placeholder]="field.placeholder || t('form.preview.selectOption')"
+                                      (valueChange)="onWidgetFormFieldValueChange(widget, field, $event)"
+                                    ></qo-select>
+                                  } @else {
+                                    <qo-input
+                                      class="page-canvas__form-preview-input"
+                                      [type]="getFormInputType(field)"
+                                      [placeholder]="field.placeholder"
+                                      [value]="getWidgetFormFieldValue(widget, field)"
+                                      (valueChange)="onWidgetFormFieldValueChange(widget, field, $event)"
+                                    ></qo-input>
+                                  }
+                                </div>
+                              </div>
+                            }
+                            <div class="page-canvas__form-actions">
+                              @if (formConfig.submitConfig.resetButtonText.trim()) {
+                                <button class="page-canvas__form-reset" type="button" (click)="resetWidgetForm($event, widget, formConfig)">
+                                  {{ formConfig.submitConfig.resetButtonText }}
+                                </button>
+                              }
+                              <button class="page-canvas__form-submit" type="submit">
+                                {{ formConfig.submitConfig.submitButtonText || formConfig.actionLabels[0] || t('common.submit') }}
+                              </button>
+                            </div>
+                            @if (showFormSuccessMessage(widget, formConfig)) {
+                              <div class="page-canvas__form-success">
+                                {{ formConfig.submitConfig.successMessage }}
+                              </div>
+                            }
+                          </form>
+                        } @else {
+                          <div class="page-canvas__form-empty">{{ t('form.emptyFields') }}</div>
+                        }
+                      </div>
+                      <div class="page-canvas__widget-label">{{ widget.label }}</div>
+                    </div>
+                  }
+
+                  @case ('form-button') {
+                    <qo-button class="page-canvas__cta" type="button" variant="secondary">
+                      {{ widget.label }}
+                    </qo-button>
+                  }
+
+                  @case ('form-action-card') {
+                    <div class="page-canvas__panel page-canvas__action-card">
+                      <div class="page-canvas__action-title">{{ widget.label }}</div>
+                      <qo-button class="page-canvas__action-button" type="button" variant="secondary">{{ t('editCanvas.addRecord') }}</qo-button>
+                    </div>
+                  }
+
+                  @case ('report-embed') {
+                    <div class="page-canvas__panel page-canvas__panel--stack">
+                      <div class="page-canvas__report-embed">
+                        @if (widget.widgetProps?.reportConfig; as reportConfig) {
+                          <div class="page-canvas__report-shell">
+                            <div class="page-canvas__report-head">
+                              <div>
+                                <div class="page-canvas__report-eyebrow">{{ 'layout.report' | transloco }}</div>
+                                <div class="page-canvas__report-title">{{ reportConfig.reportLabel }}</div>
+                              </div>
+                              @if (reportConfig.visibility.recordsCount) {
+                                <div class="page-canvas__report-count">{{ getReportRowCount(widget, reportConfig) }} {{ t('editCanvas.rowsSuffix') }}</div>
+                              }
+                            </div>
+                            <div class="page-canvas__report-toolbar">
+                              <span class="page-canvas__report-chip">{{ reportConfig.sourceFormLabel }}</span>
+                              <span class="page-canvas__report-chip page-canvas__report-chip--ghost">{{ 'actions.preview' | transloco }}</span>
+                              @if (reportConfig.allowPublicAccess) {
+                                <span class="page-canvas__report-chip page-canvas__report-chip--ghost">{{ 'states.public' | transloco }}</span>
+                              }
+                            </div>
+                            <div class="page-canvas__report-actions">
+                              @if (reportConfig.visibility.search) {
+                                <button class="page-canvas__report-action-chip page-canvas__report-action-button" type="button" (click)="toggleReportSearch(widget.id)">
+                                  {{ 'actions.search' | transloco }}
+                                </button>
+                              }
+                              @if (reportConfig.visibility.print) {
+                                <button class="page-canvas__report-action-chip page-canvas__report-action-button" type="button" (click)="printReport(widget, reportConfig)">
+                                  {{ t('common.print') }}
+                                </button>
+                              }
+                              @if (reportConfig.visibility.export) {
+                                <button class="page-canvas__report-action-chip page-canvas__report-action-button" type="button" (click)="exportReport(widget, reportConfig)">
+                                  {{ t('common.export') }}
+                                </button>
+                              }
+                              @if (reportConfig.filterConfigured) {
+                                <span class="page-canvas__report-action-chip">{{ t('editCanvas.filtered') }}</span>
+                              }
+                            </div>
+                            @if (reportConfig.visibility.search && isReportSearchOpen(widget.id)) {
+                              <div class="page-canvas__report-search">
+                                  <qo-input
+                                    class="page-canvas__report-search-input"
+                                    type="search"
+                                    [placeholder]="t('editCanvas.searchRowsPlaceholder')"
+                                    [value]="getReportSearchQuery(widget.id)"
+                                    (valueChange)="onReportSearchValueChange(widget.id, $event)"
+                                  ></qo-input>
+                              </div>
+                            }
+                            <div class="page-canvas__report-preview-table">
+                              <div class="page-canvas__report-preview-row page-canvas__report-preview-row--header">
+                                @for (column of reportConfig.columns; track column.id) {
+                                  <span class="page-canvas__report-preview-cell">{{ column.label }}</span>
+                                }
+                              </div>
+                            @for (row of getReportRows(widget, reportConfig); track row.id) {
+                              <div class="page-canvas__report-preview-row">
+                                  @for (value of row.values; track $index) {
+                                    <span
+                                      class="page-canvas__report-preview-cell"
+                                      [class.page-canvas__report-preview-cell--status]="value === 'Active' || value === 'Late' || value === 'Inactive' || value === 'Present'"
+                                    >
+                                      {{ value }}
+                                    </span>
+                                  }
+                                </div>
+                              }
+                            </div>
+                          </div>
+                        } @else {
+                          <div class="page-canvas__report-empty">{{ t('editCanvas.noColumnsAvailable') }}</div>
+                        }
+                      </div>
+                    </div>
+                  }
+
+                  @case ('report-button') {
+                    <qo-button class="page-canvas__cta" type="button" variant="secondary">
+                      {{ widget.label }}
+                    </qo-button>
+                  }
+
+                  @case ('report-action-card') {
+                    <div class="page-canvas__panel page-canvas__action-card">
+                      <div class="page-canvas__action-title">{{ widget.label }}</div>
+                      <qo-button class="page-canvas__action-button" type="button" [ngStyle]="pageFacade.getWidgetButtonStyles(widget)" variant="secondary">{{ t('editCanvas.view') }}</qo-button>
+                    </div>
+                  }
+
+                  @case ('button-showcase') {
+                    <div class="page-canvas__panel">
+                      @if (widget.widgetProps?.buttonGroupConfig?.buttons?.length) {
+                        <div class="page-canvas__button-group">
+                          @for (groupButton of widget.widgetProps?.buttonGroupConfig?.buttons ?? []; track groupButton.id) {
+                            <app-widget-button
+                              [variant]="widget.buttonVariant ?? 'primary-filled'"
+                              [buttonStyleConfig]="groupButton.buttonStyleConfig ?? widget.buttonStyleConfig"
+                              (clicked)="pageFacade.handleButtonAction($event, widget, groupButton.buttonActionConfig ?? widget.widgetProps?.buttonActionConfig ?? null)"
+                            >
+                              {{ groupButton.label }}
+                            </app-widget-button>
+                          }
+                        </div>
+                      } @else {
+                        <app-widget-button
+                          [variant]="widget.buttonVariant ?? 'primary-filled'"
+                          [iconName]="widget.buttonIcon ?? null"
+                          [iconSize]="widget.buttonIconSize ?? 18"
+                          [iconImageSrc]="widget.buttonIconImageDataUrl ?? null"
+                          [iconOnly]="!!widget.buttonIcon || !!widget.buttonIconImageDataUrl"
+                          [fillContainer]="true"
+                          [buttonStyleConfig]="widget.buttonStyleConfig"
+                          (clicked)="pageFacade.handleButtonAction($event, widget, widget.widgetProps?.buttonActionConfig ?? null)"
+                        >
+                          {{ widget.label }}
+                        </app-widget-button>
+                      }
+                    </div>
+                  }
+
+                  @case ('search-showcase') {
+                    <div class="page-canvas__panel">
+                      <app-widget-search
+                        [variant]="widget.searchVariant ?? 'icon-only'"
+                        [searchBoxShape]="widget.searchBoxShape ?? 'rounded'"
+                        [searchBarFontFamily]="widget.searchBarFontFamily ?? 'inherit'"
+                        [searchBarColor]="widget.searchBarColor ?? 'var(--qo-color-neutral-0)'"
+                        [searchBarFontSize]="widget.searchBarFontSize ?? '15 px'"
+                        [searchBarBold]="widget.searchBarBold ?? true"
+                        [searchBarItalic]="widget.searchBarItalic ?? false"
+                        [searchButtonColor]="widget.searchButtonColor ?? 'var(--qo-color-primary-700)'"
+                        [searchButtonFontSize]="widget.searchButtonFontSize ?? '15 px'"
+                        [searchButtonBold]="widget.searchButtonBold ?? false"
+                        [searchButtonItalic]="widget.searchButtonItalic ?? false"
+                        [searchBackgroundColor]="widget.searchBackgroundColor ?? 'var(--qo-color-neutral-0)'"
+                        [placeholder]="'actions.searchEllipsis' | transloco"
+                      ></app-widget-search>
+                    </div>
+                  }
+
+                  @case ('chart-showcase') {
+                    <div class="page-canvas__panel page-canvas__panel--chart">
+                      <app-chart-live-widget [type]="widget.chartType ?? 'line'" [config]="widget.widgetProps?.chartConfig ?? null"></app-chart-live-widget>
+                      @if (widget.widgetProps?.chartConfig; as chartConfig) {
+                        <div class="page-canvas__chart-meta">
+                          <div class="page-canvas__chart-form">{{ chartConfig.datasourceLabel || ('fields.selectDatasource' | transloco) }}</div>
+                          <div class="page-canvas__chart-axes">
+                            {{ chartConfig.xAxisLabel || chartConfig.xAxisCategory || t('chart.xAxis') }} /
+                            {{ chartConfig.yAxisLabel || chartConfig.yAxisField || chartConfig.aggregateValue.value || t('chart.yAxis') }}
+                          </div>
+                          <div class="page-canvas__chart-axes">
+                            {{ t('chart.stackLabel') }} {{ chartConfig.yAxisStackBy || ('fields.none' | transloco) }}
+                          </div>
+                          <div class="page-canvas__chart-chips">
+                              <span class="page-canvas__chart-chip">
+                                @if (chartConfig.valueType === 'aggregate') {
+                                  {{
+                                    chartConfig.aggregateValue.tab === 'count-distinct' ? t('chart.countDistinct')
+                                    : chartConfig.aggregateValue.tab === 'count' ? t('chart.count')
+                                    : chartConfig.aggregateValue.tab === 'max' ? t('chart.max')
+                                    : chartConfig.aggregateValue.tab === 'min' ? t('chart.min')
+                                    : chartConfig.aggregateValue.tab === 'avg' ? t('chart.avg')
+                                    : chartConfig.aggregateValue.tab === 'sum' ? t('chart.sum')
+                                    : t('chart.aggregate')
+                                  }}
+                                } @else {
+                                  {{ t('chart.actualData') }}
+                                }
+                              </span>
+                            @if (chartConfig.yAxisField || chartConfig.aggregateValue.value) {
+                              <span class="page-canvas__chart-chip">{{ chartConfig.yAxisField || chartConfig.aggregateValue.value }}</span>
+                            }
+                            @if (chartConfig.recordScope === 'selected') {
+                              <span class="page-canvas__chart-chip">{{ t('chart.selectedRecords') }}</span>
+                            }
+                            @if (chartConfig.filterDataBasedOn.length) {
+                              <span class="page-canvas__chart-chip">{{ t('chart.filtersPrefix') }} {{ chartConfig.filterDataBasedOn.length }}</span>
+                            }
+                            @if (chartConfig.showDataLabel) {
+                              <span class="page-canvas__chart-chip">{{ t('chart.dataLabel') }}</span>
+                            }
+                            @if (chartConfig.showUnderlyingData) {
+                              <span class="page-canvas__chart-chip">{{ t('chart.underlyingData') }}</span>
+                            }
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  @case ('board-showcase') {
+                    <div class="page-canvas__panel page-canvas__panel--board">
+                      <app-board-widget [variant]="widget.boardVariant ?? 'department-list'"></app-board-widget>
+                    </div>
+                  }
+
+                  @case ('table-showcase') {
+                    <div class="page-canvas__panel page-canvas__panel--table">
+                      <app-table-widget [config]="pageFacade.getWidgetTableConfig(widget)"></app-table-widget>
+                    </div>
+                  }
+
+                  @case ('select-showcase') {
+                    <div class="page-canvas__panel page-canvas__panel--select">
+                      <app-select-widget [config]="pageFacade.getWidgetSelectConfig(widget)" [widgetId]="widget.id"></app-select-widget>
+                    </div>
+                  }
+
+                  @case ('media-showcase') {
+                    <div class="page-canvas__panel page-canvas__panel--media">
+                      <app-ui-media-widget
+                        [config]="widget.widgetProps?.mediaConfig"
+                        [enableImageZoomControls]="true"
+                      ></app-ui-media-widget>
+                    </div>
+                  }
+
+                  @case ('panel-showcase') {
+                    <div class="page-canvas__panel page-canvas__panel--panel">
+                      <app-panel-widget
+                        [config]="widget.widgetProps?.panelConfig ?? null"
+                        [widgetId]="widget.id"
+                        [widgetLabel]="widget.label"
+                        [resolution]="pageFacade.panelResolutions()[widget.id] || null"
+                      ></app-panel-widget>
+                    </div>
+                  }
+
+                  @case ('snippet-showcase') {
+                    <div class="page-canvas__panel page-canvas__panel--snippet">
+                      <app-snippet-card
+                        [variant]="widget.snippetVariant ?? 'html'"
+                        [config]="widget.widgetProps?.snippetConfig ?? null"
+                      ></app-snippet-card>
+                    </div>
+                  }
+
+                    @case ('text-block-showcase') {
+                      <div class="page-canvas__panel page-canvas__panel--text-block">
+                      <app-text-block
+                        [variant]="widget.textBlockVariant ?? 'text'"
+                        [config]="widget.widgetProps?.textBlockConfig"
+                      ></app-text-block>
+                      </div>
+                    }
+                  }
+                </div>
+                </article>
+              }
+                </div>
+              </div>
+            } @else {
+              <div class="page-canvas__empty">
+                <h3>{{ t('page.emptyCanvasTitle') }}</h3>
+                <p>{{ t('page.emptyCanvasDescription') }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      </article>
+      } @else {
+      <section class="builder-page__empty-state">
+        <h2 class="builder-page__empty-title">{{ t('page.emptyPagesTitle') }}</h2>
+        <p class="builder-page_description">
+          {{ t('page.emptyPagesDescription') }}
+        </p>
+      </section>
+      }
+
+    </section>

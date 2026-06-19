@@ -1,0 +1,93 @@
+.action-editor {
+  display: grid;
+  gap: var(--qo-space-5);
+  margin-top: var(--qo-space-2);
+  padding: var(--qo-space-5);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-md);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--qo-shadow-sm);
+  overflow: visible;
+}
+
+.action-editor__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qo-space-3);
+}
+
+.action-editor__header strong {
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-sm);
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.action-editor__close {
+  flex-shrink: 0;
+}
+
+.action-editor__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(13rem, 1fr));
+  gap: var(--qo-space-4);
+  align-items: start;
+}
+
+.action-editor__field {
+  display: grid;
+  gap: var(--qo-space-2);
+  min-width: 0;
+}
+
+.action-editor__field span {
+  color: var(--qo-color-neutral-500);
+  font-size: 0.6875rem;
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.action-editor__field--wide {
+  min-width: min(22rem, 100%);
+}
+
+.action-editor__field--compact {
+  min-width: 0;
+}
+
+.action-editor__text-input {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0 var(--qo-space-4);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-800);
+  font-family: var(--qo-font-family-sans);
+  font-size: var(--qo-text-sm);
+  box-sizing: border-box;
+  outline: none;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease,
+    background-color 120ms ease;
+}
+
+.action-editor__text-input::placeholder {
+  color: var(--qo-color-neutral-400);
+}
+
+.action-editor__text-input:focus {
+  border-color: var(--qo-border-color-focus);
+  box-shadow: var(--qo-shadow-focus-ring);
+}
+
+.action-editor__select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+

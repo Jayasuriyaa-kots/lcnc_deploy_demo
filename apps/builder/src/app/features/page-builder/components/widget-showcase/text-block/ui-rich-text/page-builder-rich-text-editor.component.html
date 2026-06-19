@@ -1,0 +1,36 @@
+<div class="pb-rte" [class.is-disabled]="disabled()">
+  <div class="pb-rte__shell" [ngStyle]="shellStyles">
+    <angular-editor
+      class="pb-rte__editor"
+      [id]="editorId"
+      [formControl]="htmlControl"
+      [config]="editorConfig"
+      [placeholder]="placeholder()"
+    >
+      <ng-template #customButtons let-executeCommandFn="executeCommandFn">
+        <ae-toolbar-set>
+          <button aeButton type="button" title="Code block" (click)="executeCommandFn('formatBlock', 'pre')">
+            &#123;&#125;
+          </button>
+        </ae-toolbar-set>
+
+        <ae-toolbar-set>
+          <button aeButton type="button" title="Blockquote" (click)="executeCommandFn('formatBlock', 'blockquote')">
+            "
+          </button>
+        </ae-toolbar-set>
+
+        <ae-toolbar-set>
+          <button aeButton type="button" title="Insert Table" (click)="insertTable(executeCommandFn)">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <path
+                d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm2 0v3h4V5H5zm6 0v3h8V5h-8zM5 10v4h4v-4H5zm6 0v4h8v-4h-8zM5 16v3h4v-3H5zm6 0v3h8v-3h-8z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </ae-toolbar-set>
+      </ng-template>
+    </angular-editor>
+  </div>
+</div>

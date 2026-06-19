@@ -1,0 +1,54 @@
+    <div class="datasources-page__content datasources-page__content--picker">
+      <div class="datasources-page__header">
+        <div>
+          <div class="datasources-page__eyebrow">{{ t('common.addDataSourceEyebrow') }}</div>
+          <h1 class="datasources-page__title">{{ t('common.selectDatasource') }}</h1>
+          <p class="datasources-page__description">{{ t('common.selectDatasourceDescription') }}</p>
+        </div>
+
+        <qo-button class="datasources-page__config-back" variant="secondary" type="button" (click)="back.emit()">{{ t('externalApis.back') }}</qo-button>
+      </div>
+
+      <div class="datasources-page__picker-section">
+        <h2 class="datasources-page__section-title">{{ t('common.apisSection') }}</h2>
+        <div class="datasources-page__connector-grid">
+          @for (connector of apiConnectors(); track connectorTrack(connector)) {
+            <div
+              class="datasources-page__connector-card"
+              role="button"
+              tabindex="0"
+              (click)="facade.selectConnector(connector.id)"
+              (keydown.enter)="facade.selectConnector(connector.id)"
+              (keydown.space)="facade.selectConnector(connector.id); $event.preventDefault()"
+            >
+              <div class="datasources-page__connector-icon">
+                <qo-connector-icon [type]="connector.id" size="sm" appearance="plain"></qo-connector-icon>
+              </div>
+              <div class="datasources-page__connector-name">{{ connector.label }}</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="datasources-page__picker-section">
+        <h2 class="datasources-page__section-title">{{ t('common.databasesSection') }} <span class="datasources-page__section-count">{{ databaseConnectors().length }}</span></h2>
+        <div class="datasources-page__connector-grid">
+          @for (connector of databaseConnectors(); track connectorTrack(connector)) {
+            <div
+              class="datasources-page__connector-card"
+              role="button"
+              tabindex="0"
+              (click)="facade.selectConnector(connector.id)"
+              (keydown.enter)="facade.selectConnector(connector.id)"
+              (keydown.space)="facade.selectConnector(connector.id); $event.preventDefault()"
+            >
+              <div class="datasources-page__connector-icon">
+                <qo-connector-icon [type]="connector.id" size="sm" appearance="plain"></qo-connector-icon>
+              </div>
+              <div class="datasources-page__connector-name">{{ connector.label }}</div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+

@@ -1,0 +1,319 @@
+:host {
+  display: block;
+  --qo-input-height-md: 2.125rem;
+  --qo-input-padding-md: 0 var(--qo-space-3);
+  --qo-input-font-size-md: var(--qo-text-sm);
+  --qo-input-border-radius: var(--qo-radius-sm);
+  --qo-input-bg: var(--qo-color-neutral-50);
+  --qo-input-border-color: var(--qo-color-neutral-200);
+  --qo-input-focus-border-color: var(--qo-color-primary-500);
+  --qo-input-focus-shadow: none;
+  --qo-button-height: 2.5rem;
+  --qo-button-min-width: 10.5rem;
+  --qo-button-radius: var(--qo-radius-sm);
+  --qo-button-font-size: var(--qo-text-sm);
+}
+
+.workflow-schedule-form {
+  display: grid;
+  gap: 0;
+}
+
+.workflow-schedule-form__header {
+  display: grid;
+  place-items: center;
+  padding: var(--qo-space-5) var(--qo-space-6) var(--qo-space-4);
+}
+
+.workflow-schedule-form__header h2 {
+  margin: 0;
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-lg);
+  font-weight: var(--qo-font-medium);
+  letter-spacing: 0;
+}
+
+.workflow-schedule-form__tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--qo-space-7);
+  padding: var(--qo-space-4) var(--qo-space-8) 0;
+  border-bottom: var(--qo-border-width) solid var(--qo-border-color);
+}
+
+.workflow-schedule-form__tabs button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--qo-space-3);
+  min-height: var(--qo-size-56);
+  border: 0;
+  border-bottom: var(--qo-border-width-2) solid transparent;
+  background: transparent;
+  color: var(--qo-color-neutral-500);
+  font: inherit;
+  font-size: var(--qo-text-sm);
+  cursor: pointer;
+}
+
+.workflow-schedule-form__tab--active {
+  border-bottom-color: var(--qo-color-primary-600) !important;
+  color: var(--qo-color-neutral-900) !important;
+}
+
+.workflow-schedule-form__body {
+  display: grid;
+  gap: var(--qo-space-5);
+  width: min(100%, 36rem);
+  margin-inline: auto;
+  padding: var(--qo-space-7) var(--qo-space-6) var(--qo-space-5);
+}
+
+.workflow-schedule-form--date-field .workflow-schedule-form__body {
+  width: min(100%, 44rem);
+}
+
+.workflow-schedule-form__row {
+  display: grid;
+  grid-template-columns: 11.5rem minmax(0, 1fr);
+  gap: var(--qo-space-6);
+  align-items: center;
+  width: min(100%, 34rem);
+  margin-inline: auto;
+}
+
+.workflow-schedule-form--date-field .workflow-schedule-form__row {
+  width: min(100%, 40.5rem);
+}
+
+.workflow-schedule-form__row > span {
+  color: var(--qo-color-neutral-700);
+  font-size: var(--qo-text-sm);
+}
+
+.workflow-schedule-form__split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--qo-space-4);
+}
+
+.workflow-schedule-form__field-stack {
+  display: grid;
+  gap: var(--qo-space-2);
+}
+
+.workflow-schedule-form__error,
+.workflow-schedule-form__summary-error {
+  margin: 0;
+  color: var(--qo-color-danger-600);
+  font-size: var(--qo-text-xs);
+  line-height: 1.4;
+}
+
+.workflow-schedule-form__process {
+  align-items: start;
+}
+
+.workflow-schedule-form__segmented {
+  display: flex;
+  gap: var(--qo-space-2);
+  align-items: center;
+  min-height: 2.125rem;
+  padding: var(--qo-space-1);
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-100);
+}
+
+.workflow-schedule-form__segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--qo-size-28);
+  padding: 0 var(--qo-space-3);
+  border: var(--qo-border-width) solid transparent;
+  border-radius: var(--qo-radius-xs);
+  background: transparent;
+  color: var(--qo-color-neutral-800);
+  font: inherit;
+  font-size: var(--qo-text-sm);
+  cursor: pointer;
+}
+
+.workflow-schedule-form__segment:hover,
+.workflow-schedule-form__segment:focus-visible {
+  border-color: var(--qo-border-color-focus);
+  background: var(--qo-color-neutral-0);
+  outline: var(--qo-size-2) solid var(--qo-color-primary-100);
+  outline-offset: var(--qo-size-1);
+}
+
+.workflow-schedule-form__segment--active {
+  border-color: var(--qo-border-color-strong);
+  background: var(--qo-color-neutral-0);
+  box-shadow: var(--qo-shadow-sm);
+  font-weight: var(--qo-font-semibold);
+}
+
+.workflow-schedule-form__conditions {
+  display: grid;
+  gap: var(--qo-space-1);
+  width: 100%;
+  margin: var(--qo-space-2) auto 0;
+}
+
+.workflow-schedule-form__condition-stack {
+  display: grid;
+  gap: var(--qo-space-2);
+}
+
+.workflow-schedule-form__condition-row {
+  display: grid;
+  grid-template-columns: 10.625rem 10.625rem 11.25rem 1.5rem 2.75rem 2.75rem;
+  gap: var(--qo-space-2);
+  align-items: center;
+}
+
+.workflow-schedule-form__connector-label {
+  width: 10.625rem;
+  color: var(--qo-color-neutral-900);
+  font-size: var(--qo-text-xs);
+  line-height: 1;
+}
+
+.workflow-schedule-form__add-connector {
+  width: 5.75rem;
+  flex: 0 0 5.75rem;
+}
+
+.workflow-schedule-form__icon-button,
+.workflow-schedule-form__logic-button,
+.workflow-schedule-form__add-row button {
+  display: inline-grid;
+  place-items: center;
+  min-height: 1.75rem;
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-xs);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-neutral-800);
+  font: inherit;
+  cursor: pointer;
+}
+
+.workflow-schedule-form__icon-button {
+  width: 1.5rem;
+  border-color: transparent;
+  color: var(--qo-color-neutral-500);
+}
+
+.workflow-schedule-form__logic-button {
+  min-width: 2.75rem;
+  border-color: var(--qo-color-primary-500);
+  background: var(--qo-color-neutral-0);
+  color: var(--qo-color-primary-600);
+  font-size: var(--qo-text-sm);
+}
+
+.workflow-schedule-form__logic-spacer {
+  width: 2.75rem;
+  min-height: 1.75rem;
+}
+
+.workflow-schedule-form__add-row {
+  display: flex;
+  gap: var(--qo-space-2);
+  align-items: center;
+  margin-top: var(--qo-space-1);
+}
+
+.workflow-schedule-form__add-row button {
+  min-height: auto;
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  color: var(--qo-color-primary-600);
+  font-size: var(--qo-text-sm);
+}
+
+.workflow-schedule-form__footer {
+  display: grid;
+  justify-content: center;
+  gap: var(--qo-space-3);
+  padding: var(--qo-space-2) var(--qo-space-6) var(--qo-space-8);
+}
+
+.workflow-schedule-form__summary-error {
+  text-align: center;
+}
+
+:host ::ng-deep qo-button.workflow-schedule-form__submit {
+  --qo-button-height: 2.5rem;
+  --qo-button-min-width: 10.5rem;
+  --qo-button-padding: 0 var(--qo-space-5);
+  --qo-button-bg: var(--qo-color-primary-600);
+  --qo-button-hover-bg: var(--qo-color-primary-700);
+  --qo-button-color: var(--qo-color-neutral-0);
+  --qo-button-font-weight: var(--qo-font-medium);
+}
+
+:host ::ng-deep qo-button .qo-btn:disabled {
+  opacity: 1;
+}
+
+:host ::ng-deep qo-button .qo-btn-primary {
+  background: var(--qo-color-primary-600);
+  color: var(--qo-color-neutral-0);
+}
+
+:host ::ng-deep qo-button .qo-btn-primary:disabled {
+  background: var(--qo-color-primary-600);
+  color: var(--qo-color-neutral-0);
+}
+
+:host ::ng-deep .qo-select-trigger {
+  border-color: var(--qo-color-neutral-200);
+  border-radius: var(--qo-radius-sm);
+  background: var(--qo-color-neutral-50);
+  box-shadow: none;
+}
+
+:host ::ng-deep .qo-select-trigger-active {
+  border-color: var(--qo-color-primary-500);
+  box-shadow: none;
+}
+
+:host ::ng-deep .qo-select-md {
+  height: 2.125rem;
+  padding: 0 var(--qo-space-3);
+  font-size: var(--qo-text-sm);
+}
+
+:host ::ng-deep .qo-select-value {
+  font-size: var(--qo-text-sm);
+}
+
+:host ::ng-deep .qo-select-caret {
+  color: var(--qo-color-neutral-500);
+}
+
+:host ::ng-deep .qo-input-suffix {
+  color: var(--qo-color-neutral-500);
+}
+
+@media (max-width: 48rem) {
+  .workflow-schedule-form__tabs,
+  .workflow-schedule-form__split,
+  .workflow-schedule-form__condition-row {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-schedule-form__row {
+    grid-template-columns: 1fr;
+    gap: var(--qo-space-2);
+  }
+
+  .workflow-schedule-form__conditions {
+    margin-left: 0;
+  }
+
+}

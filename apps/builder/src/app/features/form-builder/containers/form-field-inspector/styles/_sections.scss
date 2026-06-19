@@ -1,0 +1,116 @@
+.inspector__section {
+  display: grid;
+  gap: var(--qo-space-4);
+  padding: var(--qo-space-4);
+  border-bottom: var(--qo-border-width) solid var(--qo-border-color);
+  background: rgba(255, 255, 255, 0.72);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.inspector__section-title {
+  color: var(--qo-color-neutral-500);
+  font-size: var(--qo-text-2xs);
+  font-weight: var(--qo-font-extrabold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.inspector__grid {
+  display: grid;
+  gap: var(--qo-space-3);
+}
+
+.inspector__grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.inspector__input {
+  display: grid;
+  gap: var(--qo-space-2);
+
+  span {
+    color: var(--qo-color-neutral-500);
+    font-size: var(--qo-text-2xs);
+    font-weight: var(--qo-font-extrabold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-height: 2.375rem;
+    padding: 0 var(--qo-space-3);
+    border: var(--qo-border-width) solid var(--qo-border-color);
+    border-radius: var(--qo-radius-sm);
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--qo-color-neutral-800);
+    font-size: var(--qo-text-sm);
+    font-family: inherit;
+    box-shadow: none;
+
+    &:focus {
+      outline: none;
+      border-color: var(--qo-color-neutral-300);
+      box-shadow: inset 0 0 0 var(--qo-border-width) rgba(17, 17, 17, 0.08);
+    }
+  }
+
+  textarea {
+    min-height: 5rem;
+    padding: var(--qo-space-2) var(--qo-space-3);
+    resize: vertical;
+  }
+}
+
+:host ::ng-deep .inspector__input qo-input,
+:host ::ng-deep .inspector__input qo-select,
+:host ::ng-deep .inspector__input qo-textarea {
+  display: block;
+  width: 100%;
+}
+
+:host ::ng-deep .inspector__input .qo-input-wrapper {
+  width: 100%;
+}
+
+:host ::ng-deep .inspector__input .qo-input-element,
+:host ::ng-deep .inspector__input .qo-select-trigger,
+:host ::ng-deep .inspector__input .qo-textarea {
+  width: 100%;
+  min-height: 2.375rem;
+  border: var(--qo-border-width) solid var(--qo-border-color);
+  border-radius: var(--qo-radius-sm);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--qo-color-neutral-800);
+  font-size: var(--qo-text-sm);
+  box-shadow: none;
+}
+
+:host ::ng-deep .inspector__input .qo-input-element,
+:host ::ng-deep .inspector__input .qo-select-sm,
+:host ::ng-deep .inspector__input .qo-select-md {
+  padding: 0 var(--qo-space-3);
+}
+
+:host ::ng-deep .inspector__input .qo-input-element:focus,
+:host ::ng-deep .inspector__input .qo-select-trigger-active,
+:host ::ng-deep .inspector__input .qo-textarea:focus {
+  border-color: var(--qo-color-neutral-300);
+  box-shadow: inset 0 0 0 var(--qo-border-width) rgba(17, 17, 17, 0.08);
+}
+
+:host ::ng-deep .inspector__input .qo-textarea {
+  min-height: 5rem;
+  padding: var(--qo-space-2) var(--qo-space-3);
+}
+
+.inspector__input--full {
+  grid-column: 1 / -1;
+}
+

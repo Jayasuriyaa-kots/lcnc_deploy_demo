@@ -1,0 +1,318 @@
+<div class="text-block-settings" [formGroup]="form">
+  @if (isFilePicker()) {
+  <section class="settings-card settings-card--accordion">
+    <button type="button" class="settings-card__header settings-card__header--button">
+      <span>{{ t('textBlock.settings.widgetIdentity') }}</span>
+    </button>
+
+    <div class="settings-card__body">
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.widgetName') }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="text"
+          formControlName="widgetName"
+          placeholder="e.g. usersTable"
+          (valueChange)="updateTextField('widgetName', form.controls.widgetName.value)"
+        ></qo-input>
+        <span class="settings-field__hint">{{ t('textBlock.settings.widgetNameHint') }}</span>
+      </label>
+    </div>
+  </section>
+
+  <section class="settings-card settings-card--accordion">
+    <button type="button" class="settings-card__header settings-card__header--button">
+      <span>{{ t('textBlock.settings.basic') }}</span>
+    </button>
+
+    <div class="settings-card__body">
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.allowedFileTypes') }}</span>
+        <qo-select
+          class="settings-field__input settings-field__input--select"
+          formControlName="allowedFileTypes"
+          [options]="fileTypeOptions"
+          (valueChange)="updateFilePickerSelect('allowedFileTypes', String($event ?? ''))"
+        ></qo-select>
+      </label>
+
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.dataFormat') }}</span>
+        <qo-select
+          class="settings-field__input settings-field__input--select"
+          formControlName="dataFormat"
+          [options]="dataFormatOptions"
+          (valueChange)="updateFilePickerSelect('dataFormat', String($event ?? ''))"
+        ></qo-select>
+      </label>
+
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.maxFiles') }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="number"
+          formControlName="maxFiles"
+          (valueChange)="updateNumericField('maxFiles', String($event ?? ''))"
+        ></qo-input>
+      </label>
+    </div>
+  </section>
+
+  <!-- <section class="settings-card settings-card--accordion settings-card--collapsed">
+     <button type="button" class="settings-card__header settings-card__header--button">
+      <span>{{ 'fields.label' | transloco }}</span>
+      <span class="settings-card__chevron">v</span>
+    </button>
+  </section>  
+  <section class="settings-card settings-card--accordion settings-card--collapsed">
+    <button type="button" class="settings-card__header settings-card__header--button">
+      <span>{{ t('textBlock.settings.validation') }}</span>
+      <span class="settings-card__chevron">v</span>
+    </button>
+  </section> -->
+
+  <section class="settings-card settings-card--accordion">
+    <button type="button" class="settings-card__header settings-card__header--button">
+      <span>{{ t('textBlock.settings.validations') }}</span>
+    </button>
+
+    <div class="settings-card__body">
+      <div class="settings-toggle">
+        <span class="settings-toggle__label">{{ t('common.visible') }}</span>
+        <qo-toggle [formControl]="form.controls.visible" (checkedChange)="onBooleanFieldChange('visible', $event)"></qo-toggle>
+      </div>
+
+      <div class="settings-toggle">
+        <span class="settings-toggle__label">{{ t('textBlock.settings.disable') }}</span>
+        <qo-toggle [formControl]="form.controls.disabled" (checkedChange)="onBooleanFieldChange('disabled', $event)"></qo-toggle>
+      </div>
+
+      <div class="settings-toggle">
+        <span class="settings-toggle__label">{{ t('textBlock.settings.animateLoading') }}</span>
+        <qo-toggle [formControl]="form.controls.animateLoading" (checkedChange)="onBooleanFieldChange('animateLoading', $event)"></qo-toggle>
+      </div>
+    </div>
+  </section>
+ } @else {
+  <section class="settings-card">
+    <div class="settings-card__header">{{ isDatePicker() ? 'Date Picker' : 'General' }}</div>
+
+    <div class="settings-card__body">
+      @if (isLabelText()) {
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('common.text') }}</span>
+        <qo-textarea
+          class="settings-field__input"
+          [rows]="4"
+          formControlName="defaultValue"
+          (valueChange)="updateTextField('defaultValue', String($event ?? ''))"
+        ></qo-textarea>
+      </label>
+      } @else {
+      <label class="settings-field">
+        <span class="settings-field__label">{{ 'fields.label' | transloco }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="text"
+          formControlName="label"
+          [placeholder]="t('textBlock.settings.enterLabelText')"
+          (valueChange)="updateTextField('label', form.controls.label.value)"
+        ></qo-input>
+      </label>
+
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('search.resultPanel.placeholder') }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="text"
+          formControlName="placeholder"
+          [placeholder]="t('textBlock.settings.enterPlaceholderText')"
+          (valueChange)="updateTextField('placeholder', form.controls.placeholder.value)"
+        ></qo-input>
+      </label>
+
+      @if (isDatePicker()) {
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.defaultDate') }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="datetime-local"
+          formControlName="defaultValue"
+          (valueChange)="updateTextField('defaultValue', form.controls.defaultValue.value)"
+        ></qo-input>
+      </label>
+
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.dateFormat') }}</span>
+        <qo-select
+          class="settings-field__input settings-field__input--select"
+          formControlName="dateFormat"
+          [options]="dateFormatOptions"
+          (valueChange)="updateDateFormat(String($event ?? ''))"
+        ></qo-select>
+      </label>
+      }
+      }
+
+      <!-- <div class="settings-toggle">
+        <span class="settings-toggle__label">{{ t('common.visible') }}</span>
+        <button
+          type="button"
+          class="settings-switch"
+          [class.settings-switch--active]="form.controls.visible.value"
+          (click)="toggleBooleanField('visible')"
+        >
+          <span class="settings-switch__thumb"></span>
+        </button>
+      </div> -->
+    </div>
+ </section>
+
+  <section class="settings-card">
+    <div class="settings-card__header">{{ isLabelText() ? 'Display' : isDatePicker() ? 'Behavior' : 'Validation' }}</div>
+
+    <div class="settings-card__body">
+      @if (isLabelText()) {
+      <div class="settings-field">
+        <span class="settings-field__label">{{ t('label.settings.overflowText') }}</span>
+        <div class="settings-segmented-control">
+          <button
+            type="button"
+            class="settings-segmented-control__option"
+            [class.settings-segmented-control__option--active]="form.controls.overflowText.value === 'scroll'"
+            (click)="updateOverflowText('scroll')"
+          >{{ t('label.settings.scroll') }}</button>
+          <button
+            type="button"
+            class="settings-segmented-control__option"
+            [class.settings-segmented-control__option--active]="form.controls.overflowText.value === 'truncate'"
+            (click)="updateOverflowText('truncate')"
+          >{{ t('label.settings.truncate') }}</button>
+          <button
+            type="button"
+            class="settings-segmented-control__option"
+            [class.settings-segmented-control__option--active]="form.controls.overflowText.value === 'none'"
+            (click)="updateOverflowText('none')"
+          >{{ 'fields.none' | transloco }}</button>
+        </div>
+      </div>
+
+      <div class="settings-toggle">
+        <span class="settings-toggle__label">{{ t('common.visible') }}</span>
+        <qo-toggle formControlName="visible" (checkedChange)="toggleBooleanField('visible')"></qo-toggle>
+      </div>
+
+      <div class="settings-toggle">
+        <span class="settings-toggle__label">{{ t('textBlock.settings.disableLinks') }}</span>
+        <qo-toggle formControlName="disableLinks" (checkedChange)="toggleBooleanField('disableLinks')"></qo-toggle>
+      </div>
+      } @else {
+      @if (!isDatePicker()) {
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('select.settings.defaultValue') }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="text"
+          formControlName="defaultValue"
+          [placeholder]="t('textBlock.settings.enterDefaultValue')"
+          (valueChange)="updateTextField('defaultValue', form.controls.defaultValue.value)"
+        ></qo-input>
+      </label>
+      }
+
+      @if (showInputTypeSelector()) {
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.types') }}</span>
+        <qo-select
+          class="settings-field__input settings-field__input--select"
+          formControlName="inputType"
+          [options]="inputTypeOptions"
+          (valueChange)="updateInputType(getInputTypeSelectValue($event))"
+        ></qo-select>
+      </label>
+      }
+
+      <div class="settings-toggle">
+        <span class="settings-toggle__label">{{ 'fields.required' | transloco }}</span>
+        <qo-toggle [formControl]="form.controls.required" (checkedChange)="onBooleanFieldChange('required', $event)"></qo-toggle>
+      </div>
+
+      @if (isDatePicker()) {
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.minDate') }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="datetime-local"
+          formControlName="minDate"
+          (valueChange)="updateTextField('minDate', form.controls.minDate.value)"
+        ></qo-input>
+      </label>
+
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.maxDate') }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="datetime-local"
+          formControlName="maxDate"
+          (valueChange)="updateTextField('maxDate', form.controls.maxDate.value)"
+        ></qo-input>
+      </label>
+      }
+
+      <div class="settings-toggle">
+        <span class="settings-toggle__label">{{ t('textBlock.settings.readOnly') }}</span>
+        <qo-toggle [formControl]="form.controls.readOnly" (checkedChange)="onBooleanFieldChange('readOnly', $event)"></qo-toggle>
+      </div>
+
+      <div class="settings-toggle">
+        <span class="settings-toggle__label">Disabled</span>
+        <qo-toggle [formControl]="form.controls.disabled" (checkedChange)="onBooleanFieldChange('disabled', $event)"></qo-toggle>
+      </div>
+
+      @if (!isDatePicker()) {
+      <div class="settings-toggle">
+        <span class="settings-toggle__label">{{ t('common.visible') }}</span>
+        <qo-toggle [formControl]="form.controls.visible" (checkedChange)="onBooleanFieldChange('visible', $event)"></qo-toggle>
+      </div>
+      }
+
+      @if (!isDatePicker()) {
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.minLength') }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="number"
+          formControlName="minLength"
+          [placeholder]="t('textBlock.settings.enterMinLength')"
+          (valueChange)="updateNumericField('minLength', getNumericInputValue($event))"
+        ></qo-input>
+      </label>
+
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.maxLength') }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="number"
+          formControlName="maxLength"
+          [placeholder]="t('textBlock.settings.enterMaxLength')"
+          (valueChange)="updateNumericField('maxLength', getNumericInputValue($event))"
+        ></qo-input>
+      </label>
+
+      <label class="settings-field">
+        <span class="settings-field__label">{{ t('textBlock.settings.customRegex') }}</span>
+        <qo-input
+          class="settings-field__input"
+          type="text"
+          formControlName="customRegex"
+          [placeholder]="t('textBlock.settings.enterCustomRegex')"
+          (valueChange)="updateTextField('customRegex', form.controls.customRegex.value)"
+        ></qo-input>
+      </label>
+      }
+      }
+    </div>
+  </section>
+  }
+</div>
+

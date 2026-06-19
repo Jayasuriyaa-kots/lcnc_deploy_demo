@@ -1,0 +1,1 @@
+export { SettingsSubtabsComponent } from './settings-subtabs.component';

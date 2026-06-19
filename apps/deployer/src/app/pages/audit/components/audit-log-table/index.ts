@@ -1,0 +1,1 @@
+export { AuditLogTableComponent } from './audit-log-table.component';
