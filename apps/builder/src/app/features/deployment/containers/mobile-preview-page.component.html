@@ -19,15 +19,19 @@
         (click)="headerShowSwitcher() && toggleMobileAppSwitcher()">
         @if (headerShowLogo()) {
           <span class="mobile-app-header__brand-mark">
-            <svg class="mobile-app-header__brand-logo" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-              <line x1="3.34" y1="17" x2="20.66" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-              <line x1="20.66" y1="17" x2="3.34" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
+            @if (activeLayoutPayload().layout.header.leftHeader.logoUrl) {
+              <img class="mobile-app-header__brand-logo" [src]="activeLayoutPayload().layout.header.leftHeader.logoUrl" alt="" />
+            } @else {
+              <svg class="mobile-app-header__brand-logo" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="3.34" y1="17" x2="20.66" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="20.66" y1="17" x2="3.34" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            }
           </span>
         }
         @if (headerShowAppName()) {
-          <strong>HR Management</strong>
+          <strong>{{ activeLayoutPayload().layout.header.leftHeader.appName }}</strong>
           @if (headerShowSwitcher()) {
             <span class="mobile-app-header__brand-caret" aria-hidden="true"></span>
           }
@@ -569,10 +573,9 @@
   </div>
 
   <main class="mobile-app-content" (click)="closeAllActionPanels()">
-    @if (currentPageTargetType() === 'page') {
+    @if (currentPageTargetType() === 'page' && currentPageWidgets().length) {
       <div class="mobile-app-canvas">
-        @if (currentPageWidgets().length) {
-          @for (widget of currentPageWidgets(); track widget.id) {
+        @for (widget of currentPageWidgets(); track widget.id) {
             @if (widget.type === 'panel-showcase') {
               <div class="mobile-app-canvas__panel"
                    [style.--panel-icon-bg]="widget.widgetProps?.panelConfig?.iconBackgroundColor || '#2563eb'">
@@ -658,9 +661,6 @@
               </div>
             }
           }
-        } @else {
-          <p class="mobile-app-canvas__empty">No published content yet</p>
-        }
       </div>
     } @else if (currentPageTargetType() === 'form') {
       <div class="mobile-app-form">
