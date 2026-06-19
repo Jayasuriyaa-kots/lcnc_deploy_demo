@@ -139,6 +139,12 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
     const h = this.chromeHeight();
     return h === 0 ? true : this.chromeOffset() < h * 0.5;
   });
+  /** Full data mode: chrome fully collapsed — hide the bottom nav for an
+   *  immersive, distraction-free data view. */
+  readonly fullDataMode = computed(() => {
+    const h = this.chromeHeight();
+    return h > 0 && this.chromeOffset() >= h - 1;
+  });
   private touchStartX = 0;
   private touchStartY = 0;
   private touchScrollLeft = 0;

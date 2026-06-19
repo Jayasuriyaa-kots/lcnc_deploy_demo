@@ -1381,6 +1381,7 @@
 
                 <nav
                   class="mobile-app-bottom-nav"
+                  [class.mobile-app-bottom-nav--hidden]="fullDataMode()"
                   aria-label="Primary page selector"
                   [style.--mobile-nav-bg]="activeLayoutPayload().layout.theme.sidebarBg"
                   [style.--mobile-nav-text]="activeLayoutPayload().layout.theme.sidebarText"

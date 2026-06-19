@@ -815,9 +815,10 @@
     </button>
   }
 
-  <!-- ── Bottom nav (always visible — kept during chrome collapse) ──────── -->
+  <!-- ── Bottom nav (hidden in full data mode for an immersive view) ────── -->
   <nav
     class="mobile-app-bottom-nav"
+    [class.mobile-app-bottom-nav--hidden]="fullDataMode()"
     aria-label="Primary page selector"
     [style.--mobile-nav-bg]="activeLayoutPayload().layout.theme.sidebarBg"
     [style.--mobile-nav-text]="activeLayoutPayload().layout.theme.sidebarText"
