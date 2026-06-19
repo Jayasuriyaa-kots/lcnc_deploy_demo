@@ -2138,60 +2138,51 @@
   pointer-events: none;
 }
 
-// ── "Back to Top" pill ──────────────────────────────────────────────────────
-// Subtle, enterprise-style pill centred above the bottom nav. Appears only
-// after scrolling well down the list and never overlaps the navigation.
-// Modelled on Airtable / Salesforce / ServiceNow mobile patterns.
-.mobile-back-to-top {
+// ── Minimal scroll-to-top icon ──────────────────────────────────────────────
+// Tiny, unobtrusive arrow that sits above the bottom nav, in the lower-right
+// corner. Deliberately faint so it never competes with the data. Modelled on
+// SAP Fiori / Salesforce / ServiceNow mobile scroll affordances.
+.mobile-scroll-top-icon {
   position: absolute;
-  left: 50%;
-  bottom: 104px;
+  right: 12px;
+  bottom: 72px;
   z-index: 50;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  min-width: 90px;
-  max-width: 120px;
-  height: 34px;
-  padding: 0 14px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
   border: none;
-  border-radius: 18px;
-  background: rgb(17 24 39 / 78%);
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 15%);
+  color: inherit;
   cursor: pointer;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 14px rgb(0 0 0 / 22%);
-  transform: translateX(-50%) translateY(0);
-  animation: mobile-back-to-top-in 0.24s ease;
-  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  box-shadow: none;
+  opacity: 0.4;
+  animation: mobile-scroll-top-fade-in 0.2s ease;
+  transition: opacity 0.2s ease;
 
   &:hover,
   &:active {
-    background: rgb(17 24 39 / 92%);
+    opacity: 0.7;
   }
 
   qo-icon {
     display: block;
-    font-size: 15px;
+    font-size: 16px;
     color: inherit;
   }
 }
 
-@keyframes mobile-back-to-top-in {
+@keyframes mobile-scroll-top-fade-in {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(10px);
   }
   to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    opacity: 0.4;
   }
 }
 

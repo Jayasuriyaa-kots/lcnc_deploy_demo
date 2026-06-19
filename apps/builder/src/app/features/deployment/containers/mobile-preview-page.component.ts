@@ -494,9 +494,13 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
       }
     }
     this.lastScrollTop = Math.max(0, scrollTop);
-    // Reveal the "Back to Top" pill once the user is well down the list,
-    // and hide it again near the top (within the first 200px).
-    this.showScrollTop.set(scrollTop > 500);
+    // Minimal scroll-to-top icon: show only after scrolling deep (>1000px),
+    // hide again once back near the top (<500px). Hysteresis avoids flicker.
+    if (scrollTop > 1000) {
+      this.showScrollTop.set(true);
+    } else if (scrollTop < 500) {
+      this.showScrollTop.set(false);
+    }
   }
 
   scrollToTop(): void {
