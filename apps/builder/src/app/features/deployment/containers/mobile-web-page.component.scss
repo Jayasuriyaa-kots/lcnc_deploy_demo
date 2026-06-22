@@ -1617,11 +1617,140 @@
 
 .mobile-app-page-heading {
   flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-right: 12px;
   overflow: hidden;
   background: var(--qo-color-neutral-0);
   max-height: 44px;
   transition: max-height 0.28s ease, opacity 0.2s ease, padding 0.28s ease;
   opacity: 1;
+}
+
+// List / card view toggle next to the page heading
+.mobile-app-view-toggle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background: var(--qo-color-neutral-100);
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 26px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--qo-color-neutral-500);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    qo-icon { font-size: 16px; display: block; }
+  }
+
+  &__btn--active {
+    background: var(--qo-color-neutral-0) !important;
+    color: var(--qo-color-neutral-900) !important;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 12%);
+  }
+}
+
+// ── Card view ────────────────────────────────────────────────────────────────
+.mobile-app-card-scroll {
+  width: 100%;
+}
+
+.mobile-app-card-grid {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+// Per-row wrapper carries the inter-card spacing so the measured [data-vrow]
+// height equals the true row pitch (keeps virtualization exact).
+.mobile-app-card-row {
+  padding-bottom: 10px;
+}
+
+.mobile-app-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--qo-color-neutral-200);
+  border-radius: 12px;
+  background: var(--qo-color-neutral-0);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+}
+
+.mobile-app-card__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobile-app-card__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--qo-color-neutral-100);
+  color: var(--qo-color-neutral-600);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.mobile-app-card__title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--qo-color-neutral-900);
+}
+
+.mobile-app-card__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mobile-app-card__field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mobile-app-card__field-label {
+  font-size: 11px;
+  color: var(--qo-color-neutral-400);
+  white-space: nowrap;
+}
+
+.mobile-app-card__field-value {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--qo-color-neutral-800);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-app-card__field-value--badge {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--qo-color-neutral-100);
+  color: var(--qo-color-neutral-700);
+  font-weight: 600;
 }
 
 .mobile-app-page-heading--hidden {

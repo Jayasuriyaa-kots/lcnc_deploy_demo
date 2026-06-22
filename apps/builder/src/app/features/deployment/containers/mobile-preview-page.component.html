@@ -568,6 +568,20 @@
   <!-- ── Main content ───────────────────────────────────────────────────── -->
   <div class="mobile-app-page-heading">
     <h4>{{ mobilePreviewTitle() }}</h4>
+    @if (currentPageTargetType() !== 'form' && currentPageTargetType() !== 'page') {
+      <div class="mobile-app-view-toggle" role="group" aria-label="View mode">
+        <button type="button" aria-label="List view"
+          [class.mobile-app-view-toggle__btn--active]="mobileViewMode() === 'list'"
+          (click)="setMobileViewMode('list')">
+          <qo-icon name="list" aria-hidden="true"></qo-icon>
+        </button>
+        <button type="button" aria-label="Card view"
+          [class.mobile-app-view-toggle__btn--active]="mobileViewMode() === 'card'"
+          (click)="setMobileViewMode('card')">
+          <qo-icon name="layout-grid" aria-hidden="true"></qo-icon>
+        </button>
+      </div>
+    }
   </div>
   </div>
   </div>
@@ -685,6 +699,41 @@
           <button class="mobile-app-form__submit" type="button" disabled>Submit</button>
         }
       </div>
+    } @else if (mobileViewMode() === 'card') {
+      <div #tableScroll class="mobile-app-card-scroll">
+        @if (windowedRows().topPad) {
+          <div class="mobile-app-card-spacer" aria-hidden="true" [style.height.px]="windowedRows().topPad"></div>
+        }
+        <div class="mobile-app-card-grid" data-vbody>
+          @for (row of windowedRows().rows; track row) {
+            <div class="mobile-app-card-row" data-vrow>
+              <div class="mobile-app-card">
+                <div class="mobile-app-card__head">
+                  <span class="mobile-app-card__avatar">{{ row[0]?.slice(0, 2) }}</span>
+                  <span class="mobile-app-card__title">{{ row[0] }}</span>
+                </div>
+                <div class="mobile-app-card__fields">
+                  @for (col of previewDataset().columns; track col; let i = $index) {
+                    @if (i > 0 && row[i]) {
+                      <div class="mobile-app-card__field">
+                        <span class="mobile-app-card__field-label">{{ col }}</span>
+                        <span class="mobile-app-card__field-value"
+                          [class.mobile-app-card__field-value--badge]="isStatusColumn(col)">{{ row[i] }}</span>
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+        @if (windowedRows().bottomPad) {
+          <div class="mobile-app-card-spacer" aria-hidden="true" [style.height.px]="windowedRows().bottomPad"></div>
+        }
+        @if (!mobilePreviewRows().length) {
+          <div class="mobile-app-table__empty">No records found</div>
+        }
+      </div>
     } @else {
       <div #tableScroll class="mobile-app-table-scroll">
         <table class="mobile-app-table">
@@ -695,14 +744,14 @@
               }
             </tr>
           </thead>
-          <tbody>
+          <tbody data-vbody>
             @if (windowedRows().topPad) {
               <tr class="mobile-app-table__spacer" aria-hidden="true">
                 <td [attr.colspan]="previewDataset().columns.length" [style.height.px]="windowedRows().topPad"></td>
               </tr>
             }
             @for (row of windowedRows().rows; track row) {
-              <tr>
+              <tr data-vrow>
                 @for (cell of row; track $index) {
                   <td>{{ cell }}</td>
                 }
