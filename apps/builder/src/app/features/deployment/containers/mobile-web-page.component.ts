@@ -1,5 +1,5 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, ViewChild, computed, effect, inject, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, ViewChild, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { QoButtonComponent, QoCheckboxComponent, QoIconComponent, QoStatusDotComponent } from '@qo/ui-components';
 import { UiMediaWidgetComponent } from '@builder/features/page-builder/components/widget-showcase/media/ui-media/ui-media-widget.component';
 import { CanvasWidget } from '@builder/features/page-builder/models/page-builder-canvas.model';
@@ -201,9 +201,12 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   // pages scroll, collapse and virtualize byte-for-byte identically. The signals
   // are owned here (template reactivity); the engine owns the imperative
   // scroll/rAF/measure/virtualization logic. No duplicated implementation.
-  @ViewChild('scrollContainer') private scrollContainerRef?: ElementRef<HTMLElement>;
-  @ViewChild('controlsWrap') private controlsWrapRef?: ElementRef<HTMLElement>;
-  @ViewChild('tableScroll') private tableScrollRef?: ElementRef<HTMLElement>;
+  // Signal-based queries: the preview lives inside @if (showPreview()), so these
+  // resolve only once the modal opens. The effect below (re)attaches the engine
+  // whenever they appear/disappear — ngAfterViewInit alone would be too early.
+  private readonly scrollContainerEl = viewChild<ElementRef<HTMLElement>>('scrollContainer');
+  private readonly controlsWrapEl = viewChild<ElementRef<HTMLElement>>('controlsWrap');
+  private readonly tableScrollEl = viewChild<ElementRef<HTMLElement>>('tableScroll');
 
   /** Mostly-expanded gate for secondary chrome (left selector, action panels). */
   readonly mobileNavVisible = signal(true);
@@ -244,6 +247,19 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   private readonly _resetWindowOnData = effect(() => {
     this.mobilePreviewRows(); // track
     this.scrollEngine.resetToTop();
+  });
+
+  // (Re)attach the shared scroll engine whenever the preview modal's elements
+  // enter the DOM, and tear it down when it closes.
+  private readonly _attachEngine = effect(() => {
+    const scrollEl = this.scrollContainerEl();
+    const chromeEl = this.controlsWrapEl();
+    const tableEl = this.tableScrollEl();
+    if (scrollEl) {
+      this.scrollEngine.attach(scrollEl.nativeElement, chromeEl?.nativeElement, tableEl?.nativeElement);
+    } else {
+      this.scrollEngine.detach();
+    }
   });
 
   private touchStartX = 0;
@@ -658,13 +674,8 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    // Hand the view elements to the shared scroll engine (single source of truth).
-    this.scrollEngine.attach(
-      this.scrollContainerRef?.nativeElement,
-      this.controlsWrapRef?.nativeElement,
-      this.tableScrollRef?.nativeElement,
-    );
-
+    // The scroll engine is wired reactively in _attachEngine (the preview lives
+    // inside @if (showPreview()), so its elements may not exist yet here).
     const el = this.tabsStripRef?.nativeElement;
     if (!el || el.scrollWidth <= el.clientWidth) return;
     this.tabsHasRightOverflow.set(true);
@@ -702,7 +713,7 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
     this.touchStartX = t.clientX;
     this.touchStartY = t.clientY;
     this.touchLocked = null;
-    const el = this.scrollContainerRef?.nativeElement;
+    const el = this.scrollContainerEl()?.nativeElement;
     if (el) {
       this.touchScrollLeft = el.scrollLeft;
       this.touchScrollTop = el.scrollTop;
@@ -716,7 +727,7 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
     const dx = Math.abs(t.clientX - this.touchStartX);
     const dy = Math.abs(t.clientY - this.touchStartY);
     if (dx + dy < this.TOUCH_LOCK_THRESHOLD) return;
-    const el = this.scrollContainerRef?.nativeElement;
+    const el = this.scrollContainerEl()?.nativeElement;
     if (!el) return;
     this.touchLocked = dy >= dx ? 'v' : 'h';
     if (this.touchLocked === 'v') {
@@ -730,7 +741,7 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
 
   onTouchEnd(): void {
     this.touchLocked = null;
-    const el = this.scrollContainerRef?.nativeElement;
+    const el = this.scrollContainerEl()?.nativeElement;
     if (el) {
       el.style.overflowX = 'auto';
       el.style.overflowY = 'auto';

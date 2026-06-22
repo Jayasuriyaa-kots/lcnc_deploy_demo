@@ -62,11 +62,17 @@ export class MobileChromeScrollController {
 
   constructor(private readonly deps: MobileChromeScrollDeps) {}
 
-  /** Wire up the engine once the view elements exist (ngAfterViewInit). */
+  /** Wire up the engine once the view elements exist. Idempotent — safe to call
+   *  again when the elements change (e.g. a preview modal opens/closes). */
   attach(scrollEl?: HTMLElement, chromeEl?: HTMLElement, tableScrollEl?: HTMLElement): void {
+    // Tear down any previous wiring so re-attach (modal reopen) never leaks a
+    // listener or double-counts.
+    this.detach();
+    if (!scrollEl) return;
     this.scrollEl = scrollEl;
     this.chromeEl = chromeEl;
     this.tableScrollEl = tableScrollEl;
+    this.rowMeasured = false;
 
     if (chromeEl) {
       this.chromeHeightPx = chromeEl.offsetHeight;
