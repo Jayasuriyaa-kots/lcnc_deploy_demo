@@ -2326,20 +2326,19 @@
 
 .mobile-app-canvas,
 .mobile-app-form {
-  flex: 1 1 auto;
-  min-height: 0;
+  // Grow with content and let the OUTER .mobile-scroll-container scroll — same
+  // as the table view. (Previously these were nested scrollers with
+  // flex:1 1 auto + overflow-y:auto, which collapsed inside the content-height
+  // scroll container and trapped the scroll, so dashboard/form pages couldn't
+  // scroll.)
+  flex: 0 0 auto;
   padding: 0 12px 16px;
-  touch-action: pan-y;
-  overscroll-behavior-y: contain;
 }
 
 .mobile-app-canvas {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  will-change: scroll-position;
   align-content: start;
 }
 
