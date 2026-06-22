@@ -40,9 +40,6 @@ export interface MobileChromeScrollDeps {
   showScrollTop: WritableSignal<boolean>;
   /** Called when the chrome fully collapses (host closes transient panels). */
   onEnterFullData: () => void;
-  /** Live getter for the current scroll/measure wrapper — lets the engine
-   *  follow view-mode swaps (list ↔ card) where the element node changes. */
-  getTableScrollEl?: () => HTMLElement | undefined;
 }
 
 export class MobileChromeScrollController {
@@ -133,14 +130,6 @@ export class MobileChromeScrollController {
     this.deps.showScrollTop.set(false);
   }
 
-  /** Force a re-measure of the virtual row height + body offset on the next
-   *  frame — call when the row presentation changes (e.g. list ↔ card view),
-   *  without touching the scroll position. */
-  remeasure(): void {
-    this.rowMeasured = false;
-    if (this.rafId == null) this.rafId = requestAnimationFrame(this.apply);
-  }
-
   // ── Internals ──────────────────────────────────────────────────────────────
 
   /** Passive scroll handler — only records position, then schedules a frame. */
@@ -220,16 +209,13 @@ export class MobileChromeScrollController {
    *  content. Both are needed to translate scrollTop into a row index. */
   private measure(): void {
     const scrollEl = this.scrollEl;
-    const tableScroll = this.deps.getTableScrollEl?.() ?? this.tableScrollEl;
+    const tableScroll = this.tableScrollEl;
     if (!scrollEl || !tableScroll) return;
-    // Works for both list (tbody / tr) and card view via the [data-vbody] /
-    // [data-vrow] markers; falls back to the table elements.
-    const body = (tableScroll.querySelector('[data-vbody]') ?? tableScroll.querySelector('tbody')) as HTMLElement | null;
-    const dataRow = ((body ?? tableScroll).querySelector('[data-vrow]')
-      ?? body?.querySelector('tr:not(.mobile-app-table__spacer)')) as HTMLElement | null;
-    if (!body || !dataRow || dataRow.offsetHeight === 0) return;
+    const tbody = tableScroll.querySelector('tbody');
+    const dataRow = tbody?.querySelector('tr:not(.mobile-app-table__spacer)') as HTMLElement | null;
+    if (!tbody || !dataRow || dataRow.offsetHeight === 0) return;
     this.deps.rowHeight.set(dataRow.offsetHeight);
-    const bodyRect = body.getBoundingClientRect();
+    const bodyRect = tbody.getBoundingClientRect();
     const contRect = scrollEl.getBoundingClientRect();
     this.tableBodyTop = bodyRect.top - contRect.top + scrollEl.scrollTop;
     this.rowMeasured = true;

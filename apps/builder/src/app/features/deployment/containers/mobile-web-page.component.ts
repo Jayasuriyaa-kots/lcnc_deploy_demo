@@ -216,8 +216,6 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   readonly rowHeight = signal(32);
   readonly renderStart = signal(0);
   readonly renderEnd = signal(40);
-  /** Mobile data presentation: rows (list) or cards. */
-  readonly mobileViewMode = signal<'list' | 'card'>('list');
 
   private readonly scrollEngine = new MobileChromeScrollController({
     ngZone: this.ngZone,
@@ -228,7 +226,6 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
     fullDataMode: this.fullDataMode,
     showScrollTop: this.showScrollTop,
     onEnterFullData: () => this.closeAllActionPanels(),
-    getTableScrollEl: () => this.tableScrollEl()?.nativeElement,
   });
 
   /** The visible slice of rows plus spacer heights that hold the scroll height. */
@@ -708,17 +705,6 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
 
   scrollToTop(): void {
     this.scrollEngine.scrollToTop();
-  }
-
-  setMobileViewMode(mode: 'list' | 'card'): void {
-    if (this.mobileViewMode() === mode) return;
-    this.mobileViewMode.set(mode);
-    this.scrollEngine.remeasure();
-  }
-
-  /** Status-like column → render its value as a coloured badge in card view. */
-  isStatusColumn(col: string): boolean {
-    return /status|stage|state/i.test(col);
   }
 
   onTouchStart(event: TouchEvent): void {
