@@ -2631,6 +2631,14 @@
   white-space: normal !important;
 }
 
+// Virtual-scroll spacer rows hold the total scroll height without rendering
+// real rows. Zero padding/border so the height is exact.
+.mobile-app-table__spacer td {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
 // ── Action bar badge ──────────────────────────────────────────────────────────
 
 .mobile-app-actions__badge {

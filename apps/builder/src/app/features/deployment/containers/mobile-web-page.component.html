@@ -1237,7 +1237,7 @@
                       }
                     </div>
                   } @else {
-                    <div class="mobile-app-table-scroll">
+                    <div #tableScroll class="mobile-app-table-scroll">
                       <table class="mobile-app-table">
                         <thead>
                           <tr>
@@ -1247,11 +1247,21 @@
                           </tr>
                         </thead>
                         <tbody>
-                          @for (row of mobilePreviewRows(); track $index) {
+                          @if (windowedRows().topPad) {
+                            <tr class="mobile-app-table__spacer" aria-hidden="true">
+                              <td [attr.colspan]="previewDataset().columns.length" [style.height.px]="windowedRows().topPad"></td>
+                            </tr>
+                          }
+                          @for (row of windowedRows().rows; track row) {
                             <tr>
                               @for (cell of row; track $index) {
                                 <td>{{ cell }}</td>
                               }
+                            </tr>
+                          }
+                          @if (windowedRows().bottomPad) {
+                            <tr class="mobile-app-table__spacer" aria-hidden="true">
+                              <td [attr.colspan]="previewDataset().columns.length" [style.height.px]="windowedRows().bottomPad"></td>
                             </tr>
                           }
                           @if (!mobilePreviewRows().length) {

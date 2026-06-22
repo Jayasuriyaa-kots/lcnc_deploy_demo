@@ -1,5 +1,5 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, ViewChild, computed, inject, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, ViewChild, computed, effect, inject, signal } from '@angular/core';
 import { QoButtonComponent, QoCheckboxComponent, QoIconComponent, QoStatusDotComponent } from '@qo/ui-components';
 import { UiMediaWidgetComponent } from '@builder/features/page-builder/components/widget-showcase/media/ui-media/ui-media-widget.component';
 import { CanvasWidget } from '@builder/features/page-builder/models/page-builder-canvas.model';
@@ -212,6 +212,44 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   /** Full data mode: chrome fully collapsed — hide the bottom nav for an
    *  immersive, distraction-free data view. */
   readonly fullDataMode = signal(false);
+
+  // ── Row virtualization (windowed rendering) ─────────────────────────────────
+  // Only the rows in the current viewport (+ buffer) are ever in the DOM. The
+  // total scroll height is preserved with top/bottom spacer rows. Driven by the
+  // same rAF loop as the chrome collapse — constant ~30 DOM rows for any dataset
+  // size (20k+), so scrolling stays at 60fps.
+  @ViewChild('tableScroll') private tableScrollRef?: ElementRef<HTMLElement>;
+  readonly rowHeight = signal(32);
+  readonly renderStart = signal(0);
+  readonly renderEnd = signal(40);
+  private tableBodyTop = 0;
+  private rowMeasured = false;
+  private readonly RENDER_BUFFER = 12;
+
+  /** The visible slice of rows plus spacer heights that hold the scroll height. */
+  readonly windowedRows = computed(() => {
+    const all = this.mobilePreviewRows();
+    const total = all.length;
+    const rowH = this.rowHeight();
+    const start = Math.max(0, Math.min(this.renderStart(), total));
+    const end = Math.max(start, Math.min(this.renderEnd(), total));
+    return {
+      rows: all.slice(start, end),
+      topPad: start * rowH,
+      bottomPad: Math.max(0, total - end) * rowH,
+    };
+  });
+
+  // When the row set changes (search / filter / sort / page change), snap the
+  // window and the scroll position back to the top so the new results show.
+  private readonly _resetWindowOnData = effect(() => {
+    this.mobilePreviewRows(); // track
+    this.renderStart.set(0);
+    this.renderEnd.set(40);
+    this.rowMeasured = false;
+    const el = this.scrollEl;
+    if (el && el.scrollTop > 0) el.scrollTop = 0;
+  });
   @ViewChild('scrollContainer') private scrollContainerRef?: ElementRef<HTMLElement>;
   @ViewChild('controlsWrap') private controlsWrapRef?: ElementRef<HTMLElement>;
   private resizeObs?: ResizeObserver;
@@ -634,6 +672,7 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
       this.chromeHeightPx = this.chromeEl.offsetHeight;
       this.resizeObs = new ResizeObserver(() => {
         this.chromeHeightPx = this.chromeEl?.offsetHeight ?? 0;
+        this.rowMeasured = false; // chrome height shifts the table body offset
         this.applyScroll();
       });
       this.resizeObs.observe(this.chromeEl);
@@ -698,16 +737,30 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
     // Sticky column header rides up with the chrome, pinned at top:0 when gone.
     this.scrollEl?.style.setProperty('--table-top', `${Math.max(0, h - offset)}px`);
 
+    // ── Compute the visible row window ─────────────────────────────────────
+    if (!this.rowMeasured) this.measureTable();
+    const rowH = this.rowHeight();
+    const viewportH = this.scrollEl?.clientHeight ?? 0;
+    const firstVisible = Math.floor((scrollTop - this.tableBodyTop) / rowH);
+    const nextStart = Math.max(0, firstVisible - this.RENDER_BUFFER);
+    const nextEnd = nextStart + Math.ceil(viewportH / rowH) + this.RENDER_BUFFER * 2;
+    const rangeChanged = nextStart !== this.renderStart() || nextEnd !== this.renderEnd();
+
     // Rare boolean states — flip Angular signals only when they actually change.
     const navVisible = h === 0 ? true : offset < h * 0.5;
     const fullData = h > 0 && offset >= h - 1;
     const showTop = scrollTop > 1000 ? true : scrollTop < 500 ? false : this.showScrollTop();
     if (
+      rangeChanged ||
       navVisible !== this.mobileNavVisible() ||
       fullData !== this.fullDataMode() ||
       showTop !== this.showScrollTop()
     ) {
       this.ngZone.run(() => {
+        if (rangeChanged) {
+          this.renderStart.set(nextStart);
+          this.renderEnd.set(nextEnd);
+        }
         this.mobileNavVisible.set(navVisible);
         this.fullDataMode.set(fullData);
         this.showScrollTop.set(showTop);
@@ -715,6 +768,22 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
       });
     }
   };
+
+  /** Measure a real row's height and the table body's offset within the scroll
+   *  content. Both are needed to translate scrollTop into a row index. */
+  private measureTable(): void {
+    const scrollEl = this.scrollEl;
+    const tableScroll = this.tableScrollRef?.nativeElement;
+    if (!scrollEl || !tableScroll) return;
+    const tbody = tableScroll.querySelector('tbody');
+    const dataRow = tbody?.querySelector('tr:not(.mobile-app-table__spacer)') as HTMLElement | null;
+    if (!tbody || !dataRow || dataRow.offsetHeight === 0) return;
+    this.rowHeight.set(dataRow.offsetHeight);
+    const bodyRect = tbody.getBoundingClientRect();
+    const contRect = scrollEl.getBoundingClientRect();
+    this.tableBodyTop = bodyRect.top - contRect.top + scrollEl.scrollTop;
+    this.rowMeasured = true;
+  }
 
   scrollToTop(): void {
     const el = this.scrollEl;
