@@ -582,6 +582,14 @@
   backface-visibility: hidden;
 }
 
+// Peek header (ADDITIVE): the controller adds this class only while the peek
+// overlay is sliding in/out. It layers a transition ON TOP of the existing
+// rule above — normal scroll-collapse never carries this class, so its
+// finger-attached behaviour is unchanged.
+.mobile-app-controls-wrap.mobile-app-controls-wrap--peek {
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
 .mobile-app-controls-inner {
   // inner keeps natural height; wrapper handles sticky behaviour
 }

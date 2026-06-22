@@ -60,6 +60,18 @@ export class MobileChromeScrollController {
   /** Initial window size before the first real measurement. */
   private readonly INITIAL_WINDOW = 40;
 
+  // ── Peek header (ADDITIVE — does not alter the collapse logic above) ─────────
+  // When the user is deep in the table and scrolls UP slightly, the chrome
+  // temporarily slides in as an overlay (the table does NOT move). It auto-hides
+  // after a short pause, or immediately on the next downward scroll.
+  private peekActive = false;
+  private peekAnchor = 0;
+  private peekTimer?: ReturnType<typeof setTimeout>;
+  private peekClassTimer?: ReturnType<typeof setTimeout>;
+  private readonly PEEK_THRESHOLD = 8;       // px of upward scroll to trigger
+  private readonly PEEK_AUTO_HIDE_MS = 2500; // idle time before auto-hide
+  private readonly PEEK_CLASS = 'mobile-app-controls-wrap--peek';
+
   constructor(private readonly deps: MobileChromeScrollDeps) {}
 
   /** Wire up the engine once the view elements exist. Idempotent — safe to call
@@ -73,6 +85,8 @@ export class MobileChromeScrollController {
     this.chromeEl = chromeEl;
     this.tableScrollEl = tableScrollEl;
     this.rowMeasured = false;
+    this.resetPeek();
+    this.peekAnchor = scrollEl.scrollTop;
 
     if (chromeEl) {
       this.chromeHeightPx = chromeEl.offsetHeight;
@@ -96,6 +110,7 @@ export class MobileChromeScrollController {
     this.resizeObs?.disconnect();
     this.scrollEl?.removeEventListener('scroll', this.onScroll);
     if (this.rafId != null) cancelAnimationFrame(this.rafId);
+    this.resetPeek();
   }
 
   /** Snap the window + scroll position to the top — call when the row set
@@ -104,6 +119,8 @@ export class MobileChromeScrollController {
     this.deps.renderStart.set(0);
     this.deps.renderEnd.set(this.INITIAL_WINDOW);
     this.rowMeasured = false;
+    this.resetPeek();
+    this.peekAnchor = 0;
     const el = this.scrollEl;
     if (el && el.scrollTop > 0) el.scrollTop = 0;
   }
@@ -132,6 +149,9 @@ export class MobileChromeScrollController {
     const h = this.chromeHeightPx;
     const offset = h > 0 ? Math.min(scrollTop, h) : 0;
 
+    // NEW (additive): resolve the peek-header state from scroll direction.
+    this.resolvePeek(scrollTop, h);
+
     // GPU-accelerated transform — direct DOM write, no Angular involved.
     if (this.chromeEl) {
       this.chromeEl.style.transform = `translate3d(0, ${-offset}px, 0)`;
@@ -139,6 +159,13 @@ export class MobileChromeScrollController {
     }
     // Sticky column header rides up with the chrome, pinned at top:0 when gone.
     this.scrollEl?.style.setProperty('--table-top', `${Math.max(0, h - offset)}px`);
+
+    // NEW (additive): while peeking, slide the chrome in as an OVERLAY — the
+    // --table-top above is left untouched, so the table never moves.
+    if (this.peekActive && this.chromeEl) {
+      this.chromeEl.style.transform = 'translate3d(0, 0, 0)';
+      this.chromeEl.style.opacity = '1';
+    }
 
     // ── Visible row window ────────────────────────────────────────────────
     if (!this.rowMeasured) this.measure();
@@ -151,8 +178,13 @@ export class MobileChromeScrollController {
       nextStart !== this.deps.renderStart() || nextEnd !== this.deps.renderEnd();
 
     // Rare boolean states — flip signals only when they actually change.
-    const navVisible = h === 0 ? true : offset < h * 0.5;
-    const fullData = h > 0 && offset >= h - 1;
+    let navVisible = h === 0 ? true : offset < h * 0.5;
+    let fullData = h > 0 && offset >= h - 1;
+    // NEW (additive): peek also brings back the primary + left page selectors.
+    if (this.peekActive) {
+      navVisible = true;
+      fullData = false;
+    }
     const showTop = scrollTop > 1000 ? true : scrollTop < 500 ? false : this.deps.showScrollTop();
     if (
       rangeChanged ||
@@ -187,5 +219,76 @@ export class MobileChromeScrollController {
     const contRect = scrollEl.getBoundingClientRect();
     this.tableBodyTop = bodyRect.top - contRect.top + scrollEl.scrollTop;
     this.rowMeasured = true;
+  }
+
+  // ── Peek header (ADDITIVE) ───────────────────────────────────────────────────
+
+  /** Decide whether to show/hide the peek overlay from the scroll direction.
+   *  Only engages once the user is deep enough that the normal collapse has
+   *  already hidden the chrome — so it never interferes near the top. */
+  private resolvePeek(scrollTop: number, h: number): void {
+    if (h <= 0) return;
+    const deep = scrollTop > h + 4; // chrome already collapsed by the normal logic
+    const delta = scrollTop - this.peekAnchor;
+    if (Math.abs(delta) < this.PEEK_THRESHOLD) return;
+
+    if (delta < 0 && deep) {
+      // Scrolled UP while deep → reveal the peek overlay and (re)arm auto-hide.
+      this.startPeek();
+    } else if (delta > 0) {
+      // Scrolled DOWN → hide immediately, back to fullscreen table mode.
+      this.endPeek();
+    }
+    this.peekAnchor = scrollTop;
+  }
+
+  private startPeek(): void {
+    if (!this.peekActive) {
+      this.peekActive = true;
+      this.chromeEl?.classList.add(this.PEEK_CLASS); // enables the slide transition
+    }
+    // Auto-hide after a short idle pause; each up-scroll restarts the clock.
+    if (this.peekTimer) clearTimeout(this.peekTimer);
+    this.peekTimer = setTimeout(() => this.endPeek(), this.PEEK_AUTO_HIDE_MS);
+  }
+
+  /** Hide the peek overlay and animate the chrome back to its scroll-derived
+   *  position. Safe to call when not peeking (no-op). */
+  private endPeek(): void {
+    if (this.peekTimer) {
+      clearTimeout(this.peekTimer);
+      this.peekTimer = undefined;
+    }
+    if (!this.peekActive) return;
+    this.peekActive = false;
+
+    const h = this.chromeHeightPx;
+    const scrollTop = this.latestScrollTop;
+    const offset = h > 0 ? Math.min(scrollTop, h) : 0;
+    if (this.chromeEl) {
+      this.chromeEl.style.transform = `translate3d(0, ${-offset}px, 0)`;
+      this.chromeEl.style.opacity = h > 0 ? `${1 - (offset / h) * 0.3}` : '1';
+    }
+    // Revert the secondary chrome (auto-hide can fire while no frame is running).
+    const navVisible = h === 0 ? true : offset < h * 0.5;
+    const fullData = h > 0 && offset >= h - 1;
+    this.deps.ngZone.run(() => {
+      this.deps.mobileNavVisible.set(navVisible);
+      this.deps.fullDataMode.set(fullData);
+      if (fullData) this.deps.onEnterFullData();
+    });
+
+    // Drop the transition class once the slide-out finishes, so the normal
+    // finger-attached collapse keeps running without any transition.
+    if (this.peekClassTimer) clearTimeout(this.peekClassTimer);
+    this.peekClassTimer = setTimeout(() => this.chromeEl?.classList.remove(this.PEEK_CLASS), 320);
+  }
+
+  /** Clear all peek state (called on attach/reset/detach). */
+  private resetPeek(): void {
+    this.peekActive = false;
+    if (this.peekTimer) { clearTimeout(this.peekTimer); this.peekTimer = undefined; }
+    if (this.peekClassTimer) { clearTimeout(this.peekClassTimer); this.peekClassTimer = undefined; }
+    this.chromeEl?.classList.remove(this.PEEK_CLASS);
   }
 }
