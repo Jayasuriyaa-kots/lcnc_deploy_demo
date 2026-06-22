@@ -9,6 +9,7 @@ import {
   resolveDeploymentTableColumns,
   resolveDeploymentTableRows,
 } from '../services/deployment-table-runtime.util';
+import { MobileChromeScrollController } from '../services/mobile-chrome-scroll.controller';
 
 interface MobilePreviewMetric {
   value: string;
@@ -195,36 +196,34 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   readonly mobileMoreMenuOpen = signal(false);
   readonly isSignedIn = signal(true);
 
-  // ── Native scroll-collapse engine ───────────────────────────────────────────
-  // Transforms are applied directly to the DOM inside a requestAnimationFrame
-  // loop, driven by a passive scroll listener running OUTSIDE the Angular zone.
-  // Nothing here triggers change detection per frame — the chrome is glued to
-  // the finger via GPU translate3d. Only the rare boolean states below flip
-  // Angular signals (and only when they actually change).
-  private scrollEl?: HTMLElement;
-  private chromeEl?: HTMLElement;
-  private chromeHeightPx = 0;
-  private latestScrollTop = 0;
-  private rafId: number | null = null;
+  // ── Shared mobile scroll engine (single source of truth) ────────────────────
+  // The SAME MobileChromeScrollController the /mobile-preview page uses, so both
+  // pages scroll, collapse and virtualize byte-for-byte identically. The signals
+  // are owned here (template reactivity); the engine owns the imperative
+  // scroll/rAF/measure/virtualization logic. No duplicated implementation.
+  @ViewChild('scrollContainer') private scrollContainerRef?: ElementRef<HTMLElement>;
+  @ViewChild('controlsWrap') private controlsWrapRef?: ElementRef<HTMLElement>;
+  @ViewChild('tableScroll') private tableScrollRef?: ElementRef<HTMLElement>;
 
   /** Mostly-expanded gate for secondary chrome (left selector, action panels). */
   readonly mobileNavVisible = signal(true);
-  /** Full data mode: chrome fully collapsed — hide the bottom nav for an
-   *  immersive, distraction-free data view. */
+  /** Full data mode: chrome fully collapsed — hide the bottom nav. */
   readonly fullDataMode = signal(false);
-
-  // ── Row virtualization (windowed rendering) ─────────────────────────────────
-  // Only the rows in the current viewport (+ buffer) are ever in the DOM. The
-  // total scroll height is preserved with top/bottom spacer rows. Driven by the
-  // same rAF loop as the chrome collapse — constant ~30 DOM rows for any dataset
-  // size (20k+), so scrolling stays at 60fps.
-  @ViewChild('tableScroll') private tableScrollRef?: ElementRef<HTMLElement>;
+  /** Measured data-row height + the rendered window bounds (virtualization). */
   readonly rowHeight = signal(32);
   readonly renderStart = signal(0);
   readonly renderEnd = signal(40);
-  private tableBodyTop = 0;
-  private rowMeasured = false;
-  private readonly RENDER_BUFFER = 12;
+
+  private readonly scrollEngine = new MobileChromeScrollController({
+    ngZone: this.ngZone,
+    rowHeight: this.rowHeight,
+    renderStart: this.renderStart,
+    renderEnd: this.renderEnd,
+    mobileNavVisible: this.mobileNavVisible,
+    fullDataMode: this.fullDataMode,
+    showScrollTop: this.showScrollTop,
+    onEnterFullData: () => this.closeAllActionPanels(),
+  });
 
   /** The visible slice of rows plus spacer heights that hold the scroll height. */
   readonly windowedRows = computed(() => {
@@ -244,15 +243,9 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   // window and the scroll position back to the top so the new results show.
   private readonly _resetWindowOnData = effect(() => {
     this.mobilePreviewRows(); // track
-    this.renderStart.set(0);
-    this.renderEnd.set(40);
-    this.rowMeasured = false;
-    const el = this.scrollEl;
-    if (el && el.scrollTop > 0) el.scrollTop = 0;
+    this.scrollEngine.resetToTop();
   });
-  @ViewChild('scrollContainer') private scrollContainerRef?: ElementRef<HTMLElement>;
-  @ViewChild('controlsWrap') private controlsWrapRef?: ElementRef<HTMLElement>;
-  private resizeObs?: ResizeObserver;
+
   private touchStartX = 0;
   private touchStartY = 0;
   private touchScrollLeft = 0;
@@ -665,23 +658,12 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    // ── Wire up the native scroll-collapse engine ──────────────────────────
-    this.scrollEl = this.scrollContainerRef?.nativeElement;
-    this.chromeEl = this.controlsWrapRef?.nativeElement;
-    if (this.chromeEl) {
-      this.chromeHeightPx = this.chromeEl.offsetHeight;
-      this.resizeObs = new ResizeObserver(() => {
-        this.chromeHeightPx = this.chromeEl?.offsetHeight ?? 0;
-        this.rowMeasured = false; // chrome height shifts the table body offset
-        this.applyScroll();
-      });
-      this.resizeObs.observe(this.chromeEl);
-      this.applyScroll();
-    }
-    // Passive listener + rAF, both outside Angular — zero CD per scroll frame.
-    this.ngZone.runOutsideAngular(() => {
-      this.scrollEl?.addEventListener('scroll', this.onScroll, { passive: true });
-    });
+    // Hand the view elements to the shared scroll engine (single source of truth).
+    this.scrollEngine.attach(
+      this.scrollContainerRef?.nativeElement,
+      this.controlsWrapRef?.nativeElement,
+      this.tableScrollRef?.nativeElement,
+    );
 
     const el = this.tabsStripRef?.nativeElement;
     if (!el || el.scrollWidth <= el.clientWidth) return;
@@ -699,9 +681,7 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearTimeout(this.tabsHintTimer);
-    this.resizeObs?.disconnect();
-    this.scrollEl?.removeEventListener('scroll', this.onScroll);
-    if (this.rafId != null) cancelAnimationFrame(this.rafId);
+    this.scrollEngine.detach();
   }
 
   onTabsScroll(event: Event): void {
@@ -712,85 +692,8 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
     this.tabsHasRightOverflow.set(scrollLeft + el.clientWidth < el.scrollWidth - 4);
   }
 
-  // ── Native scroll-collapse engine ───────────────────────────────────────────
-  /** Passive scroll handler — only records position, then schedules a frame. */
-  private readonly onScroll = (): void => {
-    this.latestScrollTop = Math.max(0, this.scrollEl?.scrollTop ?? 0);
-    if (this.rafId == null) {
-      this.rafId = requestAnimationFrame(this.applyScroll);
-    }
-  };
-
-  /** Runs on the animation frame (outside Angular). Maps scroll position
-   *  directly to the chrome transform — collapseOffset = min(scrollTop, H). */
-  private readonly applyScroll = (): void => {
-    this.rafId = null;
-    const scrollTop = this.latestScrollTop;
-    const h = this.chromeHeightPx;
-    const offset = h > 0 ? Math.min(scrollTop, h) : 0;
-
-    // GPU-accelerated transform — direct DOM write, no Angular involved.
-    if (this.chromeEl) {
-      this.chromeEl.style.transform = `translate3d(0, ${-offset}px, 0)`;
-      this.chromeEl.style.opacity = h > 0 ? `${1 - (offset / h) * 0.3}` : '1';
-    }
-    // Sticky column header rides up with the chrome, pinned at top:0 when gone.
-    this.scrollEl?.style.setProperty('--table-top', `${Math.max(0, h - offset)}px`);
-
-    // ── Compute the visible row window ─────────────────────────────────────
-    if (!this.rowMeasured) this.measureTable();
-    const rowH = this.rowHeight();
-    const viewportH = this.scrollEl?.clientHeight ?? 0;
-    const firstVisible = Math.floor((scrollTop - this.tableBodyTop) / rowH);
-    const nextStart = Math.max(0, firstVisible - this.RENDER_BUFFER);
-    const nextEnd = nextStart + Math.ceil(viewportH / rowH) + this.RENDER_BUFFER * 2;
-    const rangeChanged = nextStart !== this.renderStart() || nextEnd !== this.renderEnd();
-
-    // Rare boolean states — flip Angular signals only when they actually change.
-    const navVisible = h === 0 ? true : offset < h * 0.5;
-    const fullData = h > 0 && offset >= h - 1;
-    const showTop = scrollTop > 1000 ? true : scrollTop < 500 ? false : this.showScrollTop();
-    if (
-      rangeChanged ||
-      navVisible !== this.mobileNavVisible() ||
-      fullData !== this.fullDataMode() ||
-      showTop !== this.showScrollTop()
-    ) {
-      this.ngZone.run(() => {
-        if (rangeChanged) {
-          this.renderStart.set(nextStart);
-          this.renderEnd.set(nextEnd);
-        }
-        this.mobileNavVisible.set(navVisible);
-        this.fullDataMode.set(fullData);
-        this.showScrollTop.set(showTop);
-        if (fullData) this.closeAllActionPanels();
-      });
-    }
-  };
-
-  /** Measure a real row's height and the table body's offset within the scroll
-   *  content. Both are needed to translate scrollTop into a row index. */
-  private measureTable(): void {
-    const scrollEl = this.scrollEl;
-    const tableScroll = this.tableScrollRef?.nativeElement;
-    if (!scrollEl || !tableScroll) return;
-    const tbody = tableScroll.querySelector('tbody');
-    const dataRow = tbody?.querySelector('tr:not(.mobile-app-table__spacer)') as HTMLElement | null;
-    if (!tbody || !dataRow || dataRow.offsetHeight === 0) return;
-    this.rowHeight.set(dataRow.offsetHeight);
-    const bodyRect = tbody.getBoundingClientRect();
-    const contRect = scrollEl.getBoundingClientRect();
-    this.tableBodyTop = bodyRect.top - contRect.top + scrollEl.scrollTop;
-    this.rowMeasured = true;
-  }
-
   scrollToTop(): void {
-    const el = this.scrollEl;
-    if (!el) return;
-    el.scrollTo({ top: 0, behavior: 'smooth' });
-    this.showScrollTop.set(false);
-    // The smooth scroll fires scroll events that drive applyScroll back to 0.
+    this.scrollEngine.scrollToTop();
   }
 
   onTouchStart(event: TouchEvent): void {
