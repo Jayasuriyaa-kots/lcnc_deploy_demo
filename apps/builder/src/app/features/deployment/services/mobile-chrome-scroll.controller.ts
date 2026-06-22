@@ -51,14 +51,6 @@ export class MobileChromeScrollController {
   private latestScrollTop = 0;
   private rafId: number | null = null;
 
-  // Direction-based collapse (Gmail/Notion style): scrolling DOWN hides the
-  // chrome, scrolling UP — even slightly, deep in the list — reveals it again,
-  // without waiting to reach the top.
-  private collapsed = false;
-  private directionAnchor = 0;
-  /** Min scroll delta before flipping direction — kills momentum flicker. */
-  private readonly DIRECTION_THRESHOLD = 10;
-
   private tableBodyTop = 0;
   private rowMeasured = false;
   private resizeObs?: ResizeObserver;
@@ -81,8 +73,6 @@ export class MobileChromeScrollController {
     this.chromeEl = chromeEl;
     this.tableScrollEl = tableScrollEl;
     this.rowMeasured = false;
-    this.collapsed = false;
-    this.directionAnchor = scrollEl.scrollTop;
 
     if (chromeEl) {
       this.chromeHeightPx = chromeEl.offsetHeight;
@@ -114,8 +104,6 @@ export class MobileChromeScrollController {
     this.deps.renderStart.set(0);
     this.deps.renderEnd.set(this.INITIAL_WINDOW);
     this.rowMeasured = false;
-    this.collapsed = false;
-    this.directionAnchor = 0;
     const el = this.scrollEl;
     if (el && el.scrollTop > 0) el.scrollTop = 0;
   }
@@ -135,39 +123,21 @@ export class MobileChromeScrollController {
     }
   };
 
-  /** Runs on the animation frame (outside Angular). Resolves the scroll
-   *  direction into a collapsed/expanded chrome state and the rendered row
-   *  window. The chrome moves via GPU translate3d; a CSS transition makes the
-   *  reveal/hide smooth. */
+  /** Runs on the animation frame (outside Angular). Maps scroll position
+   *  directly to the chrome transform — collapseOffset = min(scrollTop, H) —
+   *  and to the rendered row window. */
   private readonly apply = (): void => {
     this.rafId = null;
     const scrollTop = this.latestScrollTop;
     const h = this.chromeHeightPx;
+    const offset = h > 0 ? Math.min(scrollTop, h) : 0;
 
-    // ── Direction-based reveal/hide ────────────────────────────────────────
-    // Within the chrome's own height of the top, always show it. Beyond that,
-    // a downward move past the threshold hides it; an upward move past the
-    // threshold reveals it again — immediately, at any scroll depth.
-    const delta = scrollTop - this.directionAnchor;
-    if (h === 0 || scrollTop <= h) {
-      this.collapsed = false;
-      this.directionAnchor = scrollTop;
-    } else if (delta > this.DIRECTION_THRESHOLD) {
-      this.collapsed = true;
-      this.directionAnchor = scrollTop;
-    } else if (delta < -this.DIRECTION_THRESHOLD) {
-      this.collapsed = false;
-      this.directionAnchor = scrollTop;
-    }
-
-    const offset = this.collapsed ? h : 0;
     // GPU-accelerated transform — direct DOM write, no Angular involved.
     if (this.chromeEl) {
       this.chromeEl.style.transform = `translate3d(0, ${-offset}px, 0)`;
-      this.chromeEl.style.opacity = this.collapsed ? '0' : '1';
+      this.chromeEl.style.opacity = h > 0 ? `${1 - (offset / h) * 0.3}` : '1';
     }
-    // Sticky column header rides with the chrome: below it when shown, top:0
-    // when hidden.
+    // Sticky column header rides up with the chrome, pinned at top:0 when gone.
     this.scrollEl?.style.setProperty('--table-top', `${Math.max(0, h - offset)}px`);
 
     // ── Visible row window ────────────────────────────────────────────────
@@ -181,8 +151,8 @@ export class MobileChromeScrollController {
       nextStart !== this.deps.renderStart() || nextEnd !== this.deps.renderEnd();
 
     // Rare boolean states — flip signals only when they actually change.
-    const navVisible = !this.collapsed;
-    const fullData = this.collapsed;
+    const navVisible = h === 0 ? true : offset < h * 0.5;
+    const fullData = h > 0 && offset >= h - 1;
     const showTop = scrollTop > 1000 ? true : scrollTop < 500 ? false : this.deps.showScrollTop();
     if (
       rangeChanged ||
