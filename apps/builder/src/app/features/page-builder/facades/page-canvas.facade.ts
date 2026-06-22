@@ -34,6 +34,7 @@ import { PageBuilderSchemaSelectionFacade } from '@builder/features/page-builder
 import { PageBuilderPanelSessionFacade } from '@builder/features/page-builder/facades/page-builder-panel-session.facade';
 
 import { PAGE_CANVAS_DEFAULT_WIDGETS } from '@builder/features/page-builder/data/page-canvas-default-widgets.data';
+import { convertRuntimePageToCanvas } from '@builder/features/page-builder/data/runtime-page-to-canvas.util';
 import { BoardShowcaseDragItem } from '@builder/features/page-builder/components/widget-showcase/board/board-showcase.component';
 import { TableShowcaseDragItem } from '@builder/features/page-builder/components/widget-showcase/table/table-showcase.component';
 import { SelectShowcaseDragItem } from '@builder/features/page-builder/components/widget-showcase/select/select-showcase.component';
@@ -277,7 +278,12 @@ export class PageCanvasFacade {
 
     let nextWidgets = this.schemaConfig.cloneWidgets(this.publishedWidgets());
     if (!nextWidgets.length) {
-      nextWidgets = this.schemaConfig.cloneWidgets(PAGE_CANVAS_DEFAULT_WIDGETS[pageId] ?? []);
+      let seeds = PAGE_CANVAS_DEFAULT_WIDGETS[pageId] ?? [];
+      if (!seeds.length) {
+        const runtimePage = this.runtimeEngine.pages().find((p) => p.id === pageId);
+        seeds = convertRuntimePageToCanvas(runtimePage, this.runtimeEngine.dataframes());
+      }
+      nextWidgets = this.schemaConfig.cloneWidgets(seeds);
     }
     this.draftWidgets.set(nextWidgets);
     this.pageStorage.persist(draftStorageKey, nextWidgets);
@@ -335,7 +341,14 @@ export class PageCanvasFacade {
 
     let draftWidgets = this.schemaConfig.cloneWidgets(this.readWidgetsForPage(DRAFT_STORAGE_KEY, pageId));
     if (!draftWidgets.length) {
-      const seeds = PAGE_CANVAS_DEFAULT_WIDGETS[pageId] ?? [];
+      // First the built-in demo layouts (p1..p8); then fall back to converting
+      // the widgets defined on the loaded JSON config's matching page so a
+      // Load Config dashboard paints onto the canvas.
+      let seeds = PAGE_CANVAS_DEFAULT_WIDGETS[pageId] ?? [];
+      if (!seeds.length) {
+        const runtimePage = this.runtimeEngine.pages().find((p) => p.id === pageId);
+        seeds = convertRuntimePageToCanvas(runtimePage, this.runtimeEngine.dataframes());
+      }
       if (seeds.length) {
         draftWidgets = this.schemaConfig.cloneWidgets(seeds);
         this.pageStorage.persist(this.getPageStorageKey(DRAFT_STORAGE_KEY, pageId), draftWidgets);
