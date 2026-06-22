@@ -573,13 +573,13 @@
   left: 0;
   z-index: 100;
   background: var(--qo-color-neutral-0);
-  // The transform is written every animation frame from a passive scroll
-  // listener (rAF, outside Angular). No CSS transition — the chrome is glued
-  // 1:1 to the finger like iOS Mail, not running a timed animation. Promoted
-  // to its own GPU layer for jank-free 60fps collapse.
+  // Direction-based reveal/hide (Gmail-style): the engine flips the transform
+  // between translate3d(0,0,0) and translate3d(0,-H,0) on scroll-direction
+  // change; this transition makes that snap glide smoothly. GPU-promoted.
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
 .mobile-app-controls-inner {
@@ -2602,10 +2602,9 @@
     text-align: left;
     white-space: nowrap;
     text-transform: uppercase;
-    // The sticky header itself must NOT animate — its top offset (--table-top)
-    // is updated every frame in lockstep with the chrome transform, so any
-    // transition here would cause lag/flicker.
-    transition: none;
+    // The column header's sticky offset glides in step with the chrome
+    // reveal/hide so they stay visually attached.
+    transition: top 0.25s ease;
   }
 
   td {
