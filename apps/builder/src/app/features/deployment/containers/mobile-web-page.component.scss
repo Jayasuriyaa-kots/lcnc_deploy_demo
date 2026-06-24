@@ -1668,17 +1668,28 @@
 
   thead { display: none; } // no column header row in card view
 
+  // Spacers keep their inline height only — no padding/border that would throw
+  // off the virtual-scroll item-size maths.
   td {
-    padding: 6px 12px !important;
     border: none !important;
     background: transparent !important;
   }
+}
+
+// The card item row: FIXED height = card (140) + vertical padding (2×5) = 150px.
+// This is the value handed to the scroll engine as the card itemSize so the
+// virtualization maps scrollTop → index exactly (no jumping).
+.mobile-app-card-row td {
+  padding: 5px 12px !important;
 }
 
 .mobile-app-card {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  height: 140px;          // FIXED — every card identical regardless of content
+  box-sizing: border-box;
+  overflow: hidden;       // clip overflowing content; never grow the card
   padding: 12px 14px;
   border: 1px solid var(--qo-color-neutral-200);
   border-radius: 12px;

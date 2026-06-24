@@ -709,12 +709,19 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
     this.scrollEngine.scrollToTop();
   }
 
+  /** Fixed card item size (px) = card height (140) + row vertical padding (2×5).
+   *  Cards are CSS-fixed to this height, so the virtual-scroll item size is a
+   *  known constant — not a measured, content-dependent value. */
+  private readonly CARD_ITEM_SIZE = 150;
+
   setMobileViewMode(mode: 'list' | 'card'): void {
     if (this.mobileViewMode() === mode) return;
     this.mobileViewMode.set(mode);
-    // Cards and table rows have different heights — re-measure (keeping the same
-    // record at the top, no scroll reset) so virtualization stays exact. Same
-    // scroll engine/container; only the renderer changes.
+    // Card view has its OWN fixed item size — never reuse the table row size.
+    // Set it up front so virtualization is correct even before the re-measure.
+    if (mode === 'card') this.rowHeight.set(this.CARD_ITEM_SIZE);
+    // Re-anchor to the same record (no scroll reset). The fixed-height cards mean
+    // any re-measure reads exactly CARD_ITEM_SIZE, so scrollTop→index stays exact.
     this.scrollEngine.remeasure();
   }
 
