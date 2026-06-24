@@ -135,6 +135,8 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
   readonly rowHeight = signal(32);
   readonly renderStart = signal(0);
   readonly renderEnd = signal(40);
+  /** Mobile data presentation — rows (list) or cards. Persists for the session. */
+  readonly mobileViewMode = signal<'list' | 'card'>('list');
 
   private readonly scrollEngine = new MobileChromeScrollController({
     ngZone: this.ngZone,
@@ -523,6 +525,20 @@ export class MobilePreviewPageComponent implements AfterViewInit, OnDestroy {
 
   scrollToTop(): void {
     this.scrollEngine.scrollToTop();
+  }
+
+  setMobileViewMode(mode: 'list' | 'card'): void {
+    if (this.mobileViewMode() === mode) return;
+    this.mobileViewMode.set(mode);
+    // Cards and table rows have different heights; reuse the engine's existing
+    // reset (re-measures row height + returns to top) so virtualization stays
+    // exact. No engine internals are touched.
+    this.scrollEngine.resetToTop();
+  }
+
+  /** Status-like column → render its value as a badge in card view. */
+  isStatusColumn(col: string): boolean {
+    return /status|stage|state/i.test(col);
   }
 
   onTouchStart(event: TouchEvent): void {

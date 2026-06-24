@@ -568,6 +568,20 @@
   <!-- ── Main content ───────────────────────────────────────────────────── -->
   <div class="mobile-app-page-heading">
     <h4>{{ mobilePreviewTitle() }}</h4>
+    @if (currentPageTargetType() !== 'form' && currentPageTargetType() !== 'page') {
+      <div class="mobile-app-view-toggle" role="group" aria-label="View mode">
+        <button type="button" aria-label="List view"
+          [class.mobile-app-view-toggle__btn--active]="mobileViewMode() === 'list'"
+          (click)="setMobileViewMode('list')">
+          <qo-icon name="list" aria-hidden="true"></qo-icon>
+        </button>
+        <button type="button" aria-label="Card view"
+          [class.mobile-app-view-toggle__btn--active]="mobileViewMode() === 'card'"
+          (click)="setMobileViewMode('card')">
+          <qo-icon name="layout-grid" aria-hidden="true"></qo-icon>
+        </button>
+      </div>
+    }
   </div>
   </div>
   </div>
@@ -687,7 +701,7 @@
       </div>
     } @else {
       <div #tableScroll class="mobile-app-table-scroll">
-        <table class="mobile-app-table">
+        <table class="mobile-app-table" [class.mobile-app-table--cards]="mobileViewMode() === 'card'">
           <thead>
             <tr>
               @for (col of previewDataset().columns; track col) {
@@ -702,11 +716,35 @@
               </tr>
             }
             @for (row of windowedRows().rows; track row) {
-              <tr>
-                @for (cell of row; track $index) {
-                  <td>{{ cell }}</td>
-                }
-              </tr>
+              @if (mobileViewMode() === 'card') {
+                <tr class="mobile-app-card-row">
+                  <td [attr.colspan]="previewDataset().columns.length">
+                    <div class="mobile-app-card">
+                      <div class="mobile-app-card__head">
+                        <span class="mobile-app-card__avatar">{{ row[0]?.slice(0, 2) }}</span>
+                        <span class="mobile-app-card__title">{{ row[0] }}</span>
+                      </div>
+                      <div class="mobile-app-card__fields">
+                        @for (col of previewDataset().columns; track col; let i = $index) {
+                          @if (i > 0 && row[i]) {
+                            <div class="mobile-app-card__field">
+                              <span class="mobile-app-card__field-label">{{ col }}</span>
+                              <span class="mobile-app-card__field-value"
+                                [class.mobile-app-card__field-value--badge]="isStatusColumn(col)">{{ row[i] }}</span>
+                            </div>
+                          }
+                        }
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              } @else {
+                <tr>
+                  @for (cell of row; track $index) {
+                    <td>{{ cell }}</td>
+                  }
+                </tr>
+              }
             }
             @if (windowedRows().bottomPad) {
               <tr class="mobile-app-table__spacer" aria-hidden="true">
