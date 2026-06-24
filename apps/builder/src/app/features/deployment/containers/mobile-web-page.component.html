@@ -1277,11 +1277,11 @@
                                     </div>
                                     <div class="mobile-app-card__fields">
                                       @for (col of previewDataset().columns; track col; let i = $index) {
-                                        @if (i > 0 && row[i]) {
+                                        @if (i > 0) {
                                           <div class="mobile-app-card__field">
                                             <span class="mobile-app-card__field-label">{{ col }}</span>
                                             <span class="mobile-app-card__field-value"
-                                              [class.mobile-app-card__field-value--badge]="isStatusColumn(col)">{{ row[i] }}</span>
+                                              [class.mobile-app-card__field-value--badge]="isStatusColumn(col)">{{ row[i] || '—' }}</span>
                                           </div>
                                         }
                                       }
