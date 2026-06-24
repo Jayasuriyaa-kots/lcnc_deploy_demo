@@ -130,6 +130,34 @@ export class MobileChromeScrollController {
     this.deps.showScrollTop.set(false);
   }
 
+  /** Re-measure the row height + body offset WITHOUT resetting scroll — used
+   *  when the row renderer changes (list ↔ card), which alters row height. The
+   *  record currently at the top of the viewport is kept in place, so there is
+   *  no jump. ADDITIVE: the scroll / virtualization / peek pipeline is untouched;
+   *  this only refreshes the cached measurement and re-anchors scrollTop. */
+  remeasure(): void {
+    const scrollEl = this.scrollEl;
+    if (!scrollEl) return;
+    const oldH = this.deps.rowHeight();
+    const topIndex = oldH > 0
+      ? Math.max(0, Math.round((scrollEl.scrollTop - this.tableBodyTop) / oldH))
+      : 0;
+    // Defer one frame so the swapped-in rows/cards exist in the DOM.
+    requestAnimationFrame(() => {
+      const el = this.scrollEl;
+      if (!el) return;
+      this.rowMeasured = false;
+      this.measure();
+      const newH = this.deps.rowHeight();
+      if (newH > 0 && topIndex > 0) {
+        el.scrollTop = Math.max(0, this.tableBodyTop + topIndex * newH);
+        this.latestScrollTop = el.scrollTop;
+        this.peekAnchor = el.scrollTop; // don't trigger a peek from this re-anchor
+      }
+      this.apply();
+    });
+  }
+
   // ── Internals ──────────────────────────────────────────────────────────────
 
   /** Passive scroll handler — only records position, then schedules a frame. */

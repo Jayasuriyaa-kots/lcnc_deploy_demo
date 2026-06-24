@@ -712,10 +712,10 @@ export class MobileWebPageComponent implements AfterViewInit, OnDestroy {
   setMobileViewMode(mode: 'list' | 'card'): void {
     if (this.mobileViewMode() === mode) return;
     this.mobileViewMode.set(mode);
-    // Cards and table rows have different heights; reuse the engine's existing
-    // reset (re-measures row height + returns to top) so virtualization stays
-    // exact. No engine internals are touched.
-    this.scrollEngine.resetToTop();
+    // Cards and table rows have different heights — re-measure (keeping the same
+    // record at the top, no scroll reset) so virtualization stays exact. Same
+    // scroll engine/container; only the renderer changes.
+    this.scrollEngine.remeasure();
   }
 
   /** Status-like column → render its value as a badge in card view. */
